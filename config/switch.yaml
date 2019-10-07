@@ -1,0 +1,85 @@
+  - platform: deluge
+    host: !secret host_syno
+    username: roberto
+    password : !secret deluge_password
+    
+  - platform: template
+    switches:
+      dummy:
+        value_template: "{{ is_state('input_boolean.dummy_switch', 'on') }}"
+        turn_on:
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.dummy_switch
+        turn_off:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.dummy_switch
+            
+### Circadian Lighting #############################################
+
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Basement
+    lights_ct:
+      - light.hue_ambiance_lamp_6
+      - light.hue_ambiance_lamp_7
+      
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Bedroom
+    lights_ct:
+      - light.bedroom_main
+      
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Dining Room
+    lights_ct:
+      - light.dining_room_hue_ambiance_lamp
+      - light.dining_room_hue_ambiance_lamp_2
+      - light.dining_room_hue_ambiance_lamp_6
+      
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Entry Way
+    lights_ct:
+      - light.hue_ambiance_lamp_5
+      
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Family Room
+    lights_ct:
+      - light.hue_color_lamp_1
+      - light.family_room_main
+      - light.security_light
+      
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Kitchen
+    lights_ct:
+      - light.stove_hue_ambiance_lamp_4
+      - light.above_sink
+      - light.coffee_hue_ambiance_lamp_2
+      - light.fridge_hue_ambiance_lamp_1
+      - light.hue_lightstrip_plus_1
+      - light.hue_lightstrip_plus_2
+      - light.stairs_hue_ambiance_lamp_3
+      - light.hue_color_lamp_2
+      
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Living Room
+    lights_ct:
+      - light.hue_ambiance_candle_1
+      - light.hue_ambiance_lamp_3
+      - light.hue_ambiance_lamp_4
+      
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Office
+    lights_ct:
+      - light.office_main
+      
+  - platform: circadian_lighting
+    min_brightness: 10
+    name: Circadian Upstairs Hall
+    lights_ct:
+      - light.hue_ambiance_lamp_hall

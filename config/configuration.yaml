@@ -1,0 +1,161 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+homeassistant:
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude_sec
+  longitude: !secret longitude_sec
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: !secret elevation_sec
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/New_York
+
+automation: !include automations.yaml
+group: !include groups.yaml
+script: !include scripts.yaml
+sensor: !include sensor.yaml
+switch: !include switch.yaml
+
+#GitHub Ready!
+###SYSTEM##################################################################################
+
+breaking_changes:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Discover some devices automatically
+discovery:
+
+frontend:
+  # Add themes
+  themes: !include themes.yaml
+  # Enable ES6 features
+  javascript_version: latest
+
+hacs:
+  token: !secret hacs_token
+  theme: true
+  python_script: true
+  
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+logger:
+  default: error
+  logs:
+    custom_components.circadian_lighting: debug
+    custom_components.circadian_lighting.sensor: debug
+    custom_components.circadian_lighting.switch: debug
+
+# Enables a map showing the location of tracked devices
+map:
+
+mqtt:
+  broker: !secret host_syno
+mqtt_eventstream:
+  publish_topic: master/topic
+  subscribe_topic: slaves/#
+  
+# Track the sun
+sun:
+
+system_health:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+zeroconf:
+
+###USER ADDONS###############################################################################################
+
+camera:
+  - platform: synology
+    url: !secret host_syno5001
+    username: !secret synology_un
+    password: !secret synology_password
+    timeout: 15
+    verify_ssl: false
+  - platform: nwsradar
+    station: ILN
+    style: Enhanced
+    frames: 8
+
+circadian_lighting:
+  interval: 600
+  max_colortemp: 10000
+  min_colortemp: 2000
+
+device_tracker:
+  - platform: iphonedetect
+    consider_home: 60
+    new_device_defaults:
+      track_new_devices: true
+      hide_if_away: false
+    hosts:
+      hostname1: 10.0.0.100
+       
+ecobee:
+  api_key: !secret ecobee_password
+
+google:
+  client_id: !secret google_client
+  client_secret: !secret google_secret
+  
+homekit:
+  safe_mode: true
+  filter:
+   exclude_domains:
+     - light 
+     - device_tracker
+
+hue:
+  bridges:
+    - host: !secret host_hue
+      allow_unreachable: false
+      allow_hue_groups: true
+           
+input_boolean:
+  dummy_switch:
+    
+# Adding support for Discord notifications via The Best Server (Channel ID: saved in secrets)
+notify:
+  - platform: discord
+    token: !secret discord_token
+    
+pi_hole:
+  host: !secret host_pi_hole
+  ssl: false
+  verify_ssl: false
+
+speedtestdotnet:
+  scan_interval:
+    minutes: 60
+  monitored_conditions:
+    - ping
+    - download
+    - upload
+  
+vacuum:
+ - platform: roomba
+   host: !secret host_roomba
+   username: !secret roomba_un
+   password: !secret roomba_password
+    
+weather:
+  - platform: darksky
+    api_key: !secret darksky_password
+    latitude: !secret latitude_sec
+    longitude: !secret longitude_sec
+
+wink:
+
+wwlln:
+  radius: 25
+  latitude: !secret latitude_sec
+  longitude: !secret longitude_sec

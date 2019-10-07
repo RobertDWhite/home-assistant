@@ -1,0 +1,29 @@
+#Home assistant theme is set based on location of the sun; where when sun is up, theme is light, and visa versa
+- alias: 'Set HA theme for day and night'
+  trigger:
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: sun.sun
+      to: above_horizon
+    - platform: state
+      entity_id: sun.sun
+      to: below_horizon
+  action:
+    - service_template: frontend.set_theme
+      data_template:
+        name: >
+          {% if states.sun.sun.state == "above_horizon" %}
+            Light - Navy Blue
+          {% else %}
+            slate
+          {% endif %}
+     
+#Turn on lights to the appropriate color value as extracted from the circadian sensor     
+- alias: 'Turn on lights to correct color value'
+  action:
+    service: light.turn_on
+    data_template:
+      entity_id: light.entity
+      kelvin: "{{ state_attr('sensor.circadian_values', 'colortemp') | int }}"
+      brightness_pct: "{{ state_attr('switch.circadian_lighting_[...]', 'brightness') | int }}"
