@@ -1,0 +1,104 @@
+### Anniversaries #############################################
+
+  - platform: anniversaries
+    name: White Wedding
+    date: '2015-07-18'
+    
+  - platform: anniversaries
+    name: Grandpa's Passing
+    date: '2010-07-30'
+    
+  - platform: anniversaries
+    name: Papa's Passing
+    date: '2010-03-27'
+    
+  - platform: anniversaries
+    name: Gerald's Passing
+    date: '2019-01-13'
+
+### SERVER #############################################
+      
+  - platform: deluge
+    host: 10.0.0.9
+    username: roberto
+    password: !secret deluge_password
+    monitored_variables:
+      - 'current_status'
+      - 'download_speed'
+      - 'upload_speed'
+      
+  - platform: synologydsm
+    host: 10.0.0.9
+    username: whitehouse
+    password: !secret synology_password
+    monitored_conditions:
+      - cpu_total_load
+      - memory_real_usage
+      - network_up
+      - network_down
+      - disk_temp
+      - volume_percentage_used
+      
+### DELIVERIES #############################################
+      
+  - platform: fedex
+    username: robertomano24
+    password: !secret fedex_password
+    
+  - platform: ups
+    username: whiterd2
+    password: !secret ups_password
+    
+### MEDIA #############################################
+  - platform: plex_recently_added
+    name: Recently Added Movies
+    token: !secret plex_token
+    host: !secret host_syno
+    port: 32400
+    section_types:
+    - movie
+    
+  - platform: plex_recently_added
+    name: Recently Added TV
+    token: !secret plex_token
+    host: !secret host_syno
+    port: 32400
+    section_types:
+    - show
+    
+  - platform: radarr_upcoming_media
+    api_key: !secret radarr_api
+    host: !secret host_ubuntu
+    port: 7878
+    days: 120
+    theaters: true
+    max: 10
+    
+  - platform: sonarr_upcoming_media
+    api_key: !secret sonarr_api
+    host: !secret host_ubuntu
+    port: 8989
+    days: 7
+    max: 10
+
+    
+### WEATHER ################################################################################
+
+  - platform: darksky
+    api_key: !secret darksky_password
+    scan_interval: '00:05:00'
+    monitored_conditions:
+      - temperature
+      - precip_probability
+      - precip_type
+      - humidity
+      - cloud_cover
+      - nearest_storm_distance
+      - precip_intensity
+      - wind_speed  
+      
+  - platform: weatheralerts
+    sameid: '039017'
+    
+  - platform: weatheralerts
+    sameid: '039165'      
