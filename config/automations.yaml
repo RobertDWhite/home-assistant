@@ -19,11 +19,62 @@
             slate
           {% endif %}
      
-#Turn on lights to the appropriate color value as extracted from the circadian sensor     
-- alias: 'Turn on lights to correct color value'
+#Get weather alerts from NWS and supploy TTS devices with information to verbally alert     
+- alias: 'NWS Weather Alert Pop Up Control'
+  trigger:
+    platform: state
+    entity_id: sensor.nws_alert_count
   action:
-    service: light.turn_on
-    data_template:
-      entity_id: light.entity
-      kelvin: "{{ state_attr('sensor.circadian_values', 'colortemp') | int }}"
-      brightness_pct: "{{ state_attr('switch.circadian_lighting_[...]', 'brightness') | int }}"
+    service: script.nws_popup_on_wx_alert
+    
+- alias: NWS Notification Weather Alert
+  trigger:
+    platform: state
+    entity_id: sensor.nws_alert_count
+  condition:
+    condition: template
+    value_template: '{{states.sensor.nws_alert_count.state | int > 0}}'
+  action:
+    - service: notify.ecobee_main
+      data:
+        message: "National Weather Service: {{ states.sensor.nws_alert_event.state }}"
+        
+- alias: NWS Announcement Weather Alert
+  trigger:
+    - platform: state
+      entity_id: sensor.nws_alert_count
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: '{{states.sensor.nws_alert_count.state | int > 0}}'
+        ## Added a time condition because I don't want a non-emergency alert waking me up
+      - condition: or
+        conditions:
+          - condition: time
+            after: '09:00:00'
+            before: '23:00:00'
+          - condition: template
+            value_template: >
+              {{ 'Warning' in states.sensor.nws_alert_event.state }}
+  action:
+    - service: media_player.volume_set
+      data:
+        entity_id:
+          - media_player.robert_s_ecobee4
+        volume_level: 0.99
+    - service: media_player.alexa_tts
+      data_template:
+        entity_id: 
+          - media_player.robert_s_ecobee4
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a 
+        {{ states.sensor.nws_alert_event.state }} for Butler County. 
+        It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+    - delay: '00:00:10'
+    - service: media_player.alexa_tts
+      data_template:
+        entity_id: 
+          - media_player.robert_s_ecobee4
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a 
+        {{ states.sensor.nws_alert_event.state }} for Butler County. 
+        It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."

@@ -101,4 +101,44 @@
     sameid: '039017'
     
   - platform: weatheralerts
-    sameid: '039165'      
+    sameid: '039165'   
+     
+  - platform: rest
+    resource: https://api.weather.gov/alerts/active/count
+    name: NWS Alert Count
+    value_template: >
+      {% if value_json.zones.OHZ070 is defined %}
+        {{ value_json.zones.OHZ070 }}
+      {% elif value_json.zones.OHC017 is defined %}
+        {{ value_json.zones.OHC017 }}
+      {% else %}
+        0
+      {% endif %}
+    #json_attributes:
+    #  - event
+    #  - description
+    #  - instructions
+    #  - expires
+    headers:
+      User-Agent: Homeassistant
+      Accept: application/ld+json
+    scan_interval: 60
+    
+  - platform: rest
+    resource: https://api.weather.gov/alerts/active?zone=OHZ070,OHC017
+    name: NWS Alert Event
+    value_template: >
+      {% if value_json.features[0] is defined %}
+        {{ value_json['features'][0]['properties'].event }}
+      {% else %}
+        None
+      {% endif %}
+    json_attributes:
+      - features
+    #  - description
+    #  - instructions
+    #  - expires
+    headers:
+      User-Agent: Homeassistant
+      Accept: application/geo+json
+    scan_interval: 60
