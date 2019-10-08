@@ -98,7 +98,7 @@ device_tracker:
       track_new_devices: true
       hide_if_away: false
     hosts:
-      hostname1: 10.0.0.100
+      hostname1: !secret host_iphonerw
        
 ecobee:
   api_key: !secret ecobee_password
@@ -123,10 +123,23 @@ hue:
 input_boolean:
   dummy_switch:
     
-# Adding support for Discord notifications via The Best Server (Channel ID: saved in secrets)
+plex:
+  host: !secret host_syno
+  port: 32400
+  token: !secret plex_token
+  ssl: false
+  verify_ssl: false
+  media_player:
+    use_episode_art: true
+    show_all_controls: true
+    
 notify:
+# Adding support for Discord notifications via The Best Server (Channel ID: saved in secrets)
   - platform: discord
     token: !secret discord_token
+# Adding support for notifications to the Ecobee
+  - name: ecobee_main
+    platform: ecobee
     
 pi_hole:
   host: !secret host_pi_hole
