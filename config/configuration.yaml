@@ -132,6 +132,12 @@ light:
   - platform: decora_wifi
     username: !secret decora_un
     password: !secret decora_password
+  
+lutron_caseta:
+    host: !secret host_lutron
+    keyfile: caseta.key
+    certfile: caseta.crt
+    ca_certs: caseta-bridge.crt
     
 plex:
   host: !secret host_syno
