@@ -38,24 +38,6 @@
         {%- endif -%}
       {%- endif -%}
 
-### Anniversaries #############################################
-
-  - platform: anniversaries
-    name: White Wedding
-    date: '2015-07-18'
-    
-  - platform: anniversaries
-    name: Grandpa's Passing
-    date: '2010-07-30'
-    
-  - platform: anniversaries
-    name: Papa's Passing
-    date: '2010-03-27'
-    
-  - platform: anniversaries
-    name: Gerald's Passing
-    date: '2019-01-13'
-
 ### SERVER #############################################
       
   - platform: deluge
@@ -79,6 +61,24 @@
       - disk_temp
       - volume_percentage_used
       
+### Anniversaries #############################################
+
+  - platform: anniversaries
+    name: White Wedding
+    date: '2015-07-18'
+    
+  - platform: anniversaries
+    name: Grandpa's Passing
+    date: '2010-07-30'
+    
+  - platform: anniversaries
+    name: Papa's Passing
+    date: '2010-03-27'
+    
+  - platform: anniversaries
+    name: Gerald's Passing
+    date: '2019-01-13'
+      
 ### DELIVERIES #############################################
       
   - platform: fedex
@@ -89,7 +89,15 @@
     username: !secret ups_un
     password: !secret ups_password
     
+### ENVIRONMENT ####################################################
+   
+  - platform: moon
+  
+  - platform: co2signal
+    token: !secret co2_api
+        
 ### ICLOUD ####################################################
+
   - platform: template
     sensors:
       robert_badge:  
@@ -102,6 +110,7 @@
         entity_picture_template: !secret pic_2
         
 ### MEDIA #############################################
+
   - platform: plex_recently_added
     name: Recently Added Movies
     token: !secret plex_token
