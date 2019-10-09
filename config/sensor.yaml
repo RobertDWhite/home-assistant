@@ -100,6 +100,7 @@
         friendly_name: !secret name_wh_2
         value_template: '{{states.sensor.iphone_2.state}}'
         entity_picture_template: !secret pic_2
+        
 ### MEDIA #############################################
   - platform: plex_recently_added
     name: Recently Added Movies
