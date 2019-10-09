@@ -1,3 +1,43 @@
+### SYSTEM ####################################################
+
+  - platform: version
+    name: HA Installed Version
+    scan_interval: 86400
+
+  - platform: command_line
+    name: "HA Uptime"
+    command: echo "$(($(date +%s) - $(date -d "$(head -n1 /config/home-assistant.log | cut -d' ' -f-2)" +%s)))"
+    scan_interval: 720
+    value_template: >-
+      {% set uptime = value | int %}
+      {% set seconds = uptime % 60 %}
+      {% set minutes = ((uptime % 3600) / 60) | int %}
+      {% set hours = ((uptime % 86400) / 3600) | int %}
+      {% set days = (uptime / 86400) | int %}
+      {%- if days > 0 -%}
+        {%- if days == 1 -%}
+          1 day
+        {%- else -%}
+          {{ days }} days
+        {%- endif -%}
+        {{ ', ' }}
+      {%- endif -%}
+      {%- if hours > 0 -%}
+        {%- if hours == 1 -%}
+          1 hour
+        {%- else -%}
+          {{ hours }} hours
+        {%- endif -%}
+        {{ ', ' }}
+      {%- endif -%}
+      {%- if minutes > 0 -%}
+        {%- if minutes == 1 -%}
+          1 minute
+        {%- else -%}
+          {{ minutes }} minutes
+        {%- endif -%}
+      {%- endif -%}
+
 ### Anniversaries #############################################
 
   - platform: anniversaries
@@ -42,13 +82,24 @@
 ### DELIVERIES #############################################
       
   - platform: fedex
-    username: robertomano24
+    username: !secret fedex_un
     password: !secret fedex_password
     
   - platform: ups
-    username: whiterd2
+    username: !secret ups_un
     password: !secret ups_password
     
+### ICLOUD ####################################################
+  - platform: template
+    sensors:
+      robert_badge:  
+        friendly_name: !secret name_wh_1
+        value_template: '{{states.sensor.robertwhitesiphone.state}}'
+        entity_picture_template: !secret pic_1
+      emily_badge:  
+        friendly_name: !secret name_wh_2
+        value_template: '{{states.sensor.iphone_2.state}}'
+        entity_picture_template: !secret pic_2
 ### MEDIA #############################################
   - platform: plex_recently_added
     name: Recently Added Movies

@@ -92,6 +92,11 @@ circadian_lighting:
   min_colortemp: 2000
 
 device_tracker:
+  - platform: icloud3
+    username: !secret icloud_un
+    password: !secret icloud_password
+    account_name: !secret icloud_descriptive_name
+    include_device_type: iphone
   - platform: iphonedetect
     consider_home: 60
     new_device_defaults:
@@ -122,6 +127,11 @@ hue:
            
 input_boolean:
   dummy_switch:
+
+light:
+  - platform: decora_wifi
+    username: !secret decora_un
+    password: !secret decora_password
     
 plex:
   host: !secret host_syno
@@ -140,6 +150,9 @@ notify:
 # Adding support for notifications to the Ecobee
   - name: ecobee_main
     platform: ecobee
+# Adding support for notifications for Alexa
+  - platform: alexa_media
+    name: alexa_media
     
 pi_hole:
   host: !secret host_pi_hole
