@@ -90,12 +90,18 @@
     password: !secret ups_password
     
 ### ENVIRONMENT ####################################################
-   
-  - platform: moon
   
   - platform: co2signal
     token: !secret co2_api
         
+  - platform: mold_indicator
+    indoor_temp_sensor: sensor.main_temperature
+    indoor_humidity_sensor: sensor.main_humidity
+    outdoor_temp_sensor: sensor.dark_sky_temperature
+    calibration_factor: 2.0
+    
+  - platform: moon
+  
 ### ICLOUD ####################################################
 
   - platform: template
