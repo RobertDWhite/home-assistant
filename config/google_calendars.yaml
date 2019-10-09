@@ -1,0 +1,20 @@
+- cal_id: !secret cal_id_1
+  entities:
+  - device_id: small_group_reading_plan
+    ignore_availability: true
+    name: Small Group Reading Plan
+    track: true
+
+- cal_id: !secret cal_id_2
+  entities:
+  - device_id: holidays_in_united_states
+    ignore_availability: true
+    name: Holidays in United States
+    track: true
+
+- cal_id: !secret cal_id_3
+  entities:
+  - device_id: !secret device_id_1
+    ignore_availability: true
+    name: !secret cal_id_3
+    track: true
