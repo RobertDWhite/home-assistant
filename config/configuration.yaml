@@ -125,6 +125,9 @@ device_tracker:
 ecobee:
   api_key: !secret ecobee_password
 
+freedns:
+  access_token: !secret freedns_token
+  
 google:
   client_id: !secret google_client
   client_secret: !secret google_secret
@@ -145,6 +148,13 @@ hue:
 input_boolean:
   dummy_switch:
 
+input_select:
+  destination:
+    name: destination
+    options:
+      - Home
+      - Parents
+      
 light:
   - platform: decora_wifi
     username: !secret decora_un
@@ -156,15 +166,12 @@ lutron_caseta:
     certfile: caseta.crt
     ca_certs: caseta-bridge.crt
     
-plex:
-  host: !secret host_syno
-  port: 32400
-  token: !secret plex_token
-  ssl: false
-  verify_ssl: false
-  media_player:
-    use_episode_art: true
-    show_all_controls: true
+media_player:
+  # Use the Python ADB implementation without authentication
+  - platform: androidtv
+    name: Firestick
+    host: !secret host_firetv
+
     
 notify:
 # Adding support for Discord notifications via The Best Server (Channel ID: saved in secrets)
@@ -176,6 +183,10 @@ notify:
 # Adding support for notifications for Alexa
   - platform: alexa_media
     name: alexa_media
+# Adding support for notifications for FireTV
+  - platform: nfandroidtv
+    name: Bedroom
+    host: !secret host_firetv
 
 openuv:
   api_key: !secret openuv_api
@@ -200,6 +211,16 @@ pi_hole:
   ssl: false
   verify_ssl: false
 
+plex:
+  host: !secret host_syno
+  port: 32400
+  token: !secret plex_token
+  ssl: false
+  verify_ssl: false
+  media_player:
+    use_episode_art: true
+    show_all_controls: true
+    
 speedtestdotnet:
   scan_interval:
     minutes: 60
@@ -211,7 +232,7 @@ speedtestdotnet:
 vacuum:
  - platform: roomba
    host: !secret host_roomba
-   username: !secret roomba_un
+   username: !secret roomba_blid
    password: !secret roomba_password
     
 weather:

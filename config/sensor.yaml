@@ -153,6 +153,51 @@
     days: 7
     max: 10
 
+### OTHER ################################################################################
+
+  - platform: zestimate
+    api_key: !secret zillow_api
+    zpid:
+      - !secret zpid_current_home
+
+### WAZE ################################################################################
+
+  - platform: template
+    sensors:
+       dest_address:
+         value_template: >-
+            {%- if is_state("input_select.destination", "Home")  -%}
+              !secret location_home
+            {%- elif is_state("input_select.destination", "Parents")  -%}
+              !secret location_parents
+            {%- else -%}
+              Unknown
+            {%- endif %}      
+            
+# Tracking entity to entity
+  - platform: waze_travel_time
+    name: "Me to destination"
+    origin: sensor.r
+    destination: sensor.dest_address
+    region: 'US'
+    
+  - platform: waze_travel_time
+    name: "Home to Liberty"
+    origin: !secret location_home
+    destination: !secret location_liberty
+    region: 'US'
+    
+  - platform: waze_travel_time
+    name: "Home to south"
+    origin: !secret location_home
+    destination: !secret location_city_home_south
+    region: 'US'
+    
+  - platform: waze_travel_time
+    name: "Home to north"
+    origin: !secret location_home
+    destination: !secret location_city_home_north
+    region: 'US'
     
 ### WEATHER ################################################################################
 
