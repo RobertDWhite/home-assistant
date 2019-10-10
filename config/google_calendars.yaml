@@ -18,3 +18,10 @@
     ignore_availability: true
     name: !secret cal_id_3
     track: true
+
+- cal_id: !secret cal_id_4
+  entities:
+  - device_id: astronomical_events
+    ignore_availability: true
+    name: !secret cal_id_4
+    track: true

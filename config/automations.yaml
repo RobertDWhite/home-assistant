@@ -78,3 +78,37 @@
         message: "Attention!. . . Attention!. . . The National Weather Service has issued a 
         {{ states.sensor.nws_alert_event.state }} for Butler County. 
         It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+        
+        
+        
+#Send discord notification when new media is added.     
+- alias: New file alert
+  trigger:
+    platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: created
+  action:
+    service: notify.discord
+    data_template:
+      title: New media uploaded.
+      message: "Created {{ trigger.event.data.file }} in {{ trigger.event.data.folder }}"
+      data:
+        file: "{{ trigger.event.data.path }}"
+        
+        
+        
+#Update OpenUV data every 30 min during daytime  
+- alias: Update OpenUV every 30 minutes during the daytime
+  trigger:
+    platform: time_pattern
+    minutes: '/30'
+  condition:
+    condition: and
+    conditions:
+      - condition: sun
+        after: sunrise
+      - condition: sun
+        before: sunset
+  action:
+    service: openuv.update_data
