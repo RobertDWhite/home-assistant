@@ -28,12 +28,25 @@ conversation:
 # Discover some devices automatically
 discovery:
 
+folder_watcher:
+  - folder: /config/media
+  
 frontend:
   # Add themes
   themes: !include themes.yaml
   # Enable ES6 features
   javascript_version: latest
 
+geo_location:
+  - platform: usgs_earthquakes_feed
+    entity_namespace: 'usgs_earthquakes_service_feed'
+    feed_type: 'past_month_all_earthquakes'
+    radius: 2500
+    minimum_magnitude: 0.0
+  - platform: nsw_rural_fire_service_feed
+    entity_namespace: 'nsw_fire_service_feed'
+    radius: 2500
+    
 hacs:
   token: !secret hacs_token
   theme: true
@@ -97,6 +110,10 @@ device_tracker:
     password: !secret icloud_password
     account_name: !secret icloud_descriptive_name
     include_device_type: iphone
+    sensor_name_prefix:
+      - robertwhitesiphone @ R
+      - iphone_2 @ E
+      
   - platform: iphonedetect
     consider_home: 60
     new_device_defaults:
@@ -159,7 +176,25 @@ notify:
 # Adding support for notifications for Alexa
   - platform: alexa_media
     name: alexa_media
-    
+
+openuv:
+  api_key: !secret openuv_api
+  binary_sensors:
+    monitored_conditions:
+      - uv_protection_window
+  sensors:
+    monitored_conditions:
+      - current_ozone_level
+      - current_uv_index
+      - current_uv_level
+      - max_uv_index
+      - safe_exposure_time_type_1
+      - safe_exposure_time_type_2
+      - safe_exposure_time_type_3
+      - safe_exposure_time_type_4
+      - safe_exposure_time_type_5
+      - safe_exposure_time_type_6
+  
 pi_hole:
   host: !secret host_pi_hole
   ssl: false
@@ -186,8 +221,3 @@ weather:
     longitude: !secret longitude_sec
 
 wink:
-
-wwlln:
-  radius: 25
-  latitude: !secret latitude_sec
-  longitude: !secret longitude_sec

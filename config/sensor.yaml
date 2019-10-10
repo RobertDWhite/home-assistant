@@ -48,6 +48,11 @@
       - 'current_status'
       - 'download_speed'
       - 'upload_speed'
+    
+  - platform: github
+    access_token: !secret github_api
+    repositories:
+      - path: 'robertomano24/home-assistant'
       
   - platform: synologydsm
     host: 10.0.0.9
