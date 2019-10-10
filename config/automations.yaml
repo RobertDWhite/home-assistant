@@ -38,6 +38,9 @@
     - service: notify.ecobee_main
       data:
         message: "National Weather Service: {{ states.sensor.nws_alert_event.state }}"
+    - service: notify.nfandroidtv
+      data:
+        message: "National Weather Service: {{ states.sensor.nws_alert_event.state }}"
         
 - alias: NWS Announcement Weather Alert
   trigger:
