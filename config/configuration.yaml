@@ -29,8 +29,7 @@ conversation:
 discovery:
 
 folder_watcher:
-  - folder: /config/media
-  
+
 frontend:
   # Add themes
   themes: !include themes.yaml
@@ -41,17 +40,17 @@ geo_location:
   - platform: usgs_earthquakes_feed
     entity_namespace: 'usgs_earthquakes_service_feed'
     feed_type: 'past_month_all_earthquakes'
-    radius: 2500
+    radius: 50
     minimum_magnitude: 0.0
   - platform: nsw_rural_fire_service_feed
     entity_namespace: 'nsw_fire_service_feed'
-    radius: 2500
-    
+    radius: 50
+
 hacs:
   token: !secret hacs_token
   theme: true
   python_script: true
-  
+
 # Enables support for tracking state changes over time
 history:
 
@@ -73,7 +72,7 @@ mqtt:
 mqtt_eventstream:
   publish_topic: master/topic
   subscribe_topic: slaves/#
-  
+
 # Track the sun
 sun:
 
@@ -87,6 +86,9 @@ zeroconf:
 
 ###USER ADDONS###############################################################################################
 
+binary_sensor:
+  - platform: iss
+    show_on_map: true
 camera:
   - platform: synology
     url: !secret host_syno5001
@@ -113,7 +115,7 @@ device_tracker:
     sensor_name_prefix:
       - robertwhitesiphone @ R
       - iphone_2 @ E
-      
+
   - platform: iphonedetect
     consider_home: 60
     new_device_defaults:
@@ -121,22 +123,22 @@ device_tracker:
       hide_if_away: false
     hosts:
       hostname1: !secret host_iphonerw
-       
+
 ecobee:
   api_key: !secret ecobee_password
 
 freedns:
   access_token: !secret freedns_token
-  
+
 google:
   client_id: !secret google_client
   client_secret: !secret google_secret
-  
+
 homekit:
   safe_mode: true
   filter:
    exclude_domains:
-     - light 
+     - light
      - device_tracker
 
 hue:
@@ -144,7 +146,7 @@ hue:
     - host: !secret host_hue
       allow_unreachable: false
       allow_hue_groups: true
-           
+
 input_boolean:
   dummy_switch:
 
@@ -154,25 +156,26 @@ input_select:
     options:
       - Home
       - Parents
-      
+
+ios:
+
 light:
   - platform: decora_wifi
     username: !secret decora_un
     password: !secret decora_password
-  
+
 lutron_caseta:
     host: !secret host_lutron
     keyfile: caseta.key
     certfile: caseta.crt
     ca_certs: caseta-bridge.crt
-    
+
 media_player:
   # Use the Python ADB implementation without authentication
   - platform: androidtv
     name: Firestick
     host: !secret host_firetv
 
-    
 notify:
 # Adding support for Discord notifications via The Best Server (Channel ID: saved in secrets)
   - platform: discord
@@ -205,7 +208,7 @@ openuv:
       - safe_exposure_time_type_4
       - safe_exposure_time_type_5
       - safe_exposure_time_type_6
-  
+
 pi_hole:
   host: !secret host_pi_hole
   ssl: false
@@ -220,7 +223,7 @@ plex:
   media_player:
     use_episode_art: true
     show_all_controls: true
-    
+
 speedtestdotnet:
   scan_interval:
     minutes: 60
@@ -228,13 +231,13 @@ speedtestdotnet:
     - ping
     - download
     - upload
-  
+
 vacuum:
  - platform: roomba
    host: !secret host_roomba
    username: !secret roomba_blid
    password: !secret roomba_password
-    
+
 weather:
   - platform: darksky
     api_key: !secret darksky_password
@@ -242,3 +245,7 @@ weather:
     longitude: !secret longitude_sec
 
 wink:
+
+wunderlist:
+  client_id: !secret wunderlist_client
+  access_token: !secret wunderlist_token
