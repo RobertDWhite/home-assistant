@@ -2,7 +2,7 @@
     host: !secret host_syno
     username: roberto
     password : !secret deluge_password
-    
+
   - platform: template
     switches:
       dummy:
@@ -13,7 +13,15 @@
         turn_off:
           - service: input_boolean.turn_off
             entity_id: input_boolean.dummy_switch
-            
+      notficationtest:
+        value_template: "{{ is_state('input_boolean.notificationtest', 'on') }}"
+        turn_on:
+          service: notify.alexa_media
+          data:
+            entity_id: media_player.robert_s_ecobee4
+          message: "Attention!. . . Attention!. . . This is a test of the Emergency Alert System!. . . One. . . Two. . . . . This has been a test of the Emergency Alert System."
+
+
 ### Circadian Lighting #############################################
 
   - platform: circadian_lighting
@@ -22,13 +30,13 @@
     lights_ct:
       - light.hue_ambiance_lamp_6
       - light.hue_ambiance_lamp_7
-      
+
   - platform: circadian_lighting
     min_brightness: 30
     name: Circadian Bedroom
     lights_ct:
       - light.bedroom_main
-      
+
   - platform: circadian_lighting
     min_brightness: 30
     name: Circadian Dining Room
@@ -36,13 +44,13 @@
       - light.dining_room_hue_ambiance_lamp
       - light.dining_room_hue_ambiance_lamp_2
       - light.dining_room_hue_ambiance_lamp_6
-      
+
   - platform: circadian_lighting
     min_brightness: 30
     name: Circadian Entry Way
     lights_ct:
       - light.hue_ambiance_lamp_5
-      
+
   - platform: circadian_lighting
     min_brightness: 30
     name: Circadian Family Room
@@ -50,7 +58,7 @@
       - light.hue_color_lamp_1
       - light.family_room_main
       - light.security_light
-      
+
   - platform: circadian_lighting
     min_brightness: 30
     name: Circadian Kitchen
@@ -63,7 +71,7 @@
       - light.hue_lightstrip_plus_2
       - light.stairs_hue_ambiance_lamp_3
       - light.hue_color_lamp_2
-      
+
   - platform: circadian_lighting
     min_brightness: 30
     name: Circadian Living Room
@@ -71,13 +79,13 @@
       - light.hue_ambiance_candle_1
       - light.hue_ambiance_lamp_3
       - light.hue_ambiance_lamp_4
-      
+
   - platform: circadian_lighting
     min_brightness: 30
     name: Circadian Office
     lights_ct:
       - light.office_main
-      
+
   - platform: circadian_lighting
     min_brightness: 10
     name: Circadian Upstairs Hall
