@@ -77,7 +77,7 @@
         It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
     - delay: '00:00:10'
     - service: notify.alexa_media
-        data_template:
+      data_template:
           entity_id:
             - media_player.robert_s_ecobee4
             - media_player.robert_s_fire_tv_stick
