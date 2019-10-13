@@ -39,23 +39,23 @@
       {%- endif -%}
 
 ### SERVER #############################################
-      
+
   - platform: deluge
-    host: 10.0.0.9
-    username: roberto
+    host: !secret host_syno
+    username: !secret deulge_un
     password: !secret deluge_password
     monitored_variables:
       - 'current_status'
       - 'download_speed'
       - 'upload_speed'
-    
+
   - platform: github
     access_token: !secret github_api
     repositories:
       - path: 'robertomano24/home-assistant'
-      
+
   - platform: synologydsm
-    host: 10.0.0.9
+    host: !secret host_syno
     username: whitehouse
     password: !secret synology_password
     monitored_conditions:
@@ -65,61 +65,64 @@
       - network_down
       - disk_temp
       - volume_percentage_used
-      
+
 ### Anniversaries #############################################
 
   - platform: anniversaries
     name: White Wedding
     date: '2015-07-18'
-    
+
   - platform: anniversaries
     name: Grandpa's Passing
     date: '2010-07-30'
-    
+
   - platform: anniversaries
     name: Papa's Passing
     date: '2010-03-27'
-    
+
   - platform: anniversaries
     name: Gerald's Passing
     date: '2019-01-13'
-      
+
 ### DELIVERIES #############################################
-      
+
   - platform: fedex
     username: !secret fedex_un
     password: !secret fedex_password
-    
+
   - platform: ups
     username: !secret ups_un
     password: !secret ups_password
-    
+
 ### ENVIRONMENT ####################################################
-  
+
   - platform: co2signal
     token: !secret co2_api
-        
+
   - platform: mold_indicator
     indoor_temp_sensor: sensor.main_temperature
     indoor_humidity_sensor: sensor.main_humidity
     outdoor_temp_sensor: sensor.dark_sky_temperature
     calibration_factor: 2.0
-    
+
   - platform: moon
-  
+
+  - platform: season
+    type: astronomical
+
 ### ICLOUD ####################################################
 
   - platform: template
     sensors:
-      robert_badge:  
+      robert_badge:
         friendly_name: !secret name_wh_1
         value_template: '{{states.sensor.robertwhitesiphone.state}}'
         entity_picture_template: !secret pic_1
-      emily_badge:  
+      emily_badge:
         friendly_name: !secret name_wh_2
         value_template: '{{states.sensor.iphone_2.state}}'
         entity_picture_template: !secret pic_2
-        
+
 ### MEDIA #############################################
 
   - platform: plex_recently_added
@@ -129,7 +132,7 @@
     port: 32400
     section_types:
     - movie
-    
+
   - platform: plex_recently_added
     name: Recently Added TV
     token: !secret plex_token
@@ -137,7 +140,7 @@
     port: 32400
     section_types:
     - show
-    
+
   - platform: radarr_upcoming_media
     api_key: !secret radarr_api
     host: !secret host_ubuntu
@@ -145,7 +148,7 @@
     days: 120
     theaters: true
     max: 10
-    
+
   - platform: sonarr_upcoming_media
     api_key: !secret sonarr_api
     host: !secret host_ubuntu
@@ -154,6 +157,10 @@
     max: 10
 
 ### OTHER ################################################################################
+
+  - platform: duke_energy
+    username: !secret duke_un
+    password: !secret duke_password
 
   - platform: zestimate
     api_key: !secret zillow_api
@@ -172,33 +179,33 @@
               !secret location_parents
             {%- else -%}
               Unknown
-            {%- endif %}      
-            
+            {%- endif %}
+
 # Tracking entity to entity
   - platform: waze_travel_time
-    name: "Me to destination"
-    origin: sensor.r
-    destination: sensor.dest_address
+    name: "Me to Liberty"
+    origin: device_tracker.robert_whites_iphone_ha
+    destination: !secret location_liberty
     region: 'US'
-    
+
   - platform: waze_travel_time
     name: "Home to Liberty"
     origin: !secret location_home
     destination: !secret location_liberty
     region: 'US'
-    
+
   - platform: waze_travel_time
     name: "Home to south"
     origin: !secret location_home
     destination: !secret location_city_home_south
     region: 'US'
-    
+
   - platform: waze_travel_time
     name: "Home to north"
     origin: !secret location_home
     destination: !secret location_city_home_north
     region: 'US'
-    
+
 ### WEATHER ################################################################################
 
   - platform: darksky
@@ -212,14 +219,14 @@
       - cloud_cover
       - nearest_storm_distance
       - precip_intensity
-      - wind_speed  
-      
+      - wind_speed
+
   - platform: weatheralerts
     sameid: '039017'
-    
+
   - platform: weatheralerts
-    sameid: '039165'   
-     
+    sameid: '039165'
+
   - platform: rest
     resource: https://api.weather.gov/alerts/active/count
     name: NWS Alert Count
@@ -240,7 +247,7 @@
       User-Agent: Homeassistant
       Accept: application/ld+json
     scan_interval: 60
-    
+
   - platform: rest
     resource: https://api.weather.gov/alerts/active?zone=OHZ070,OHC017
     name: NWS Alert Event

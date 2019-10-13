@@ -18,15 +18,15 @@
           {% else %}
             slate
           {% endif %}
-     
-#Get weather alerts from NWS and supploy TTS devices with information to verbally alert     
+
+#Get weather alerts from NWS and supploy TTS devices with information to verbally alert
 - alias: 'NWS Weather Alert Pop Up Control'
   trigger:
     platform: state
     entity_id: sensor.nws_alert_count
   action:
     service: script.nws_popup_on_wx_alert
-    
+
 - alias: NWS Notification Weather Alert
   trigger:
     platform: state
@@ -41,7 +41,7 @@
     - service: notify.nfandroidtv
       data:
         message: "National Weather Service: {{ states.sensor.nws_alert_event.state }}"
-        
+
 - alias: NWS Announcement Weather Alert
   trigger:
     - platform: state
@@ -65,26 +65,46 @@
       data:
         entity_id:
           - media_player.robert_s_ecobee4
+          - media_player.robert_s_fire_tv_stick
         volume_level: 0.99
+    - service: notify.alexa_media
+      data_template:
+        entity_id:
+          - media_player.robert_s_ecobee4
+          - media_player.robert_s_fire_tv_stick
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a
+        {{ states.sensor.nws_alert_event.state }} for Butler County.
+        It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+    - delay: '00:00:10'
+    - service: notify.alexa_media
+        data_template:
+          entity_id:
+            - media_player.robert_s_ecobee4
+            - media_player.robert_s_fire_tv_stick
+          message: "Attention!. . . Attention!. . . The National Weather Service has issued a
+          {{ states.sensor.nws_alert_event.state }} for Butler County.
+          It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
     - service: media_player.alexa_tts
       data_template:
-        entity_id: 
+        entity_id:
           - media_player.robert_s_ecobee4
-        message: "Attention!. . . Attention!. . . The National Weather Service has issued a 
-        {{ states.sensor.nws_alert_event.state }} for Butler County. 
+          - media_player.robert_s_fire_tv_stick
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a
+        {{ states.sensor.nws_alert_event.state }} for Butler County.
         It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
     - delay: '00:00:10'
     - service: media_player.alexa_tts
       data_template:
-        entity_id: 
+        entity_id:
           - media_player.robert_s_ecobee4
-        message: "Attention!. . . Attention!. . . The National Weather Service has issued a 
-        {{ states.sensor.nws_alert_event.state }} for Butler County. 
+          - media_player.robert_s_fire_tv_stick
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a
+        {{ states.sensor.nws_alert_event.state }} for Butler County.
         It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
-        
-        
-        
-#Send discord notification when new media is added.     
+
+
+
+#Send discord notification when new media is added.
 - alias: New file alert
   trigger:
     platform: event
@@ -98,10 +118,10 @@
       message: "Created {{ trigger.event.data.file }} in {{ trigger.event.data.folder }}"
       data:
         file: "{{ trigger.event.data.path }}"
-        
-        
-        
-#Update OpenUV data every 30 min during daytime  
+
+
+
+#Update OpenUV data every 30 min during daytime
 - alias: Update OpenUV every 30 minutes during the daytime
   trigger:
     platform: time_pattern
