@@ -42,7 +42,7 @@
 
   - platform: deluge
     host: !secret host_syno
-    username: !secret deulge_un
+    username: !secret deluge_un
     password: !secret deluge_password
     monitored_variables:
       - 'current_status'
