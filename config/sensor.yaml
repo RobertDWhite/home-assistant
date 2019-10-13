@@ -84,15 +84,15 @@
     name: Gerald's Passing
     date: '2019-01-13'
 
-### DELIVERIES #############################################
+### DELIVERIES---APPEARS TO BE CURRENLTY DEPRECATED #############################################
 
-  - platform: fedex
-    username: !secret fedex_un
-    password: !secret fedex_password
+  #- platform: fedex
+    #username: !secret fedex_un
+    #password: !secret fedex_password
 
-  - platform: ups
-    username: !secret ups_un
-    password: !secret ups_password
+  #- platform: ups
+    #username: !secret ups_un
+    #password: !secret ups_password
 
 ### ENVIRONMENT ####################################################
 
