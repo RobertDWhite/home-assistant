@@ -105,10 +105,10 @@
 
 
 #Send discord notification when new media is added.
-- alias: New file alert
+- alias: New file alert - Movies
   trigger:
     platform: event
-    event_type: folder_watcher
+    event_type: folder_watcher.movies
     event_data:
       event_type: created
   action:
@@ -118,7 +118,6 @@
       message: "Created {{ trigger.event.data.file }} in {{ trigger.event.data.folder }}"
       data:
         file: "{{ trigger.event.data.path }}"
-
 
 
 #Update OpenUV data every 30 min during daytime
