@@ -180,9 +180,9 @@
       - language
 
   - platform: garbage_collection
-    name: waste # Each week on Monday
+    name: waste
     frequency: "weekly"
-    collection_days: mon
+    collection_days: "mon"
 
   - platform: personalcapital
     email: !secret pc_un
