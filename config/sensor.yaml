@@ -56,7 +56,7 @@
 
   - platform: synologydsm
     host: !secret host_syno
-    username: whitehouse
+    username: !secret synology_un
     password: !secret synology_password
     monitored_conditions:
       - cpu_total_load
@@ -95,6 +95,9 @@
     #password: !secret ups_password
 
 ### ENVIRONMENT ####################################################
+
+  - platform: airvisual
+    api_key: !secret airvisual_api
 
   - platform: co2signal
     token: !secret co2_api
@@ -162,6 +165,34 @@
     username: !secret duke_un
     password: !secret duke_password
 
+  - platform: feedparser
+    name: Engineering Feed
+    feed_url: !secret podcast1
+    date_format: '%a, %b %d %I:%M %p'
+    inclusions:
+      - title
+      - link
+      - description
+      - image
+      - language
+      - pubDate
+    exclusions:
+      - language
+
+  - platform: garbage_collection
+    name: waste # Each week on Monday
+    frequency: "weekly"
+    collection_days: mon
+
+  - platform: personalcapital
+    email: !secret pc_un
+    password: !secret pc_password
+    monitored_categories:
+      - investment
+      - cash
+      - credit
+      - mortgage
+
   - platform: zestimate
     api_key: !secret zillow_api
     zpid:
@@ -176,7 +207,7 @@
             {%- if is_state("input_select.destination", "Home")  -%}
               !secret location_home
             {%- elif is_state("input_select.destination", "Parents")  -%}
-              !secret location_parents
+              !secret location_add_parents_r
             {%- else -%}
               Unknown
             {%- endif %}
