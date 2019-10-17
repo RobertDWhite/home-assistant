@@ -10,6 +10,10 @@ homeassistant:
   unit_system: imperial
   # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/New_York
+  whitelist_external_dirs:
+    - /config/media/documentaries
+    - /config/media/tv
+    - /config/media/movies
 
 automation: !include automations.yaml
 group: !include groups.yaml
@@ -29,6 +33,10 @@ conversation:
 discovery:
 
 folder_watcher:
+  - folder: /config
+    patterns:
+      - '*.mp4'
+      - '*.mkv'
 
 frontend:
   # Add themes
@@ -127,6 +135,10 @@ device_tracker:
 ecobee:
   api_key: !secret ecobee_password
 
+fastdotcom:
+  scan_interval:
+      minutes: 30
+
 freedns:
   access_token: !secret freedns_token
 
@@ -157,7 +169,9 @@ input_select:
       - Home
       - Parents
 
-ios:
+influxdb:
+  host: !secret host_syno_influx
+  database: home_assistant
 
 light:
   - platform: decora_wifi
@@ -209,6 +223,12 @@ openuv:
       - safe_exposure_time_type_5
       - safe_exposure_time_type_6
 
+owntracks:
+  max_gps_accuracy: 200
+  waypoints: true
+  mqtt_topic: "owntracks/#"
+  events_only: true
+
 pi_hole:
   host: !secret host_pi_hole
   ssl: false
@@ -239,13 +259,44 @@ vacuum:
    password: !secret roomba_password
 
 weather:
-  - platform: darksky
-    api_key: !secret darksky_password
-    latitude: !secret latitude_sec
-    longitude: !secret longitude_sec
+ - platform: darksky
+   api_key: !secret darksky_password
+   latitude: !secret latitude_sec
+   longitude: !secret longitude_sec
 
 wink:
 
 wunderlist:
-  client_id: !secret wunderlist_client
-  access_token: !secret wunderlist_token
+   client_id: !secret wunderlist_client
+   access_token: !secret wunderlist_token
+
+zone:
+ - name: 'Home_iBeacon'
+   latitude: !secret latitude_sec
+   longitude: !secret longitude_sec
+   radius: 20
+   icon: mdi:home
+
+ - name: !secret location_parents_e
+   latitude: !secret latitude_parents_e
+   longitude: !secret longitude_parents_e
+   radius: 20
+   icon: mdi:home-circle-outline
+
+ - name: !secret location_parents_r
+   latitude: !secret latitude_parents_r
+   longitude: !secret longitude_parents_r
+   radius: 20
+   icon: mdi:home-circle-outline
+
+ - name: !secret location_work2
+   latitude: !secret latitude_work2
+   longitude: !secret longitude_work2
+   radius: 100
+   icon: mdi:bus-school
+
+ - name: !secret location_church2
+   latitude: !secret latitude_church2
+   longitude: !secret longitude_church2
+   radius: 100
+   icon: mdi:church
