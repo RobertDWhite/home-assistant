@@ -71,6 +71,7 @@
       - light.hue_lightstrip_plus_2
       - light.stairs_hue_ambiance_lamp_3
       - light.hue_color_lamp_2
+      - light.stove_light
 
   - platform: circadian_lighting
     min_brightness: 30
