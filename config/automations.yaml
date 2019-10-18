@@ -68,39 +68,39 @@
           - media_player.robert_s_fire_tv_stick
         volume_level: 0.99
     - service: notify.alexa_media
-      data_template:
-        entity_id:
-          - media_player.robert_s_ecobee4
-          - media_player.robert_s_fire_tv_stick
+      data:
+        target: media_player.robert_s_ecobee4
         message: "Attention!. . . Attention!. . . The National Weather Service has issued a
         {{ states.sensor.nws_alert_event.state }} for Butler County.
         It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+        data:
+          type: tts
+    - service: notify.alexa_media
+      data:
+        target: media_player.robert_s_fire_tv_stick
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a
+        {{ states.sensor.nws_alert_event.state }} for Butler County.
+        It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+        data:
+          type: tts
     - delay: '00:00:10'
     - service: notify.alexa_media
-      data_template:
-          entity_id:
-            - media_player.robert_s_ecobee4
-            - media_player.robert_s_fire_tv_stick
-          message: "Attention!. . . Attention!. . . The National Weather Service has issued a
-          {{ states.sensor.nws_alert_event.state }} for Butler County.
-          It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
-    - service: media_player.alexa_tts
-      data_template:
-        entity_id:
-          - media_player.robert_s_ecobee4
-          - media_player.robert_s_fire_tv_stick
+      data:
+        target: media_player.robert_s_ecobee4
         message: "Attention!. . . Attention!. . . The National Weather Service has issued a
         {{ states.sensor.nws_alert_event.state }} for Butler County.
         It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
-    - delay: '00:00:10'
-    - service: media_player.alexa_tts
-      data_template:
-        entity_id:
-          - media_player.robert_s_ecobee4
-          - media_player.robert_s_fire_tv_stick
+        data:
+          type: tts
+    - service: notify.alexa_media
+      data:
+        target: media_player.robert_s_fire_tv_stick
         message: "Attention!. . . Attention!. . . The National Weather Service has issued a
         {{ states.sensor.nws_alert_event.state }} for Butler County.
         It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+        data:
+          type: tts
+
 
 
 
@@ -134,3 +134,21 @@
         before: sunset
   action:
     service: openuv.update_data
+
+
+###Testing for Alexa
+- alias: 'Testing TTS'
+  initial_state: true
+  trigger:
+  - entity_id: input_boolean.dummy_switch
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - service: notify.alexa_media
+    data:
+      target: media_player.robert_s_ecobee4
+      message: Attention!. . . Attention!. . . This is a test of the Emergency Alert System!. . . One. . . Two. . . . . This has been a test of the Emergency Alert System.
+      data:
+        type: tts
