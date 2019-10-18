@@ -118,11 +118,17 @@ device_tracker:
   - platform: icloud3
     username: !secret icloud_un
     password: !secret icloud_password
-    account_name: !secret icloud_descriptive_name
-    include_device_type: iphone
-    sensor_name_prefix:
-      - robertwhitesiphone @ R
-      - iphone_2 @ E
+    group: family
+    track_devices:
+      - !secret icloud_bradley
+      - !secret icloud_dad
+      - !secret icloud_emily
+      - !secret icloud_grandma
+      - !secret icloud_mamaw
+      - !secret icloud_mom
+      - !secret icloud_noah
+      - !secret icloud_rosanna
+      - !secret icloud_samuel
 
   - platform: iphonedetect
     consider_home: 60
@@ -277,6 +283,36 @@ zone:
    radius: 20
    icon: mdi:home
 
+ - name: !secret location_friends_1
+   latitude: !secret latitude_friends_1
+   longitude: !secret longitude_friends_1
+   radius: 20
+   icon: mdi:home-circle-outline
+
+ - name: !secret location_grandparents_r_1
+   latitude: !secret latitude_grandparents_r_1
+   longitude: !secret longitude_grandparents_r_1
+   radius: 25
+   icon: mdi:home-circle-outline
+
+ - name: !secret location_grandparents_r_2
+   latitude: !secret latitude_grandparents_r_2
+   longitude: !secret longitude_grandparents_r_2
+   radius: 25
+   icon: mdi:home-circle-outline
+
+ - name: !secret location_lib
+   latitude: !secret latitude_lib
+   longitude: !secret longitude_lib
+   radius: 150
+   icon: mdi:home-city-variant
+
+ - name: !secret location_mvh
+   latitude: !secret latitude_mvh
+   longitude: !secret longitude_mvh
+   radius: 200
+   icon: mdi:hospital-building
+
  - name: !secret location_parents_e
    latitude: !secret latitude_parents_e
    longitude: !secret longitude_parents_e
@@ -286,7 +322,13 @@ zone:
  - name: !secret location_parents_r
    latitude: !secret latitude_parents_r
    longitude: !secret longitude_parents_r
-   radius: 20
+   radius: 50
+   icon: mdi:home-circle-outline
+
+ - name: !secret location_parents_rental
+   latitude: !secret latitude_parents_rental
+   longitude: !secret longitude_parents_rental
+   radius: 25
    icon: mdi:home-circle-outline
 
  - name: !secret location_work2
