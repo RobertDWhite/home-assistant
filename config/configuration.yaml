@@ -304,7 +304,7 @@ zone:
  - name: !secret location_lib
    latitude: !secret latitude_lib
    longitude: !secret longitude_lib
-   radius: 150
+   radius: 275
    icon: mdi:home-city-variant
 
  - name: !secret location_mvh
