@@ -19,6 +19,7 @@
             slate
           {% endif %}
 
+
 #Get weather alerts from NWS and supploy TTS devices with information to verbally alert
 - alias: 'NWS Weather Alert Pop Up Control'
   trigger:
@@ -70,38 +71,28 @@
     - service: notify.alexa_media
       data:
         target: media_player.robert_s_ecobee4
-        message: "Attention!. . . Attention!. . . The National Weather Service has issued a
-        {{ states.sensor.nws_alert_event.state }} for Butler County.
-        It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
         data:
           type: tts
     - service: notify.alexa_media
       data:
         target: media_player.robert_s_fire_tv_stick
-        message: "Attention!. . . Attention!. . . The National Weather Service has issued a
-        {{ states.sensor.nws_alert_event.state }} for Butler County.
-        It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
         data:
           type: tts
     - delay: '00:00:10'
     - service: notify.alexa_media
       data:
         target: media_player.robert_s_ecobee4
-        message: "Attention!. . . Attention!. . . The National Weather Service has issued a
-        {{ states.sensor.nws_alert_event.state }} for Butler County.
-        It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
         data:
           type: tts
     - service: notify.alexa_media
       data:
         target: media_player.robert_s_fire_tv_stick
-        message: "Attention!. . . Attention!. . . The National Weather Service has issued a
-        {{ states.sensor.nws_alert_event.state }} for Butler County.
-        It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
         data:
           type: tts
-
-
 
 
 #Send discord notification when new media is added.
@@ -120,6 +111,7 @@
         file: "{{ trigger.event.data.path }}"
 
 
+
 #Update OpenUV data every 30 min during daytime
 - alias: Update OpenUV every 30 minutes during the daytime
   trigger:
@@ -136,6 +128,77 @@
     service: openuv.update_data
 
 
+###Welcome Home
+- alias: 'Welcome Home Robby'
+  initial_state: true
+  trigger:
+  - entity_id: device_tracker.robert_whites_iphone_ha
+    from: 'away'
+    platform: state
+    to: 'Home_Ibeacon'
+  condition: []
+- delay: '00:00:30'
+  action:
+  - service: notify.alexa_media
+    data:
+      target: media_player.robert_s_ecobee4
+      message: !secret welcome_r
+      data:
+        type: tts
+- alias: 'Welcome Home Emily'
+  initial_state: true
+  trigger:
+  - entity_id: sensor.emily_iphone_zone_name1
+    from: 'away'
+    platform: state
+    to: 'Home_Ibeacon'
+  condition: []
+- delay: '00:00:30'
+  action:
+  - service: notify.alexa_media
+    data:
+      target: media_player.robert_s_ecobee4
+      message: !secret welcome_e
+      data:
+        type: tts
+
+
+###Welcome
+- alias: 'Welcome Brandon'
+  initial_state: true
+  trigger:
+  - entity_id: device_tracker.brandon_farler_galaxy_s10
+    from: 'away'
+    platform: state
+    to: 'home'
+  condition: []
+- delay: '00:00:10'
+  action:
+  - service: notify.alexa_media
+    data:
+      target: media_player.robert_s_ecobee4
+      message: !secret welcome_brandon
+      data:
+        type: tts
+
+- alias: 'Welcome Samuel'
+  initial_state: true
+  trigger:
+  - entity_id: sensor.samuel_iphone_zone_name1
+    from: 'away'
+    platform: state
+    to: 'Home_Ibeacon'
+  condition: []
+- delay: '00:00:10'
+  action:
+  - service: notify.alexa_media
+    data:
+      target: media_player.robert_s_ecobee4
+      message: !secret welcome_samuel
+      data:
+        type: tts
+
+
 ###Testing for Alexa
 - alias: 'Testing TTS'
   initial_state: true
@@ -149,6 +212,6 @@
   - service: notify.alexa_media
     data:
       target: media_player.robert_s_ecobee4
-      message: Attention!. . . Attention!. . . This is a test of the Emergency Alert System!. . . One. . . Two. . . . . This has been a test of the Emergency Alert System.
+      message: Welcome to the White House, Brandon.
       data:
         type: tts
