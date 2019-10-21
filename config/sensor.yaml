@@ -169,12 +169,6 @@
     exclusions:
       - language
 
-  - platform: garbage_collection
-    name: "waste"
-    frequency: "weekly"
-    collection_days: "mon"
-    verbose_state: true
-
   - platform: personalcapital
     email: !secret pc_un
     password: !secret pc_password
