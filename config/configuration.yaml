@@ -13,6 +13,7 @@ homeassistant:
 
 automation: !include automations.yaml
 group: !include groups.yaml
+panel_iframe: !include panel_iframe.yaml
 script: !include scripts.yaml
 sensor: !include sensor.yaml
 switch: !include switch.yaml
@@ -104,6 +105,9 @@ camera:
     station: ILN
     style: Enhanced
     frames: 8
+  - platform: local_file
+    name: Grafana_temperature
+    file_path: /local/downloads/home_temperature.png
 
 circadian_lighting:
   interval: 600
