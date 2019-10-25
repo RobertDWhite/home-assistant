@@ -1,5 +1,16 @@
 #panel_iframe
 
-  router:
+  server:
+    title: 'Server'
+    url: !secret grafana_server
+    icon: mdi:server
+
+  temperature:
     title: 'Temperature'
     url: !secret grafana_temp
+    icon: mdi:home-thermometer
+
+  weather:
+    title: 'Weather'
+    url: !secret grafana_weather
+    icon: mdi:weather-sunny
