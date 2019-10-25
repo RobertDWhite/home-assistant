@@ -96,19 +96,19 @@
 
 
 #Send discord notification when new media is added.
-- alias: New file alert - Movies
-  trigger:
-    platform: event
-    event_type: folder_watcher.movies
-    event_data:
-      event_type: created
-  action:
-    service: notify.discord
-    data_template:
-      title: New media uploaded.
-      message: "Created {{ trigger.event.data.file }} in {{ trigger.event.data.folder }}"
-      data:
-        file: "{{ trigger.event.data.path }}"
+#- alias: New file alert - Movies
+#  trigger:
+#    platform: event
+#    event_type: folder_watcher.movies
+#    event_data:
+#      event_type: created
+#  action:
+#    service: notify.discord
+#    data_template:
+#      title: New media uploaded.
+#      message: "Created {{ trigger.event.data.file }} in {{ trigger.event.data.folder }}"
+#      data:
+#        file: "{{ trigger.event.data.path }}"
 
 
 
