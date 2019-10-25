@@ -222,6 +222,12 @@
     destination: !secret location_city_home_north
     region: 'US'
 
+### GRAFANA ################################################################################
+
+#  - platform: command_line
+#    name: "Download Grafana Temp"
+#    command: !secret grafana_temp
+
 ### WEATHER ################################################################################
 
   - platform: darksky
