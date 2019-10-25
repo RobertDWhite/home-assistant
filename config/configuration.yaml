@@ -10,10 +10,6 @@ homeassistant:
   unit_system: imperial
   # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/New_York
-  whitelist_external_dirs:
-    - /config/media/documentaries
-    - /config/media/tv
-    - /config/media/movies
 
 automation: !include automations.yaml
 group: !include groups.yaml
@@ -32,11 +28,11 @@ conversation:
 # Discover some devices automatically
 discovery:
 
-folder_watcher:
-  - folder: /config
-    patterns:
-      - '*.mp4'
-      - '*.mkv'
+#folder_watcher:
+#  - folder: /config
+#    patterns:
+#      - '*.mp4'
+#      - '*.mkv'
 
 frontend:
   # Add themes
@@ -140,7 +136,7 @@ device_tracker:
       hostname1: !secret host_iphonerw
 
 ecobee:
-  api_key: !secret ecobee_password
+  api_key: !secret ecobee_api
 
 fastdotcom:
   scan_interval:
@@ -161,7 +157,7 @@ google:
   client_secret: !secret google_secret
 
 homekit:
-  safe_mode: true
+  safe_mode: false
   filter:
    exclude_domains:
      - light
@@ -184,8 +180,8 @@ input_select:
       - Parents
 
 influxdb:
-  host: http://influxdb:8086
-  database: homeassistant
+  host: !secret host_syno_influx
+  database: home_assistant
 
 light:
   - platform: decora_wifi
@@ -309,6 +305,12 @@ zone:
    radius: 20
    icon: mdi:home-circle-outline
 
+ - name: !secret location_friends_2
+   latitude: !secret latitude_friends_2
+   longitude: !secret longitude_friends_2
+   radius: 20
+   icon: mdi:home-circle-outline
+
  - name: !secret location_grandparents_r_1
    latitude: !secret latitude_grandparents_r_1
    longitude: !secret longitude_grandparents_r_1
@@ -344,6 +346,10 @@ zone:
    longitude: !secret longitude_parents_r
    radius: 50
    icon: mdi:home-circle-outline
+ - name: !secret location_parents_r
+   latitude: !secret latitude_parents_r_other
+   longitude: !secret longitude_parents_r_other
+   radius: 50
 
  - name: !secret location_parents_rental
    latitude: !secret latitude_parents_rental
@@ -362,6 +368,12 @@ zone:
    longitude: !secret longitude_work_dad
    radius: 100
    icon: mdi:antenna
+
+ - name: !secret location_work_mom_1
+   latitude: !secret latitude_work_mom_1
+   longitude: !secret longitude_work_mom_1
+   radius: 150
+   icon: mdi:school
 
  - name: !secret location_misc_cl
    latitude: !secret latitude_misc_cl
