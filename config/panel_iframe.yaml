@@ -1,0 +1,5 @@
+#panel_iframe
+
+  router:
+    title: 'Temperature'
+    url: !secret grafana_temp
