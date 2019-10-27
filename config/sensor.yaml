@@ -66,23 +66,27 @@
       - disk_temp
       - volume_percentage_used
 
-### Anniversaries #############################################
+### Anniversaries/Countdowns #############################################
 
   - platform: anniversaries
-    name: White Wedding
-    date: '2015-07-18'
+    name: Our White Wedding
+    date: 18/07/2015
+    type: anniversary
 
   - platform: anniversaries
     name: Grandpa's Passing
-    date: '2010-07-30'
+    date: 30/07/2010
+    type: anniversary
 
   - platform: anniversaries
     name: Papa's Passing
-    date: '2010-03-27'
+    date: 27/03/2010
+    type: anniversary
 
   - platform: anniversaries
     name: Gerald's Passing
-    date: '2019-01-13'
+    date: 13/01/2019
+    type: anniversary
 
 ### DELIVERIES---APPEARS TO BE CURRENLTY DEPRECATED #############################################
 
