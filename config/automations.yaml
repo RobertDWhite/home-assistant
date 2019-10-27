@@ -137,7 +137,6 @@
     platform: state
     to: 'Home_Ibeacon'
   condition: []
-- delay: '00:00:30'
   action:
   - service: notify.alexa_media
     data:
@@ -153,7 +152,6 @@
     platform: state
     to: 'Home_Ibeacon'
   condition: []
-- delay: '00:00:30'
   action:
   - service: notify.alexa_media
     data:
@@ -172,7 +170,6 @@
     platform: state
     to: 'home'
   condition: []
-- delay: '00:00:10'
   action:
   - service: notify.alexa_media
     data:
@@ -184,12 +181,11 @@
 - alias: 'Welcome Samuel'
   initial_state: true
   trigger:
-  - entity_id: sensor.samuel_iphone_zone_name1
-    from: 'away'
+  - entity_id: device_tracker.samuels_iphone
+    from: 'Away'
     platform: state
-    to: 'Home_Ibeacon'
+    to: 'Home'
   condition: []
-- delay: '00:00:10'
   action:
   - service: notify.alexa_media
     data:
@@ -198,7 +194,35 @@
       data:
         type: tts
 
-
+####COUNTDOWN UPDATER
+- alias: Reminder - Refresh date countdown sensors
+  trigger:
+    - platform: time
+      at: '00:00:01'
+    - platform: homeassistant
+      event: start
+  action:
+    - service: python_script.date_countdown
+      data:
+        name: Our White Wedding
+        date: 18/07/2015
+        type: anniversary
+    - service: python_script.date_countdown
+      data:
+        name: Grandpa's Passing
+        date: 30/07/2010
+        type: anniversary
+    - service: python_script.date_countdown
+      data:
+        name: Papa's Passing
+        date: 27/03/2010
+        type: anniversary
+    - service: python_script.date_countdown
+      data:
+        name: Gerald's Passing
+        date: 13/01/2019
+        type: anniversary
+###Testing for Alexa
 ###Testing for Alexa
 - alias: 'Testing TTS'
   initial_state: true
@@ -212,6 +236,6 @@
   - service: notify.alexa_media
     data:
       target: media_player.robert_s_ecobee4
-      message: Welcome to the White House, Brandon.
+      message: Attention!. . . Attention!. . . This is a test of the Emergency Alert System!. . . One. . . Two. . . . . This has been a test of the Emergency Alert System.
       data:
         type: tts
