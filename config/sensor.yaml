@@ -69,24 +69,20 @@
 ### Anniversaries/Countdowns #############################################
 
   - platform: anniversaries
-    name: Our White Wedding
-    date: 18/07/2015
-    type: anniversary
+    name: Our Wedding Anniversary
+    date: 2015-07-18
 
   - platform: anniversaries
     name: Grandpa's Passing
-    date: 30/07/2010
-    type: anniversary
+    date: 2010-07-30
 
   - platform: anniversaries
     name: Papa's Passing
-    date: 27/03/2010
-    type: anniversary
+    date: 2010-03-27
 
   - platform: anniversaries
     name: Gerald's Passing
-    date: 13/01/2019
-    type: anniversary
+    date: 2019-01-13
 
 ### DELIVERIES---APPEARS TO BE CURRENLTY DEPRECATED #############################################
 
@@ -105,6 +101,8 @@
 
   - platform: co2signal
     token: !secret co2_api
+
+  - platform: flunearyou
 
   - platform: mold_indicator
     indoor_temp_sensor: sensor.main_temperature
@@ -181,6 +179,23 @@
       - cash
       - credit
       - mortgage
+
+  - platform: steam_online
+    api_key: !secret steam_api
+    accounts:
+      - !secret steam_id64_1
+      - !secret steam_id64_2
+      - !secret steam_id64_3
+      - !secret steam_id64_4
+      - !secret steam_id64_5
+      - !secret steam_id64_6
+      - !secret steam_id64_7
+      - !secret steam_id64_8
+
+  - platform: xbox_live
+    api_key: !secret xbox_api
+    xuid:
+      - !secret xbox_id_1
 
   - platform: zestimate
     api_key: !secret zillow_api
