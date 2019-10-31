@@ -96,19 +96,18 @@
 
 
 #Send discord notification when new media is added.
-#- alias: New file alert - Movies
-#  trigger:
-#    platform: event
-#    event_type: folder_watcher.movies
-#    event_data:
-#      event_type: created
-#  action:
-#    service: notify.discord
-#    data_template:
-#      title: New media uploaded.
-#      message: "Created {{ trigger.event.data.file }} in {{ trigger.event.data.folder }}"
-#      data:
-#        file: "{{ trigger.event.data.path }}"
+- alias: New file alert
+  trigger:
+    platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: created
+  action:
+    service: notify.discord
+    data_template:
+      title: New media uploaded.
+      target: '619748473587367946'
+      message: "Added {{ trigger.event.data.file }} in {{ trigger.event.data.folder }}"
 
 
 
@@ -215,13 +214,14 @@
     - service: python_script.date_countdown
       data:
         name: Papa's Passing
-        date: 27/03/2010
         type: anniversary
+        date: 27/03/2010
     - service: python_script.date_countdown
       data:
         name: Gerald's Passing
         date: 13/01/2019
         type: anniversary
+
 ###Testing for Alexa
 ###Testing for Alexa
 - alias: 'Testing TTS'
