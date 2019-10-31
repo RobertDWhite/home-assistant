@@ -11,6 +11,10 @@ homeassistant:
   unit_system: imperial
   # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/New_York
+  whitelist_external_dirs:
+    - /documentaries
+    - /movies
+    - /tv_shows
 
 automation: !include automations.yaml
 group: !include groups.yaml
@@ -30,11 +34,20 @@ conversation:
 # Discover some devices automatically
 discovery:
 
-#folder_watcher:
-#  - folder: /config
-#    patterns:
-#      - '*.mp4'
-#      - '*.mkv'
+folder_watcher:
+  - folder: /documentaries
+    patterns:
+      - '*.mp4'
+      - '*.mkv'
+  - folder: /movies
+    patterns:
+      - '*.mp4'
+      - '*.mkv'
+  - folder: /tv_shows
+    patterns:
+      - '*.mp4'
+      - '*.mkv'
+
 
 frontend:
   # Add themes
@@ -161,6 +174,10 @@ google:
   client_id: !secret google_client
   client_secret: !secret google_secret
 
+gpodder:
+  username: !secret gpodder_un
+  password: !secret gpodder_password
+
 homekit:
   safe_mode: false
   filter:
@@ -176,13 +193,6 @@ hue:
 
 input_boolean:
   dummy_switch:
-
-input_select:
-  destination:
-    name: destination
-    options:
-      - Home
-      - Parents
 
 influxdb:
   host: !secret host_syno_influx
@@ -209,6 +219,7 @@ notify:
 # Adding support for Discord notifications via The Best Server (Channel ID: saved in secrets)
   - platform: discord
     token: !secret discord_token
+    name: discord
 # Adding support for notifications to the Ecobee
   - name: ecobee_main
     platform: ecobee
