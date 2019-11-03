@@ -106,8 +106,8 @@
     service: notify.discord
     data_template:
       title: New media uploaded.
-      target: '619748473587367946'
-      message: "Added {{ trigger.event.data.file }} in {{ trigger.event.data.folder }}"
+      target: !secret discord_notify_media
+      message: "__**Media Added:**__\n ```css\n{{ trigger.event.data.file }}\n``` n {{ trigger.event.data.folder }}"
 
 
 
@@ -178,7 +178,6 @@
         type: tts
 
 - alias: 'Welcome Samuel'
-  initial_state: true
   trigger:
   - entity_id: device_tracker.samuels_iphone
     from: 'Away'
