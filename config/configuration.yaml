@@ -198,6 +198,8 @@ influxdb:
   host: !secret host_syno_influx
   database: home_assistant
 
+ios:
+
 light:
   - platform: decora_wifi
     username: !secret decora_un
@@ -337,6 +339,12 @@ zone:
    latitude: !secret latitude_grandparents_r_2
    longitude: !secret longitude_grandparents_r_2
    radius: 25
+   icon: mdi:home-circle-outline
+
+ - name: !secret location_gym
+   latitude: !secret latitude_gym
+   longitude: !secret longitude_gym
+   radius: 30
    icon: mdi:home-circle-outline
 
  - name: !secret location_lib
