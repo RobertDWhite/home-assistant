@@ -66,7 +66,7 @@
       - light.stove_light
 
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 60
     name: Circadian Living Room
     lights_ct:
       - light.hue_ambiance_candle_1
