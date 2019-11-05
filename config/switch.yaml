@@ -17,7 +17,7 @@
 ### Circadian Lighting #############################################
 
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 60
     name: Circadian Basement
     lights_ct:
       - light.hue_ambiance_lamp_6
@@ -30,7 +30,7 @@
       - light.bedroom_main
 
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 45
     name: Circadian Dining Room
     lights_ct:
       - light.dining_room_hue_ambiance_lamp
@@ -44,7 +44,7 @@
       - light.hue_ambiance_lamp_5
 
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 40
     name: Circadian Family Room
     lights_ct:
       - light.hue_color_lamp_1
@@ -52,7 +52,7 @@
       - light.security_light
 
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 50
     name: Circadian Kitchen
     lights_ct:
       - light.stove_hue_ambiance_lamp_4
@@ -74,7 +74,7 @@
       - light.hue_ambiance_lamp_4
 
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 40
     name: Circadian Office
     lights_ct:
       - light.office_main
