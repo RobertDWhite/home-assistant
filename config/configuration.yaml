@@ -109,7 +109,11 @@ binary_sensor:
   - platform: iss
     show_on_map: true
   - platform: aurora
-  
+
+calendar:
+  - platform: todoist
+    token: !secret todoist_api
+    
 camera:
   - platform: synology
     url: !secret host_syno5001
