@@ -1,0 +1,69 @@
+###Welcome Home
+
+- alias: 'Welcome Home Robby'
+  initial_state: true
+  trigger:
+  - entity_id: device_tracker.robert_whites_iphone_ha
+    from: 'away'
+    platform: state
+    to: 'Home_Ibeacon'
+  condition: []
+  action:
+  - service: notify.alexa_media
+    data:
+      target: media_player.robert_s_ecobee4
+      message: !secret welcome_r
+      data:
+        type: tts
+
+
+- alias: 'Welcome Home Emily'
+  initial_state: true
+  trigger:
+  - entity_id: sensor.emily_iphone_zone_name1
+    from: 'away'
+    platform: state
+    to: 'Home_Ibeacon'
+  condition: []
+  action:
+  - service: notify.alexa_media
+    data:
+      target: media_player.robert_s_ecobee4
+      message: !secret welcome_e
+      data:
+        type: tts
+
+
+###Welcome Friends/Family
+
+- alias: 'Welcome Brandon'
+  initial_state: true
+  trigger:
+  - entity_id: device_tracker.brandon_farler_galaxy_s10
+    from: 'away'
+    platform: state
+    to: 'home'
+  condition: []
+  action:
+  - service: notify.alexa_media
+    data:
+      target: media_player.robert_s_ecobee4
+      message: !secret welcome_brandon
+      data:
+        type: tts
+
+
+- alias: 'Welcome Samuel'
+  trigger:
+  - entity_id: device_tracker.samuels_iphone
+    from: 'Away'
+    platform: state
+    to: 'Home'
+  condition: []
+  action:
+  - service: notify.alexa_media
+    data:
+      target: media_player.robert_s_ecobee4
+      message: !secret welcome_samuel
+      data:
+        type: tts
