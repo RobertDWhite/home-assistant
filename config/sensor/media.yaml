@@ -1,0 +1,40 @@
+### MEDIA #############################################
+
+
+#Sensor to monitor Plex Server for added Movies
+  - platform: plex_recently_added
+    name: Recently Added Movies
+    token: !secret plex_token
+    host: !secret host_syno
+    port: 32400
+    section_types:
+    - movie
+
+
+#Sensor to monitor Plex Server for added TV_Shows
+  - platform: plex_recently_added
+    name: Recently Added TV
+    token: !secret plex_token
+    host: !secret host_syno
+    port: 32400
+    section_types:
+    - show
+
+
+#Sensor to monitor Radarr calendar for releases of movies in theaters and physical releases
+  - platform: radarr_upcoming_media
+    api_key: !secret radarr_api
+    host: !secret host_ubuntu
+    port: 7878
+    days: 120
+    theaters: true
+    max: 10
+
+
+#Sensor to monitor Sonarr calendar for releases of TV Shows
+  - platform: sonarr_upcoming_media
+    api_key: !secret sonarr_api
+    host: !secret host_ubuntu
+    port: 8989
+    days: 7
+    max: 10
