@@ -1,0 +1,32 @@
+### ENVIRONMENT ####################################################
+
+# Sensor for airvisual support to monitor pollution in my area
+  - platform: airvisual
+    api_key: !secret airvisual_api
+
+
+# Sensor for CO2 tracking in my area
+  - platform: co2signal
+    token: !secret co2_api
+
+
+# Sensor to report reported Flu symptoms and cases in my area....
+# (Flu, Flu-like, Avian Flu, Dengue Fever)
+  - platform: flunearyou
+
+
+# Sensor to calculate and provide a mold indicator given current weather conditions and self-measured calibration_factor
+  - platform: mold_indicator
+    indoor_temp_sensor: sensor.main_temperature
+    indoor_humidity_sensor: sensor.main_humidity
+    outdoor_temp_sensor: sensor.dark_sky_temperature
+    calibration_factor: 2.0
+
+
+# Simple sensor to track the moon, much like the default sensor to track the sun
+  - platform: moon
+
+
+# Simple sensor to track the current season
+  - platform: season
+    type: astronomical
