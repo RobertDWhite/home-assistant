@@ -1,0 +1,21 @@
+### Anniversaries/Countdowns #############################################
+
+
+  - platform: anniversaries
+    name: Our Wedding Anniversary
+    date: !secret anniversary_wedding
+
+
+  - platform: anniversaries
+    name: Grandpa's Passing
+    date: !secret memorial_gp_rew
+
+
+  - platform: anniversaries
+    name: Papa's Passing
+    date: !secret memorial_gp_jlh
+
+
+  - platform: anniversaries
+    name: Gerald's Passing
+    date: !secret memorial_gp_e_gs
