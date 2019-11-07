@@ -1,0 +1,40 @@
+### WAZE ################################################################################
+
+  - platform: template
+    sensors:
+       dest_address:
+         value_template: >-
+            {%- if is_state("input_select.destination", "Home")  -%}
+              !secret location_home
+            {%- elif is_state("input_select.destination", "Parents")  -%}
+              !secret location_add_parents_r
+            {%- else -%}
+              Unknown
+            {%- endif %}
+
+
+# Tracking entity to entity
+
+  - platform: waze_travel_time
+    name: "Me to Liberty"
+    origin: device_tracker.robert_whites_iphone_ha
+    destination: !secret location_lib_add
+    region: 'US'
+
+  - platform: waze_travel_time
+    name: "Home to Liberty"
+    origin: !secret location_home
+    destination: !secret location_lib_add
+    region: 'US'
+
+  - platform: waze_travel_time
+    name: "Home to south"
+    origin: !secret location_home
+    destination: !secret location_city_home_south
+    region: 'US'
+
+  - platform: waze_travel_time
+    name: "Home to north"
+    origin: !secret location_home
+    destination: !secret location_city_home_north
+    region: 'US'
