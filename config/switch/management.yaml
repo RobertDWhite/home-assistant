@@ -1,0 +1,21 @@
+
+# Switch to pause or start all downloads via deluge
+  - platform: deluge
+    host: !secret host_syno
+    username: roberto
+    password : !secret deluge_password
+
+
+# Dummy Switch for debugging, testing, etc.
+## The dhummy switch presents itself to HomeKit and can be used as a means for
+## HomeKit and HA to be used in different scenes or automations together...
+  - platform: template
+    switches:
+      dummy:
+        value_template: "{{ is_state('input_boolean.dummy_switch', 'on') }}"
+        turn_on:
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.dummy_switch
+        turn_off:
+          - service: input_boolean.turn_off
+            entity_id: input_boolean.dummy_switch
