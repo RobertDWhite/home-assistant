@@ -1,0 +1,17 @@
+###Testing for Alexa
+
+- alias: 'Testing TTS'
+  initial_state: true
+  trigger:
+  - entity_id: input_boolean.dummy_switch
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - service: notify.alexa_media
+    data:
+      target: media_player.robert_s_ecobee4
+      message: Attention!. . . Attention!. . . This is a test of the Emergency Alert System!. . . One. . . Two. . . . . This has been a test of the Emergency Alert System.
+      data:
+        type: tts
