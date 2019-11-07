@@ -19,9 +19,9 @@ homeassistant:
 automation: !include_dir_merge_list automations/
 group: !include groups.yaml
 panel_iframe: !include panel_iframe.yaml
-script: !include scripts.yaml
-sensor: !include sensor.yaml
-switch: !include switch.yaml
+script: !include_dir_merge_list scripts/
+sensor: !include_dir_merge_list sensor/
+switch: !include_dir_merge_list switch/
 
 #GitHub Ready!
 ###SYSTEM##################################################################################
