@@ -1,0 +1,86 @@
+### Circadian Lighting #############################################
+
+
+# Basement
+  - platform: circadian_lighting
+    min_brightness: 60
+    name: Circadian Basement
+    lights_ct:
+      - light.hue_ambiance_lamp_6
+      - light.hue_ambiance_lamp_7
+
+
+# Bedroom
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Bedroom
+    lights_ct:
+      - light.bedroom_main
+
+
+# Dining Room
+  - platform: circadian_lighting
+    min_brightness: 45
+    name: Circadian Dining Room
+    lights_ct:
+      - light.dining_room_hue_ambiance_lamp
+      - light.dining_room_hue_ambiance_lamp_2
+      - light.dining_room_hue_ambiance_lamp_6
+
+
+# Entry Way
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Entry Way
+    lights_ct:
+      - light.hue_ambiance_lamp_5
+
+
+# Family Room
+  - platform: circadian_lighting
+    min_brightness: 40
+    name: Circadian Family Room
+    lights_ct:
+      - light.hue_color_lamp_1
+      - light.family_room_main
+      - light.security_light
+
+
+# Kitchen
+  - platform: circadian_lighting
+    min_brightness: 50
+    name: Circadian Kitchen
+    lights_ct:
+      - light.stove_hue_ambiance_lamp_4
+      - light.above_sink
+      - light.coffee_hue_ambiance_lamp_2
+      - light.fridge_hue_ambiance_lamp_1
+      - light.hue_lightstrip_plus_1
+      - light.hue_lightstrip_plus_2
+      - light.stairs_hue_ambiance_lamp_3
+      - light.hue_color_lamp_2
+      - light.stove_light
+
+
+# Living Room
+  - platform: circadian_lighting
+    min_brightness: 60
+    name: Circadian Living Room
+    lights_ct:
+      - light.hue_ambiance_candle_1
+      - light.hue_ambiance_lamp_3
+      - light.hue_ambiance_lamp_4
+
+# Office
+  - platform: circadian_lighting
+    min_brightness: 40
+    name: Circadian Office
+    lights_ct:
+      - light.office_main
+
+# Upstairs Hallway
+  - platform: circadian_lighting
+    min_brightness: 10
+    name: Circadian Upstairs Hall
+    lights_ct:
+      - light.hue_ambiance_lamp_hall
