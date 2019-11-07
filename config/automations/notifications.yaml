@@ -1,0 +1,14 @@
+#Send discord notification when new media is added.
+
+- alias: New file alert
+  trigger:
+    platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: created
+  action:
+    service: notify.discord
+    data_template:
+      title: New media uploaded.
+      target: !secret discord_notify_media
+      message: "__**Media Added:**__\n ```css\n{{ trigger.event.data.file }}\n``` n {{ trigger.event.data.folder }}"
