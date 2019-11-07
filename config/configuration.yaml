@@ -16,7 +16,7 @@ homeassistant:
     - /movies
     - /tv_shows
 
-automation: !include automations.yaml
+automation: !include_dir_merge_list automations/
 group: !include groups.yaml
 panel_iframe: !include panel_iframe.yaml
 script: !include scripts.yaml
@@ -113,7 +113,7 @@ binary_sensor:
 calendar:
   - platform: todoist
     token: !secret todoist_api
-    
+
 camera:
   - platform: synology
     url: !secret host_syno5001
