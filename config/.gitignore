@@ -8,6 +8,12 @@
 !*.md
 !/automations
 !automations
+!/scripts
+!scripts
+!/sensor
+!sensor
+!/switch
+!switch
 
 # Ignore folders.
 .storage
