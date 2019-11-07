@@ -153,6 +153,17 @@
 
 ### OTHER ################################################################################
 
+  - platform: discord_game
+    token: !secret discord_token_bot2
+    members:
+      - !secret discord_un_1
+      - !secret discord_un_2
+      - !secret discord_un_3
+      - !secret discord_un_4
+      - !secret discord_un_5
+      - !secret discord_un_6
+      - !secret discord_un_7
+
   - platform: duke_energy
     username: !secret duke_un
     password: !secret duke_password
