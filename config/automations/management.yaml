@@ -1,0 +1,38 @@
+#Home assistant theme is set based on location of the sun; where when sun is up, theme is light, and visa versa
+
+- alias: 'Set HA theme for day and night'
+  trigger:
+    - platform: homeassistant
+      event: start
+    - platform: state
+      entity_id: sun.sun
+      to: above_horizon
+    - platform: state
+      entity_id: sun.sun
+      to: below_horizon
+  action:
+    - service_template: frontend.set_theme
+      data_template:
+        name: >
+          {% if states.sun.sun.state == "above_horizon" %}
+            Light - Navy Blue
+          {% else %}
+            slate
+          {% endif %}
+
+
+#Update OpenUV data every 30 min during daytime
+
+- alias: Update OpenUV every 30 minutes during the daytime
+  trigger:
+    platform: time_pattern
+    minutes: '/30'
+  condition:
+    condition: and
+    conditions:
+      - condition: sun
+        after: sunrise
+      - condition: sun
+        before: sunset
+  action:
+    service: openuv.update_data
