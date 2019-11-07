@@ -192,36 +192,6 @@
       data:
         type: tts
 
-####COUNTDOWN UPDATER
-- alias: Reminder - Refresh date countdown sensors
-  trigger:
-    - platform: time
-      at: '00:00:01'
-    - platform: homeassistant
-      event: start
-  action:
-    - service: python_script.date_countdown
-      data:
-        name: Our White Wedding
-        date: 18/07/2015
-        type: anniversary
-    - service: python_script.date_countdown
-      data:
-        name: Grandpa's Passing
-        date: 30/07/2010
-        type: anniversary
-    - service: python_script.date_countdown
-      data:
-        name: Papa's Passing
-        type: anniversary
-        date: 27/03/2010
-    - service: python_script.date_countdown
-      data:
-        name: Gerald's Passing
-        date: 13/01/2019
-        type: anniversary
-
-###Testing for Alexa
 ###Testing for Alexa
 - alias: 'Testing TTS'
   initial_state: true
