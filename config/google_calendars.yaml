@@ -25,3 +25,10 @@
     ignore_availability: true
     name: !secret cal_id_4
     track: true
+
+- cal_id: !secret cal_id_5
+  entities:
+  - device_id: todoist
+    ignore_availability: true
+    name: Todoist
+    track: true
