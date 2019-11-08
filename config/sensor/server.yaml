@@ -12,7 +12,7 @@
       - 'upload_speed'
 
 
-# Sensor to monitor my GutHub repo
+# Sensor to monitor my GitHub repo
   - platform: github
     access_token: !secret github_api
     repositories:
