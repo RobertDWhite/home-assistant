@@ -1,0 +1,145 @@
+
+ - name: 'Home'
+   latitude: !secret latitude_sec
+   longitude: !secret longitude_sec
+   radius: 20
+   icon: mdi:home
+
+
+ - name: !secret location_home
+   latitude: !secret latitude_sec
+   longitude: !secret longitude_sec
+   radius: 20
+   icon: mdi:home
+
+
+ - name: !secret location_fam_1
+   latitude: !secret latitude_fam_1
+   longitude: !secret longitude_fam_1
+   radius: 20
+   icon: mdi:home
+
+
+ - name: !secret location_friends_1
+   latitude: !secret latitude_friends_1
+   longitude: !secret longitude_friends_1
+   radius: 20
+   icon: mdi:home-circle-outline
+
+
+ - name: !secret location_friends_2
+   latitude: !secret latitude_friends_2
+   longitude: !secret longitude_friends_2
+   radius: 20
+   icon: mdi:home-circle-outline
+
+
+ - name: !secret location_grandparents_r_1
+   latitude: !secret latitude_grandparents_r_1
+   longitude: !secret longitude_grandparents_r_1
+   radius: 25
+   icon: mdi:home-circle-outline
+
+
+ - name: !secret location_grandparents_r_2
+   latitude: !secret latitude_grandparents_r_2
+   longitude: !secret longitude_grandparents_r_2
+   radius: 25
+   icon: mdi:home-circle-outline
+
+
+ - name: !secret location_gym
+   latitude: !secret latitude_gym
+   longitude: !secret longitude_gym
+   radius: 30
+   icon: mdi:home-circle-outline
+
+
+ - name: !secret location_lib
+   latitude: !secret latitude_lib
+   longitude: !secret longitude_lib
+   radius: 275
+   icon: mdi:city-variant-outline
+
+
+ - name: !secret location_mvh
+   latitude: !secret latitude_mvh
+   longitude: !secret longitude_mvh
+   radius: 200
+   icon: mdi:hospital-building
+
+
+ - name: !secret location_parents_e
+   latitude: !secret latitude_parents_e
+   longitude: !secret longitude_parents_e
+   radius: 20
+   icon: mdi:home-circle-outline
+
+
+ - name: !secret location_parents_r
+   latitude: !secret latitude_parents_r
+   longitude: !secret longitude_parents_r
+   radius: 50
+   icon: mdi:home-circle-outline
+
+
+ - name: !secret location_parents_r
+   latitude: !secret latitude_parents_r_other
+   longitude: !secret longitude_parents_r_other
+   radius: 50
+
+
+ - name: !secret location_parents_rental
+   latitude: !secret latitude_parents_rental
+   longitude: !secret longitude_parents_rental
+   radius: 25
+   icon: mdi:home-circle-outline
+   
+   
+ - name: !secret location_work1
+   latitude: !secret latitude_work1
+   longitude: !secret longitude_work1
+   radius: 50
+   icon: mdi:apple
+   
+   
+ - name: !secret location_work2
+   latitude: !secret latitude_work2
+   longitude: !secret longitude_work2
+   radius: 100
+   icon: mdi:bus-school
+
+
+ - name: !secret location_work3
+   latitude: !secret latitude_work3
+   longitude: !secret longitude_work3
+   radius: 100
+   icon: mdi:bus-school
+
+
+ - name: !secret location_work_dad
+   latitude: !secret latitude_work_dad
+   longitude: !secret longitude_work_dad
+   radius: 100
+   icon: mdi:antenna
+
+
+ - name: !secret location_work_mom_1
+   latitude: !secret latitude_work_mom_1
+   longitude: !secret longitude_work_mom_1
+   radius: 150
+   icon: mdi:school
+
+
+ - name: !secret location_misc_cl
+   latitude: !secret latitude_misc_cl
+   longitude: !secret longitude_misc_cl
+   radius: 350
+   icon: mdi:campfire
+
+
+ - name: !secret location_church2
+   latitude: !secret latitude_church2
+   longitude: !secret longitude_church2
+   radius: 100
+   icon: mdi:church
