@@ -52,7 +52,8 @@ folder_watcher:
 
 frontend:
   # Add themes
-  themes: !include !include_dir_merge_list themes/
+  themes: !include_dir_merge_list themes/
+  
   # Enable ES6 features
   javascript_version: latest
 
@@ -105,6 +106,19 @@ tts:
 zeroconf:
 
 ###USER ADDONS###############################################################################################
+
+###Anniversaries/Countdowns/Tracking###
+anniversaries:
+  sensors:
+  - name: Our Wedding Anniversary
+    date: !secret anniversary_wedding
+  - name: Grandpa's Passing
+    date: !secret memorial_gp_rew
+  - name: Papa's Passing
+    date: !secret memorial_gp_jlh
+  - name: Gerald's Passing
+    date: !secret memorial_gp_e_gs
+    
 
 binary_sensor:
   - platform: iss
