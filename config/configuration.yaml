@@ -18,6 +18,7 @@ homeassistant:
 
 automation: !include_dir_merge_list automations/
 group: !include groups.yaml
+notify: !include notify.yaml
 panel_iframe: !include panel_iframe.yaml
 script: !include_dir_merge_list scripts/
 sensor: !include_dir_merge_list sensor/
@@ -49,10 +50,9 @@ folder_watcher:
       - '*.mp4'
       - '*.mkv'
 
-
 frontend:
   # Add themes
-  themes: !include themes.yaml
+  themes: !include !include_dir_merge_list themes/
   # Enable ES6 features
   javascript_version: latest
 
@@ -222,22 +222,6 @@ media_player:
   # Use the Python ADB implementation without authentication
   - platform: androidtv
     name: Firestick
-    host: !secret host_firetv
-
-notify:
-# Adding support for Discord notifications via The Best Server (Channel ID: saved in secrets)
-  - platform: discord
-    token: !secret discord_token
-    name: discord
-# Adding support for notifications to the Ecobee
-  - name: ecobee_main
-    platform: ecobee
-# Adding support for notifications for Alexa
-  - platform: alexa_media
-    name: alexa_media
-# Adding support for notifications for FireTV
-  - platform: nfandroidtv
-    name: Bedroom
     host: !secret host_firetv
 
 openuv:
