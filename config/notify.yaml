@@ -1,0 +1,17 @@
+# Adding support for Discord notifications via The Best Server (Channel ID: saved in secrets)
+  - platform: discord
+    token: !secret discord_token
+    name: discord
+
+# Adding support for notifications to the Ecobee
+  - name: ecobee_main
+    platform: ecobee
+
+# Adding support for notifications for Alexa
+  - platform: alexa_media
+    name: alexa_media
+
+# Adding support for notifications for FireTV
+  - platform: nfandroidtv
+    name: Bedroom
+    host: !secret host_firetv
