@@ -32,3 +32,17 @@
     ignore_availability: true
     name: Todoist
     track: true
+
+- cal_id: !secret cal_id_6
+  entities:
+  - device_id: CDNA
+    ignore_availability: true
+    name: !secret cal_id_6
+    track: true
+
+- cal_id: !secret cal_id_7
+  entities:
+  - device_id: robert_cdna
+    ignore_availability: true
+    name: !secret cal_id_7
+    track: true
