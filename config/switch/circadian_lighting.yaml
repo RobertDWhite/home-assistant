@@ -6,9 +6,16 @@
     min_brightness: 60
     name: Circadian Basement
     lights_ct:
-      - light.hue_ambiance_lamp_6
-      - light.hue_ambiance_lamp_7
+      - light.basement_stairs
+      - light.laundry
 
+# Bathroom
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Bathroom
+    lights_ct:
+      - light.hue_ambiance_lamp_6
+      - light.hue_ambiance_lamp_6_2
 
 # Bedroom
   - platform: circadian_lighting
@@ -20,7 +27,7 @@
 
 # Dining Room
   - platform: circadian_lighting
-    min_brightness: 45
+    min_brightness: 50
     name: Circadian Dining Room
     lights_ct:
       - light.dining_room_hue_ambiance_lamp
@@ -30,7 +37,7 @@
 
 # Entry Way
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 40
     name: Circadian Entry Way
     lights_ct:
       - light.hue_ambiance_lamp_5
