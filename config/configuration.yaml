@@ -51,10 +51,10 @@ folder_watcher:
       - '*.mkv'
 
 frontend:
-  # Add themes
-  themes: !include_dir_merge_list themes/
+# Add themes
+  themes: !include themes.yaml
   
-  # Enable ES6 features
+# Enable ES6 features
   javascript_version: latest
 
 geo_location:
