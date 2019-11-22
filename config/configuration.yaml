@@ -153,7 +153,6 @@ device_tracker:
   - platform: icloud3
     username: !secret icloud_un
     password: !secret icloud_password
-    group: family
     track_devices:
       - !secret icloud_1
       - !secret icloud_2
@@ -165,14 +164,6 @@ device_tracker:
       - !secret icloud_8
       - !secret icloud_9
       - !secret icloud_10
-
-  - platform: iphonedetect
-    consider_home: 60
-    new_device_defaults:
-      track_new_devices: true
-      hide_if_away: false
-    hosts:
-      hostname1: !secret host_iphonerw
 
 ecobee:
   api_key: !secret ecobee_api
