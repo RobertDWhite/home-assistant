@@ -1,0 +1,46 @@
+- alias: 'Send notification to Discord when new movie is added to upload directory'
+  trigger:
+    platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: created
+  condition:
+    condition: template
+    value_template: '{{ "/movies" in trigger.event.data.folder }}'
+  action:
+    service: notify.discord
+    data_template:
+      message: " __**Movie Added:**__```css\n{{ trigger.event.data.file }}\n``` "
+      target: !secret discord_channel_id
+
+
+- alias: 'Send notification to Discord when new TV Episode is added to upload directory'
+  trigger:
+    platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: created
+  condition:
+    condition: template
+    value_template: '{{ "/tv_shows" in trigger.event.data.folder }}'
+  action:
+    service: notify.discord
+    data_template:
+      message: " __**TV Episode Added:**__```css\n{{ trigger.event.data.file }}\n``` "
+      target: !secret discord_channel_id
+
+
+- alias: 'Send notification to Discord when new Documentary is added to upload directory'
+  trigger:
+    platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: created
+  condition:
+    condition: template
+    value_template: '{{ "/documentaries" in trigger.event.data.folder }}'
+  action:
+    service: notify.discord
+    data_template:
+      message: " __**Documentary Added:**__```css\n{{ trigger.event.data.file }}\n``` "
+      target: !secret discord_channel_id
