@@ -13,6 +13,7 @@
       message: " __**Movie Added:**__```css\n{{ trigger.event.data.file }}\n``` "
       target: !secret discord_notify_media
 
+
 - alias: 'Send notification to Discord when new TV Episode is added to upload directory'
   trigger:
     platform: event
