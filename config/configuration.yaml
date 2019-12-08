@@ -15,6 +15,7 @@ homeassistant:
     - /documentaries
     - /movies
     - /tv_shows
+    - /ssl
 
 automation: !include_dir_merge_list automations/
 group: !include groups.yaml
@@ -36,6 +37,10 @@ conversation:
 # Discover some devices automatically
 discovery:
 
+duckdns:
+  domain: !secret duckdns_domain
+  access_token: !secret duckdns_token
+  
 folder_watcher:
   - folder: /documentaries
     patterns:
@@ -53,7 +58,7 @@ folder_watcher:
 frontend:
 # Add themes
   themes: !include themes.yaml
-  
+
 # Enable ES6 features
   javascript_version: latest
 
@@ -75,6 +80,11 @@ hacs:
 # Enables support for tracking state changes over time
 history:
 
+http:
+  base_url: !secret base_url
+  ssl_certificate: !secret ssl_cert
+  ssl_key: !secret ssl_key
+  
 # View all events in a logbook
 logbook:
 
@@ -108,18 +118,18 @@ zeroconf:
 ###USER ADDONS###############################################################################################
 
 ###Anniversaries/Countdowns/Tracking###
+
 anniversaries:
   sensors:
-  - name: Our Wedding Anniversary
+  - name: Our Wedding
     date: !secret anniversary_wedding
-  - name: Grandpa's Passing
+  - name: Grandpa - Memorial
     date: !secret memorial_gp_rew
-  - name: Papa's Passing
+  - name: Papaw - Memorial
     date: !secret memorial_gp_jlh
-  - name: Gerald's Passing
+  - name: Gerald - Memorial
     date: !secret memorial_gp_e_gs
     
-
 binary_sensor:
   - platform: iss
     show_on_map: true
@@ -153,6 +163,7 @@ device_tracker:
   - platform: icloud3
     username: !secret icloud_un
     password: !secret icloud_password
+    group: family
     track_devices:
       - !secret icloud_1
       - !secret icloud_2
