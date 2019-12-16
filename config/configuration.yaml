@@ -1,11 +1,13 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
-
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
 homeassistant:
   # Location required to calculate the time the sun rises and sets
   latitude: !secret latitude_sec
   longitude: !secret longitude_sec
-  # Impacts weather/sunrise data (altitude above sea level in meters)
+  # Impacts weather/sunrise data, majorly important for circadian_lighting (altitude above sea level in meters)
   elevation: !secret elevation_sec
   # metric for Metric, imperial for Imperial
   unit_system: imperial
@@ -16,6 +18,9 @@ homeassistant:
     - /movies
     - /tv_shows
     - /ssl
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
 
 automation: !include_dir_merge_list automations/
 group: !include groups.yaml
@@ -26,7 +31,6 @@ sensor: !include_dir_merge_list sensor/
 switch: !include_dir_merge_list switch/
 zone: !include zone.yaml
 
-#GitHub Ready!
 ###SYSTEM##################################################################################
 
 breaking_changes:
@@ -40,7 +44,7 @@ discovery:
 duckdns:
   domain: !secret duckdns_domain
   access_token: !secret duckdns_token
-  
+
 folder_watcher:
   - folder: /documentaries
     patterns:
@@ -84,7 +88,7 @@ http:
   base_url: !secret base_url
   ssl_certificate: !secret ssl_cert
   ssl_key: !secret ssl_key
-  
+
 # View all events in a logbook
 logbook:
 
@@ -115,7 +119,11 @@ tts:
 
 zeroconf:
 
-###USER ADDONS###############################################################################################
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------#
+
+### USER ADDONS #####################################################################################
 
 ###Anniversaries/Countdowns/Tracking###
 
@@ -129,7 +137,9 @@ anniversaries:
     date: !secret memorial_gp_jlh
   - name: Gerald - Memorial
     date: !secret memorial_gp_e_gs
-    
+  - name: Robby's Work anniversary_wedding
+    date: !secret anniversary_work_rob
+
 binary_sensor:
   - platform: iss
     show_on_map: true
