@@ -1,0 +1,18 @@
+#Turn on Guest Room Light to correct color with anaolog switch
+
+action:
+  service: light.turn_on
+  data_template:
+    entity_id: light.hue_ambiance_lamp_6_4
+    kelvin: "{{ state_attr('sensor.circadian_values', 'colortemp') | int }}"
+    brightness_pct: "{{ state_attr('switch.circadian_lighting_[...]', 'brightness') | int }}"
+
+
+#Turn on Sun Room Light to correct color with anaolog switch
+
+action:
+  service: light.turn_on
+  data_template:
+    entity_id: light.hue_ambiance_lamp_6_3
+    kelvin: "{{ state_attr('sensor.circadian_values', 'colortemp') | int }}"
+    brightness_pct: "{{ state_attr('switch.circadian_lighting_[...]', 'brightness') | int }}"
