@@ -21,7 +21,7 @@
 
 # Sensor to monitor my Synology system
   - platform: synologydsm
-    host: !secret host_syno_web
+    host: !secret host_syno
     username: !secret synology_un
     password: !secret synology_password
     monitored_conditions:
