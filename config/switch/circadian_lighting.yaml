@@ -58,13 +58,13 @@
     min_brightness: 50
     name: Circadian Kitchen
     lights_ct:
-      - light.stove_hue_ambiance_lamp_4
+      - light.hue_ambiance_downlight_1
       - light.above_sink
-      - light.coffee_hue_ambiance_lamp_2
-      - light.fridge_hue_ambiance_lamp_1
+      - light.hue_ambiance_downlight_2
+      - light.hue_ambiance_downlight_4
       - light.hue_lightstrip_plus_1
       - light.hue_lightstrip_plus_2
-      - light.stairs_hue_ambiance_lamp_3
+      - light.hue_ambiance_downlight_3
       - light.hue_color_lamp_2
       - light.stove_light
 
@@ -84,6 +84,13 @@
     name: Circadian Office
     lights_ct:
       - light.office_main
+
+# Sun Room
+  - platform: circadian_lighting
+    min_brightness: 35
+    name: Circadian Sun Room
+    lights_ct:
+      - light.hue_ambiance_lamp_6_3
 
 # Upstairs Hallway
   - platform: circadian_lighting
