@@ -17,11 +17,13 @@
 
 #WeatherAlerts sensors for important counties
   - platform: weatheralerts
-    sameid: !secret county_1
+    state: !secret state
+    zone: !secret county_1
 
 
   - platform: weatheralerts
-    sameid: !secret county_2
+    state: !secret state
+    zone: !secret county_2
 
 
 #WeatherAlert Count Sensor
