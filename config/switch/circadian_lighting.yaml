@@ -52,6 +52,12 @@
       - light.family_room_main
       - light.security_light
 
+# Guest Room
+  - platform: circadian_lighting
+    min_brightness: 40
+    name: Circadian Guest Room
+    lights_ct:
+      - light.hue_ambiance_lamp_6_4
 
 # Kitchen
   - platform: circadian_lighting
