@@ -1,0 +1,46 @@
+- alias: Garbage Collection Reminder
+  trigger:
+    - platform: time
+      at: "21:00:00"
+  condition:
+    condition: time
+    weekday:
+      - mon
+  action:
+    - service: media_player.volume_set
+      data:
+        entity_id:
+          - media_player.robert_s_ecobee4
+          - media_player.robert_s_fire_tv_stick
+          - media_player.living_room
+        volume_level: 0.99
+    - service: notify.alexa_media
+      data:
+        target: media_player.robert_s_ecobee4
+        message: "Good evening. Did you remember to take the trash out to the road? Don't forget to take the trash out to the road before you go to be this evening. Have a great night."
+        data:
+          type: tts
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.living_room
+        volume: 0.99
+        message: "Good evening. Did you remember to take the trash out to the road? Don't forget to take the trash out to the road before you go to be this evening. Have a great night."
+    - service: notify.alexa_media
+      data:
+        target: media_player.robert_s_fire_tv_stick
+        message: "Good evening. Did you remember to take the trash out to the road? Don't forget to take the trash out to the road before you go to be this evening. Have a great night."
+        data:
+          type: tts
+    - delay: '00:00:10'
+    - service: notify.alexa_media
+      data:
+        target: media_player.robert_s_ecobee4
+        message: "Good evening. Did you remember to take the trash out to the road? Don't forget to take the trash out to the road before you go to be this evening. Have a great night."
+        data:
+          type: tts
+    - service: notify.alexa_media
+      data:
+        target: media_player.robert_s_fire_tv_stick
+        message: "Good evening. Did you remember to take the trash out to the road? Don't forget to take the trash out to the road before you go to be this evening. Have a great night."
+        data:
+          type: tts
