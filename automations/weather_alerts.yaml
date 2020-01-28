@@ -62,6 +62,11 @@
         sonos_entity: media_player.living_room
         volume: 0.99
         message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.unnamed_room
+        volume: 0.99
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
     - service: notify.alexa_media
       data:
         target: media_player.robert_s_fire_tv_stick
@@ -81,3 +86,13 @@
         message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
         data:
           type: tts
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.living_room
+        volume: 0.99
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.unnamed_room
+        volume: 0.99
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."

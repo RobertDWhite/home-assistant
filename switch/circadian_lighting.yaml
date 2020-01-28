@@ -14,8 +14,8 @@
     min_brightness: 30
     name: Circadian Bathroom
     lights_ct:
-      - light.hue_ambiance_lamp_6
-      - light.hue_ambiance_lamp_6_2
+      - light.upstairs_bathroom_1
+      - light.upstairs_bathroom_2
 
 # Bedroom
   - platform: circadian_lighting
@@ -57,20 +57,20 @@
     min_brightness: 40
     name: Circadian Guest Room
     lights_ct:
-      - light.hue_ambiance_lamp_6_4
+      - light.guest_room
 
 # Kitchen
   - platform: circadian_lighting
     min_brightness: 50
     name: Circadian Kitchen
     lights_ct:
-      - light.hue_ambiance_downlight_1
+      - light.stairwell_light
       - light.above_sink
-      - light.hue_ambiance_downlight_2
-      - light.hue_ambiance_downlight_4
+      - light.fridge_light
+      - light.coffee_light
       - light.hue_lightstrip_plus_1
       - light.hue_lightstrip_plus_2
-      - light.hue_ambiance_downlight_3
+      - light.stove_ambiance_light
       - light.hue_color_lamp_2
       - light.stove_light
 
@@ -89,14 +89,14 @@
     min_brightness: 40
     name: Circadian Office
     lights_ct:
-      - light.office_main
+      - light.hue_ambiance_lamp_6_office
 
 # Sun Room
   - platform: circadian_lighting
     min_brightness: 35
     name: Circadian Sun Room
     lights_ct:
-      - light.hue_ambiance_lamp_6_3
+      - light.sun_room_light
 
 # Upstairs Hallway
   - platform: circadian_lighting

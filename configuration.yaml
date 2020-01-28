@@ -102,11 +102,11 @@ logger:
 # Enables a map showing the location of tracked devices
 map:
 
-mqtt:
-  broker: !secret host_syno
-mqtt_eventstream:
-  publish_topic: master/topic
-  subscribe_topic: slaves/#
+#mqtt:
+#  broker: !secret host_unraid
+#mqtt_eventstream:
+#  publish_topic: master/topic
+#  subscribe_topic: slaves/#
 
 # Track the sun
 sun:
@@ -150,12 +150,6 @@ calendar:
     token: !secret todoist_api
 
 camera:
-  - platform: synology
-    url: !secret host_syno5001
-    username: !secret synology_un
-    password: !secret synology_password
-    timeout: 15
-    verify_ssl: false
   - platform: nwsradar
     station: ILN
     style: Enhanced
@@ -228,7 +222,7 @@ input_boolean:
   dummy_switch:
 
 influxdb:
-  host: !secret host_syno_influx
+  host: !secret host_unraid_influx
   database: home_assistant
 
 ios:
@@ -280,7 +274,7 @@ pi_hole:
   verify_ssl: false
 
 plex:
-  host: !secret host_syno
+  host: !secret host_unraid
   port: 32400
   token: !secret plex_token
   ssl: false
@@ -308,8 +302,6 @@ weather:
    api_key: !secret darksky_password
    latitude: !secret latitude_sec
    longitude: !secret longitude_sec
-
-wink:
 
 wunderlist:
    client_id: !secret wunderlist_client
