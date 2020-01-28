@@ -1,22 +1,26 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# Example .gitignore file for your config dir.
+# A * ensures that everything will be ignored.
+*
 
-# Other files and folders
-.settings/
+# You can whitelist files/folders with !, these will not be ignored.
+!*.yaml
+!.gitignore
+!*.md
+!/automations
+!automations
+!/scripts
+!scripts
+!/sensor
+!sensor
+!/switch
+!switch
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# Ignore folders.
+.storage
+.cloud
+.google.token
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
-config/google_calendars.yaml
-config/google_calendars.yaml
-.DS_Store
-.DS_Store
+# Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
+ip_bans.yaml
+secrets.yaml
+known_devices.yaml
