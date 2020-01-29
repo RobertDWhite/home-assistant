@@ -129,7 +129,7 @@ zeroconf:
 
 anniversaries:
   sensors:
-  - name: Our Wedding
+  - name: Our Wedding Anniversary
     date: !secret anniversary_wedding
   - name: Grandpa - Memorial
     date: !secret memorial_gp_rew
@@ -137,7 +137,7 @@ anniversaries:
     date: !secret memorial_gp_jlh
   - name: Gerald - Memorial
     date: !secret memorial_gp_e_gs
-  - name: Robby's Work anniversary_wedding
+  - name: Robby's Work Anniversary
     date: !secret anniversary_work_rob
 
 binary_sensor:
@@ -154,9 +154,14 @@ camera:
     station: ILN
     style: Enhanced
     frames: 8
+  - platform: unifiprotect
   - platform: generic
     name: Grafana_temperature
     still_image_url: !secret grafana_temp_cam
+  - platform: generic
+    name: Doorbell
+    still_image_url: !secret still_doorbell
+    stream_source: !secret rtsp_doorbell
 
 circadian_lighting:
   interval: 600
@@ -290,6 +295,11 @@ speedtestdotnet:
     - ping
     - download
     - upload
+
+unifiprotect:
+  host: !secret host_udm
+  username: !secret unifi_local_un
+  password: !secret unifi_local_pw
 
 vacuum:
  - platform: roomba
