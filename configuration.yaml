@@ -102,11 +102,11 @@ logger:
 # Enables a map showing the location of tracked devices
 map:
 
-#mqtt:
-#  broker: !secret host_unraid
-#mqtt_eventstream:
-#  publish_topic: master/topic
-#  subscribe_topic: slaves/#
+mqtt:
+  broker: !secret host_unraid
+mqtt_eventstream:
+  publish_topic: master/topic
+  subscribe_topic: slaves/#
 
 # Track the sun
 sun:
