@@ -297,7 +297,7 @@ speedtestdotnet:
     - upload
 
 unifiprotect:
-  host: !secret host_udm
+  host: !secret unraid_unifi_proxy
   username: !secret unifi_local_un
   password: !secret unifi_local_pw
 
