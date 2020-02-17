@@ -46,3 +46,17 @@
     ignore_availability: true
     name: !secret cal_id_7
     track: true
+
+- cal_id: !secret cal_id_8
+  entities:
+  - device_id: monthly_bills
+    ignore_availability: true
+    name: Monthly Bills
+    track: true
+
+- cal_id: !secret cal_id_astro
+  entities:
+  - device_id: astro_calendar
+    ignore_availability: true
+    name: Astronomical Calendar
+    track: true
