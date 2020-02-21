@@ -25,7 +25,10 @@
     state: !secret state
     zone: !secret county_2
 
-
+#FAA Integration
+  - platform: faastatus
+    id: CVG
+  
 #WeatherAlert Count Sensor
   - platform: rest
     resource: https://api.weather.gov/alerts/active/count
