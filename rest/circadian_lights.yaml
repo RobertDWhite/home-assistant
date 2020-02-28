@@ -1,0 +1,393 @@
+### Rest commands to constantly update lights to the correct color and brightness.
+### Uses circadian_lighting custom_component installed via HACS
+### See circadian plugin info also in /switch
+### Get switch names from HA Dashboard > Configuration > Integration > Entities
+### Get URLs from HUE debug API, https://{{ip}}/debug/clip.html
+##### Get API Key from HA in /.storage/core.config_entities, searching for HUE. API key is the user.
+##### Use HUE debugger and separately run GET on /api/{{api_key}}/scenes AND /api/{{api_key}}/lights, which will give all the info needed for scene IDs and light IDs
+##### Final URL used below will look like this: http://{{ip}}/api/{{api_key}}/scenes/{{scene_id}}
+## Use this information to fill in appropriately
+
+# Basement
+rest_command:
+  circadian_lighting_basement:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_basement', 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+        {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+        {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "14": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "26": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_basement_url
+
+# Bathroom
+rest_command:
+  circadian_lighting_bathroom:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_bathroom', 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+        {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+        {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "10": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "25": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_bathroom_url
+    
+# Bedroom
+rest_command:
+  circadian_lighting_bedroom:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_bedroom', 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+        {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+        {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "24": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_bedroom_url
+
+# Dining Room
+rest_command:
+  circadian_lighting_dining_room:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_dining_room', 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+        {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+        {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "12": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "17": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "19": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_dining_room_url
+    
+# Entry Way
+rest_command:
+  circadian_lighting_entry_way:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_entry_way', 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+      {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+      {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "1": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "2": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "3": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_entry_way_url
+
+# Entry Way
+rest_command:
+  circadian_lighting_entry_way:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_entry_way', 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+        {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+        {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "12": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_entry_way_url
+
+# Family Room
+rest_command:
+  circadian_lighting_family_room:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_family_room', 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+        {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+        {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "6": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "7": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "8": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_family_room_url
+
+# Guest Room
+rest_command:
+  circadian_lighting_guest_room:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_guest_room', 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+        {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+        {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "27": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_guest_room_url
+
+# Kitchen
+rest_command:
+  circadian_lighting_kitchen:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_kitchen', 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+        {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+        {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "1": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "2": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "3": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "4": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "11": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "16": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "20": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "22": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_kitchen_url
+
+# Living Room
+rest_command:
+  circadian_lighting_living_room:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_living_room', 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+        {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+        {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "5": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "13": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "15": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_living_room_url
+
+# Office
+rest_command:
+  circadian_lighting_office:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_office', 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+        {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+        {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "23": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_office_url
+
+# Sun Room
+rest_command:
+  circadian_lighting_sun_room:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_sun_room', 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+        {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+        {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "21": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_sun_room_url
+    
+# Upstairs Hallway
+rest_command:
+  circadian_lighting_upstairs_hallway:
+    content_type: 'application/json'
+    method: put
+    payload: >
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_upstairs_hall, 'brightness') %}
+      {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
+      {% if brightness is not none and colortemp is not none %}
+        {% set bri = ((((brightness|float) * 254) / 100)|int) %}
+        {% set ct = ((1000000 / (colortemp|float))|int) %}
+        {
+          "lightstates": {
+            "18": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }
+          }
+        }
+      {% endif %}
+    url: !secret rest_command_circadian_lighting_upstairs_hallway_url
