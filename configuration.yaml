@@ -94,7 +94,7 @@ http:
 logbook:
 
 logger:
-  default: error
+  default: debug
   logs:
     custom_components.circadian_lighting: debug
     custom_components.circadian_lighting.sensor: debug
@@ -221,9 +221,13 @@ homekit:
 hue:
   bridges:
     - host: !secret host_hue
-      allow_unreachable: false
+      allow_unreachable: true
       allow_hue_groups: true
-
+      
+#icloud:
+#  - username: !secret icloud_un
+#    password: !secret icloud_password
+    
 input_boolean:
   dummy_switch:
 
@@ -297,10 +301,11 @@ speedtestdotnet:
     - download
     - upload
 
-unifiprotect:
-  host: !secret unraid_unifi_proxy
-  username: !secret unifi_local_un
-  password: !secret unifi_local_pw
+### Broken until official UDMP protect support
+#unifiprotect:
+#  host: !secret unraid_unifi_proxy
+#  username: !secret unifi_local_un
+#  password: !secret unifi_local_pw
 
 vacuum:
  - platform: roomba
@@ -313,7 +318,3 @@ weather:
    api_key: !secret darksky_password
    latitude: !secret latitude_sec
    longitude: !secret longitude_sec
-
-wunderlist:
-   client_id: !secret wunderlist_client
-   access_token: !secret wunderlist_token
