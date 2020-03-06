@@ -67,6 +67,18 @@ frontend:
 # Enable ES6 features
   javascript_version: latest
 
+gdacs:
+  categories:
+    - Drought
+    - Earthquake
+    - Flood
+    - Tropical Cyclone
+    - Tsunami
+    - Volcano
+  radius: 1000
+  latitude: !secret latitude_sec
+  longitude: !secret longitude_sec
+  
 geo_location:
   - platform: usgs_earthquakes_feed
     entity_namespace: 'usgs_earthquakes_service_feed'
