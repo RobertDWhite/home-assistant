@@ -22,7 +22,7 @@
     min_brightness: 30
     name: Circadian Bedroom
     lights_ct:
-      - light.bedroom_light
+      - light.bedroom
 
 # Dining Room
   - platform: circadian_lighting
@@ -38,7 +38,7 @@
     min_brightness: 40
     name: Circadian Entry Way
     lights_ct:
-      - light.entry_way_light
+      - light.entry_way
 
 
 # Family Room
@@ -55,7 +55,7 @@
     min_brightness: 40
     name: Circadian Guest Room
     lights_ct:
-      - light.guest_room_light
+      - light.guest
 
 # Kitchen
   - platform: circadian_lighting
@@ -65,18 +65,19 @@
       - light.kitchen_coffee
       - light.kitchen_dishwasher
       - light.kitchen_fridge
-      - light.kitchen_lightstrip_east
-      - light.kitchen_lightstrip_west
+      - light.kitchen_strip_east
+      - light.kitchen_strip_west
       - light.kitchen_sink
       - light.kitchen_stairs
-      - light.kitchen_stove_light
+      - light.kitchen_stove
+      - light.kitchen_stove_down
 
 # Living Room
   - platform: circadian_lighting
     min_brightness: 60
     name: Circadian Living Room
     lights_ct:
-      - light.living_room_candle_lamp
+      - light.living_room_lamp_candle
       - light.living_room_lamp_1
       - light.living_room_lamp_2
 
@@ -85,14 +86,14 @@
     min_brightness: 40
     name: Circadian Office
     lights_ct:
-      - light.office_light
-
+      - light.office
+      
 # Sun Room
   - platform: circadian_lighting
     min_brightness: 35
     name: Circadian Sun Room
     lights_ct:
-      - light.sunroom_light
+      - light.sun_room
 
 # Upstairs Hallway
   - platform: circadian_lighting
