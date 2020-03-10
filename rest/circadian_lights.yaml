@@ -20,12 +20,12 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "14": {
+            "1": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "26": {
+            "9": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
@@ -47,12 +47,12 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "10": {
+            "6": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "25": {
+            "22": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
@@ -74,7 +74,7 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "24": {
+            "18": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
@@ -96,17 +96,17 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "12": {
+            "10": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "17": {
+            "11": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "19": {
+            "20": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
@@ -128,7 +128,7 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "12": {
+            "25": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
@@ -150,17 +150,17 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "6": {
+            "13": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "7": {
+            "16": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "8": {
+            "19": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
@@ -204,11 +204,6 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "1": {
-              "on": true,
-              "bri": {{bri}},
-              "ct": {{ct}}
-            },
             "2": {
               "on": true,
               "bri": {{bri}},
@@ -219,27 +214,32 @@
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "4": {
+            "7": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "11": {
+            "14": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "16": {
+            "15": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "20": {
+            "21": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "22": {
+            "23": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            },
+            "26": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
@@ -261,17 +261,17 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "5": {
+            "4": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "13": {
+            "8": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
-            "15": {
+            "12": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
@@ -293,7 +293,7 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "23": {
+            "17": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
@@ -315,7 +315,7 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "21": {
+            "5": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
@@ -337,7 +337,7 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "18": {
+            "24": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
