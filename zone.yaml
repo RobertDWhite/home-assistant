@@ -88,7 +88,12 @@
    longitude: !secret longitude_parents_r_other
    radius: 50
 
-
+ - name: !secret location_sister_r
+   latitude: !secret latitude_sister_r
+   longitude: !secret longitude_sister_r
+   radius: 20
+   icon: mdi:home-circle-outline
+   
  - name: !secret location_parents_rental
    latitude: !secret latitude_parents_rental
    longitude: !secret longitude_parents_rental

@@ -8,8 +8,9 @@
 ##### Final URL used below will look like this: http://{{ip}}/api/{{api_key}}/scenes/{{scene_id}}
 ## Use this information to fill in appropriately
 
+
 # Basement
-  circadian_lighting_basement:
+  circadian_lighting_basement_hue_scene:
     content_type: 'application/json'
     method: put
     payload: >
@@ -36,7 +37,7 @@
     url: !secret rest_command_circadian_lighting_basement_url
 
 # Bathroom
-  circadian_lighting_bathroom:
+  circadian_lighting_bathroom_hue_scene:
     content_type: 'application/json'
     method: put
     payload: >
@@ -63,8 +64,9 @@
     url: !secret rest_command_circadian_lighting_bathroom_url
     
 # Bedroom
-  circadian_lighting_bedroom:
+  circadian_lighting_bedroom_hue_scene:
     content_type: 'application/json'
+    url: !secret rest_command_circadian_lighting_bedroom_url
     method: put
     payload: >
       {% set brightness = state_attr('switch.circadian_lighting_circadian_bedroom', 'brightness') %}
@@ -82,10 +84,9 @@
           }
         }
       {% endif %}
-    url: !secret rest_command_circadian_lighting_bedroom_url
-
+      
 # Dining Room
-  circadian_lighting_dining_room:
+  circadian_lighting_dining_room_hue_scene:
     content_type: 'application/json'
     method: put
     payload: >
@@ -117,7 +118,7 @@
     url: !secret rest_command_circadian_lighting_dining_room_url
 
 # Entry Way
-  circadian_lighting_entry_way:
+  circadian_lighting_entry_way_hue_scene:
     content_type: 'application/json'
     method: put
     payload: >
@@ -139,7 +140,7 @@
     url: !secret rest_command_circadian_lighting_entry_way_url
 
 # Family Room
-  circadian_lighting_family_room:
+  circadian_lighting_family_room_hue_scene:
     content_type: 'application/json'
     method: put
     payload: >
@@ -171,7 +172,7 @@
     url: !secret rest_command_circadian_lighting_family_room_url
 
 # Guest Room
-  circadian_lighting_guest_room:
+  circadian_lighting_guest_room_hue_scene:
     content_type: 'application/json'
     method: put
     payload: >
@@ -193,7 +194,7 @@
     url: !secret rest_command_circadian_lighting_guest_room_url
 
 # Kitchen
-  circadian_lighting_kitchen:
+  circadian_lighting_kitchen_hue_scene:
     content_type: 'application/json'
     method: put
     payload: >
@@ -204,12 +205,7 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "2": {
-              "on": true,
-              "bri": {{bri}},
-              "ct": {{ct}}
-            },
-            "3": {
+            "28": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
@@ -250,7 +246,7 @@
     url: !secret rest_command_circadian_lighting_kitchen_url
 
 # Living Room
-  circadian_lighting_living_room:
+  circadian_lighting_living_room_hue_scene:
     content_type: 'application/json'
     method: put
     payload: >
@@ -282,7 +278,7 @@
     url: !secret rest_command_circadian_lighting_living_room_url
 
 # Office
-  circadian_lighting_office:
+  circadian_lighting_office_hue_scene:
     content_type: 'application/json'
     method: put
     payload: >
@@ -304,7 +300,7 @@
     url: !secret rest_command_circadian_lighting_office_url
 
 # Sun Room
-  circadian_lighting_sun_room:
+  circadian_lighting_sun_room_hue_scene:
     content_type: 'application/json'
     method: put
     payload: >
@@ -326,7 +322,7 @@
     url: !secret rest_command_circadian_lighting_sun_room_url
     
 # Upstairs Hallway
-  circadian_lighting_upstairs_hallway:
+  circadian_lighting_upstairs_hallway_hue_scene:
     content_type: 'application/json'
     method: put
     payload: >
