@@ -18,12 +18,14 @@
 #WeatherAlerts sensors for important counties
   - platform: weatheralerts
     state: !secret state
-    zone: !secret county_1
+    zone: !secret county_zone_1
+    county: !secret county_1
 
 
   - platform: weatheralerts
     state: !secret state
-    zone: !secret county_2
+    zone: !secret county_zone_2
+    county: !secret county_2
 
 #FAA Integration
   - platform: faastatus
