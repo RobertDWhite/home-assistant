@@ -456,18 +456,18 @@ logbook:
 logger:
   default: info
   logs:
-    custom_components.circadian_lighting: debug
-    custom_components.circadian_lighting.sensor: debug
-    custom_components.circadian_lighting.switch: debug
+    custom_components.circadian_lighting: info
+    custom_components.circadian_lighting.sensor: info
+    custom_components.circadian_lighting.switch: info
 
 # Enables a map showing the location of tracked devices
 map:
 
-mqtt:
-  broker: !secret host_unraid
-mqtt_eventstream:
-  publish_topic: master/topic
-  subscribe_topic: slaves/#
+#mqtt:
+#  broker: !secret host_unraid
+#mqtt_eventstream:
+#  publish_topic: master/topic
+#  subscribe_topic: slaves/#
 
 # Track the sun
 sun:
@@ -516,16 +516,16 @@ camera:
     style: Enhanced
     frames: 8
   - platform: unifiprotect
-  - platform: generic
-    name: Grafana_temperature
-    still_image_url: !secret grafana_temp_cam
+#  - platform: generic
+#    name: Grafana_temperature
+#    still_image_url: !secret grafana_temp_cam
   - platform: generic
     name: Doorbell
     still_image_url: !secret still_doorbell
     stream_source: !secret rtsp_doorbell
 
 circadian_lighting:
-  interval: 601
+  interval: 600
   max_colortemp: 10000
   min_colortemp: 2000
 
@@ -553,8 +553,8 @@ fastdotcom:
   scan_interval:
       minutes: 30
 
-freedns:
-  access_token: !secret freedns_token
+#freedns:
+#  access_token: !secret freedns_token
 
 garbage_collection:
   sensors:
@@ -581,7 +581,7 @@ homekit:
 hue:
   bridges:
     - host: !secret host_hue
-      allow_unreachable: true
+      allow_unreachable: false
       allow_hue_groups: true
       
 #icloud:
@@ -597,10 +597,10 @@ influxdb:
 
 ios:
 
-light:
-  - platform: decora_wifi
-    username: !secret decora_un
-    password: !secret decora_password
+#light:
+#  - platform: decora_wifi
+#    username: !secret decora_un
+#    password: !secret decora_password
 
 lutron_caseta:
     host: !secret host_lutron
@@ -608,11 +608,11 @@ lutron_caseta:
     certfile: caseta.crt
     ca_certs: caseta-bridge.crt
 
-media_player:
+#media_player:
   # Use the Python ADB implementation without authentication
-  - platform: androidtv
-    name: Firestick
-    host: !secret host_firetv
+#  - platform: androidtv
+#    name: Firestick
+#    host: !secret host_firetv
 
 openuv:
   api_key: !secret openuv_api
@@ -632,16 +632,17 @@ openuv:
       - safe_exposure_time_type_5
       - safe_exposure_time_type_6
 
-owntracks:
-  max_gps_accuracy: 200
-  waypoints: true
-  mqtt_topic: "owntracks/#"
-  events_only: true
+#owntracks:
+ # max_gps_accuracy: 200
+ # waypoints: true
+ # mqtt_topic: "owntracks/#"
+ # events_only: true
 
 pi_hole:
-  host: !secret host_pi_hole
-  ssl: false
-  verify_ssl: false
+  - host: !secret host_pi_hole
+    name: 'Primary Pi-Hole'
+  - host: !secret host_pi_hole_2
+    name: 'Secondary Pi-Hole'
 
 plex:
   host: !secret host_unraid
@@ -663,7 +664,13 @@ speedtestdotnet:
     - ping
     - download
     - upload
-
+    
+unifiprotect:
+  host: !secret host_udm
+  username: !secret unifi_un_ha
+  password: !secret unifi_pw_ha
+  port: !secret unifi_port
+  
 vacuum:
  - platform: roomba
    host: !secret host_roomba
