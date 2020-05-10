@@ -50,3 +50,9 @@
     origin: !secret location_home
     destination: !secret location_work3_add
     region: 'US'
+
+  - platform: waze_travel_time
+    name: "Home to work - e - mls"
+    origin: !secret location_home
+    destination: !secret location_work2_add
+    region: 'US'
