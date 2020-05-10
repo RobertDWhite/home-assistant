@@ -10,6 +10,8 @@
       - !secret discord_un_5
       - !secret discord_un_6
       - !secret discord_un_7
+      - !secret discord_un_8
+      - !secret discord_un_9
 
 
 #Sensor for Steam - track friend status
