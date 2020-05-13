@@ -67,11 +67,8 @@
       - light.kitchen_fridge
       - light.kitchen_strip_east
       - light.kitchen_strip_west
-      - light.kitchen_dishwasher
       - light.kitchen_stairs
       - light.kitchen_sink
-      - light.hue_ambiance_downlight_1
-      - light.hue_color_lamp_1
       - light.stove_light
 
 # Living Room
