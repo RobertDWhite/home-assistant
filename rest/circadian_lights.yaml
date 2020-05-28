@@ -9,9 +9,10 @@
 ## Use this information to fill in appropriately
 
 
-# Basement
+rest_command:
+  #Basement
   circadian_lighting_basement_hue_scene:
-    content_type: 'application/json'
+    content_type:  'application/json'
     method: put
     payload: >
       {% set brightness = state_attr('switch.circadian_lighting_circadian_basement', 'brightness') %}
@@ -26,6 +27,7 @@
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "9": {
               "on": true,
               "bri": {{bri}},
@@ -35,10 +37,10 @@
         }
       {% endif %}
     url: !secret rest_command_circadian_lighting_basement_url
-
-# Bathroom
+    
+  #Bathroom
   circadian_lighting_bathroom_hue_scene:
-    content_type: 'application/json'
+    content_type:  'application/json'
     method: put
     payload: >
       {% set brightness = state_attr('switch.circadian_lighting_circadian_bathroom', 'brightness') %}
@@ -53,6 +55,7 @@
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "22": {
               "on": true,
               "bri": {{bri}},
@@ -63,10 +66,9 @@
       {% endif %}
     url: !secret rest_command_circadian_lighting_bathroom_url
     
-# Bedroom
+  #Bedroom
   circadian_lighting_bedroom_hue_scene:
-    content_type: 'application/json'
-    url: !secret rest_command_circadian_lighting_bedroom_url
+    content_type:  'application/json'
     method: put
     payload: >
       {% set brightness = state_attr('switch.circadian_lighting_circadian_bedroom', 'brightness') %}
@@ -84,10 +86,11 @@
           }
         }
       {% endif %}
-      
-# Dining Room
+    url: !secret rest_command_circadian_lighting_bedroom_url
+    
+  #Dining Room
   circadian_lighting_dining_room_hue_scene:
-    content_type: 'application/json'
+    content_type:  'application/json'
     method: put
     payload: >
       {% set brightness = state_attr('switch.circadian_lighting_circadian_dining_room', 'brightness') %}
@@ -102,11 +105,13 @@
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "11": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "20": {
               "on": true,
               "bri": {{bri}},
@@ -116,10 +121,10 @@
         }
       {% endif %}
     url: !secret rest_command_circadian_lighting_dining_room_url
-
-# Entry Way
+    
+  #Entry Way
   circadian_lighting_entry_way_hue_scene:
-    content_type: 'application/json'
+    content_type:  'application/json'
     method: put
     payload: >
       {% set brightness = state_attr('switch.circadian_lighting_circadian_entry_way', 'brightness') %}
@@ -138,10 +143,10 @@
         }
       {% endif %}
     url: !secret rest_command_circadian_lighting_entry_way_url
-
-# Family Room
+    
+  #Family Room
   circadian_lighting_family_room_hue_scene:
-    content_type: 'application/json'
+    content_type:  'application/json'
     method: put
     payload: >
       {% set brightness = state_attr('switch.circadian_lighting_circadian_family_room', 'brightness') %}
@@ -156,11 +161,13 @@
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "16": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "19": {
               "on": true,
               "bri": {{bri}},
@@ -170,10 +177,10 @@
         }
       {% endif %}
     url: !secret rest_command_circadian_lighting_family_room_url
-
-# Guest Room
+    
+  #Guest Room
   circadian_lighting_guest_room_hue_scene:
-    content_type: 'application/json'
+    content_type:  'application/json'
     method: put
     payload: >
       {% set brightness = state_attr('switch.circadian_lighting_circadian_guest_room', 'brightness') %}
@@ -192,10 +199,10 @@
         }
       {% endif %}
     url: !secret rest_command_circadian_lighting_guest_room_url
-
-# Kitchen
+    
+  #Kitchen
   circadian_lighting_kitchen_hue_scene:
-    content_type: 'application/json'
+    content_type:  'application/json'
     method: put
     payload: >
       {% set brightness = state_attr('switch.circadian_lighting_circadian_kitchen', 'brightness') %}
@@ -205,49 +212,55 @@
         {% set ct = ((1000000 / (colortemp|float))|int) %}
         {
           "lightstates": {
-            "28": {
-              "on": true,
-              "bri": {{bri}},
-              "ct": {{ct}}
-            },
             "7": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "14": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "15": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "21": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "23": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "26": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
-            }
+            },
+            
+            "28": {
+              "on": true,
+              "bri": {{bri}},
+              "ct": {{ct}}
+            }            
           }
         }
       {% endif %}
     url: !secret rest_command_circadian_lighting_kitchen_url
-
-# Living Room
+    
+  #Living Room
   circadian_lighting_living_room_hue_scene:
-    content_type: 'application/json'
+    content_type:  'application/json'
     method: put
     payload: >
       {% set brightness = state_attr('switch.circadian_lighting_circadian_living_room', 'brightness') %}
@@ -262,11 +275,13 @@
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "8": {
               "on": true,
               "bri": {{bri}},
               "ct": {{ct}}
             },
+
             "12": {
               "on": true,
               "bri": {{bri}},
@@ -276,10 +291,10 @@
         }
       {% endif %}
     url: !secret rest_command_circadian_lighting_living_room_url
-
-# Office
+    
+  #Office
   circadian_lighting_office_hue_scene:
-    content_type: 'application/json'
+    content_type:  'application/json'
     method: put
     payload: >
       {% set brightness = state_attr('switch.circadian_lighting_circadian_office', 'brightness') %}
@@ -298,10 +313,10 @@
         }
       {% endif %}
     url: !secret rest_command_circadian_lighting_office_url
-
-# Sun Room
+    
+  #Sun Room
   circadian_lighting_sun_room_hue_scene:
-    content_type: 'application/json'
+    content_type:  'application/json'
     method: put
     payload: >
       {% set brightness = state_attr('switch.circadian_lighting_circadian_sun_room', 'brightness') %}
@@ -321,12 +336,12 @@
       {% endif %}
     url: !secret rest_command_circadian_lighting_sun_room_url
     
-# Upstairs Hallway
+  #Upstairs Hallway
   circadian_lighting_upstairs_hallway_hue_scene:
-    content_type: 'application/json'
+    content_type:  'application/json'
     method: put
     payload: >
-      {% set brightness = state_attr('switch.circadian_lighting_circadian_upstairs_hall, 'brightness') %}
+      {% set brightness = state_attr('switch.circadian_lighting_circadian_upstairs_hall', 'brightness') %}
       {% set colortemp = state_attr('sensor.circadian_values', 'colortemp') %}
       {% if brightness is not none and colortemp is not none %}
         {% set bri = ((((brightness|float) * 254) / 100)|int) %}
