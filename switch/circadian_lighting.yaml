@@ -77,8 +77,8 @@
     name: Circadian Living Room
     lights_ct:
       - light.living_room_lamp_candle
-      - light.living_room_lamp_1
-      - light.living_room_lamp_2
+      - light.living_room_lamp_north
+      - light.living_room_lamp_west
 
 # Office
   - platform: circadian_lighting
