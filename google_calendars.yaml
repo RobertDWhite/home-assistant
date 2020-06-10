@@ -1,15 +1,9 @@
-- cal_id: !secret cal_id_1
-  entities:
-  - device_id: small_group_reading_plan
-    ignore_availability: true
-    name: Small Group Reading Plan
-    track: true
 
-- cal_id: !secret cal_id_2
+- cal_id: !secret cal_id_8
   entities:
-  - device_id: holidays_in_united_states
+  - device_id: monthly_bills
     ignore_availability: true
-    name: Holidays in United States
+    name: Monthly Bills
     track: true
 
 - cal_id: !secret cal_id_3
@@ -19,44 +13,30 @@
     name: !secret cal_id_3
     track: true
 
-- cal_id: !secret cal_id_4
+- cal_id: !secret cal_id_astro
   entities:
-  - device_id: astronomical_events
+  - device_id: https_in_the_sky_org_newscalyear_ical_php_year_2020_maxdiff_7
     ignore_availability: true
-    name: !secret cal_id_4
+    name: https://in-the-sky.org/newscalyear_ical.php?year=2020&maxdiff=7
     track: true
 
-- cal_id: !secret cal_id_5
+- cal_id: !secret cal_smallgroup
   entities:
-  - device_id: todoist
+  - device_id: small_group
     ignore_availability: true
-    name: Todoist
+    name: Small Group
     track: true
 
-- cal_id: !secret cal_id_6
+- cal_id: !secret cal_id_2
   entities:
-  - device_id: CDNA
+  - device_id: holidays_in_united_states
     ignore_availability: true
-    name: !secret cal_id_6
+    name: Holidays in United States
     track: true
 
 - cal_id: !secret cal_id_7
   entities:
-  - device_id: robert_cdna
+  - device_id: cdna_cal
     ignore_availability: true
-    name: !secret cal_id_7
-    track: true
-
-- cal_id: !secret cal_id_8
-  entities:
-  - device_id: monthly_bills
-    ignore_availability: true
-    name: Monthly Bills
-    track: true
-
-- cal_id: !secret cal_id_astro
-  entities:
-  - device_id: astro_calendar
-    ignore_availability: true
-    name: Astronomical Calendar
+    name: CDNA
     track: true
