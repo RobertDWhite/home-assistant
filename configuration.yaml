@@ -171,10 +171,7 @@ camera:
 #  - platform: generic
 #    name: Grafana_temperature
 #    still_image_url: !secret grafana_temp_cam
-  - platform: generic
-    name: Doorbell
-    still_image_url: !secret still_doorbell
-    stream_source: !secret rtsp_doorbell
+
 
 circadian_lighting:
   interval: 600
