@@ -158,20 +158,12 @@ binary_sensor:
     show_on_map: true
   - platform: aurora
 
-calendar:
-  - platform: todoist
-    token: !secret todoist_api
-
 camera:
   - platform: nwsradar
     station: ILN
     style: Enhanced
     frames: 8
   - platform: unifiprotect
-#  - platform: generic
-#    name: Grafana_temperature
-#    still_image_url: !secret grafana_temp_cam
-
 
 circadian_lighting:
   interval: 600
@@ -202,9 +194,6 @@ fastdotcom:
   scan_interval:
       minutes: 30
 
-#freedns:
-#  access_token: !secret freedns_token
-
 garbage_collection:
   sensors:
   - name: "waste"
@@ -229,13 +218,13 @@ homekit:
 
 hue:
   bridges:
-    - host: 10.100.1.10
+    - host: !secret host_hue
       allow_unreachable: false
       allow_hue_groups: true
       
-#icloud:
-#  - username: !secret icloud_un
-#    password: !secret icloud_password
+icloud:
+  - username: !secret icloud_un
+    password: !secret icloud_password
     
 input_boolean:
   dummy_switch:
@@ -246,22 +235,11 @@ influxdb:
 
 ios:
 
-#light:
-#  - platform: decora_wifi
-#    username: !secret decora_un
-#    password: !secret decora_password
-
 lutron_caseta:
     host: !secret host_lutron
     keyfile: caseta.key
     certfile: caseta.crt
     ca_certs: caseta-bridge.crt
-
-#media_player:
-  # Use the Python ADB implementation without authentication
-#  - platform: androidtv
-#    name: Firestick
-#    host: !secret host_firetv
 
 openuv:
   api_key: !secret openuv_api
