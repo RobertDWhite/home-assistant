@@ -65,6 +65,7 @@
       - light.kitchen_coffee
       - light.kitchen_dishwasher
       - light.kitchen_fridge
+      - light.kitchen_oven_range
       - light.kitchen_strip_east
       - light.kitchen_strip_west
       - light.kitchen_stairs
