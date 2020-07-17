@@ -187,8 +187,9 @@ device_tracker:
       - !secret icloud_10
     tracking_method: fmf
 
-ecobee:
-  api_key: !secret ecobee_api
+#ecobee:
+#  api_key: !secret ecobee_api
+# config currently in GUI
 
 fastdotcom:
   scan_interval:
