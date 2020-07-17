@@ -19,6 +19,11 @@
    radius: 20
    icon: mdi:home
 
+ - name: !secret location_fam_2
+   latitude: !secret latitude_fam_2
+   longitude: !secret longitude_fam_2
+   radius: 20
+   icon: mdi:home
 
  - name: !secret location_friends_1
    latitude: !secret latitude_friends_1
