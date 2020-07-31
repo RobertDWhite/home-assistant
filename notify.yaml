@@ -9,8 +9,8 @@
     name: discord
 
 # Adding support for notifications to the Ecobee
-  - name: ecobee_main
-    platform: ecobee
+#  - name: ecobee_main
+#    platform: ecobee
 
 # Add support for Chrome/Firefox notifications
   - platform: html5
