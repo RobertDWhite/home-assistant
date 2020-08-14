@@ -236,6 +236,12 @@ influxdb:
 
 ios:
 
+lifx:
+  light:
+    - server: !secret host_lifx_1
+      port: 56700
+      broadcast: !secret host_lifx_1
+      
 lutron_caseta:
     host: !secret host_lutron
     keyfile: caseta.key
