@@ -2,14 +2,14 @@
 
 
 # Sensor to monitor the status of deluge
-  - platform: deluge
-    host: !secret host_unraid
-    username: !secret deluge_un
-    password: !secret deluge_password
-    monitored_variables:
-      - 'current_status'
-      - 'download_speed'
-      - 'upload_speed'
+#  - platform: deluge
+#    host: !secret host_unraid
+#    username: !secret deluge_un
+#    password: !secret deluge_password
+#    monitored_variables:
+#      - 'current_status'
+#      - 'download_speed'
+#      - 'upload_speed'
 
 
 # Sensor to monitor my GutHub repo
