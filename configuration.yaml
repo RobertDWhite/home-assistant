@@ -99,8 +99,8 @@ history:
 
 http:
   base_url: !secret base_url
-  ssl_certificate: !secret ssl_cert
-  ssl_key: !secret ssl_key
+#  ssl_certificate: !secret ssl_cert
+ # ssl_key: !secret ssl_key
 
 # View all events in a logbook
 logbook:
@@ -170,22 +170,22 @@ circadian_lighting:
   max_colortemp: 10000
   min_colortemp: 2000
 
-device_tracker:
-  - platform: icloud3
-    username: !secret icloud_un
-    password: !secret icloud_password
-    track_devices:
-      - !secret icloud_1
-      - !secret icloud_2
-      - !secret icloud_3
-      - !secret icloud_4
-      - !secret icloud_5
-      - !secret icloud_6
-      - !secret icloud_7
-      - !secret icloud_8
-      - !secret icloud_9
-      - !secret icloud_10
-    tracking_method: fmf
+#device_tracker:
+#  - platform: icloud3
+#    username: !secret icloud_un
+#    password: !secret icloud_password
+#    track_devices:
+#      - !secret icloud_1
+#      - !secret icloud_2
+#      - !secret icloud_3
+#      - !secret icloud_4
+#      - !secret icloud_5
+#      - !secret icloud_6
+#      - !secret icloud_7
+#      - !secret icloud_8
+#      - !secret icloud_9
+#      - !secret icloud_10
+#    tracking_method: fmf
 
 #ecobee:
 #  api_key: !secret ecobee_api
@@ -223,24 +223,24 @@ hue:
       allow_unreachable: false
       allow_hue_groups: true
       
-icloud:
-  - username: !secret icloud_un
-    password: !secret icloud_password
+#icloud:
+#  - username: !secret icloud_un
+#    password: !secret icloud_password
     
 input_boolean:
   dummy_switch:
 
-influxdb:
-  host: !secret host_unraid_influx
-  database: home_assistant
+#influxdb:
+ # host: !secret host_unraid_influx
+ # database: home_assistant
 
 ios:
 
-lifx:
-  light:
-    - server: !secret host_lifx_1
-      port: 56700
-      broadcast: !secret host_lifx_1
+#lifx:
+#  light:
+#    - server: !secret host_lifx_1
+#      port: 56700
+#      broadcast: !secret host_lifx_1
       
 lutron_caseta:
     host: !secret host_lutron
