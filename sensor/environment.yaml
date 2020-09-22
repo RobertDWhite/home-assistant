@@ -6,8 +6,8 @@
 
 
 # Sensor for CO2 tracking in my area
-  - platform: co2signal
-    token: !secret co2_api
+#  - platform: co2signal
+#    token: !secret co2_api
 
 
 # Sensor to report reported Flu symptoms and cases in my area....
