@@ -11,7 +11,7 @@
 
 # Bathroom
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 40
     name: Circadian Bathroom
     lights_ct:
       - light.upstairs_bathroom_1
@@ -19,19 +19,20 @@
 
 # Bedroom
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 40
     name: Circadian Bedroom
     lights_ct:
       - light.bedroom
 
 # Dining Room
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 60
     name: Circadian Dining Room
     lights_ct:
       - light.dining_room_1
       - light.dining_room_2
       - light.dining_room_3
+      - light.living_room_lamp_north
 
 # Entry Way
   - platform: circadian_lighting
@@ -74,12 +75,13 @@
 
 # Living Room
   - platform: circadian_lighting
-    min_brightness: 60
+    min_brightness: 50
     name: Circadian Living Room
     lights_ct:
       - light.living_room_lamp_candle
-      - light.living_room_lamp_north
       - light.living_room_lamp_west
+      - light.hue_ambiance_lamp_1
+      - light.hue_color_lamp_1
 
 # Office
   - platform: circadian_lighting
