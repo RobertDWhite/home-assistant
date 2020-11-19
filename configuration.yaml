@@ -311,8 +311,8 @@ vacuum:
    username: !secret roomba_blid
    password: !secret roomba_password
 
-weather:
- - platform: darksky
-   api_key: !secret darksky_password
-   latitude: !secret latitude_sec
-   longitude: !secret longitude_sec
+#weather:
+# - platform: darksky
+#   api_key: !secret darksky_password
+#   latitude: !secret latitude_sec
+#   longitude: !secret longitude_sec
