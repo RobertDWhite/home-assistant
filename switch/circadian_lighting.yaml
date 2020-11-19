@@ -16,6 +16,13 @@
     lights_ct:
       - light.upstairs_bathroom_1
       - light.upstairs_bathroom_2
+      
+# Bathroom Vanity
+  - platform: circadian_lighting
+    min_brightness: 18
+    name: Circadian Bathroom Vanity
+    lights_brightness:
+      - light.upstairs_bathroom_vanity_lights
 
 # Bedroom
   - platform: circadian_lighting
@@ -26,13 +33,26 @@
 
 # Dining Room
   - platform: circadian_lighting
-    min_brightness: 60
+    min_brightness: 50
     name: Circadian Dining Room
     lights_ct:
-      - light.dining_room_1
-      - light.dining_room_2
-      - light.dining_room_3
-      - light.living_room_lamp_north
+      - light.living_room_lamp_candle
+      - light.living_room_lamp_west
+
+# Dining Room Chandelier
+  - platform: circadian_lighting
+    min_brightness: 50
+    name: Circadian Dining Room Chandelier
+    lights_brightness:
+      - light.dining_room_chandelier
+      
+# Dining Room Hutch
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Dining Room Hutch
+    lights_ct:
+      - light.hue_ambiance_lamp_1
+      - light.hue_color_lamp_1
 
 # Entry Way
   - platform: circadian_lighting
@@ -40,7 +60,6 @@
     name: Circadian Entry Way
     lights_ct:
       - light.entry_way
-
 
 # Family Room
   - platform: circadian_lighting
@@ -66,23 +85,30 @@
       - light.kitchen_coffee
       - light.kitchen_dishwasher
       - light.kitchen_fridge
-      - light.kitchen_oven_range
-      - light.kitchen_strip_east
-      - light.kitchen_strip_west
       - light.kitchen_stairs
       - light.kitchen_sink
+      
+# Kitchen Color
+  - platform: circadian_lighting
+    min_brightness: 50
+    name: Circadian Kitchen Color
+    lights_ct:
+      - light.kitchen_strip_east
+      - light.kitchen_strip_west
       - light.stove_light
+      - light.kitchen_oven_range
+
 
 # Living Room
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 60
     name: Circadian Living Room
     lights_ct:
-      - light.living_room_lamp_candle
-      - light.living_room_lamp_west
-      - light.hue_ambiance_lamp_1
-      - light.hue_color_lamp_1
-
+      - light.dining_room_1
+      - light.dining_room_2
+      - light.dining_room_3
+      - light.living_room_lamp_north
+      
 # Office
   - platform: circadian_lighting
     min_brightness: 40
