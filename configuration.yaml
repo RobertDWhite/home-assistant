@@ -140,30 +140,30 @@ zeroconf:
 
 ###Anniversaries/Countdowns/Tracking###
 
-anniversaries:
-  sensors:
-  - name: Our Wedding Anniversary
-    date: !secret anniversary_wedding
-  - name: Grandpa - Memorial
-    date: !secret memorial_gp_rew
-  - name: Papaw - Memorial
-    date: !secret memorial_gp_jlh
-  - name: Gerald - Memorial
-    date: !secret memorial_gp_e_gs
-  - name: Robby's Work Anniversary
-    date: !secret anniversary_work_rob
+#anniversaries:
+#  sensors:
+#  - name: Our Wedding Anniversary
+#    date: !secret anniversary_wedding
+#  - name: Grandpa - Memorial
+##    date: !secret memorial_gp_rew
+ # - name: Papaw - Memorial
+ #   date: !secret memorial_gp_jlh
+ # - name: Gerald - Memorial
+ #   date: !secret memorial_gp_e_gs
+ # - name: Robby's Work Anniversary
+  #  date: !secret anniversary_work_rob
 
 binary_sensor:
   - platform: iss
     show_on_map: true
   - platform: aurora
 
-camera:
-  - platform: nwsradar
-    station: ILN
-    style: Enhanced
-    frames: 8
-  - platform: unifiprotect
+#camera:
+#  - platform: nwsradar
+#    station: ILN
+#    style: Enhanced
+#    frames: 8
+#  - platform: unifiprotect
 
 circadian_lighting:
   interval: 600
@@ -191,24 +191,24 @@ circadian_lighting:
 #  api_key: !secret ecobee_api
 # config currently in GUI
 
-fastdotcom:
-  scan_interval:
-      minutes: 30
+#fastdotcom:
+#  scan_interval:
+#      minutes: 30
 
-garbage_collection:
-  sensors:
-  - name: "waste"
-    frequency: "weekly"
-    collection_days: "tue"
-    verbose_state: true
+#garbage_collection:
+#  sensors:
+#  - name: "waste"
+#   frequency: "weekly"
+#    collection_days: "tue"
+#    verbose_state: true
 
-google:
-  client_id: !secret google_client
-  client_secret: !secret google_secret
+#google:
+#  client_id: !secret google_client
+#  client_secret: !secret google_secret
 
-gpodder:
-  username: !secret gpodder_un
-  password: !secret gpodder_password
+#gpodder:
+#  username: !secret gpodder_un
+#  password: !secret gpodder_password
 
 homekit:
   safe_mode: false
@@ -227,14 +227,14 @@ hue:
 #  - username: !secret icloud_un
 #    password: !secret icloud_password
     
-input_boolean:
-  dummy_switch:
+#input_boolean:
+#  dummy_switch:
 
 #influxdb:
  # host: !secret host_unraid_influx
  # database: home_assistant
 
-ios:
+#ios:
 
 #lifx:
 #  light:
@@ -242,29 +242,29 @@ ios:
 #      port: 56700
 #      broadcast: !secret host_lifx_1
       
-lutron_caseta:
-    host: !secret host_lutron
-    keyfile: caseta.key
-    certfile: caseta.crt
-    ca_certs: caseta-bridge.crt
+#lutron_caseta:
+#    host: !secret host_lutron
+##    keyfile: caseta.key
+ #   certfile: caseta.crt
+ #   ca_certs: caseta-bridge.crt
 
-openuv:
-  api_key: !secret openuv_api
-  binary_sensors:
-    monitored_conditions:
-      - uv_protection_window
-  sensors:
-    monitored_conditions:
-      - current_ozone_level
-      - current_uv_index
-      - current_uv_level
-      - max_uv_index
-      - safe_exposure_time_type_1
-      - safe_exposure_time_type_2
-      - safe_exposure_time_type_3
-      - safe_exposure_time_type_4
-      - safe_exposure_time_type_5
-      - safe_exposure_time_type_6
+#openuv:
+#  api_key: !secret openuv_api
+#  binary_sensors:
+#    monitored_conditions:
+#      - uv_protection_window
+#  sensors:
+#    monitored_conditions:
+#      - current_ozone_level
+#      - current_uv_index
+#      - current_uv_level
+#      - max_uv_index
+#      - safe_exposure_time_type_1
+#      - safe_exposure_time_type_2
+#      - safe_exposure_time_type_3
+#      - safe_exposure_time_type_4
+#      - safe_exposure_time_type_5
+#      - safe_exposure_time_type_6
 
 #owntracks:
  # max_gps_accuracy: 200
@@ -272,24 +272,24 @@ openuv:
  # mqtt_topic: "owntracks/#"
  # events_only: true
 
-pi_hole:
-  - host: !secret host_pi_hole
-    name: 'Primary Pi-Hole'
-  - host: !secret host_pi_hole_2
-    name: 'Secondary Pi-Hole'
+#pi_hole:
+#  - host: !secret host_pi_hole
+#    name: 'Primary Pi-Hole'
+#  - host: !secret host_pi_hole_2
+#    name: 'Secondary Pi-Hole'
 
-plex:
-  host: !secret host_unraid
-  port: 32400
-  token: !secret plex_token
-  ssl: false
-  verify_ssl: false
-  media_player:
-    use_episode_art: true
-    show_all_controls: true
+#plex:
+#  host: !secret host_unraid
+#  port: 32400
+#  token: !secret plex_token
+#  ssl: false
+#  verify_ssl: false
+#  media_player:
+#    use_episode_art: true
+#    show_all_controls: true
 
-remote:
-  - platform: hueremote
+#remote:
+#  - platform: hueremote
   
 speedtestdotnet:
   scan_interval:
@@ -299,11 +299,11 @@ speedtestdotnet:
     - download
     - upload
     
-unifiprotect:
-  host: !secret host_udm
-  username: !secret unifi_un_ha
-  password: !secret unifi_pw_ha
-  port: !secret unifi_port
+#unifiprotect:
+ # host: !secret host_udm
+ # username: !secret unifi_un_ha
+ # password: !secret unifi_pw_ha
+ # port: !secret unifi_port
   
 vacuum:
  - platform: roomba
