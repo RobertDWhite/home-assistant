@@ -1,9 +1,9 @@
 
 # Switch to pause or start all downloads via deluge
-  - platform: deluge
-    host: !secret host_unraid
-    username: roberto
-    password : !secret deluge_password
+#  - platform: deluge
+#    host: !secret host_unraid
+#    username: roberto
+#    password : !secret deluge_password
 
 
 # Dummy Switch for debugging, testing, etc.

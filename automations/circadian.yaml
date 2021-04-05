@@ -1,19 +1,19 @@
 #Maintain correct color and brightness throughout the day
 
-- id: cl_hue_scenes
-  alias: "CL: Hue Scenes"
-  trigger:
-    platform: state
-    entity_id: sensor.circadian_values
-  action:
-    - service: rest_command.circadian_lighting_basement_hue_scene
-    - service: rest_command.circadian_lighting_bathroom_hue_scene
-    - service: rest_command.circadian_lighting_bedroom_hue_scene
-    - service: rest_command.circadian_lighting_dining_room_hue_scene
-    - service: rest_command.circadian_lighting_entry_way_hue_scene
-    - service: rest_command.circadian_lighting_family_room_hue_scene
-    - service: rest_command.circadian_lighting_guest_room_hue_scene
-    - service: rest_command.circadian_lighting_kitchen_hue_scene
-    - service: rest_command.circadian_lighting_living_room_hue_scene
-    - service: rest_command.circadian_lighting_sun_room_hue_scene
-    - service: rest_command.circadian_lighting_upstairs_hallway_hue_scene
+#- id: cl_hue_scenes
+#  alias: "CL: Hue Scenes"
+#  trigger:
+#    platform: state
+#    entity_id: sensor.circadian_values
+#  action:
+#    - service: rest_command.circadian_lighting_basement_hue_scene
+#    - service: rest_command.circadian_lighting_bathroom_hue_scene
+#    - service: rest_command.circadian_lighting_bedroom_hue_scene
+#    - service: rest_command.circadian_lighting_dining_room_hue_scene
+#    - service: rest_command.circadian_lighting_entry_way_hue_scene
+#    - service: rest_command.circadian_lighting_family_room_hue_scene
+#    - service: rest_command.circadian_lighting_guest_room_hue_scene
+#    - service: rest_command.circadian_lighting_kitchen_hue_scene
+#    - service: rest_command.circadian_lighting_living_room_hue_scene
+#    - service: rest_command.circadian_lighting_sun_room_hue_scene
+#    - service: rest_command.circadian_lighting_upstairs_hallway_hue_scene

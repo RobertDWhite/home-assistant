@@ -13,10 +13,10 @@
 
 
 # Sensor to monitor my GutHub repo
-  - platform: github
-    access_token: !secret github_api
-    repositories:
-      - path: 'robertomano24/home-assistant'
+#  - platform: github
+#    access_token: !secret github_api
+  #  repositories:
+  #    - path: 'robertomano24/home-assistant'
 
 
 # Sensor to monitor my Synology system
