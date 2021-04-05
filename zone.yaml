@@ -19,11 +19,7 @@
    radius: 20
    icon: mdi:home
 
- - name: !secret location_fam_2
-   latitude: !secret latitude_fam_2
-   longitude: !secret longitude_fam_2
-   radius: 20
-   icon: mdi:home
+
 
  - name: !secret location_friends_1
    latitude: !secret latitude_friends_1
@@ -98,21 +94,21 @@
    longitude: !secret longitude_sister_r
    radius: 20
    icon: mdi:home-circle-outline
-   
+
  - name: !secret location_parents_rental
    latitude: !secret latitude_parents_rental
    longitude: !secret longitude_parents_rental
    radius: 25
    icon: mdi:home-circle-outline
-   
-   
+
+
  - name: !secret location_work1
    latitude: !secret latitude_work1
    longitude: !secret longitude_work1
    radius: 50
    icon: mdi:apple
-   
-   
+
+
  - name: !secret location_work2
    latitude: !secret latitude_work2
    longitude: !secret longitude_work2
