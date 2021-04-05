@@ -13,7 +13,7 @@ homeassistant:
   unit_system: imperial
   # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/New_York
-  whitelist_external_dirs:
+  allowlist_external_dirs:
     - /documentaries
     - /movies
     - /tv_shows
@@ -78,7 +78,7 @@ gdacs:
   radius: 1000
   latitude: !secret latitude_sec
   longitude: !secret longitude_sec
-  
+
 geo_location:
   - platform: usgs_earthquakes_feed
     entity_namespace: 'usgs_earthquakes_service_feed'
@@ -88,11 +88,11 @@ geo_location:
   - platform: nsw_rural_fire_service_feed
     entity_namespace: 'nsw_fire_service_feed'
     radius: 100
-  
-hacs:
-  token: !secret hacs_token
-  theme: true
-  python_script: true
+
+##hacs:
+#  token: !secret hacs_token
+#  theme: true
+#  python_script: true
 
 # Enables support for tracking state changes over time
 history:
@@ -210,23 +210,23 @@ circadian_lighting:
 #  username: !secret gpodder_un
 #  password: !secret gpodder_password
 
-homekit:
-  safe_mode: false
-  filter:
-   exclude_domains:
-     - light
-     - device_tracker
+#homekit:
+#  safe_mode: false
+#  filter:
+#   exclude_domains:
+#     - light
+#     - device_tracker
 
-hue:
-  bridges:
-    - host: !secret host_hue
-      allow_unreachable: false
-      allow_hue_groups: true
-      
+#hue:
+#  bridges:
+#    - host: !secret host_hue
+#      allow_unreachable: false
+#      allow_hue_groups: true
+
 #icloud:
 #  - username: !secret icloud_un
 #    password: !secret icloud_password
-    
+
 #input_boolean:
 #  dummy_switch:
 
@@ -241,7 +241,7 @@ hue:
 #    - server: !secret host_lifx_1
 #      port: 56700
 #      broadcast: !secret host_lifx_1
-      
+
 #lutron_caseta:
 #    host: !secret host_lutron
 ##    keyfile: caseta.key
@@ -290,21 +290,21 @@ hue:
 
 #remote:
 #  - platform: hueremote
-  
-speedtestdotnet:
-  scan_interval:
-    minutes: 60
-  monitored_conditions:
-    - ping
-    - download
-    - upload
-    
+
+#speedtestdotnet:
+#  scan_interval:
+#    minutes: 60
+#  monitored_conditions:
+#    - ping
+#    - download
+#    - upload
+
 #unifiprotect:
  # host: !secret host_udm
  # username: !secret unifi_un_ha
  # password: !secret unifi_pw_ha
  # port: !secret unifi_port
-  
+
 vacuum:
  - platform: roomba
    host: !secret host_roomba
