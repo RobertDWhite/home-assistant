@@ -26,3 +26,6 @@
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
+._configuration.yaml
+._notify.yaml
+._secrets.yaml
