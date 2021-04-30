@@ -46,21 +46,13 @@
    radius: 25
    icon: mdi:home-circle-outline
 
-
- - name: !secret location_grandparents_r_3
-   latitude: !secret latitude_grandparents_r_3
-   longitude: !secret longitude_grandparents_r_3
-   radius: 25
-   icon: mdi:home-circle-outline
-
-
  - name: !secret location_grandparents_e_1
    latitude: !secret latitude_grandparents_e_1
    longitude: !secret longitude_grandparents_e_1
    radius: 25
    icon: mdi:home-circle-outline
-   
-   
+
+
  - name: !secret location_gym
    latitude: !secret latitude_gym
    longitude: !secret longitude_gym
