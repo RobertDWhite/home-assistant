@@ -38,17 +38,11 @@
     origin: !secret location_home
     destination: !secret location_city_home_north
     region: 'US'
-    
+
   - platform: waze_travel_time
-    name: "Home to work"
+    name: "Home to work4"
     origin: !secret location_home
-    destination: !secret location_work1_add
-    region: 'US'
-    
-  - platform: waze_travel_time
-    name: "Home to work3"
-    origin: !secret location_home
-    destination: !secret location_work3_add
+    destination: !secret location_work4_add
     region: 'US'
 
   - platform: waze_travel_time
