@@ -93,6 +93,7 @@ geo_location:
 #  token: !secret hacs_token
 #  theme: true
 #  python_script: true
+#. currently installed via HA
 
 # Enables support for tracking state changes over time
 history:
@@ -120,6 +121,8 @@ map:
 #mqtt_eventstream:
 #  publish_topic: master/topic
 #  subscribe_topic: slaves/#
+#. not currently needed
+
 
 # Track the sun
 sun:
@@ -140,29 +143,29 @@ zeroconf:
 
 ###Anniversaries/Countdowns/Tracking###
 
-#anniversaries:
-#  sensors:
-#  - name: Our Wedding Anniversary
-#    date: !secret anniversary_wedding
-#  - name: Grandpa - Memorial
-##    date: !secret memorial_gp_rew
- # - name: Papaw - Memorial
- #   date: !secret memorial_gp_jlh
- # - name: Gerald - Memorial
- #   date: !secret memorial_gp_e_gs
- # - name: Robby's Work Anniversary
-  #  date: !secret anniversary_work_rob
+anniversaries:
+  sensors:
+  - name: Our Wedding Anniversary
+    date: !secret anniversary_wedding
+  - name: Grandpa - Memorial
+    date: !secret memorial_gp_rew
+  - name: Papaw - Memorial
+    date: !secret memorial_gp_jlh
+  - name: Gerald - Memorial
+    date: !secret memorial_gp_e_gs
+  - name: Robby's Work Anniversary
+    date: !secret anniversary_work_rob
 
 binary_sensor:
   - platform: iss
     show_on_map: true
   - platform: aurora
 
-#camera:
-#  - platform: nwsradar
-#    station: ILN
-#    style: Enhanced
-#    frames: 8
+camera:
+  - platform: nwsradar
+    station: ILN
+    style: Enhanced
+    frames: 8
 #  - platform: unifiprotect
 
 circadian_lighting:
@@ -170,37 +173,37 @@ circadian_lighting:
   max_colortemp: 10000
   min_colortemp: 2000
 
-#device_tracker:
-#  - platform: icloud3
-#    username: !secret icloud_un
-#    password: !secret icloud_password
-#    track_devices:
-#      - !secret icloud_1
-#      - !secret icloud_2
-#      - !secret icloud_3
-#      - !secret icloud_4
-#      - !secret icloud_5
-#      - !secret icloud_6
-#      - !secret icloud_7
-#      - !secret icloud_8
-#      - !secret icloud_9
-#      - !secret icloud_10
-#    tracking_method: fmf
+device_tracker:
+  - platform: icloud3
+    username: !secret icloud_un
+    password: !secret icloud_password
+    track_devices:
+      - !secret icloud_1
+      - !secret icloud_2
+      - !secret icloud_3
+      - !secret icloud_4
+      - !secret icloud_5
+      - !secret icloud_6
+      - !secret icloud_7
+      - !secret icloud_8
+      - !secret icloud_9
+      - !secret icloud_10
+    tracking_method: fmf
 
 #ecobee:
 #  api_key: !secret ecobee_api
 # config currently in GUI
 
-#fastdotcom:
-#  scan_interval:
-#      minutes: 30
+fastdotcom:
+  scan_interval:
+      minutes: 30
 
-#garbage_collection:
-#  sensors:
-#  - name: "waste"
-#   frequency: "weekly"
-#    collection_days: "tue"
-#    verbose_state: true
+garbage_collection:
+  sensors:
+  - name: "waste"
+    frequency: "weekly"
+    collection_days: "tue"
+    verbose_state: true
 
 #google:
 #  client_id: !secret google_client
@@ -210,31 +213,31 @@ circadian_lighting:
 #  username: !secret gpodder_un
 #  password: !secret gpodder_password
 
-#homekit:
-#  safe_mode: false
-#  filter:
-#   exclude_domains:
-#     - light
-#     - device_tracker
+homekit:
+  safe_mode: false
+  filter:
+   exclude_domains:
+     - light
+     - device_tracker
 
-#hue:
-#  bridges:
-#    - host: !secret host_hue
-#      allow_unreachable: false
-#      allow_hue_groups: true
+hue:
+  bridges:
+    - host: !secret host_hue
+      allow_unreachable: false
+      allow_hue_groups: true
 
-#icloud:
-#  - username: !secret icloud_un
-#    password: !secret icloud_password
+icloud:
+  - username: !secret icloud_un
+    password: !secret icloud_password
 
 #input_boolean:
 #  dummy_switch:
 
-#influxdb:
- # host: !secret host_unraid_influx
- # database: home_assistant
+influxdb:
+  host: !secret host_unraid_influx
+  database: home_assistant
 
-#ios:
+ios:
 
 #lifx:
 #  light:
@@ -242,11 +245,11 @@ circadian_lighting:
 #      port: 56700
 #      broadcast: !secret host_lifx_1
 
-#lutron_caseta:
-#    host: !secret host_lutron
-##    keyfile: caseta.key
- #   certfile: caseta.crt
- #   ca_certs: caseta-bridge.crt
+lutron_caseta:
+    host: !secret host_lutron
+    keyfile: caseta.key
+    certfile: caseta.crt
+    ca_certs: caseta-bridge.crt
 
 #openuv:
 #  api_key: !secret openuv_api
@@ -272,21 +275,25 @@ circadian_lighting:
  # mqtt_topic: "owntracks/#"
  # events_only: true
 
-#pi_hole:
-#  - host: !secret host_pi_hole
-#    name: 'Primary Pi-Hole'
-#  - host: !secret host_pi_hole_2
-#    name: 'Secondary Pi-Hole'
+pi_hole:
+  - host: !secret host_pi_hole
+    name: 'LAN Primary Pi-Hole'
+  - host: !secret host_pi_hole_2
+    name: 'LAN Secondary Pi-Hole'
+  - host: !secret host_pi_hole_3
+    name: 'IoT Primary Pi-Hole'
+  - host: !secret host_pi_hole_4
+    name: 'IoT Secondary Pi-Hole'
 
-#plex:
-#  host: !secret host_unraid
-#  port: 32400
-#  token: !secret plex_token
-#  ssl: false
-#  verify_ssl: false
-#  media_player:
-#    use_episode_art: true
-#    show_all_controls: true
+plex:
+  host: !secret host_unraid
+  port: 32400
+  token: !secret plex_token
+  ssl: false
+  verify_ssl: false
+  media_player:
+    use_episode_art: true
+    show_all_controls: true
 
 #remote:
 #  - platform: hueremote
@@ -311,8 +318,8 @@ vacuum:
    username: !secret roomba_blid
    password: !secret roomba_password
 
-#weather:
-# - platform: darksky
-#   api_key: !secret darksky_password
-#   latitude: !secret latitude_sec
-#   longitude: !secret longitude_sec
+weather:
+ - platform: darksky
+   api_key: !secret darksky_password
+   latitude: !secret latitude_sec
+   longitude: !secret longitude_sec
