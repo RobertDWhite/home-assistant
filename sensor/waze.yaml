@@ -16,37 +16,31 @@
 # Tracking entity to entity
 
   - platform: waze_travel_time
-    name: "Me to Liberty"
-    origin: device_tracker.robert_whites_iphone_ha
-    destination: !secret location_lib_add
-    region: 'US'
-
-  - platform: waze_travel_time
     name: "Home to Liberty"
     origin: !secret location_home
     destination: !secret location_lib_add
     region: 'US'
 
   - platform: waze_travel_time
-    name: "Home to south"
+    name: "Home to Cincinnati"
     origin: !secret location_home
     destination: !secret location_city_home_south
     region: 'US'
 
   - platform: waze_travel_time
-    name: "Home to north"
+    name: "Home to Dayton"
     origin: !secret location_home
     destination: !secret location_city_home_north
     region: 'US'
 
   - platform: waze_travel_time
-    name: "Home to work4"
+    name: "Home to MR"
     origin: !secret location_home
     destination: !secret location_work4_add
     region: 'US'
 
   - platform: waze_travel_time
-    name: "Home to work - e - mls"
+    name: "Home to MLS"
     origin: !secret location_home
     destination: !secret location_work2_add
     region: 'US'
