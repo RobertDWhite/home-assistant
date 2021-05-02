@@ -34,7 +34,7 @@ zone: !include zone.yaml
 
 ###SYSTEM##################################################################################
 
-breaking_changes:
+#breaking_changes:
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
@@ -162,11 +162,12 @@ binary_sensor:
   - platform: aurora
 
 camera:
-  - platform: nwsradar
-    station: ILN
-    style: Enhanced
-    frames: 8
-#  - platform: unifiprotect
+  - platform: generic
+    still_image_url: !secret weathermap1
+    name: !secret weathermapname1
+  - platform: generic
+    still_image_url: !secret weathermap2
+    name: !secret weathermapname2
 
 circadian_lighting:
   interval: 600
@@ -185,7 +186,7 @@ device_tracker:
       - !secret icloud_5
       - !secret icloud_6
       - !secret icloud_7
-      - !secret icloud_8
+#      - !secret icloud_8
       - !secret icloud_9
       - !secret icloud_10
     tracking_method: fmf
@@ -213,12 +214,12 @@ garbage_collection:
 #  username: !secret gpodder_un
 #  password: !secret gpodder_password
 
-homekit:
-  safe_mode: false
-  filter:
-   exclude_domains:
-     - light
-     - device_tracker
+#homekit:
+#  safe_mode: false
+#  filter:
+#   exclude_domains:
+#     - light
+  #   - device_tracker
 
 hue:
   bridges:
@@ -252,22 +253,22 @@ lutron_caseta:
     ca_certs: caseta-bridge.crt
 
 #openuv:
-#  api_key: !secret openuv_api
-#  binary_sensors:
-#    monitored_conditions:
-#      - uv_protection_window
-#  sensors:
-#    monitored_conditions:
-#      - current_ozone_level
-#      - current_uv_index
-#      - current_uv_level
-#      - max_uv_index
-#      - safe_exposure_time_type_1
-#      - safe_exposure_time_type_2
-#      - safe_exposure_time_type_3
-#      - safe_exposure_time_type_4
-#      - safe_exposure_time_type_5
-#      - safe_exposure_time_type_6
+  #api_key: !secret openuv_api
+#binary_sensors:
+  #  monitored_conditions:
+  #    - uv_protection_window
+  #sensors:
+  #  monitored_conditions:
+  #    - current_ozone_level
+  #    - current_uv_index
+    #  - current_uv_level
+  #    - max_uv_index
+  #    - safe_exposure_time_type_1
+  #    - safe_exposure_time_type_2
+    #  - safe_exposure_time_type_3
+    #  - safe_exposure_time_type_4
+    #  - safe_exposure_time_type_5
+    #  - safe_exposure_time_type_6
 
 #owntracks:
  # max_gps_accuracy: 200
@@ -305,6 +306,12 @@ plex:
 #    - ping
 #    - download
 #    - upload
+
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_api
+    allowed_chat_ids:
+      - !secret telegram_my_id # example id of a user
 
 #unifiprotect:
  # host: !secret host_udm
