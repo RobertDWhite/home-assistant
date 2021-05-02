@@ -67,6 +67,29 @@
         volume: 0.99
         message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
     - delay: '00:00:10'
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.sonos
+        volume: 0.99
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.office_sonos
+        volume: 0.99
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+    - delay: '00:00:10'
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.upstairs
+        volume: 0.99
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+    - delay: '00:00:10'
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.family_room_2
+        volume: 0.99
+        message: "Attention!. . . Attention!. . . The National Weather Service has issued a {{ states.sensor.nws_alert_event.state }} for Butler County. It expires at {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)| timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}."
+    - delay: '00:00:10'
     - service: notify.alexa_media
       data:
         target: media_player.robert_s_ecobee4
