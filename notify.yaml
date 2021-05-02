@@ -24,3 +24,9 @@
   - platform: nfandroidtv
     name: Bedroom
     host: !secret host_firetv
+
+
+  - platform: telegram
+    name: HomeAssistant Telegram
+    chat_id: !secret telegram_my_id
+    
