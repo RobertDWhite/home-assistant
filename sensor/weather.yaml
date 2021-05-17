@@ -27,9 +27,6 @@
     zone: !secret county_zone_2
     county: !secret county_2
 
-#FAA Integration
-  - platform: faastatus
-    id: CVG
   
 #WeatherAlert Count Sensor
   - platform: rest

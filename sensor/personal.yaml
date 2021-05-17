@@ -1,25 +1,20 @@
 
 
-#Track energy usage and spending
-  - platform: duke_energy
-    username: !secret duke_un
-    password: !secret duke_password
-
 
 #Add podcast support and control
-  - platform: feedparser
-    name: !secret podcast1_name
-    feed_url: !secret podcast1_url
-    date_format: '%a, %b %d %I:%M %p'
-    inclusions:
-      - title
-      - link
-      - description
-      - image
-      - language
-      - pubDate
-    exclusions:
-      - language
+#  - platform: feedparser
+#    name: !secret podcast1_name
+##    feed_url: !secret podcast1_url
+ #   date_format: '%a, %b %d %I:%M %p'
+ #   inclusions:
+ #     - title
+ #     - link
+ ##     - description
+  #    - image
+  #    - language
+  #    - pubDate
+  #  exclusions:
+  #    - language
 
 
 #Track personal finances via Personal Capital
