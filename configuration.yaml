@@ -96,7 +96,7 @@ geo_location:
 #. currently installed via HA
 
 # Enables support for tracking state changes over time
-history:
+#history:
 
 #http:
 #  base_url: !secret base_url
