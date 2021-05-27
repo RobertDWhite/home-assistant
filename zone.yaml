@@ -12,10 +12,22 @@
    radius: 20
    icon: mdi:home
 
+ - name: !secret location_ah
+   latitude: !secret latitude_ah
+   longitude: !secret longitude_ah
+   radius: 40
+   icon: mdi:hospital-building
+
 
  - name: !secret location_fam_1
    latitude: !secret latitude_fam_1
    longitude: !secret longitude_fam_1
+   radius: 20
+   icon: mdi:home
+
+ - name: !secret location_fam_2
+   latitude: !secret latitude_fam_2
+   longitude: !secret longitude_fam_2
    radius: 20
    icon: mdi:home
 
@@ -74,6 +86,19 @@
    icon: mdi:hospital-building
 
 
+ - name: !secret location_brother_r_ks
+   latitude: !secret latitude_brother_r_ks
+   longitude: !secret longitude_brother_r_ks
+   radius: 20
+   icon: mdi:home-circle-outline
+
+ - name: !secret location_brother_r_jr
+   latitude: !secret latitude_brother_r_jr
+   longitude: !secret longitude_brother_r_jr
+   radius: 20
+   icon: mdi:home-circle-outline
+
+
  - name: !secret location_parents_e
    latitude: !secret latitude_parents_e
    longitude: !secret longitude_parents_e
@@ -93,9 +118,21 @@
    longitude: !secret longitude_parents_r_other
    radius: 50
 
+ - name: !secret location_sister_l
+   latitude: !secret latitude_sister_l
+   longitude: !secret longitude_sister_l
+   radius: 20
+   icon: mdi:home-circle-outline
+
  - name: !secret location_sister_r
    latitude: !secret latitude_sister_r
    longitude: !secret longitude_sister_r
+   radius: 20
+   icon: mdi:home-circle-outline
+
+ - name: !secret location_sister_r2
+   latitude: !secret latitude_sister_r2
+   longitude: !secret longitude_sister_r2
    radius: 20
    icon: mdi:home-circle-outline
 
