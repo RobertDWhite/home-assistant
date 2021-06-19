@@ -79,13 +79,6 @@
       - light.family_room_lamp
       - light.security
 
-# Guest Room
-  - platform: circadian_lighting
-    min_brightness: 40
-    name: Circadian Guest Room
-    lights_ct:
-      - light.guest
-
 # Kitchen
   - platform: circadian_lighting
     min_brightness: 50
@@ -118,14 +111,20 @@
       - light.dining_room_3
       - light.living_room_lamp
 
+# Nursery
+  - platform: circadian_lighting
+    min_brightness: 40
+    name: Circadian Nursery
+    lights_ct:
+      - light.office_color_1
+      - light.office_color_2
+      
 # Office
   - platform: circadian_lighting
     min_brightness: 40
     name: Circadian Office
     lights_ct:
-      - light.office_color_1
-      - light.office_color_2
-
+      - light.guest
 
 # Upstairs Hallway
   - platform: circadian_lighting
