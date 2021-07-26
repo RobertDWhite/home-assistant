@@ -100,7 +100,6 @@
       - light.stove_light
       - light.kitchen_oven_range
 
-
 # Living Room
   - platform: circadian_lighting
     min_brightness: 60
@@ -116,15 +115,22 @@
     min_brightness: 40
     name: Circadian Nursery
     lights_ct:
-      - light.office_color_1
-      - light.office_color_2
+      - light.light.hue_ambiance_lamp_2
+      - light.guest
+
+# Nursery Lamp
+  - platform: circadian_lighting
+    min_brightness: 10
+    name: Circadian Nursery Lamp
+    lights_ct:
+      - light.hue_ambiance_lamp_1
       
 # Office
   - platform: circadian_lighting
     min_brightness: 40
     name: Circadian Office
     lights_ct:
-      - light.guest
+      - light.office_color_2
 
 # Upstairs Hallway
   - platform: circadian_lighting
