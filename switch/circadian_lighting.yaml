@@ -115,7 +115,7 @@
     min_brightness: 40
     name: Circadian Nursery
     lights_ct:
-      - light.light.hue_ambiance_lamp_2
+      - light.hue_ambiance_lamp_2
       - light.guest
 
 # Nursery Lamp
