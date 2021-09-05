@@ -30,6 +30,7 @@
     name: Circadian Bedroom
     lights_ct:
       - light.bedroom
+      - light.office_color_1
 
 # Dining Room
   - platform: circadian_lighting
