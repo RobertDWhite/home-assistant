@@ -11,7 +11,7 @@
 
 # Bathroom
   - platform: circadian_lighting
-    min_brightness: 40
+    min_brightness: 30
     name: Circadian Bathroom
     lights_ct:
       - light.upstairs_bathroom_1
@@ -19,14 +19,14 @@
 
 # Bathroom Vanity
   - platform: circadian_lighting
-    min_brightness: 18
+    min_brightness: 15
     name: Circadian Bathroom Vanity
     lights_brightness:
       - light.upstairs_bathroom_vanity_lights
 
 # Bedroom
   - platform: circadian_lighting
-    min_brightness: 40
+    min_brightness: 25
     name: Circadian Bedroom
     lights_ct:
       - light.bedroom
@@ -113,7 +113,7 @@
 
 # Nursery
   - platform: circadian_lighting
-    min_brightness: 40
+    min_brightness: 15
     name: Circadian Nursery
     lights_ct:
       - light.hue_ambiance_lamp_2
@@ -121,7 +121,7 @@
 
 # Nursery Lamp
   - platform: circadian_lighting
-    min_brightness: 10
+    min_brightness: 5
     name: Circadian Nursery Lamp
     lights_ct:
       - light.hue_ambiance_lamp_1
@@ -135,7 +135,7 @@
 
 # Upstairs Hallway
   - platform: circadian_lighting
-    min_brightness: 10
+    min_brightness: 5
     name: Circadian Upstairs Hall
     lights_ct:
       - light.upstairs_hallway
