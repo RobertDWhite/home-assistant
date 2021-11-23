@@ -1,0 +1,37 @@
+- alias: Play chime on Sonos when doorbell is pressed
+  description: ''
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.doorbell_uvc_g4_doorbell
+      to: 'on'
+  condition: []
+  action:
+    - service: sonos.snapshot
+      data:
+        entity_id: all
+    - service: media_player.volume_set
+      target:
+        entity_id:
+          - media_player.dining_room
+          - media_player.family_room
+          - media_player.office_sonos
+          - media_player.sonos
+          - media_player.upstairs
+      data:
+        volume_level: 0.65
+    - service: media_player.play_media
+      target:
+        entity_id:
+          - media_player.living_room
+      data:
+        media_content_type: music
+        media_content_id: /local/media/sounds_sounds_ring_button_Chime.mp3
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 4
+        milliseconds: 0
+    - service: sonos.restore
+      data:
+        entity_id: all
+  mode: single
