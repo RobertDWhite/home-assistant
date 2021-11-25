@@ -29,7 +29,7 @@
           - media_player.upstairs
       data:
         media_content_type: music
-        media_content_id: /local/media/sounds_sounds_ring_button_Chime.mp3
+        media_content_id: http://10.100.0.10:8123/config/local/media/sounds_sounds_ring_button_Chime.mp3
     - delay:
         hours: 0
         minutes: 0
