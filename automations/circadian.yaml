@@ -1,19 +1,35 @@
 #Maintain correct color and brightness throughout the day
+#Automatically turn Lights to CL setting when designated Hue Dimmer button is pressed
 
-#- id: cl_hue_scenes
-#  alias: "CL: Hue Scenes"
-#  trigger:
-#    platform: state
-#    entity_id: sensor.circadian_values
-#  action:
-#    - service: rest_command.circadian_lighting_basement_hue_scene
-#    - service: rest_command.circadian_lighting_bathroom_hue_scene
-#    - service: rest_command.circadian_lighting_bedroom_hue_scene
-#    - service: rest_command.circadian_lighting_dining_room_hue_scene
-#    - service: rest_command.circadian_lighting_entry_way_hue_scene
-#    - service: rest_command.circadian_lighting_family_room_hue_scene
-#    - service: rest_command.circadian_lighting_guest_room_hue_scene
-#    - service: rest_command.circadian_lighting_kitchen_hue_scene
-#    - service: rest_command.circadian_lighting_living_room_hue_scene
-#    - service: rest_command.circadian_lighting_sun_room_hue_scene
-#    - service: rest_command.circadian_lighting_upstairs_hallway_hue_scene
+- alias: HueCL Bedroom Switch
+  description: HueCL for Bedroom Lights
+  mode: single
+  trigger:
+    - device_id: a982a6d724ee6ca9a2d56152e6833782
+      domain: hue
+      platform: device
+      type: initial_press
+      subtype: 1
+  action:
+    service: light.turn_on
+    data_template:
+      entity_id: light.bedroom_group
+      kelvin: "{{ state_attr('sensor.circadian_values', 'colortemp') | int }}"
+      brightness_pct: '{{ state_attr(''switch.circadian_lighting_circadian_lighting'', ''brightness'') | int }}'
+
+
+- alias: HueCL Kitchen Switch
+  description: HueCL for Kitchen Lights
+  mode: single
+  trigger:
+    - device_id: add8033015a5ecd8484c72f5d56b7d62
+      domain: hue
+      platform: device
+      type: initial_press
+      subtype: 1
+  action:
+    service: light.turn_on
+    data_template:
+      entity_id: light.kitchen_group
+      kelvin: "{{ state_attr('sensor.circadian_values', 'colortemp') | int }}"
+      brightness_pct: '{{ state_attr(''switch.circadian_lighting_circadian_lighting'', ''brightness'') | int }}'

@@ -1,0 +1,95 @@
+- platform: group
+  name: Basement_Group
+  entities:
+    - light.basement_stairs  
+    - light.basement_laundry
+     
+- platform: group
+  name: Bathroom_Group
+  entities:
+    - light.upstairs_bathroom_1
+    - light.upstairs_bathroom_2
+      
+- platform: group
+  name: Bathroom Vanity_Group
+  entities:
+    - light.upstairs_bathroom_vanity_lights
+   
+- platform: group
+  name: Bedroom_Group
+  entities:
+    - light.bedroom
+    - light.bedroom_lamp
+
+- platform: group
+  name: Dining Room_Group
+  entities:
+    - light.living_room_lamp
+    
+- platform: group
+  name: Dining Room Chandelier_Group
+  entities:
+    - light.dining_room_chandelier
+    
+- platform: group
+  name: Dining Room Hutch_Group
+  entities:
+    - light.living_room_hutch_l
+    - light.living_room_hutch_r
+   
+- platform: group
+  name: Downstairs Bathroom_Group
+  entities:
+    - light.office
+    - light.sunroom
+    - light.downstairs_bathroom_color
+      
+- platform: group
+  name: Entry Way_Group
+  entities:
+    - light.entry_way
+
+- platform: group
+  name: Family Room_Group
+  entities:
+    - light.family_room_main
+    - light.family_room_lamp
+    - light.security
+    
+- platform: group
+  name: Kitchen_Group
+  entities:
+    - light.kitchen_coffee
+    - light.kitchen_dishwasher
+    - light.kitchen_fridge
+    - light.kitchen_stairs
+    - light.kitchen_sink
+    - light.kitchen_strip_east
+    - light.kitchen_strip_west
+    - light.stove_light
+    - light.kitchen_oven_range
+     
+- platform: group
+  name: Living Room_Group
+  entities:
+    - light.dining_room_1
+    - light.dining_room_2
+    - light.dining_room_3
+    - light.dining_room_lamp
+      
+- platform: group
+  name: Nursery_Group
+  entities:
+    - light.nursery_ceiling_1
+    - light.nursery_ceiling_2
+    - light.nursery_lamp
+      
+- platform: group
+  name: Office_Group
+  entities:
+    - light.office_color_2
+      
+- platform: group
+  name: Upstairs Hallway_Group
+  entities:
+    - light.upstairs_hallway

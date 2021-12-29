@@ -30,7 +30,7 @@
     name: Circadian Bedroom
     lights_ct:
       - light.bedroom
-      - light.office_color_1
+      - light.bedroom_lamp
 
 # Dining Room
   - platform: circadian_lighting
@@ -109,22 +109,22 @@
       - light.dining_room_1
       - light.dining_room_2
       - light.dining_room_3
-      - light.living_room_lamp
+      - light.dining_room_lamp
 
 # Nursery
   - platform: circadian_lighting
     min_brightness: 15
     name: Circadian Nursery
     lights_ct:
-      - light.hue_ambiance_lamp_2
-      - light.guest
+      - light.nursery_ceiling_1
+      - light.nursery_ceiling_2
 
 # Nursery Lamp
   - platform: circadian_lighting
     min_brightness: 5
     name: Circadian Nursery Lamp
     lights_ct:
-      - light.hue_ambiance_lamp_1
+      - light.nursery_lamp
       
 # Office
   - platform: circadian_lighting
