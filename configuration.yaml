@@ -24,6 +24,7 @@ homeassistant:
 
 automation: !include_dir_merge_list automations/
 group: !include groups.yaml
+light: !include lights.yaml
 notify: !include notify.yaml
 panel_iframe: !include panel_iframe.yaml
 script: !include_dir_merge_list scripts/
@@ -170,9 +171,9 @@ camera:
     name: !secret weathermapname2
 
 circadian_lighting:
-  interval: 600
-  max_colortemp: 10000
-  min_colortemp: 2000
+#  interval: 600
+#  max_colortemp: 10000
+#  min_colortemp: 2000
 
 device_tracker:
   - platform: icloud3
@@ -251,11 +252,11 @@ ios:
 #      port: 56700
 #      broadcast: !secret host_lifx_1
 
-lutron_caseta:
-    host: !secret host_lutron
-    keyfile: caseta.key
-    certfile: caseta.crt
-    ca_certs: caseta-bridge.crt
+#lutron_caseta:
+ #   host: !secret host_lutron
+ #   keyfile: caseta.key
+ #   certfile: caseta.crt
+ #   ca_certs: caseta-bridge.crt
 
 #openuv:
   #api_key: !secret openuv_api
