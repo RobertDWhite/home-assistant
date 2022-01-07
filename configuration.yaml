@@ -35,8 +35,6 @@ zone: !include zone.yaml
 
 ###SYSTEM##################################################################################
 
-#breaking_changes:
-
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
 
@@ -65,9 +63,6 @@ frontend:
 # Add themes
   themes: !include themes.yaml
 
-# Enable ES6 features
-  javascript_version: latest
-
 gdacs:
   categories:
     - Drought
@@ -90,20 +85,6 @@ geo_location:
     entity_namespace: 'nsw_fire_service_feed'
     radius: 100
 
-##hacs:
-#  token: !secret hacs_token
-#  theme: true
-#  python_script: true
-#. currently installed via HA
-
-# Enables support for tracking state changes over time
-#history:
-
-#http:
-#  base_url: !secret base_url
-#  ssl_certificate: !secret ssl_cert
- # ssl_key: !secret ssl_key
-
 # View all events in a logbook
 logbook:
 
@@ -116,14 +97,6 @@ logger:
 
 # Enables a map showing the location of tracked devices
 map:
-
-#mqtt:
-#  broker: !secret host_unraid
-#mqtt_eventstream:
-#  publish_topic: master/topic
-#  subscribe_topic: slaves/#
-#. not currently needed
-
 
 # Track the sun
 sun:
@@ -171,9 +144,10 @@ camera:
     name: !secret weathermapname2
 
 circadian_lighting:
-#  interval: 600
-#  max_colortemp: 10000
-#  min_colortemp: 2000
+  interval: 600
+#  hue_keyword: Circadian
+  max_colortemp: 10000
+  min_colortemp: 2000
 
 device_tracker:
   - platform: icloud3
@@ -191,14 +165,6 @@ device_tracker:
       - !secret icloud_10
     tracking_method: fmf
 
-#ecobee:
-#  api_key: !secret ecobee_api
-# config currently in GUI
-
-#fastdotcom:
-#  scan_interval:
-#      minutes: 30
-
 garbage_collection:
   sensors:
   - name: "waste"
@@ -210,16 +176,14 @@ garbage_collection:
 #  client_id: !secret google_client
 #  client_secret: !secret google_secret
 
-#gpodder:
-#  username: !secret gpodder_un
-#  password: !secret gpodder_password
 
-#homekit:
-#  safe_mode: false
-#  filter:
-#   exclude_domains:
-#     - light
-  #   - device_tracker
+homekit:
+  safe_mode: false
+  filter:
+   exclude_domains:
+     - light
+     - device_tracker
+     - sensor
 
 hue:
   bridges:
