@@ -145,7 +145,6 @@ camera:
 
 circadian_lighting:
   interval: 600
-#  hue_keyword: Circadian
   max_colortemp: 10000
   min_colortemp: 2000
 
@@ -172,11 +171,6 @@ garbage_collection:
     collection_days: "tue"
     verbose_state: true
 
-#google:
-#  client_id: !secret google_client
-#  client_secret: !secret google_secret
-
-
 homekit:
   safe_mode: false
   filter:
@@ -195,9 +189,6 @@ icloud:
   - username: !secret icloud_un
     password: !secret icloud_password
 
-#input_boolean:
-#  dummy_switch:
-
 influxdb:
   host: !secret host_unraid_influx
   port: 8086
@@ -210,52 +201,6 @@ influxdb:
 
 ios:
 
-#lifx:
-#  light:
-#    - server: !secret host_lifx_1
-#      port: 56700
-#      broadcast: !secret host_lifx_1
-
-#lutron_caseta:
- #   host: !secret host_lutron
- #   keyfile: caseta.key
- #   certfile: caseta.crt
- #   ca_certs: caseta-bridge.crt
-
-#openuv:
-  #api_key: !secret openuv_api
-#binary_sensors:
-  #  monitored_conditions:
-  #    - uv_protection_window
-  #sensors:
-  #  monitored_conditions:
-  #    - current_ozone_level
-  #    - current_uv_index
-    #  - current_uv_level
-  #    - max_uv_index
-  #    - safe_exposure_time_type_1
-  #    - safe_exposure_time_type_2
-    #  - safe_exposure_time_type_3
-    #  - safe_exposure_time_type_4
-    #  - safe_exposure_time_type_5
-    #  - safe_exposure_time_type_6
-
-#owntracks:
- # max_gps_accuracy: 200
- # waypoints: true
- # mqtt_topic: "owntracks/#"
- # events_only: true
-
-#pi_hole:
-#  - host: !secret host_pi_hole
-#    name: 'LAN Primary Pi-Hole'
-#  - host: !secret host_pi_hole_2
-#    name: 'LAN Secondary Pi-Hole'
-#  - host: !secret host_pi_hole_3
-#    name: 'IoT Primary Pi-Hole'
-#  - host: !secret host_pi_hole_4
-#    name: 'IoT Secondary Pi-Hole'
-
 plex:
   host: !secret host_unraid
   port: 32400
@@ -265,29 +210,6 @@ plex:
   media_player:
     use_episode_art: true
     show_all_controls: true
-
-#remote:
-#  - platform: hueremote
-
-#speedtestdotnet:
-#  scan_interval:
-#    minutes: 60
-#  monitored_conditions:
-#    - ping
-#    - download
-#    - upload
-
-#telegram_bot:
-#  - platform: polling
-#    api_key: !secret telegram_api
-#    allowed_chat_ids:
-#      - !secret telegram_my_id # example id of a user
-
-#unifiprotect:
- # host: !secret host_udm
- # username: !secret unifi_un_ha
- # password: !secret unifi_pw_ha
- # port: !secret unifi_port
 
 vacuum:
  - platform: roomba
