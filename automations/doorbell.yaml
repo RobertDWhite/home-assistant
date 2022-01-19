@@ -1,0 +1,47 @@
+- alias: Doorbell_Sonos
+  description: ''
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.g4_doorbell_pro_doorbell
+      to: 'on'
+  condition: []
+  action:
+    - service: sonos.snapshot
+      data:
+        entity_id: all
+    - service: media_player.volume_set
+      target:
+        entity_id:
+          - media_player.bedroom_soundbar
+          - media_player.dining_room
+          - media_player.family_room
+          - media_player.garage_speaker
+          - media_player.office_sonos
+          - media_player.sonos
+          - media_player.upstairs
+          - media_player.uvc_g3_instant_speaker
+      data:
+        volume_level: 0.40
+    - service: media_player.play_media
+      target:
+        entity_id:
+          - media_player.bedroom_soundbar
+          - media_player.dining_room
+          - media_player.family_room
+          - media_player.garage_speaker
+          - media_player.office_sonos
+          - media_player.sonos
+          - media_player.upstairs
+          - media_player.uvc_g3_instant_speaker    
+      data:
+        media_content_type: music
+        media_content_id: "http://10.100.0.10:8123/local/doorbell.wav"
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 4
+        milliseconds: 0
+    - service: sonos.restore
+      data:
+        entity_id: all
+  mode: single
