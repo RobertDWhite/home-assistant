@@ -20,23 +20,9 @@
     name: https://in-the-sky.org/newscalyear_ical.php?year=2020&maxdiff=7
     track: true
 
-- cal_id: !secret cal_smallgroup
-  entities:
-  - device_id: small_group
-    ignore_availability: true
-    name: Small Group
-    track: true
-
 - cal_id: !secret cal_id_2
   entities:
   - device_id: holidays_in_united_states
     ignore_availability: true
     name: Holidays in United States
-    track: true
-
-- cal_id: !secret cal_id_7
-  entities:
-  - device_id: cdna_cal
-    ignore_availability: true
-    name: CDNA
     track: true

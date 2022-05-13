@@ -9,8 +9,8 @@
     name: discord
 
 # Adding support for notifications to the Ecobee
-#  - name: ecobee_main
-#    platform: ecobee
+  - name: ecobee_main
+    platform: ecobee
 
 # Add support for Chrome/Firefox notifications
   - platform: html5
@@ -18,15 +18,3 @@
     vapid_pub_key: !secret google_html5_proj_pub_key
     vapid_prv_key: !secret google_html5_proj_priv_key
     vapid_email: !secret google_email
-
-
-# Adding support for notifications for FireTV
-  - platform: nfandroidtv
-    name: Bedroom
-    host: !secret host_firetv
-
-
-#  - platform: telegram
- #   name: HomeAssistant Telegram
-  #  chat_id: !secret telegram_my_id
-    
