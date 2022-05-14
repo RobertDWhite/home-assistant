@@ -31,6 +31,8 @@
     lights_ct:
       - light.bedroom
       - light.bedroom_lamp
+      - light.dining_room_lamp
+
 
 # Dining Room
   - platform: circadian_lighting
@@ -101,16 +103,6 @@
       - light.stove_light
       - light.kitchen_oven_range
 
-# Living Room
-  - platform: circadian_lighting
-    min_brightness: 60
-    name: Circadian Living Room
-    lights_ct:
-      - light.dining_room_1
-      - light.dining_room_2
-      - light.dining_room_3
-      - light.dining_room_lamp
-
 # Nursery
   - platform: circadian_lighting
     min_brightness: 15
@@ -125,7 +117,7 @@
     name: Circadian Nursery Lamp
     lights_ct:
       - light.nursery_lamp
-      
+
 # Office
   - platform: circadian_lighting
     min_brightness: 40
@@ -133,6 +125,15 @@
     lights_ct:
       - light.office_color_2
 
+# Play Room
+  - platform: circadian_lighting
+    min_brightness: 60
+    name: Circadian Play Room
+    lights_ct:
+      - light.dining_room_1
+      - light.dining_room_2
+      - light.dining_room_3
+      
 # Upstairs Hallway
   - platform: circadian_lighting
     min_brightness: 5
