@@ -121,14 +121,20 @@ anniversaries:
   sensors:
   - name: Our Wedding Anniversary
     date: !secret anniversary_wedding
+  - name: Robby's Birthday
+    date: !secret birthday_rob
+  - name: Emily's Birthday
+    date: !secret birthday_emily
+  - name: Weston's Birthday
+    date: !secret birthday_weston
+  - name: Robby's Work Anniversary
+    date: !secret anniversary_work_rob
   - name: Grandpa - Memorial
     date: !secret memorial_gp_rew
   - name: Papaw - Memorial
     date: !secret memorial_gp_jlh
   - name: Gerald - Memorial
     date: !secret memorial_gp_e_gs
-  - name: Robby's Work Anniversary
-    date: !secret anniversary_work_rob
 
 binary_sensor:
   - platform: iss
