@@ -1,11 +1,5 @@
 ### ENVIRONMENT ####################################################
 
-
-
-# Sensor for CO2 tracking in my area
-#  - platform: co2signal
-#    token: !secret co2_api
-
 # Sensor to calculate and provide a mold indicator given current weather conditions and self-measured calibration_factor
   - platform: mold_indicator
     indoor_temp_sensor: sensor.main_temperature
