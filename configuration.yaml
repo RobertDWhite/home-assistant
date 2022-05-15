@@ -122,11 +122,11 @@ anniversaries:
   - name: Our Wedding Anniversary
     date: !secret anniversary_wedding
   - name: Robby's Birthday
-    date: !secret birthday_rob
+    date: !secret birthday_rdw
   - name: Emily's Birthday
-    date: !secret birthday_emily
+    date: !secret birthday_eew
   - name: Weston's Birthday
-    date: !secret birthday_weston
+    date: !secret birthday_rww
   - name: Robby's Work Anniversary
     date: !secret anniversary_work_rob
   - name: Grandpa - Memorial
