@@ -170,13 +170,6 @@ device_tracker:
       - !secret icloud_10
     tracking_method: fmf
 
-garbage_collection:
-  sensors:
-  - name: "waste"
-    frequency: "weekly"
-    collection_days: "tue"
-    verbose_state: true
-
 homekit:
   safe_mode: false
   filter:
@@ -191,13 +184,10 @@ hue:
       allow_unreachable: false
       allow_hue_groups: true
 
-icloud:
-  - username: !secret icloud_un
-    password: !secret icloud_password
-
 influxdb:
   host: !secret host_unraid_influx
   port: 443
+  ssl: true
   database: home_assistant
   max_retries: 3
   measurement_attr: entity_id
@@ -216,12 +206,6 @@ plex:
   media_player:
     use_episode_art: true
     show_all_controls: true
-
-vacuum:
- - platform: roomba
-   host: !secret host_roomba
-   username: !secret roomba_blid
-   password: !secret roomba_password
 
 weather:
  - platform: darksky
