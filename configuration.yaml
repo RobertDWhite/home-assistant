@@ -197,7 +197,7 @@ icloud:
 
 influxdb:
   host: !secret host_unraid_influx
-  port: 8086
+  port: 443
   database: home_assistant
   max_retries: 3
   measurement_attr: entity_id
