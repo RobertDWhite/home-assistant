@@ -185,80 +185,94 @@
    icon: mdi:church
 
 # Work Locations
- - name: !secret location_work_t1
+ - name: !secret location_work_t_1
    latitude: !secret latitude_t1
    longitude: !secret longitude_t1
    radius: 75
    icon: mdi:laptop
 
- - name: !secret location_work_t2
+ - name: !secret location_work_t_2
    latitude: !secret latitude_t2
    longitude: !secret longitude_t2
    radius: 75
    icon: mdi:laptop
 
- - name: !secret location_work_t3
+ - name: !secret location_work_t_3
    latitude: !secret latitude_t3
    longitude: !secret longitude_t3
    radius: 75
    icon: mdi:laptop
 
- - name: !secret location_work_t4
+ - name: !secret location_work_t_4
    latitude: !secret latitude_t4
    longitude: !secret longitude_t4
    radius: 75
    icon: mdi:laptop
 
- - name: !secret location_work_t5
+ - name: !secret location_work_t_5
    latitude: !secret latitude_t5
    longitude: !secret longitude_t5
    radius: 75
    icon: mdi:laptop
 
- - name: !secret location_work_t6
+ - name: !secret location_work_t_6
    latitude: !secret latitude_t6
    longitude: !secret longitude_t6
    radius: 75
    icon: mdi:laptop
 
- - name: !secret location_work_t7
+ - name: !secret location_work_t_7
    latitude: !secret latitude_t7
    longitude: !secret longitude_t7
    radius: 75
    icon: mdi:laptop
 
- - name: !secret location_work_t8
+ - name: !secret location_work_t_8
    latitude: !secret latitude_t8
    longitude: !secret longitude_t8
    radius: 75
    icon: mdi:laptop
 
- - name: !secret location_work_t9
+ - name: !secret location_work_t_9
    latitude: !secret latitude_t9
    longitude: !secret longitude_t9
    radius: 75
    icon: mdi:laptop
 
- - name: !secret location_work_t10
+ - name: !secret location_work_t_10
    latitude: !secret latitude_t10
    longitude: !secret longitude_t10
    radius: 75
    icon: mdi:laptop
 
- - name: !secret location_work_t11
+ - name: !secret location_work_t_11
    latitude: !secret latitude_t11
    longitude: !secret longitude_t11
    radius: 75
    icon: mdi:laptop
 
- - name: !secret location_work_t12
+ - name: !secret location_work_t_12
    latitude: !secret latitude_t12
    longitude: !secret longitude_t12
    radius: 75
    icon: mdi:laptop
 
- - name: !secret location_work_t13
+ - name: !secret location_work_t_13
    latitude: !secret latitude_t13
    longitude: !secret longitude_t13
    radius: 75
    icon: mdi:laptop
+
+# W&W Clients
+
+ - name: !secret ww_name_client1
+   latitude: !secret latitude_ww_client1
+   longitude: !secret longitude_ww_client1
+   radius: 50
+   icon: mdi:domain
+
+ - name: !secret ww_name_client2
+   latitude: !secret latitude_ww_client2
+   longitude: !secret longitude_ww_client2
+   radius: 50
+   icon: mdi:domain
