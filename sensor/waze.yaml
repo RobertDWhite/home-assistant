@@ -62,3 +62,15 @@
     origin: !secret location_home
     destination: !secret location_work_t4
     region: 'US'
+
+  - platform: waze_travel_time
+    name: !secret waze_50
+    origin: !secret location_home
+    destination: !secret ww_addr_client1
+    region: 'US'
+
+  - platform: waze_travel_time
+    name: !secret waze_51
+    origin: !secret location_home
+    destination: !secret ww_addr_client2
+    region: 'US'
