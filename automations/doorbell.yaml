@@ -1,4 +1,6 @@
 - alias: Doorbell_Sonos
+  condition: []
+  action:
   description: ''
   trigger:
     - platform: state
@@ -6,42 +8,18 @@
       to: 'on'
   condition: []
   action:
-    - service: sonos.snapshot
-      data:
-        entity_id: all
-    - service: media_player.volume_set
-      target:
-        entity_id:
-          - media_player.bedroom_soundbar
-          - media_player.dining_room
-          - media_player.family_room
-          - media_player.garage_speaker
-          - media_player.office_sonos
-          - media_player.sonos
-          - media_player.upstairs
-          - media_player.uvc_g3_instant_speaker
-      data:
-        volume_level: 0.40
     - service: media_player.play_media
-      target:
+      data:
         entity_id:
-          - media_player.bedroom_soundbar
-          - media_player.dining_room
-          - media_player.family_room
+          - media_player.dining_room_2
+          - media_player.family_room_2
           - media_player.garage_speaker
-          - media_player.office_sonos
-          - media_player.sonos
-          - media_player.upstairs
-          - media_player.uvc_g3_instant_speaker    
-      data:
+          - media_player.office_sonos_2
+          - media_player.kitchen_sonos
+          - media_player.upstairs_bathroom_sonos
+          - media_player.uvc_g3_instant_speaker
         media_content_type: music
-        media_content_id: "http://10.100.0.10:8123/local/doorbell.wav"
-    - delay:
-        hours: 0
-        minutes: 0
-        seconds: 4
-        milliseconds: 0
-    - service: sonos.restore
-      data:
-        entity_id: all
-  mode: single
+        media_content_id: "https://homeassistant.white.fm/local/doorbell.wav"
+        extra:
+          volume: 50  # Can be provided as 0-100 or 0.0-0.99
+          play_on_bonded: true
