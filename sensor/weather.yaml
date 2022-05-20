@@ -1,20 +1,5 @@
 ### WEATHER ################################################################################
 
-#DarkSky Sensor
-#  - platform: darksky
- #   api_key: !secret darksky_password
-  #  scan_interval: '00:05:00'
-   # monitored_conditions:
-    #  - temperature
-     # - precip_probability
-      #- precip_type
-#      - humidity
- #     - cloud_cover
-  #    - nearest_storm_distance
-   #   - precip_intensity
-    #  - wind_speed
-
-
 #WeatherAlerts sensors for important counties
   - platform: weatheralerts
     state: !secret state
