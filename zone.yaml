@@ -264,15 +264,14 @@
    icon: mdi:laptop
 
 # W&W Clients
-
  - name: !secret ww_name_client1
    latitude: !secret latitude_ww_client1
    longitude: !secret longitude_ww_client1
-   radius: 50
+   radius: 75
    icon: mdi:domain
 
  - name: !secret ww_name_client2
    latitude: !secret latitude_ww_client2
    longitude: !secret longitude_ww_client2
-   radius: 50
+   radius: 100
    icon: mdi:domain
