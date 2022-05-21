@@ -1,1 +1,8 @@
 ### SERVER #############################################
+
+#Facebox_Detection Sensor
+- platform: template
+  sensors:
+    facebox_detection:
+      friendly_name: "Facebox Detection"
+      value_template: '{% if state_attr("image_processing.facebox_face_detection","faces") %}{{ state_attr("image_processing.facebox_face_detection","faces")[0]["name"] }}{% else %}unknown{% endif %}'
