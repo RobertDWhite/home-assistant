@@ -107,9 +107,12 @@ sun:
 
 system_health:
 
+system_log:
+  fire_event: true
+  
 # Text to speech
 tts:
-  - platform: google_translate
+- platform: google_translate
 
 zeroconf:
 
@@ -152,6 +155,9 @@ camera:
   - platform: generic
     still_image_url: !secret weathermap2
     name: !secret weathermapname2
+  - platform: local_file
+    name: Facebox Processing
+    file_path: /config/www/facebox/tmp/image.jpg
 
 circadian_lighting:
   interval: 600
@@ -188,6 +194,14 @@ hue:
       allow_unreachable: false
       allow_hue_groups: true
 
+image_processing:
+  - platform: facebox
+    ip_address: !secret host_facebox
+    port: !secret host_facebox_port
+    source:
+      - entity_id: camera.facebox_processing
+        name: facebox_face_detection
+        
 influxdb:
   host: !secret host_unraid_influx
   port: 443
