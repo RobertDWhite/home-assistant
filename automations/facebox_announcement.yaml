@@ -1,0 +1,37 @@
+
+- id: facebox_announcement
+  alias: 'Facebox Announcement'
+  initial_state: on
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.g4_doorbell_pro_motion
+      to: 'on'
+  action:
+    - delay: 00:00:04
+    - service: camera.snapshot
+      data:
+        entity_id: camera.g4_doorbell_pro_high
+        filename: '/config/www/facebox/tmp/image.jpg'
+    - delay: 00:00:01
+    - service: image_processing.scan
+      entity_id: image_processing.facebox_saved_images
+    - condition: template
+      value_template: "{{ not is_state('sensor.facebox_detection', 'unknown') }}"
+    - service: tts.google_translate_say
+      data_template:
+        entity_id: media_player.g4_doorbell_pro_speaker
+        message: "Welcome to the White House, {{ states('sensor.facebox_detection') }}"
+#  action:
+#    - delay: 00:00:01
+#    - value_template: "{{ not is_state('sensor.facebox_detection', 'unknown') }}"
+#    - service: tts.google_translate_say
+#     data_template:
+#       entity_id:
+#         - media_player.dining_room_2
+#         - media_player.family_room_2
+#         - media_player.garage_speaker
+#         - media_player.office_sonos_2
+#         - media_player.kitchen_sonos
+#         - media_player.upstairs_bathroom_sonos
+#       volume_level: 0.5
+#       message: "{{ states('sensor.facebox_detection') }} is at the front door"
