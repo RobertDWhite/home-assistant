@@ -9,6 +9,7 @@
   entities:
     - light.upstairs_bathroom_1
     - light.upstairs_bathroom_2
+    - light.hue_ambiance_downlight_1
       
 - platform: group
   name: Bathroom Vanity_Group
@@ -20,6 +21,7 @@
   entities:
     - light.bedroom
     - light.bedroom_lamp
+    - light.dining_room_lamp
 
 - platform: group
   name: Dining Room_Group

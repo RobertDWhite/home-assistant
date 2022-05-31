@@ -16,6 +16,7 @@
     lights_ct:
       - light.upstairs_bathroom_1
       - light.upstairs_bathroom_2
+      - light.hue_ambiance_downlight_1
 
 # Bathroom Vanity
   - platform: circadian_lighting
