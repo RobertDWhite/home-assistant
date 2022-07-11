@@ -1,0 +1,5 @@
+matrix_media:
+  method: POST
+  url: !secret matrix_hook_media
+  verify_ssl: true
+  content_type:  'application/json; charset=utf-8'
