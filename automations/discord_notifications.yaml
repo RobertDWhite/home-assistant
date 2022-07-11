@@ -8,10 +8,7 @@
     condition: template
     value_template: '{{ "/movies" in trigger.event.data.folder }}'
   action:
-    service: notify.discord
-    data_template:
-      message: " __**Movie Added:**__```css\n{{ trigger.event.data.file }}\n``` "
-      target: !secret discord_notify_media
+    service: rest_command.matrix_media
 
 
 - alias: 'Send notification to Discord when new TV Episode is added to upload directory'
@@ -24,10 +21,7 @@
     condition: template
     value_template: '{{ "/tv_shows" in trigger.event.data.folder }}'
   action:
-    service: notify.discord
-    data_template:
-      message: " __**TV Episode Added:**__```css\n{{ trigger.event.data.file }}\n``` "
-      target: !secret discord_notify_media
+    service: rest_command.matrix_media
 
 
 - alias: 'Send notification to Discord when new Documentary is added to upload directory'
@@ -40,38 +34,35 @@
     condition: template
     value_template: '{{ "/documentaries" in trigger.event.data.folder }}'
   action:
-    service: notify.discord
-    data_template:
-      message: " __**Documentary Added:**__```css\n{{ trigger.event.data.file }}\n``` "
-      target: !secret discord_notify_media
+    service: rest_command.matrix_media
 
 
-- alias: "Face taught"
-  trigger:
-  - event_data:
-      service: facebox.teach_face
-    event_type: call_service
-    platform: event
-  condition: []
-  action:
-  - service: notify.discord
-    data_template:
-      message: '{{ trigger.event.data.service_data.name }} taught
-      with file {{ trigger.event.data.service_data.file_path }}'
-      title: Face taught notification
-      target: !secret discord_notify_unraid
+#- alias: "Face taught"
+#  trigger:
+##  - event_data:
+ #     service: facebox.teach_face
+ #   event_type: call_service
+ #   platform: event
+ # condition: []
+ # action:
+ ## - service: notify.discord
+ #   data_template:
+ #     message: '{{ trigger.event.data.service_data.name }} taught
+ #     with file {{ trigger.event.data.service_data.file_path }}'
+  #    title: Face taught notification
+   #   target: !secret discord_notify_unraid
 
 
-- alias: "Facebox error"
-  trigger:
-    platform: event
-    event_type: system_log_event
-  condition:
-    condition: template
-    value_template: '{{ "facebox" in trigger.event.data.message }}'
-  action:
-  - service: notify.discord
-    data_template:
-      message: "{{ trigger.event.data.message }}"
-      title: Facebox Error
-      target: !secret discord_notify_unraid
+#- alias: "Facebox error"
+ # trigger:
+  #  platform: event
+   # event_type: system_log_event
+#  condition:
+ #   condition: template
+  #  value_template: '{{ "facebox" in trigger.event.data.message }}
+#  action:
+ # - service: notify.discord
+  #  data_template:
+   #   message: "{{ trigger.event.data.message }}"
+    #  title: Facebox Error
+     # target: !secret discord_notify_unraid
