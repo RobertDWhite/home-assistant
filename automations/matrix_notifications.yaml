@@ -1,4 +1,4 @@
-- alias: 'Send notification to Discord when new movie is added to upload directory'
+- alias: 'Send notification to Matrix when new movie is added to upload directory'
   trigger:
     platform: event
     event_type: folder_watcher
@@ -11,7 +11,7 @@
     service: rest_command.matrix_media
 
 
-- alias: 'Send notification to Discord when new TV Episode is added to upload directory'
+- alias: 'Send notification to Matrix when new TV Episode is added to upload directory'
   trigger:
     platform: event
     event_type: folder_watcher
@@ -24,7 +24,7 @@
     service: rest_command.matrix_media
 
 
-- alias: 'Send notification to Discord when new Documentary is added to upload directory'
+- alias: 'Send notification to Matrix when new Documentary is added to upload directory'
   trigger:
     platform: event
     event_type: folder_watcher
