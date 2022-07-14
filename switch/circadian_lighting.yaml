@@ -18,13 +18,6 @@
       - light.bedroom_lamp_right
       - light.bedroom_main
 
-# Dining Room
-  - platform: circadian_lighting
-    min_brightness: 50
-    name: Circadian Dining Room
-    lights_ct:
-      - light.dining_room_lamp
-
 # Dining Room Chandelier
   - platform: circadian_lighting
     min_brightness: 50
@@ -106,6 +99,7 @@
     name: Circadian Office
     lights_ct:
       - light.office_light
+      - light.dining_room_lamp
 
 # Play Room
   - platform: circadian_lighting
