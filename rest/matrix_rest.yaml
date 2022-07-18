@@ -1,6 +1,8 @@
+
+
 rest_command:
   matrix_media:
-    method: POST
+    method: post
     url: !secret matrix_hook_media
     verify_ssl: true
-    content_type:  'application/json; charset=utf-8'
+    content_type:  'application/json'
