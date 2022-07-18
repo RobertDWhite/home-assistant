@@ -1,4 +1,4 @@
-- alias: 'Send notification to Matrix when new movie is added to upload directory'
+- alias: 'Matrix_Movies'
   trigger:
     platform: event
     event_type: folder_watcher
@@ -8,10 +8,14 @@
     condition: template
     value_template: '{{ "/movies" in trigger.event.data.folder }}'
   action:
-    - service: rest_command.matrix_media
-
-
-- alias: 'Send notification to Matrix when new TV Episode is added to upload directory'
+    - service: notify.matrix_media
+      data:
+        title: HA Movie Update
+        message: "Created {{ trigger.event.data.file }} in {{ trigger.event.data.folder }}"
+        data:
+          file: "{{ trigger.event.data.path }}"
+        
+- alias: 'Matrix_TV'
   trigger:
     platform: event
     event_type: folder_watcher
@@ -21,10 +25,14 @@
     condition: template
     value_template: '{{ "/tv_shows" in trigger.event.data.folder }}'
   action:
-    - service: rest_command.matrix_media
+    - service: notify.matrix_media
+      data:
+        title: HA TV Update
+        message: "Created {{ trigger.event.data.file }} in {{ trigger.event.data.folder }}"
+        data:
+          file: "{{ trigger.event.data.path }}"
 
-
-- alias: 'Send notification to Matrix when new Documentary is added to upload directory'
+- alias: 'Matrix_Documentary'
   trigger:
     platform: event
     event_type: folder_watcher
@@ -34,9 +42,13 @@
     condition: template
     value_template: '{{ "/documentaries" in trigger.event.data.folder }}'
   action:
-    - service: rest_command.matrix_media
-
-
+    - service: notify.matrix_media
+      data:
+        title: HA Documentary Update
+        message: "Created {{ trigger.event.data.file }} in {{ trigger.event.data.folder }}"
+        data:
+          file: "{{ trigger.event.data.path }}"
+        
 #- alias: "Face taught"
 #  trigger:
 ##  - event_data:

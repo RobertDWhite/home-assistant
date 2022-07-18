@@ -18,3 +18,10 @@
     vapid_pub_key: !secret google_html5_proj_pub_key
     vapid_prv_key: !secret google_html5_proj_priv_key
     vapid_email: !secret google_email
+
+  - name: matrix_media
+    platform: rest
+    method: POST
+    verify_ssl: true
+    content_type:  'application/json'
+    resource: !secret matrix_hook_media
