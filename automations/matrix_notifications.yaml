@@ -8,7 +8,7 @@
     condition: template
     value_template: '{{ "/movies" in trigger.event.data.folder }}'
   action:
-    service: rest_command.matrix_media
+    - service: rest_command.matrix_media
 
 
 - alias: 'Send notification to Matrix when new TV Episode is added to upload directory'
@@ -21,7 +21,7 @@
     condition: template
     value_template: '{{ "/tv_shows" in trigger.event.data.folder }}'
   action:
-    service: rest_command.matrix_media
+    - service: rest_command.matrix_media
 
 
 - alias: 'Send notification to Matrix when new Documentary is added to upload directory'
@@ -34,7 +34,7 @@
     condition: template
     value_template: '{{ "/documentaries" in trigger.event.data.folder }}'
   action:
-    service: rest_command.matrix_media
+    - service: rest_command.matrix_media
 
 
 #- alias: "Face taught"
