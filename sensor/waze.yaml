@@ -13,64 +13,67 @@
             {%- endif %}
 
 
+## Waze no longer supports setup with config
+## I am keeping these settings for reference
+
 # Tracking entity to entity
 
-  - platform: waze_travel_time
-    name: "Home to Liberty"
-    origin: !secret location_home
-    destination: !secret location_lib_add
-    region: 'US'
+#  - platform: waze_travel_time
+#    name: "Home to Liberty"
+#    origin: !secret location_home
+#    destination: !secret location_lib_add
+#    region: 'US'
 
-  - platform: waze_travel_time
-    name: "Home to Cincinnati"
-    origin: !secret location_home
-    destination: !secret location_city_home_south
-    region: 'US'
+#  - platform: waze_travel_time
+#    name: "Home to Cincinnati"
+#    origin: !secret location_home
+#    destination: !secret location_city_home_south
+#    region: 'US'
 
-  - platform: waze_travel_time
-    name: "Home to Dayton"
-    origin: !secret location_home
-    destination: !secret location_city_home_north
-    region: 'US'
+#  - platform: waze_travel_time
+#    name: "Home to Dayton"
+#    origin: !secret location_home
+#    destination: !secret location_city_home_north
+#    region: 'US'
 
-  - platform: waze_travel_time
-    name: "Home to MR"
-    origin: !secret location_home
-    destination: !secret location_work4_add
-    region: 'US'
+#  - platform: waze_travel_time
+#    name: "Home to MR"
+#    origin: !secret location_home
+#    destination: !secret location_work4_add
+#    region: 'US'
 
-  - platform: waze_travel_time
-    name: "Home to MLS"
-    origin: !secret location_home
-    destination: !secret location_work2_add
-    region: 'US'
+#  - platform: waze_travel_time
+#    name: "Home to MLS"
+#    origin: !secret location_home
+#    destination: !secret location_work2_add
+#    region: 'US'
 
 #  - platform: waze_travel_time
 #    name: "Home to HQ"
 #    origin: !secret location_home
-#    destination: !secret location_work_t3
+#    destination: !secret location_t1_add
 #    region: 'US'
 
 #  - platform: waze_travel_time
 #    name: "Home to NC HQ"
 #    origin: !secret location_home
-#    destination: !secret location_work_t1
+#    destination: !secret location_t5_add
 #    region: 'US'
 
 #  - platform: waze_travel_time
 #    name: "Home to TX HQ"
 #    origin: !secret location_home
-#    destination: !secret location_work_t4
+#    destination: !secret location_t2_add
 #    region: 'US'
 
 #  - platform: waze_travel_time
-#    name: !secret waze_50
+#    name: !secret location_ww_client_1
 #    origin: !secret location_home
-#    destination: !secret ww_addr_client1
+#    destination: !secret location_ww_client_1_add
 #    region: 'US'
 
 #  - platform: waze_travel_time
-#    name: !secret waze_51
+#    name: !secret location_ww_client_2
 #    origin: !secret location_home
-#    destination: !secret ww_addr_client2
+#    destination: !secret location_ww_client_2_add
 #    region: 'US'
