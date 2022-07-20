@@ -104,6 +104,13 @@
     latitude: !secret latitude_parents_r_other
     longitude: !secret longitude_parents_r_other
     radius: 50
+    icon: mdi:home-circle-outline
+    
+  - name: !secret location_sh_parents
+    latitude: !secret latitude_sh_parents
+    longitude: !secret longitude_sh_parents
+    radius: 100
+    icon: mdi:home-circle-outline
 
   - name: !secret location_sister_l
     latitude: !secret latitude_sister_l
