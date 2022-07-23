@@ -172,6 +172,24 @@
     radius: 150
     icon: mdi:school
 
+  - name: !secret location_work_mom_2
+    latitude: !secret latitude_work_mom_2
+    longitude: !secret longitude_work_mom_2
+    radius: 150
+    icon: mdi:school
+
+  - name: !secret location_work_mom_3
+    latitude: !secret latitude_work_mom_3
+    longitude: !secret longitude_work_mom_3
+    radius: 150
+    icon: mdi:school
+
+  - name: !secret location_work_sh
+    latitude: !secret latitude_work_sh
+    longitude: !secret longitude_work_sh
+    radius: 150
+    icon: mdi:police-badge
+
   - name: !secret location_misc_cl
     latitude: !secret latitude_misc_cl
     longitude: !secret longitude_misc_cl
