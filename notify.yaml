@@ -25,3 +25,10 @@
     verify_ssl: true
     content_type:  'application/json'
     resource: !secret matrix_hook_media
+    
+  - name: matrixsmarthome
+    platform: rest
+    method: POST
+    verify_ssl: true
+    content_type:  'application/json'
+    resource: !secret matrix_hook_smarthome
