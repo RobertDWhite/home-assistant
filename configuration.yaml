@@ -14,10 +14,10 @@ homeassistant:
   unit_system: imperial
   # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/New_York
-  allowlist_external_dirs:
-    - /documentaries
-    - /movies
-    - /tv_shows
+  #allowlist_external_dirs:
+  #  - /documentaries
+  #  - /movies
+  #  - /tv_shows
 
 #---------------------------------------------------------------------------------------------------#
 #---------------------------------------------------------------------------------------------------#
@@ -47,19 +47,19 @@ duckdns:
   domain: !secret duckdns_domain
   access_token: !secret duckdns_token
 
-folder_watcher:
-  - folder: /documentaries
-    patterns:
-      - '*.mp4'
-      - '*.mkv'
-  - folder: /movies
-    patterns:
-      - '*.mp4'
-      - '*.mkv'
-  - folder: /tv_shows
-    patterns:
-      - '*.mp4'
-      - '*.mkv'
+#folder_watcher:
+#  - folder: /documentaries
+#    patterns:
+#      - '*.mp4'
+#      - '*.mkv'
+#  - folder: /movies
+#    patterns:
+#      - '*.mp4'
+#      - '*.mkv'
+#  - folder: /tv_shows
+#    patterns:
+#      - '*.mp4'
+#      - '*.mkv'
 
 frontend:
 # Add themes
@@ -147,8 +147,8 @@ anniversaries:
     date: !secret memorial_gp_e_gs
 
 binary_sensor:
-  - platform: iss
-    show_on_map: true
+#  - platform: iss
+#    show_on_map: true
   - platform: aurora
 
 camera:
@@ -190,6 +190,8 @@ homekit:
      - light
      - device_tracker
      - sensor
+   exclude_entity_globs:
+     - binary_sensor.*_occupancy
 
 hue:
   bridges:

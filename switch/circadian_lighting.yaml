@@ -1,30 +1,5 @@
 ### Circadian Lighting #############################################
 
-
-# Basement
-  - platform: circadian_lighting
-    min_brightness: 60
-    name: Circadian Basement
-    lights_ct:
-      - light.basement_stairs
-      - light.basement_laundry
-
-# Bedroom
-  - platform: circadian_lighting
-    min_brightness: 25
-    name: Circadian Bedroom
-    lights_ct:
-      - light.bedroom_lamp_left
-      - light.bedroom_lamp_right
-      - light.bedroom_main
-
-# Dining Room Chandelier
-  - platform: circadian_lighting
-    min_brightness: 50
-    name: Circadian Dining Room Chandelier
-    lights_brightness:
-      - light.dining_room_chandelier
-
 # Dining Room Hutch
   - platform: circadian_lighting
     min_brightness: 30
@@ -33,102 +8,24 @@
       - light.dining_room_hutch_left
       - light.dining_room_hutch_right
 
-# Downstairs Bathroom
+# Great Room
   - platform: circadian_lighting
     min_brightness: 40
-    name: Circadian Downstairs Bathroom
+    name: Circadian Bedroom
     lights_ct:
-      - light.donwstairs_bathroom_right
-      - light.downstairs_bathroom_left
-      - light.downstairs_bathroom_main_center
-
-# Entry Way
+      - light.great_room_lamp
+   
+# Master Bedroom
   - platform: circadian_lighting
-    min_brightness: 40
-    name: Circadian Entry Way
+    min_brightness: 25
+    name: Circadian Bedroom
     lights_ct:
-      - light.entry_way
+      - light.master_bedroom_emilys_lamp
+      - light.master_bedroom_robbys_lamp
 
-# Family Room
+# Weston's Room - Lamp
   - platform: circadian_lighting
-    min_brightness: 40
-    name: Circadian Family Room
-    lights_ct:
-      - light.family_room_main
-      - light.family_room_lamp
-      - light.family_room_security
-
-# Kitchen
-  - platform: circadian_lighting
-    min_brightness: 50
-    name: Circadian Kitchen
-    lights_ct:
-      - light.kitchen_counter
-      - light.kitchen_dishwasher
-      - light.kitchen_refrigerator
-      - light.kitchen_sink
-      - light.kitchen_stairs
-
-# Kitchen Color
-  - platform: circadian_lighting
-    min_brightness: 50
-    name: Circadian Kitchen Color
-    lights_ct:
-      - light.kitchen_color_east
-      - light.kitchen_color_west
-      - light.kithen_stove
-
-# Nursery
-  - platform: circadian_lighting
-    min_brightness: 15
-    name: Circadian Nursery
-    lights_ct:
-      - light.nursery_main_1
-      - light.nursery_main_2
-
-# Nursery Lamp
-  - platform: circadian_lighting
-    min_brightness: 5
+    min_brightness: 10
     name: Circadian Nursery Lamp
     lights_ct:
-      - light.nursery_lamp
-
-# Office
-  - platform: circadian_lighting
-    min_brightness: 40
-    name: Circadian Office
-    lights_ct:
-      - light.office_light
-      - light.dining_room_lamp
-
-# Play Room
-  - platform: circadian_lighting
-    min_brightness: 60
-    name: Circadian Play Room
-    lights_ct:
-      - light.play_room_1
-      - light.playroom_light_2
-      - light.playroom_light_3
-
-# Upstairs Bathroom
-  - platform: circadian_lighting
-    min_brightness: 30
-    name: Circadian Upstairs Bathroom
-    lights_ct:
-      - light.upstairs_barhroom_main_left
-      - light.upstairs_bathroom_main_right
-      - light.upstairs_bathroom_shower
-
-# Upstairs Bathroom Vanity
-  - platform: circadian_lighting
-    min_brightness: 15
-    name: Circadian Upstairs Bathroom Vanity
-    lights_brightness:
-      - light.upstairs_bathroom_vanity_lights
-
-# Upstairs Hallway
-  - platform: circadian_lighting
-    min_brightness: 5
-    name: Circadian Upstairs Hall
-    lights_ct:
-      - light.upstairs_hallway
+      - light.westons_room_lamp

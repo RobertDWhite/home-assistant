@@ -6,7 +6,7 @@
     - platform: state
       entity_id: binary_sensor.g4_doorbell_pro_doorbell
       to: 'on'
-  condition: []
+ 
   action:
     - service: media_player.play_media
       data:
