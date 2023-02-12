@@ -226,6 +226,25 @@
     longitude: !secret location_ww_client_3_longitude
     radius: 75
     icon: mdi:domain
+    
+  - name: !secret location_ww_client_4
+    latitude: !secret location_ww_client_4_latitude
+    longitude: !secret location_ww_client_4_longitude
+    radius: 75
+    icon: mdi:domain
+
+  - name: !secret location_ww_apple_1
+    latitude: !secret location_ww_apple_1_latitude
+    longitude: !secret location_ww_apple_1_longitude
+    radius: 75
+    icon: mdi:apple
+
+  - name: !secret location_ww_apple_2
+    latitude: !secret location_ww_apple_2_latitude
+    longitude: !secret location_ww_apple_2_longitude
+    radius: 75
+    icon: mdi:apple
+
 
 # Work
   - name: !secret location_t1
