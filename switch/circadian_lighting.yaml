@@ -25,7 +25,7 @@
 # Great Room
   - platform: circadian_lighting
     min_brightness: 40
-    name: Circadian Bedroom
+    name: Circadian Great Room
     lights_ct:
       - light.great_room_lamp
     hue_keyword: 'Circadian'
