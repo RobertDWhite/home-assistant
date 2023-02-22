@@ -1,6 +1,5 @@
 - alias: Doorbell_Sonos
   condition: []
-  action:
   description: ''
   trigger:
     - platform: state
