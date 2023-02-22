@@ -7,6 +7,7 @@
     lights_ct:
       - light.dining_room_hutch_left
       - light.dining_room_hutch_right
+    hue_keyword: 'Circadian'
 
 # Dining Room Main
   - platform: circadian_lighting
@@ -19,6 +20,7 @@
       - light.hue_filament_bulb_4
       - light.hue_filament_bulb_5
       - light.hue_filament_bulb_6
+    hue_keyword: 'Circadian'
 
 # Great Room
   - platform: circadian_lighting
@@ -26,6 +28,7 @@
     name: Circadian Bedroom
     lights_ct:
       - light.great_room_lamp
+    hue_keyword: 'Circadian'
   
 # Great Room Accent
   - platform: circadian_lighting
@@ -38,6 +41,7 @@
       - light.hue_color_spot_1
       - light.hue_color_spot_2
       - light.hue_color_spot_3
+    hue_keyword: 'Circadian'
 
 # Master Bedroom
   - platform: circadian_lighting
@@ -48,6 +52,7 @@
       - light.master_bedroom_robbys_lamp
       - light.hue_color_candle_1
       - light.hue_color_candle_1_2
+    hue_keyword: 'Circadian'
 
 # Master Closet
   - platform: circadian_lighting
@@ -57,6 +62,7 @@
       - light.hue_ambiance_downlight_1
       - light.hue_ambiance_downlight_2
       - light.hue_ambiance_downlight_3
+    hue_keyword: 'Circadian'
 
 # Main Office
   - platform: circadian_lighting
@@ -69,6 +75,7 @@
       - light.hue_color_lamp_4
       - light.hue_ambiance_lamp_1_2
       - light.hue_ambiance_lamp_2
+    hue_keyword: 'Circadian'
 
 # Upstairs Hallway
   - platform: circadian_lighting
@@ -78,6 +85,7 @@
       - light.hue_ambiance_downlight_1_2
       - light.hue_ambiance_downlight_2_2
       - light.hue_ambiance_downlight_1_3
+    hue_keyword: 'Circadian'
 
 # Upstairs Office
   - platform: circadian_lighting
@@ -85,6 +93,7 @@
     name: Circadian Upstairs Office
     lights_ct:
       - light.hue_ambiance_lamp_1
+    hue_keyword: 'Circadian'
 
 ## Kid's Rooms
 
@@ -94,7 +103,8 @@
     name: Circadian Annie
     lights_ct:
       - light.hue_ambiance_candle_1_2
-      - light.hue_ambiance_candle_2_2 
+      - light.hue_ambiance_candle_2_2
+    hue_keyword: 'Circadian'
 
 # Weston's Room
   - platform: circadian_lighting
@@ -104,3 +114,4 @@
       - light.westons_room_lamp
       - light.hue_ambiance_candle_1
       - light.hue_ambiance_candle_2
+    hue_keyword: 'Circadian'
