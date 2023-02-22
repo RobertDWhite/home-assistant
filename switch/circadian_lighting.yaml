@@ -8,24 +8,99 @@
       - light.dining_room_hutch_left
       - light.dining_room_hutch_right
 
+# Dining Room Main
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Dining Room Main
+    lights_ct:
+      - light.hue_filament_bulb_1
+      - light.hue_filament_bulb_2
+      - light.hue_filament_bulb_3
+      - light.hue_filament_bulb_4
+      - light.hue_filament_bulb_5
+      - light.hue_filament_bulb_6
+
 # Great Room
   - platform: circadian_lighting
     min_brightness: 40
     name: Circadian Bedroom
     lights_ct:
       - light.great_room_lamp
-   
+  
+# Great Room Accent
+  - platform: circadian_lighting
+    min_brightness: 40
+    name: Circadian Bedroom
+    lights_ct:
+      # Fireplace
+      - light.hue_color_downlight_1
+      - light.hue_lightstrip_plus_1
+      - light.hue_color_spot_1
+      - light.hue_color_spot_2
+      - light.hue_color_spot_3
+
 # Master Bedroom
   - platform: circadian_lighting
     min_brightness: 25
-    name: Circadian Bedroom
+    name: Circadian Master Bedroom
     lights_ct:
       - light.master_bedroom_emilys_lamp
       - light.master_bedroom_robbys_lamp
+      - light.hue_color_candle_1
+      - light.hue_color_candle_1_2
 
-# Weston's Room - Lamp
+# Master Closet
   - platform: circadian_lighting
-    min_brightness: 10
-    name: Circadian Nursery Lamp
+    min_brightness: 25
+    name: Circadian Master Closet
+    lights_ct:
+      - light.hue_ambiance_downlight_1
+      - light.hue_ambiance_downlight_2
+      - light.hue_ambiance_downlight_3
+
+# Main Office
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Main Office
+    lights_ct:
+      - light.hue_color_lamp_1
+      - light.hue_color_lamp_2
+      - light.hue_color_lamp_3
+      - light.hue_color_lamp_4
+      - light.hue_ambiance_lamp_1_2
+      - light.hue_ambiance_lamp_2
+
+# Upstairs Hallway
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Upstairs Hallway
+    lights_ct:
+      - light.hue_ambiance_downlight_1_2
+      - light.hue_ambiance_downlight_2_2
+      - light.hue_ambiance_downlight_1_3
+
+# Upstairs Office
+  - platform: circadian_lighting
+    min_brightness: 25
+    name: Circadian Upstairs Office
+    lights_ct:
+      - light.hue_ambiance_lamp_1
+
+## Kid's Rooms
+
+# Annie's Room
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Annie
+    lights_ct:
+      - light.hue_ambiance_candle_1_2
+      - light.hue_ambiance_candle_2_2 
+
+# Weston's Room
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Weston
     lights_ct:
       - light.westons_room_lamp
+      - light.hue_ambiance_candle_1
+      - light.hue_ambiance_candle_2
