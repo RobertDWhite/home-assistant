@@ -33,7 +33,7 @@
 # Great Room Accent
   - platform: circadian_lighting
     min_brightness: 40
-    name: Circadian Bedroom
+    name: Circadian Great Room Accent
     lights_ct:
       # Fireplace
       - light.hue_color_downlight_1
