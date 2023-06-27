@@ -166,6 +166,7 @@ circadian_lighting:
   interval: 600
   max_colortemp: 10000
   min_colortemp: 2000
+  
 
 device_tracker:
   - platform: icloud3
