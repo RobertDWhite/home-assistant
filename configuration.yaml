@@ -32,6 +32,7 @@ rest_command: !include_dir_merge_list rest/
 script: !include_dir_merge_list scripts/
 sensor: !include_dir_merge_list sensor/
 switch: !include_dir_merge_list switch/
+template: !include_dir_merge_list template/
 zone: !include zone.yaml
 
 
@@ -92,15 +93,15 @@ http:
   trusted_proxies:
     - !secret host_nginx_proxy
 
+
 # View all events in a logbook
 logbook:
 
 logger:
   default: info
   logs:
-    custom_components.circadian_lighting: info
-    custom_components.circadian_lighting.sensor: info
-    custom_components.circadian_lighting.switch: info
+    custom_components.circadian_lighting: debug
+    aiohue: debug
 
 # Enables a map showing the location of tracked devices
 map:
@@ -137,6 +138,8 @@ anniversaries:
     date: !secret birthday_eew
   - name: Weston's Birthday
     date: !secret birthday_rww
+  - name: Annie's Birthday
+    date: !secret birthday_aew
   - name: Robby's Work Anniversary
     date: !secret anniversary_work_rob
   - name: Grandpa - Memorial
@@ -158,6 +161,33 @@ camera:
   - platform: generic
     still_image_url: !secret weathermap2
     name: !secret weathermapname2
+  - platform: generic
+    still_image_url: !secret weathermap3
+    name: !secret weathermapname3
+  - platform: generic
+    still_image_url: !secret weathermap4
+    name: !secret weathermapname4
+  - platform: generic
+    still_image_url: !secret weathermap5
+    name: !secret weathermapname5
+  - platform: generic
+    still_image_url: !secret weathermap6
+    name: !secret weathermapname6
+  - platform: generic
+    still_image_url: !secret weathermap7
+    name: !secret weathermapname7
+  - platform: generic
+    still_image_url: !secret weathermap8
+    name: !secret weathermapname8
+  - platform: generic
+    still_image_url: !secret weathermap9
+    name: !secret weathermapname9
+  - platform: generic
+    still_image_url: !secret weathermap10
+    name: !secret weathermapname10
+  - platform: generic
+    still_image_url: !secret weathermap11
+    name: !secret weathermapname11
   - platform: local_file
     name: Facebox Processing
     file_path: /config/www/facebox/tmp/image.jpg
@@ -184,6 +214,16 @@ device_tracker:
       - !secret icloud_10
     tracking_method: fmf
 
+  - platform: aprs
+    username: W3RDW  # or FO0BAR-1 to FO0BAR-15
+    callsigns:
+      - 'W3RDW*'
+      - 'KE8WSC*'
+      - 'WB8AM*'
+      - 'KF8BPW*'
+      - 'N8CMB*'
+      - 'W8ITE*'
+      
 homekit:
   safe_mode: false
   filter:
@@ -191,6 +231,8 @@ homekit:
      - light
      - device_tracker
      - sensor
+     - media_player
+     - device_automation
    exclude_entity_globs:
      - binary_sensor.*_occupancy
 
@@ -199,6 +241,8 @@ hue:
     - host: !secret host_hue
       allow_unreachable: false
       allow_hue_groups: true
+
+circadian_lighting_bridge:
 
 image_processing:
   - platform: facebox
@@ -209,21 +253,22 @@ image_processing:
         name: facebox_face_detection
         
 influxdb:
-  host: !secret host_unraid_influx
+  host: !secret host_influx
   port: 443
   ssl: true
-  database: home_assistant
-  max_retries: 3
-  measurement_attr: entity_id
-  include:
-    domains:
-      - sensor
+  api_version: 2
+  organization: !secret influx_org
+  bucket: homeassistant
+  token: !secret influx_token
+  tags:
+    source: HA
+
 
 ios:
 
 plex:
-  host: !secret host_unraid
-  port: 32400
+  host: !secret host_plex
+  port: 443
   token: !secret plex_token
   ssl: false
   verify_ssl: false
