@@ -25,7 +25,7 @@
   - platform: radarr_upcoming_media
     api_key: !secret radarr_api
     host: !secret host_radarr
-    port: 7878
+    port: 443
     days: 120
     theaters: true
     max: 10
@@ -35,6 +35,6 @@
   - platform: sonarr_upcoming_media
     api_key: !secret sonarr_api
     host: !secret host_sonarr
-    port: 8989
+    port: 443
     days: 7
     max: 10
