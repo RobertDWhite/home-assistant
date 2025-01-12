@@ -9,6 +9,13 @@
       - light.hue_color_downlight_2_2
       - light.hue_color_downlight_3_2
       - light.hue_color_downlight_4_3
+
+# Basement Staircase
+  - platform: circadian_lighting
+    min_brightness: 40
+    name: Circadian Basement Staircase
+    lights_ct:
+      - light.hue_ambiance_lamp_1_2
       
 # Dining Room Hutch
   - platform: circadian_lighting
@@ -24,12 +31,12 @@
     min_brightness: 40
     name: Circadian Dining Room Main
     lights_ct:
-      - light.hue_filament_bulb_1
-      - light.hue_filament_bulb_2
-      - light.hue_filament_bulb_3
-      - light.hue_filament_bulb_4
-      - light.hue_filament_bulb_5
-      - light.hue_filament_bulb_6
+      - light.dining_room_1
+      - light.dining_room_2
+      - light.dining_room_3
+      - light.dining_room_4
+      - light.dining_room_5
+      - light.dining_room_6
 #    hue_keyword: 'Circadian'
 
 # Entry
@@ -37,7 +44,11 @@
     min_brightness: 40
     name: Circadian Entry
     lights_ct:
-      - light.hue_color_downlight_1_3
+      - light.entry_hallway
+      - light.entry_chandelier_1
+      - light.entry_chandelier_2
+      - light.entry_chandelier_3
+      - light.entry_chandelier_4
 #    hue_keyword: 'Circadian'
     
 # Great Room
@@ -46,9 +57,9 @@
     name: Circadian Great Room
     lights_ct:
       - light.great_room_lamp
-      - light.hue_color_candle_1
-      - light.hue_color_candle_2
-      - light.hue_color_candle_1_3
+      - light.great_room_main_1
+      - light.great_room_main_2
+      - light.great_room_main_3
 #    hue_keyword: 'Circadian'
   
 # Great Room Accent
@@ -70,23 +81,23 @@
     name: Circadian Guest Bathroom
     lights_ct:
       # Fireplace
-      - light.hue_filament_bulb_1_3
-      - light.hue_filament_bulb_2_3
+      - light.hue_filament_bulb_1
+      - light.hue_filament_bulb_2
 
 # Kitchen
   - platform: circadian_lighting
     min_brightness: 40
     name: Circadian Kitchen
     lights_ct:
-      - light.hue_color_downlight_4_2
-      - light.hue_color_downlight_3
-      - light.hue_color_downlight_1_2
-      - light.hue_color_downlight_6
-      - light.hue_color_downlight_2
-      - light.hue_color_downlight_5
-      - light.hue_color_downlight_4
-      - light.hue_color_spot_1_2
-      - light.hue_color_spot_2_2
+      - light.kitchen_stove
+      - light.kitchen_sink
+      - light.kitchen_oven
+      - light.kitchen_island
+      - light.kitchen_dishwasher_1
+      - light.kitchen_dishwasher_2
+      - light.kitchen_fridge
+      - light.range_left
+      - light.range_right
 #    hue_keyword: 'Circadian'
 
 # Loft
@@ -105,8 +116,8 @@
     lights_ct:
       - light.master_bedroom_emilys_lamp
       - light.master_bedroom_robbys_lamp
-      - light.hue_color_candle_1_2
-      - light.hue_color_candle_1_4
+      - light.master_bedroom_main_2
+      - light.hue_color_candle_1
 #    hue_keyword: 'Circadian'
 
 # Master Closet
@@ -114,9 +125,9 @@
     min_brightness: 25
     name: Circadian Master Closet
     lights_ct:
-      - light.hue_ambiance_downlight_1
-      - light.hue_ambiance_downlight_2
-      - light.hue_ambiance_downlight_3
+      - light.master_closet_close
+      - light.master_closet_far
+      - light.master_closet_middle
 #    hue_keyword: 'Circadian'
 
 # Main Hall
@@ -124,8 +135,8 @@
     min_brightness: 40
     name: Circadian Main Hall
     lights_ct:
-      - light.hue_ambiance_downlight_1_2
-      - light.hue_ambiance_downlight_2_2
+      - light.hall_hue_ambiance_downlight_1
+      - light.hall_hue_ambiance_downlight_2
 #    hue_keyword: 'Circadian'
 
 # Main Office
@@ -154,8 +165,19 @@
     min_brightness: 30
     name: Circadian Music and Play
     lights_ct:
-      - light.hue_color_downlight_5_2
-      - light.hue_color_downlight_6_2
+      - light.hue_color_downlight_10
+      - light.hue_color_downlight_11
+      - light.hue_color_downlight_8_2
+      - light.hue_color_downlight_9
+   
+# Storage - Basement
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Storage
+    lights_ct:
+      - light.hue_ambiance_lamp_1_5
+      - light.hue_ambiance_lamp_1_6
+      - light.hue_ambiance_lamp_2
       
 # Theatre
   - platform: circadian_lighting
@@ -166,6 +188,14 @@
       - light.hue_color_downlight_2_3
       - light.hue_color_downlight_3_3
       - light.hue_color_downlight_4_4
+
+# Theatre Rear
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Theatre Rear
+    lights_ct:
+      - light.hue_color_downlight_5_2 # theatre rear, music / play
+      - light.hue_color_downlight_6_2 # theatre rear, music / play
 
 # Theatre Hallway
   - platform: circadian_lighting
@@ -203,7 +233,7 @@
     lights_ct:
       - light.annies_room_main_1
       - light.annies_room_main_2
-      - light.annies_room_2
+      - light.hue_ambiance_lamp_1
 #    hue_keyword: 'Circadian'
 
 # Weston's Room
@@ -213,5 +243,5 @@
     lights_ct:
       - light.westons_lamp
       - light.westons_room_main_1
-      - light.hue_ambiance_lamp_1
+      - light.main_2
 #    hue_keyword: 'Circadian'
