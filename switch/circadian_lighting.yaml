@@ -188,7 +188,15 @@
       - light.hue_color_downlight_2_3
       - light.hue_color_downlight_3_3
       - light.hue_color_downlight_4_4
-
+      
+# Theatre Accent
+  - platform: circadian_lighting
+    min_brightness: 30
+    name: Circadian Theatre Accent
+    lights_ct:
+      - light.hue_color_spot_1
+      - light.hue_color_downlight_7
+      
 # Theatre Rear
   - platform: circadian_lighting
     min_brightness: 30
