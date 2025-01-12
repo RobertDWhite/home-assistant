@@ -1,0 +1,14 @@
+
+  - platform: rest
+    name: FR24 Feeder
+    resource: http://10.100.1.33:8754/monitor.json
+    value_template: '{{ value_json.feed_alias }}'
+    method: GET
+    scan_interval: 60
+    json_attributes:
+      - rx_connected
+      - feed_status
+      - d11_map_size
+      - feed_num_ac_tracked
+      - build_version
+      - feed_alias
