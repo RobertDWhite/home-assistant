@@ -16,6 +16,7 @@
     name: Circadian Basement Staircase
     lights_ct:
       - light.hue_ambiance_lamp_1_2
+      - light.hue_color_downlight_8
       
 # Dining Room Hutch
   - platform: circadian_lighting
@@ -114,10 +115,17 @@
     min_brightness: 30
     name: Circadian Master Bedroom
     lights_ct:
-      - light.master_bedroom_emilys_lamp
-      - light.master_bedroom_robbys_lamp
       - light.master_bedroom_main_2
       - light.hue_color_candle_1
+#    hue_keyword: 'Circadian'
+
+# Master Bedroom Accent
+  - platform: circadian_lighting
+    min_brightness: 45
+    name: Circadian Master Bedroom Accent
+    lights_ct:
+      - light.hue_color_candle_2_2
+      - light.hue_color_candle_2
 #    hue_keyword: 'Circadian'
 
 # Master Closet
@@ -236,20 +244,34 @@
 
 # Annie's Room
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 45
     name: Circadian Annie
     lights_ct:
       - light.annies_room_main_1
       - light.annies_room_main_2
-      - light.hue_ambiance_lamp_1
+#    hue_keyword: 'Circadian'
+
+# Annie's Room Accent
+  - platform: circadian_lighting
+    min_brightness: 45
+    name: Circadian Annie Accent
+    lights_ct:
+      - light.hue_color_lamp_1
 #    hue_keyword: 'Circadian'
 
 # Weston's Room
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 45
     name: Circadian Weston
     lights_ct:
-      - light.westons_lamp
       - light.westons_room_main_1
       - light.main_2
+#    hue_keyword: 'Circadian'
+
+# Weston's Room Accent
+  - platform: circadian_lighting
+    min_brightness: 45
+    name: Circadian Weston Accent
+    lights_ct:
+      - light.hue_color_lamp_1_3
 #    hue_keyword: 'Circadian'
