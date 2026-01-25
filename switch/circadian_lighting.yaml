@@ -20,7 +20,7 @@
       
 # Dining Room Hutch
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 40
     name: Circadian Dining Room Hutch
     lights_ct:
       - light.dining_room_hutch_left
@@ -29,15 +29,15 @@
 
 # Dining Room Main
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 40
     name: Circadian Dining Room Main
     lights_ct:
-      - light.dining_room_1
-      - light.dining_room_2
-      - light.dining_room_3
-      - light.dining_room_4
-      - light.dining_room_5
-      - light.dining_room_6
+      - light.hue_filament_bulb_8
+      - light.hue_filament_bulb_9
+      - light.hue_filament_bulb_10
+      - light.hue_filament_bulb_7
+      - light.hue_filament_bulb_3
+      - light.hue_filament_bulb_4
 #    hue_keyword: 'Circadian'
 
 # Entry
@@ -45,11 +45,11 @@
     min_brightness: 50
     name: Circadian Entry
     lights_ct:
-      - light.entry_hallway
-      - light.entry_chandelier_1
-      - light.entry_chandelier_2
-      - light.entry_chandelier_3
-      - light.entry_chandelier_4
+      - light.hue_color_downlight_13
+      - light.hue_color_candle_7
+      - light.hue_color_candle_6
+      - light.hue_color_candle_10
+      - light.hue_color_candle_2_3
 #    hue_keyword: 'Circadian'
     
 # Great Room
@@ -58,9 +58,11 @@
     name: Circadian Great Room
     lights_ct:
       - light.great_room_lamp
-      - light.great_room_main_1
-      - light.great_room_main_2
-      - light.great_room_main_3
+      - light.hue_color_candle_9
+      - light.hue_color_candle_4
+      - light.hue_color_candle_8
+      - light.hue_ambiance_lamp_2_3
+      - light.hue_ambiance_lamp_3
 #    hue_keyword: 'Circadian'
   
 # Great Room Accent
@@ -69,10 +71,10 @@
     name: Circadian Great Room Accent
     lights_ct:
       # Fireplace
-      - light.hue_color_downlight_1
+      - light.hue_color_downlight_12
       - light.hue_lightstrip_plus_1
-      - light.hue_color_spot_1
-      - light.hue_color_spot_2
+      - light.hue_color_spot_1_3
+      - light.hue_color_spot_2_2
       - light.hue_color_spot_3
 #    hue_keyword: 'Circadian'
 
@@ -82,23 +84,23 @@
     name: Circadian Guest Bathroom
     lights_ct:
       # Fireplace
-      - light.hue_filament_bulb_1
-      - light.hue_filament_bulb_2
+      - light.hue_filament_bulb_5
+      - light.hue_filament_bulb_6
 
 # Kitchen
   - platform: circadian_lighting
     min_brightness: 50
     name: Circadian Kitchen
     lights_ct:
-      - light.kitchen_stove
-      - light.kitchen_sink
-      - light.kitchen_oven
-      - light.kitchen_island
-      - light.kitchen_dishwasher_1
-      - light.kitchen_dishwasher_2
-      - light.kitchen_fridge
-      - light.range_left
-      - light.range_right
+      - light.hue_color_downlight_20
+      - light.hue_color_downlight_18
+      - light.hue_color_downlight_14
+      - light.hue_color_downlight_19
+      - light.hue_color_downlight_16
+      - light.hue_color_downlight_15
+      - light.hue_color_downlight_20
+      - light.hue_color_spot_3
+      - light.hue_color_spot_2
 #    hue_keyword: 'Circadian'
 
 # Loft
@@ -106,8 +108,8 @@
     min_brightness: 50
     name: Circadian Loft
     lights_ct:
-      - light.loft_1
-      - light.loft_2
+      - light.hue_ambiance_downlight_5
+      - light.hue_ambiance_downlight_1_2
 #    hue_keyword: 'Circadian'
     
 # Master Bedroom
@@ -116,7 +118,7 @@
     name: Circadian Master Bedroom
     lights_ct:
       - light.master_bedroom_main_2
-      - light.hue_color_candle_1
+      - light.hue_color_candle_5
 #    hue_keyword: 'Circadian'
 
 # Master Bedroom Accent
@@ -124,8 +126,8 @@
     min_brightness: 50
     name: Circadian Master Bedroom Accent
     lights_ct:
-      - light.hue_color_candle_2_2
-      - light.hue_color_candle_2
+      - light.hue_color_candle_3
+      - light.hue_color_candle_1_2
 #    hue_keyword: 'Circadian'
 
 # Master Closet
@@ -133,9 +135,9 @@
     min_brightness: 25
     name: Circadian Master Closet
     lights_ct:
-      - light.master_closet_close
-      - light.master_closet_far
-      - light.master_closet_middle
+      - light.hue_ambiance_downlight_3_3
+      - light.hue_ambiance_downlight_1_3
+      - light.hue_ambiance_downlight_2_3
 #    hue_keyword: 'Circadian'
 
 # Main Hall
@@ -143,8 +145,8 @@
     min_brightness: 50
     name: Circadian Main Hall
     lights_ct:
-      - light.hall_hue_ambiance_downlight_1
-      - light.hall_hue_ambiance_downlight_2
+      - light.hue_ambiance_downlight_1
+      - light.hue_ambiance_downlight_3
 #    hue_keyword: 'Circadian'
 
 # Main Office
@@ -158,6 +160,7 @@
       - light.hue_color_lamp_4_2
       - light.hue_ambiance_lamp_1_4
       - light.hue_ambiance_lamp_1_3
+      - light.hue_gradient_lightstrip_1
 #    hue_keyword: 'Circadian'
 
 # Main Office Accent
@@ -225,9 +228,9 @@
     min_brightness: 30
     name: Circadian Upstairs Hallway
     lights_ct:
-      - light.upstairs_hallway_1
-      - light.upstairs_hallway_2
-      - light.upstairs_hallway_stairs
+      - light.hue_ambiance_downlight_1_3
+      - light.hue_ambiance_downlight_4_2
+      - light.hue_ambiance_downlight_2_3
 #    hue_keyword: 'Circadian'
 
 # Upstairs Office
@@ -235,9 +238,9 @@
     min_brightness: 50
     name: Circadian Upstairs Office
     lights_ct:
-      - light.upstairs_office_2
-      - light.upstairs_office_desk_right
-      - light.upstairs_office_left
+      - light.hue_ambiance_lamp_3_2
+      - light.hue_ambiance_downlight_2_2
+      - light.hue_ambiance_downlight_3_2
 #    hue_keyword: 'Circadian'
 
 ## Kid's Rooms
@@ -247,8 +250,8 @@
     min_brightness: 50
     name: Circadian Annie
     lights_ct:
-      - light.annies_room_main_1
-      - light.annies_room_main_2
+      - light.hue_ambiance_candle_5
+      - light.hue_ambiance_candle_6
 #    hue_keyword: 'Circadian'
 
 # Annie's Room Accent
@@ -256,7 +259,7 @@
     min_brightness: 45
     name: Circadian Annie Accent
     lights_ct:
-      - light.hue_color_lamp_1
+      - light.hue_color_lamp_1_6
 #    hue_keyword: 'Circadian'
 
 # Weston's Room
@@ -264,8 +267,8 @@
     min_brightness: 50
     name: Circadian Weston
     lights_ct:
-      - light.westons_room_main_1
-      - light.main_2
+      - light.hue_ambiance_candle_4
+      - light.hue_ambiance_candle_3
 #    hue_keyword: 'Circadian'
 
 # Weston's Room Accent
@@ -273,5 +276,5 @@
     min_brightness: 45
     name: Circadian Weston Accent
     lights_ct:
-      - light.hue_color_lamp_1_3
+      - light.hue_color_lamp_2
 #    hue_keyword: 'Circadian'
