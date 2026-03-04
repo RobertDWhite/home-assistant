@@ -197,6 +197,7 @@ circadian_lighting:
   max_colortemp: 10000
   min_colortemp: 2000
   
+circadian_lighting_bridge:
 
 device_tracker:
   - platform: icloud3
@@ -242,7 +243,6 @@ hue:
       allow_unreachable: false
       allow_hue_groups: true
 
-circadian_lighting_bridge:
 
 image_processing:
   - platform: facebox

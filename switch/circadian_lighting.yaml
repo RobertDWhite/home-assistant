@@ -17,19 +17,10 @@
     lights_ct:
       - light.hue_ambiance_lamp_1
       - light.hue_color_downlight_8
-      
-# Dining Room Hutch
-  - platform: circadian_lighting
-    min_brightness: 40
-    name: Circadian Dining Room Hutch
-    lights_ct:
-      - light.dining_room_hutch_left
-      - light.dining_room_hutch_right
-#    hue_keyword: 'Circadian'
 
 # Dining Room Main
   - platform: circadian_lighting
-    min_brightness: 40
+    min_brightness: 30
     name: Circadian Dining Room Main
     lights_ct:
       - light.hue_filament_bulb_8
@@ -54,7 +45,7 @@
     
 # Great Room
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 35
     name: Circadian Great Room
     lights_ct:
       - light.great_room_lamp
@@ -76,11 +67,13 @@
       - light.hue_color_spot_1_3
       - light.hue_color_spot_2_2
       - light.hue_color_spot_3
+      - light.hue_color_spot_1
+      - light.hue_color_spot_2
 #    hue_keyword: 'Circadian'
 
 # Guest Bathroom
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 40
     name: Circadian Guest Bathroom
     lights_ct:
       # Fireplace
@@ -89,7 +82,7 @@
 
 # Kitchen
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 35
     name: Circadian Kitchen
     lights_ct:
       - light.hue_color_downlight_20
@@ -99,13 +92,11 @@
       - light.hue_color_downlight_16
       - light.hue_color_downlight_15
       - light.hue_color_downlight_20
-      - light.hue_color_spot_3
-      - light.hue_color_spot_2
 #    hue_keyword: 'Circadian'
 
 # Loft
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 35
     name: Circadian Loft
     lights_ct:
       - light.hue_ambiance_downlight_5
@@ -132,7 +123,7 @@
 
 # Master Closet
   - platform: circadian_lighting
-    min_brightness: 25
+    min_brightness: 10
     name: Circadian Master Closet
     lights_ct:
       - light.hue_ambiance_downlight_3_3
@@ -142,7 +133,7 @@
 
 # Main Hall
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 5
     name: Circadian Main Hall
     lights_ct:
       - light.hue_ambiance_downlight_1
@@ -173,7 +164,7 @@
       
 # Music / Play
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 40
     name: Circadian Music and Play
     lights_ct:
       - light.hue_color_downlight_10
@@ -183,7 +174,7 @@
    
 # Storage - Basement
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 40
     name: Circadian Storage
     lights_ct:
       - light.hue_ambiance_lamp_1_5
@@ -192,7 +183,7 @@
       
 # Theatre
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 35
     name: Circadian Theatre
     lights_ct:
       - light.hue_color_downlight_1_6
@@ -202,7 +193,7 @@
       
 # Theatre Accent
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 35
     name: Circadian Theatre Accent
     lights_ct:
       - light.hue_color_spot_1
@@ -210,7 +201,7 @@
       
 # Theatre Rear
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 35
     name: Circadian Theatre Rear
     lights_ct:
       - light.hue_color_downlight_5_2 # theatre rear, music / play
@@ -218,14 +209,14 @@
 
 # Theatre Hallway
   - platform: circadian_lighting
-    min_brightness: 45
+    min_brightness: 35
     name: Circadian Theatre Hall
     lights_ct:
       - light.hue_color_downlight_1_5
 
 # Upstairs Hallway
   - platform: circadian_lighting
-    min_brightness: 30
+    min_brightness: 35
     name: Circadian Upstairs Hallway
     lights_ct:
       - light.hue_ambiance_downlight_1_3
@@ -235,7 +226,7 @@
 
 # Upstairs Office
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 35
     name: Circadian Upstairs Office
     lights_ct:
       - light.hue_ambiance_lamp_3_2
@@ -247,7 +238,7 @@
 
 # Annie's Room
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 35
     name: Circadian Annie
     lights_ct:
       - light.hue_ambiance_candle_5
@@ -256,15 +247,34 @@
 
 # Annie's Room Accent
   - platform: circadian_lighting
-    min_brightness: 45
+    min_brightness: 35
     name: Circadian Annie Accent
     lights_ct:
       - light.hue_color_lamp_1_6
 #    hue_keyword: 'Circadian'
 
+# Elsie's Room
+  - platform: circadian_lighting
+    min_brightness: 35
+    name: Circadian Elsie
+    lights_ct:
+      - light.hue_ambiance_candle_1
+      - light.hue_ambiance_candle_2
+#    hue_keyword: 'Circadian'
+
+# Elsie's Room Accent
+  - platform: circadian_lighting
+    min_brightness: 35
+    name: Circadian Elsie Accent
+    lights_ct:
+      - light.hue_color_lamp_1_4
+      - light.hue_color_lamp_1_5
+#    hue_keyword: 'Circadian'
+
+
 # Weston's Room
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 35
     name: Circadian Weston
     lights_ct:
       - light.hue_ambiance_candle_4
@@ -273,7 +283,7 @@
 
 # Weston's Room Accent
   - platform: circadian_lighting
-    min_brightness: 45
+    min_brightness: 35
     name: Circadian Weston Accent
     lights_ct:
       - light.hue_color_lamp_2
