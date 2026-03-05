@@ -9,12 +9,11 @@ nws_popup_on_wx_alert:
       - service: persistent_notification.dismiss
         data:
           notification_id: "nwswxalert"
-        ## Create a new persistant notification in the UI for a new alert
-      - service_template: >
-          {% if states.sensor.nws_alert_event.state != 'None' %}
-            persistent_notification.create
-          {% endif %}
-        data_template:
+        ## Create a new persistent notification in the UI for a new alert
+      - condition: template
+        value_template: "{{ states('sensor.nws_alert_event') != 'None' }}"
+      - service: persistent_notification.create
+        data:
           notification_id: "nwswxalert"
           message: "{{ state_attr('sensor.nws_alert_event', 'features')[0].properties.description }}"
-          title: '{{ states.sensor.nws_alert_event.state }}'
+          title: "{{ states('sensor.nws_alert_event') }}"

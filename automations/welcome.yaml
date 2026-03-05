@@ -1,7 +1,6 @@
 ###Welcome Home
 
 - alias: 'Welcome Home Robby'
-  initial_state: true
   trigger:
   - entity_id: device_tracker.robert_whites_iphone_ha
     from: 'away'
@@ -18,7 +17,6 @@
 
 
 - alias: 'Welcome Home Emily'
-  initial_state: true
   trigger:
   - entity_id: sensor.emily_iphone_zone_name1
     from: 'away'
@@ -37,7 +35,6 @@
 ###Welcome Friends/Family
 
 - alias: 'Welcome Brandon'
-  initial_state: true
   trigger:
   - entity_id: device_tracker.brandon_farler_galaxy_s10
     from: 'away'
