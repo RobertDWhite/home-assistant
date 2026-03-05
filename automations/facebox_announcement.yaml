@@ -18,7 +18,7 @@
     - condition: template
       value_template: "{{ not is_state('sensor.facebox_detection', 'unknown') }}"
     - service: tts.google_translate_say
-      data_template:
+      data:
         entity_id: media_player.g4_doorbell_pro_speaker
         message: "Welcome to the White House, {{ states('sensor.facebox_detection') }}"
 #  action:

@@ -99,9 +99,6 @@ logbook:
 
 logger:
   default: info
-  logs:
-    custom_components.circadian_lighting: debug
-    aiohue: debug
 
 # Enables a map showing the location of tracked devices
 map:
@@ -194,7 +191,7 @@ camera:
 
 circadian_lighting:
   interval: 600
-  max_colortemp: 10000
+  max_colortemp: 6500
   min_colortemp: 2000
   
 circadian_lighting_bridge:
@@ -270,7 +267,7 @@ plex:
   host: !secret host_plex
   port: 443
   token: !secret plex_token
-  ssl: false
+  ssl: true
   verify_ssl: false
   media_player:
     use_episode_art: true
@@ -281,8 +278,6 @@ sonos_cloud:
   client_secret: !secret sonos_dev_secret
 # https://github.com/jjlawren/sonos_cloud/blob/main/README.md
 
-weather:
- - platform: darksky
-   api_key: !secret darksky_password
-   latitude: !secret latitude_sec
-   longitude: !secret longitude_sec
+# Weather integration removed: Dark Sky was shut down in 2023.
+# Add a replacement via the UI (Settings > Integrations) e.g. Open-Meteo or Met.no (both free, no API key).
+# After adding, update sensor/environment.yaml outdoor_temp_sensor to the new integration's temperature sensor.

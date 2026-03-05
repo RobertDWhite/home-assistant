@@ -1,7 +1,6 @@
 ###Testing for Alexa
 
 - alias: 'Testing TTS'
-  initial_state: true
   trigger:
   - entity_id: input_boolean.dummy_switch
     from: 'off'
