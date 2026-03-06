@@ -28,8 +28,8 @@ group: !include groups.yaml
 light: !include lights.yaml
 notify: !include notify.yaml
 panel_iframe: !include panel_iframe.yaml
-rest_command: !include_dir_merge_list rest/
-script: !include_dir_merge_list scripts/
+rest_command: !include_dir_merge_named rest/
+script: !include_dir_merge_named scripts/
 sensor: !include_dir_merge_list sensor/
 switch: !include_dir_merge_list switch/
 template: !include_dir_merge_list template/
@@ -47,20 +47,6 @@ discovery:
 duckdns:
   domain: !secret duckdns_domain
   access_token: !secret duckdns_token
-
-#folder_watcher:
-#  - folder: /documentaries
-#    patterns:
-#      - '*.mp4'
-#      - '*.mkv'
-#  - folder: /movies
-#    patterns:
-#      - '*.mp4'
-#      - '*.mkv'
-#  - folder: /tv_shows
-#    patterns:
-#      - '*.mp4'
-#      - '*.mkv'
 
 frontend:
 # Add themes
