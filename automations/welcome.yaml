@@ -8,12 +8,11 @@
     to: 'Home_Ibeacon'
   condition: []
   action:
-  - service: notify.alexa_media
+  - service: script.sonos_say
     data:
-      target: media_player.robert_s_ecobee4
+      sonos_entity: media_player.living_room_speaker
+      volume: 0.5
       message: !secret welcome_r
-      data:
-        type: tts
 
 
 - alias: 'Welcome Home Emily'
@@ -24,12 +23,11 @@
     to: 'Home_Ibeacon'
   condition: []
   action:
-  - service: notify.alexa_media
+  - service: script.sonos_say
     data:
-      target: media_player.robert_s_ecobee4
+      sonos_entity: media_player.living_room_speaker
+      volume: 0.5
       message: !secret welcome_e
-      data:
-        type: tts
 
 
 ###Welcome Friends/Family
@@ -42,12 +40,11 @@
     to: 'home'
   condition: []
   action:
-  - service: notify.alexa_media
+  - service: script.sonos_say
     data:
-      target: media_player.robert_s_ecobee4
+      sonos_entity: media_player.living_room_speaker
+      volume: 0.5
       message: !secret welcome_brandon
-      data:
-        type: tts
 
 
 - alias: 'Welcome Samuel'
@@ -58,9 +55,8 @@
     to: 'Home'
   condition: []
   action:
-  - service: notify.alexa_media
+  - service: script.sonos_say
     data:
-      target: media_player.robert_s_ecobee4
+      sonos_entity: media_player.living_room_speaker
+      volume: 0.5
       message: !secret welcome_samuel
-      data:
-        type: tts

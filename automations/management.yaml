@@ -20,19 +20,3 @@
             slate
           {% endif %}
 
-
-#Update OpenUV data every 30 min during daytime
-
-- alias: Update OpenUV every 30 minutes during the daytime
-  trigger:
-    platform: time_pattern
-    minutes: '/30'
-  condition:
-    condition: and
-    conditions:
-      - condition: sun
-        after: sunrise
-      - condition: sun
-        before: sunset
-  action:
-    service: openuv.update_data
