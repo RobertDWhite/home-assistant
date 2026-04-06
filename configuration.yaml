@@ -78,7 +78,9 @@ http:
   use_x_forwarded_for: true
   trusted_proxies:
     - !secret host_nginx_proxy
-
+    - 10.42.0.0/16
+    - 10.43.0.0/16
+    - 10.99.5.0/24
 
 # View all events in a logbook
 logbook:
