@@ -81,6 +81,7 @@ http:
     - 10.42.0.0/16
     - 10.43.0.0/16
     - 10.99.5.0/24
+    - 10.100.0.0/16
 
 # View all events in a logbook
 logbook:
