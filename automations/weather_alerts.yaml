@@ -35,25 +35,79 @@
       {{ as_timestamp(state_attr('sensor.nws_alert_event', 'features')[0].properties.expires)
          | timestamp_custom('%-I:%M %p on %-m-%-d-%Y') }}.
   action:
+    # Sonos speakers - snapshot/restore via sonos_say script
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.family_room
+        volume: 0.50
+        delay: '00:00:10'
+        message: "{{ alert_message }}"
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.dining_room
+        volume: 0.50
+        delay: '00:00:10'
+        message: "{{ alert_message }}"
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.unnamed_room
+        volume: 0.50
+        delay: '00:00:10'
+        message: "{{ alert_message }}"
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.unnamed_room_2
+        volume: 0.50
+        delay: '00:00:10'
+        message: "{{ alert_message }}"
+    # HomePod Minis - Google TTS
     - service: media_player.volume_set
       data:
         entity_id:
-          - media_player.office_sonos
-          - media_player.sonos
-          - media_player.family_room
+          - media_player.kitchen
+          - media_player.play_room
+        volume_level: 0.50
+    - service: tts.google_translate_say
+      data:
+        entity_id: media_player.kitchen
+        message: "{{ alert_message }}"
+    - delay: '00:00:10'
+    - service: tts.google_translate_say
+      data:
+        entity_id: media_player.play_room
+        message: "{{ alert_message }}"
+    # WiiM speakers - Google TTS via DLNA
+    - service: media_player.volume_set
+      data:
+        entity_id:
+          - media_player.garage
+          - media_player.gym
+        volume_level: 0.50
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.backyard
         volume_level: 0.99
-    - service: script.sonos_say
+    - service: tts.google_translate_say
       data:
-        sonos_entity: media_player.office_sonos
-        volume: 0.99
+        entity_id: media_player.garage
         message: "{{ alert_message }}"
     - delay: '00:00:10'
     - service: tts.google_translate_say
       data:
-        entity_id: media_player.sonos
+        entity_id: media_player.backyard
         message: "{{ alert_message }}"
     - delay: '00:00:10'
     - service: tts.google_translate_say
       data:
-        entity_id: media_player.family_room
+        entity_id: media_player.gym
+        message: "{{ alert_message }}"
+    # Denon AVR - Theatre
+    - delay: '00:00:10'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.denon_avr_x4700h
+        volume_level: 0.50
+    - service: tts.google_translate_say
+      data:
+        entity_id: media_player.denon_avr_x4700h
         message: "{{ alert_message }}"
