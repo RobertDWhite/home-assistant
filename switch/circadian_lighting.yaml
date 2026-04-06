@@ -12,7 +12,7 @@
 
 # Basement Staircase
   - platform: circadian_lighting
-    min_brightness: 50
+    min_brightness: 20
     name: Circadian Basement Staircase
     lights_ct:
       - light.hue_ambiance_lamp_1
@@ -45,7 +45,7 @@
     
 # Great Room
   - platform: circadian_lighting
-    min_brightness: 35
+    min_brightness: 20
     name: Circadian Great Room
     lights_ct:
       - light.great_room_lamp
@@ -133,7 +133,7 @@
 
 # Main Hall
   - platform: circadian_lighting
-    min_brightness: 5
+    min_brightness: 2
     name: Circadian Main Hall
     lights_ct:
       - light.hue_ambiance_downlight_1
