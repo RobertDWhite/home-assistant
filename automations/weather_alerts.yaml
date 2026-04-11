@@ -19,15 +19,15 @@
     conditions:
       - condition: template
         value_template: '{{ states("sensor.nws_alert_count") | int > 0 }}'
-        ## Added a time condition because I don't want a non-emergency alert waking me up
+        ## Quiet hours 9pm–8:30am: only Tornado Warnings are allowed to announce
       - condition: or
         conditions:
           - condition: time
-            after: '09:00:00'
-            before: '23:00:00'
+            after: '08:30:00'
+            before: '21:00:00'
           - condition: template
             value_template: >
-              {{ 'Warning' in states('sensor.nws_alert_event') }}
+              {{ 'Tornado Warning' in states('sensor.nws_alert_event') }}
   variables:
     alert_message: >
       Attention!. . . Attention!. . . The National Weather Service has issued a
