@@ -8,12 +8,3 @@
     # e.g. sensor.openweathermap_temperature or a template sensor from weather.home
     outdoor_temp_sensor: sensor.dark_sky_temperature
     calibration_factor: 2.0
-
-
-# Simple sensor to track the moon, much like the default sensor to track the sun
-  - platform: moon
-
-
-# Simple sensor to track the current season
-  - platform: season
-    type: astronomical

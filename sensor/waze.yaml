@@ -1,17 +1,5 @@
 ### WAZE ################################################################################
 
-  - platform: template
-    sensors:
-       dest_address:
-         value_template: >-
-            {%- if is_state("input_select.destination", "Home")  -%}
-              !secret location_home
-            {%- elif is_state("input_select.destination", "Parents")  -%}
-              !secret location_add_parents_r
-            {%- else -%}
-              Unknown
-            {%- endif %}
-
 
 ## Waze no longer supports setup with config
 ## I am keeping these settings for reference

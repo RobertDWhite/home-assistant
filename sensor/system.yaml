@@ -1,12 +1,6 @@
 ### SYSTEM ####################################################
 
 
-# Simple sensor to monitor the current version of HA
-  - platform: version
-    name: HA Installed Version
-    scan_interval: 86400
-
-
 # Sensor to monitor the uptime of HA
   - platform: command_line
     name: "HA Uptime"
