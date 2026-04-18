@@ -1,0 +1,43 @@
+- alias: "Nighttime Dim - Master Bathroom"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: light.master_bathroom
+      from: "off"
+      to: "on"
+  condition:
+    - condition: time
+      after: "00:00:00"
+      before: "07:30:00"
+  action:
+    - delay: "00:00:01"
+    - service: light.turn_on
+      target:
+        entity_id: light.master_bathroom
+      data:
+        brightness_pct: 1
+        color_temp_kelvin: 2000
+
+- alias: "Nighttime Dim - Main Hallway"
+  mode: single
+  trigger:
+    - platform: state
+      entity_id:
+        - light.hue_ambiance_downlight_1
+        - light.hue_ambiance_downlight_3
+      from: "off"
+      to: "on"
+  condition:
+    - condition: time
+      after: "00:00:00"
+      before: "07:30:00"
+  action:
+    - delay: "00:00:01"
+    - service: light.turn_on
+      target:
+        entity_id:
+          - light.hue_ambiance_downlight_1
+          - light.hue_ambiance_downlight_3
+      data:
+        brightness_pct: 1
+        color_temp_kelvin: 2000
