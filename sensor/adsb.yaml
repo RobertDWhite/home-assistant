@@ -1,5 +1,15 @@
 
   - platform: rest
+    name: ADS-B Aircraft
+    resource: http://adsb.internal.w3rdw.radio/data/aircraft.json
+    value_template: "{{ value_json.aircraft | length }}"
+    unit_of_measurement: "aircraft"
+    scan_interval: 30
+    json_attributes:
+      - messages
+      - now
+
+  - platform: rest
     name: FR24 Feeder
     resource: http://10.100.1.33:8754/monitor.json
     value_template: '{{ value_json.feed_alias }}'
