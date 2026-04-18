@@ -65,6 +65,8 @@ gdacs:
   longitude: !secret longitude_sec
 
 geo_location:
+  - platform: adsb_tar1090
+
   - platform: usgs_earthquakes_feed
     entity_namespace: 'usgs_earthquakes_service_feed'
     feed_type: 'past_month_all_earthquakes'
