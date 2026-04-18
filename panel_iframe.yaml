@@ -1,5 +1,10 @@
 #panel_iframe
 
+  adsb_map:
+    title: 'ADS-B Map'
+    url: 'http://adsb.internal.w3rdw.radio'
+    icon: mdi:airplane
+
 #  server:
  #   title: 'Server'
   #  url: !secret grafana_server
