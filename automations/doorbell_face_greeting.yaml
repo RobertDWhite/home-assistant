@@ -1,0 +1,216 @@
+# Front-door face greeting + whole-house arrival announcement, with EARLY RECOGNITION.
+# On ring: doorbell 'Welcome' clip AND the Sonos/HomePod house announcement fire IN PARALLEL
+# (previously sequential, so Sonos lagged the doorbell). Cache window widened to 60s.
+# Both recognize paths retry with a FRESH frame when the detector finds no face (person:0).
+
+- id: doorbell_collect_faces_for_training
+  alias: Front door - early face recognition (pre-warm + cache)
+  description: On doorbell person detection, snapshot and recognize the face BEFORE the button is pressed; cache a confident match (name + time) for the ring automation. Also feeds Double Take's Matches for training.
+  mode: restart
+  max_exceeded: silent
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.g4_doorbell_pro_person_detected
+    from: 'off'
+    to: 'on'
+  actions:
+  - alias: Camera unavailable? force a Protect reconnect rather than waiting
+    if:
+    - condition: state
+      entity_id: camera.g4_doorbell_pro_high
+      state: unavailable
+    then:
+    - action: homeassistant.reload_config_entry
+      data:
+        entry_id: b6a164921c6c9face9766123e4868ee4
+    - wait_for_trigger:
+      - trigger: state
+        entity_id: camera.g4_doorbell_pro_high
+        not_to: unavailable
+      timeout: 00:00:25
+      continue_on_timeout: false
+  - alias: Snapshot + recognize, retrying while no face is in frame (they are still walking up)
+    repeat:
+      sequence:
+      - alias: Snapshot the doorbell camera
+        action: camera.snapshot
+        target:
+          entity_id: camera.g4_doorbell_pro_high
+        data:
+          filename: /config/www/doorbell/person.jpg
+      - alias: Recognize (also populates Double Take Matches for training)
+        action: rest_command.doorbell_recognize
+        data:
+          image_url: https://homeassistant.internal.white.fm/local/doorbell/person.jpg?t={{ now().timestamp() | int }}
+        response_variable: recognition
+      - variables:
+          faces_found: '{{ (recognition.content.counts.person | default(0)) | int(0) }}'
+      - if:
+        - condition: template
+          value_template: '{{ faces_found == 0 and repeat.index < 3 }}'
+        then:
+        - delay:
+            milliseconds: 1500
+      until:
+      - condition: template
+        value_template: '{{ faces_found > 0 or repeat.index >= 3 }}'
+  - variables:
+      best: '{% set m = (recognition.content.matches | default([])) | sort(attribute=''confidence'', reverse=true) | list %} {{ m[0] if m else none }}'
+      pname: '{{ (best.name | default('''')) if best else '''' }}'
+      pconf: '{{ (best.confidence | default(0)) if best else 0 }}'
+  - alias: Cache a confident match so the ring greets instantly
+    if:
+    - condition: template
+      value_template: '{{ pname != '''' and (pconf | float(0)) >= 60 }}'
+    then:
+    - action: input_text.set_value
+      target:
+        entity_id: input_text.doorbell_recent_face
+      data:
+        value: '{{ pname }}'
+    - action: input_datetime.set_datetime
+      target:
+        entity_id: input_datetime.doorbell_recent_face_at
+      data:
+        timestamp: '{{ now().timestamp() }}'
+- id: doorbell_greet_recognized_face
+  alias: Front door - greet recognized face
+  description: 'On doorbell ring: greet the recognized person at the door (Welcome clip) and announce their arrival house-wide. Uses the pre-ring cache when fresh (<30s), else a live snapshot + recognition. House announcement is limited to 08:30-21:00.'
+  mode: single
+  max_exceeded: silent
+  variables:
+    min_confidence: 60
+    snapshot_path: /config/www/doorbell/latest.jpg
+    cached_name: '{{ states(''input_text.doorbell_recent_face'') }}'
+    cached_age: '{% set t = states(''input_datetime.doorbell_recent_face_at'') %} {{ (now().timestamp() - as_timestamp(t)) if t not in [''unknown'',''unavailable'',''''] else 9999 }}'
+    names: !secret doorbell_names   # key -> full name map lives in secrets.yaml (config repo is public)
+  triggers:
+  - trigger: event.received
+    target:
+      entity_id: event.front_door_g4_doorbell_pro_doorbell
+    options:
+      event_type: ring
+  actions:
+  - variables:
+      use_cache: '{{ cached_name not in ['''',''unknown'',''unavailable''] and (cached_age | float(9999)) < 60 }}'
+  - alias: No fresh cache -> recognize live
+    if:
+    - condition: template
+      value_template: '{{ not use_cache }}'
+    then:
+    - alias: Camera unavailable? force a Protect reconnect
+      if:
+      - condition: state
+        entity_id: camera.g4_doorbell_pro_high
+        state: unavailable
+      then:
+      - action: homeassistant.reload_config_entry
+        data:
+          entry_id: b6a164921c6c9face9766123e4868ee4
+      - wait_for_trigger:
+        - trigger: state
+          entity_id: camera.g4_doorbell_pro_high
+          not_to: unavailable
+        timeout: 00:00:25
+        continue_on_timeout: false
+    - alias: Grab a fresh frame
+      action: camera.snapshot
+      target:
+        entity_id: camera.g4_doorbell_pro_high
+      data:
+        filename: '{{ snapshot_path }}'
+    - alias: Ask Double Take who it is
+      action: rest_command.doorbell_recognize
+      data:
+        image_url: https://homeassistant.internal.white.fm/local/doorbell/latest.jpg?t={{ now().timestamp() | int }}
+      response_variable: recognition
+    - alias: No face in the ring frame? grab one more fresh frame and retry once
+      if:
+      - condition: template
+        value_template: '{{ ((recognition.content.counts.person | default(0)) | int(0)) == 0 }}'
+      then:
+      - delay:
+          milliseconds: 1500
+      - action: camera.snapshot
+        target:
+          entity_id: camera.g4_doorbell_pro_high
+        data:
+          filename: '{{ snapshot_path }}'
+      - action: rest_command.doorbell_recognize
+        data:
+          image_url: https://homeassistant.internal.white.fm/local/doorbell/latest.jpg?t={{ now().timestamp() | int }}
+        response_variable: recognition
+  - alias: Resolve the name (cache or live)
+    variables:
+      name_key: '{% if use_cache %}{{ cached_name }}{% elif recognition is defined %}{% set m = (recognition.content.matches | default([])) | sort(attribute=''confidence'', reverse=true) | list %}{{ m[0].name if (m and (m[0].confidence | float(0)) >= min_confidence) else '''' }}{% endif %}'
+  - variables:
+      known: '{{ (name_key | trim) not in ['''',''unknown'',''unavailable''] }}'
+      full_name: '{{ names.get(name_key | trim, (name_key | trim | replace(''_'','' '') | title)) }}'
+  - alias: Greet at the door + announce house-wide (in tandem)
+    parallel:
+    - alias: Doorbell speaker greeting for a known face (any time)
+      if:
+      - condition: template
+        value_template: '{{ known }}'
+      then:
+      - action: media_player.play_media
+        target:
+          entity_id: media_player.g4_doorbell_pro_speaker
+        data:
+          media_content_id: https://doorbell-greetings.pages.internal.white.fm/{{ name_key | trim | lower | replace(' ', '') }}.mp3
+          media_content_type: music
+    - alias: Whole-house arrival announcement (08:30-21:00 only, never off hours)
+      if:
+      - condition: time
+        after: 08:30:00
+        before: '21:00:00'
+      then:
+      - variables:
+          announce: '{{ (full_name ~ '' is at the front door'') if known else ''An unknown person is at the front door'' }}'
+      - parallel:
+        - action: script.sonos_say
+          continue_on_error: true
+          data:
+            sonos_entity: media_player.family_room
+            volume: 0.5
+            delay: 00:00:08
+            message: '{{ announce }}'
+        - action: script.sonos_say
+          continue_on_error: true
+          data:
+            sonos_entity: media_player.dining_room
+            volume: 0.5
+            delay: 00:00:08
+            message: '{{ announce }}'
+        - action: script.sonos_say
+          continue_on_error: true
+          data:
+            sonos_entity: media_player.unnamed_room
+            volume: 0.5
+            delay: 00:00:08
+            message: '{{ announce }}'
+        - action: script.sonos_say
+          continue_on_error: true
+          data:
+            sonos_entity: media_player.unnamed_room_2
+            volume: 0.5
+            delay: 00:00:08
+            message: '{{ announce }}'
+        - sequence:
+          - action: media_player.volume_set
+            continue_on_error: true
+            data:
+              entity_id:
+              - media_player.kitchen
+              - media_player.play_room
+              volume_level: 0.5
+          - action: tts.google_translate_say
+            continue_on_error: true
+            data:
+              entity_id: media_player.kitchen
+              message: '{{ announce }}'
+          - action: tts.google_translate_say
+            continue_on_error: true
+            data:
+              entity_id: media_player.play_room
+              message: '{{ announce }}'

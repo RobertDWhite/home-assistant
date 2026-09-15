@@ -1,0 +1,35 @@
+### Migrated from legacy platform: template format
+
+- sensor:
+    - name: "Facebox Detection"
+      unique_id: facebox_detection
+      state: >-
+        {% if state_attr("image_processing.facebox_face_detection","faces") %}
+          {{ state_attr("image_processing.facebox_face_detection","faces")[0]["name"] }}
+        {% else %}
+          unknown
+        {% endif %}
+
+    - name: "Dest Address"
+      unique_id: dest_address
+      state: >-
+        {%- if is_state("input_select.destination", "Home") -%}
+          !secret location_home
+        {%- elif is_state("input_select.destination", "Parents") -%}
+          !secret location_add_parents_r
+        {%- else -%}
+          Unknown
+        {%- endif %}
+
+- switch:
+    - name: "Dummy"
+      unique_id: dummy_switch
+      state: "{{ is_state('input_boolean.dummy_switch', 'on') }}"
+      turn_on:
+        - action: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.dummy_switch
+      turn_off:
+        - action: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.dummy_switch
