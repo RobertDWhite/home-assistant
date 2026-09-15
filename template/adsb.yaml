@@ -1,0 +1,34 @@
+
+  - binary_sensor:
+      - name: "FR24 Feeder Receiver Connected"
+        unique_id: fr24_feeder_receiver_connected
+        state: "{{ is_state_attr('sensor.fr24_feeder', 'rx_connected', '1') }}"
+        device_class: connectivity
+        availability: "{{ not is_state('sensor.fr24_feeder', 'unavailable') }}"
+      - name: "FR24 Feeder Link Connected"
+        unique_id: fr24_feeder_link_connected
+        state: "{{ is_state_attr('sensor.fr24_feeder', 'feed_status', 'connected') }}"
+        device_class: connectivity
+        availability: "{{ not is_state('sensor.fr24_feeder', 'unavailable') }}"
+  - sensor:
+      - name: "FR24 Feeder Radar Code"
+        unique_id: fr24_feeder_radar_code
+        state: "{{ state_attr('sensor.fr24_feeder', 'feed_alias') }}"
+        icon: mdi:radar
+        availability: "{{ not is_state('sensor.fr24_feeder', 'unavailable') }}"
+      - name: "FR24 Feeder Aircraft Tracked"
+        unique_id: fr24_feeder_aircraft_tracked
+        state: "{{ state_attr('sensor.fr24_feeder', 'd11_map_size') | round(0, default=0) }}"
+        unit_of_measurement: 'aircrafts'
+        icon: mdi:airplane
+        availability: "{{ not is_state('sensor.fr24_feeder', 'unavailable') }}"
+      - name: "FR24 Feeder Aircraft Uploaded"
+        unique_id: fr24_feeder_aircraft_uploaded
+        state: "{{ state_attr('sensor.fr24_feeder', 'feed_num_ac_tracked') | round(0, default=0) }}"
+        unit_of_measurement: 'aircrafts'
+        icon: mdi:airplane
+        availability: "{{ not is_state('sensor.fr24_feeder', 'unavailable') }}"
+      - name: "FR24 Feeder Version"
+        unique_id: fr24_feeder_version
+        state: "{{ state_attr('sensor.fr24_feeder', 'build_version') }}"
+        availability: "{{ not is_state('sensor.fr24_feeder', 'unavailable') }}"

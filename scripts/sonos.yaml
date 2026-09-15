@@ -1,24 +1,37 @@
-# Script to enable TTS for Sonos
-
+# Sonos TTS announcement, shared by the doorbell greeting and the weather alerts.
+#
+# Uses Sonos's native announce overlay (audio clip API): the message plays OVER
+# whatever is playing, ducks it, and playback resumes on its own. Nothing is
+# snapshotted, unjoined, stopped, or restored, so:
+#   - Spotify Connect / AirPlay sources keep playing (sonos.restore could only
+#     ever resume the Sonos queue, so those sources used to stay stopped);
+#   - firing this on several grouped speakers in parallel no longer races
+#     unjoin/restore against itself and breaks the group.
+#
+# Inputs (unchanged for callers): sonos_entity, message, volume (0-1).
+# `delay` is accepted but no longer used -- the overlay needs no restore step.
 sonos_say:
-  alias: Sonos TTS script
+  alias: Sonos TTS announcement (overlay, keeps music playing)
   mode: parallel
+  fields:
+    sonos_entity:
+      description: Sonos media_player to announce on
+      example: media_player.family_room
+    message:
+      description: Text to speak
+      example: Robert is at the front door
+    volume:
+      description: Announcement volume, 0-1 (music volume is untouched)
+      example: 0.5
+    delay:
+      description: Unused, kept for backwards compatibility
   sequence:
-    - service: sonos.snapshot
-      data:
+    - action: media_player.play_media
+      target:
         entity_id: "{{ sonos_entity }}"
-    - service: sonos.unjoin
       data:
-        entity_id: "{{ sonos_entity }}"
-    - service: media_player.volume_set
-      data:
-        entity_id: "{{ sonos_entity }}"
-        volume_level: "{{ volume | default(0.5, true) | float }}"
-    - service: tts.google_translate_say
-      data:
-        entity_id: "{{ sonos_entity }}"
-        message: "{{ message }}"
-    - delay: "{{ delay | default('00:00:05', true) }}"
-    - service: sonos.restore
-      data:
-        entity_id: "{{ sonos_entity }}"
+        media_content_id: "media-source://tts/google_translate?message={{ message | urlencode }}"
+        media_content_type: music
+        announce: true
+        extra:
+          volume: "{{ ((volume | default(0.5, true) | float(0.5)) * 100) | round | int }}"

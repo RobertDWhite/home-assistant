@@ -1,0 +1,6 @@
+# Face recognition for the front-door greeting: Double Take (CompreFace) on the k8s cluster.
+# Called by automations/doorbell_face_greeting.yaml with image_url = a snapshot under /local/.
+doorbell_recognize:
+  url: "https://double-take.internal.white.fm/api/recognize?url={{ image_url | urlencode }}&camera=front_door&attempts=1&results=best"
+  method: GET
+  timeout: 20
