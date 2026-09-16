@@ -1,10 +1,9 @@
 ### ENVIRONMENT ####################################################
 
-# Sensor to calculate and provide a mold indicator given current weather conditions and self-measured calibration_factor
+# Mold indicator from the Trane/Nexia thermostat readings (the old config pointed at
+# sensor.main_temperature/humidity and the long-dead Dark Sky outdoor temperature).
   - platform: mold_indicator
-    indoor_temp_sensor: sensor.main_temperature
-    indoor_humidity_sensor: sensor.main_humidity
-    # TODO: Dark Sky is dead. Replace with outdoor temp from your new weather integration.
-    # e.g. sensor.openweathermap_temperature or a template sensor from weather.home
-    outdoor_temp_sensor: sensor.dark_sky_temperature
+    indoor_temp_sensor: sensor.thermostat_1_nativezone_temperature
+    indoor_humidity_sensor: sensor.thermostat_1_relative_humidity
+    outdoor_temp_sensor: sensor.thermostat_1_outdoor_temperature
     calibration_factor: 2.0

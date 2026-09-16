@@ -1,0 +1,76 @@
+# Kitchen (Samsung refrigerator via SmartThings).
+# The fridge door sensor changed ~470 times last week; nothing watches for it being left open.
+
+- id: kitchen_fridge_door_left_open
+  alias: Kitchen - fridge or freezer door left open
+  description: Announce in the kitchen and notify when a fridge/freezer door has been open 3 minutes, and again at 10.
+  mode: parallel
+  max: 4
+  triggers:
+    - trigger: state
+      entity_id:
+        - binary_sensor.refrigerator_fridge_door
+        - binary_sensor.refrigerator_freezer_door
+        - binary_sensor.refrigerator_coolselect_door
+      to: "on"
+      for:
+        minutes: 3
+      id: three
+    - trigger: state
+      entity_id:
+        - binary_sensor.refrigerator_fridge_door
+        - binary_sensor.refrigerator_freezer_door
+        - binary_sensor.refrigerator_coolselect_door
+      to: "on"
+      for:
+        minutes: 10
+      id: ten
+  variables:
+    door: "{{ trigger.to_state.name | replace('Refrigerator ', '') }}"
+    minutes: "{{ 3 if trigger.id == 'three' else 10 }}"
+    message: "The {{ door | lower }} has been open for {{ minutes }} minutes."
+  actions:
+    - parallel:
+        - action: notify.mobile_app_iphone_robert
+          continue_on_error: true
+          data:
+            title: Refrigerator
+            message: "{{ message }}"
+        - sequence:
+            - action: media_player.volume_set
+              continue_on_error: true
+              target:
+                entity_id: media_player.kitchen
+              data:
+                volume_level: 0.5
+            - action: tts.google_translate_say
+              continue_on_error: true
+              data:
+                entity_id: media_player.kitchen
+                message: "{{ message }}"
+        - action: script.sonos_say
+          continue_on_error: true
+          data:
+            sonos_entity: media_player.family_room
+            volume: 0.4
+            message: "{{ message }}"
+
+- id: kitchen_water_filter_reminder
+  alias: Kitchen - fridge water filter reminder
+  description: Sunday-morning phone reminder while the refrigerator reports its water filter at 100% used.
+  mode: single
+  triggers:
+    - trigger: time
+      at: "10:00:00"
+  conditions:
+    - condition: time
+      weekday:
+        - sun
+    - condition: numeric_state
+      entity_id: sensor.refrigerator_water_filter_usage
+      above: 99
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Refrigerator
+        message: The water filter is at 100% usage. Replace it, then press "Reset water filter" in Home Assistant.

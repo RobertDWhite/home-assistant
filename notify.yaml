@@ -27,3 +27,8 @@
     verify_ssl: true
     content_type:  'application/json'
     resource: !secret matrix_hook_smarthome
+
+# Core matrix integration (bot @homeassistant:white.fm) -> notify.matrix
+  - name: matrix
+    platform: matrix
+    default_room: !secret matrix_ha_room

@@ -1,0 +1,70 @@
+# Lighting schedules for the Lutron Caséta hard-wired switches (Hue rooms are handled by the
+# Hue bridge, motion sensors and the circadian_lighting switches).
+# Lutron entity_ids were renamed 2026-09-15 to match their names (they had drifted:
+# light.dining_room_chandelier was the laundry light, switch.outside_lamp_post was the rec room).
+
+- id: front_lights_sunset_on
+  alias: Outside - front lights on at dusk
+  description: Turn on the Outside Front Lights 15 minutes before sunset while the "Front lights schedule" helper is on.
+  mode: single
+  triggers:
+    - trigger: sun
+      event: sunset
+      offset: "-00:15:00"
+  conditions:
+    - condition: state
+      entity_id: input_boolean.front_lights_schedule
+      state: "on"
+  actions:
+    - action: light.turn_on
+      target:
+        entity_id: light.outside_lights
+
+- id: front_lights_late_off
+  alias: Outside - front lights off late
+  description: Turn off the Outside Front Lights at 23:30 (and at sunrise as a backstop) while the schedule helper is on.
+  mode: single
+  triggers:
+    - trigger: time
+      at: "23:30:00"
+    - trigger: sun
+      event: sunrise
+  conditions:
+    - condition: state
+      entity_id: input_boolean.front_lights_schedule
+      state: "on"
+  actions:
+    - action: light.turn_off
+      target:
+        entity_id: light.outside_lights
+
+- id: utility_lights_left_on_overnight
+  alias: Lights - garage, utility and rec room off at 01:00
+  description: Hard-switched work lights that get forgotten; turn them off at 01:00 if on.
+  mode: single
+  triggers:
+    - trigger: time
+      at: "01:00:00"
+  actions:
+    - action: switch.turn_off
+      continue_on_error: true
+      target:
+        entity_id:
+          - switch.garage_main_lights
+          - switch.utility_room_main_lights
+          - switch.rec_room_main_lights
+
+- id: master_bath_fan_timer
+  alias: Master bath - fan off after 45 minutes
+  description: The bath fan is a plain Lutron switch; give it a timer.
+  mode: restart
+  triggers:
+    - trigger: state
+      entity_id: switch.master_bath_fan
+      to: "on"
+      for:
+        minutes: 45
+  actions:
+    - action: switch.turn_off
+      target:
+        entity_id: switch.master_bath_fan

@@ -1,0 +1,73 @@
+# Hot tub (Jacuzzi J-475 via SmartTub).
+# Logbook shows the tub is the most-used "device" in the house: jets and lights are toggled
+# ~280 times a week, mostly 22:00-01:00. These add a "ready" notice and a late-night sweep.
+
+- id: hot_tub_ready
+  alias: Hot tub - up to temperature
+  description: Phone notification when the heater finishes and the water is within a degree of a setpoint of 100°F or more.
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: state
+      entity_id: climate.jacuzzi_j_475_thermostat
+      attribute: hvac_action
+      from: heating
+      to: idle
+  conditions:
+    - condition: numeric_state
+      entity_id: climate.jacuzzi_j_475_thermostat
+      attribute: temperature
+      above: 99
+    - alias: Water is within 1°F of the setpoint
+      condition: template
+      value_template: >-
+        {{ (state_attr('climate.jacuzzi_j_475_thermostat', 'current_temperature') | float(0))
+           >= (state_attr('climate.jacuzzi_j_475_thermostat', 'temperature') | float(200)) - 1 }}
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Hot tub
+        message: "The hot tub is ready at {{ state_attr('climate.jacuzzi_j_475_thermostat', 'current_temperature') }}°."
+
+- id: hot_tub_late_night_sweep
+  alias: Hot tub - late-night lights and jets off
+  description: At 02:30 turn off the tub lights, jets and the backyard Hue lights if a soak left them on.
+  mode: single
+  triggers:
+    - trigger: time
+      at: "02:30:00"
+  actions:
+    - action: light.turn_off
+      continue_on_error: true
+      target:
+        entity_id:
+          - light.jacuzzi_j_475_light_1
+          - light.jacuzzi_j_475_light_2
+          - light.backyard
+    - action: switch.turn_off
+      continue_on_error: true
+      target:
+        entity_id:
+          - switch.jacuzzi_j_475_jet_p1
+          - switch.jacuzzi_j_475_jet_p2
+
+- id: hot_tub_maintenance_reminders
+  alias: Hot tub - maintenance reminders and errors
+  description: Forward the tub's own reminders (ClearRay, ProClarity, refresh water) and error flag to the phone.
+  mode: parallel
+  max: 5
+  triggers:
+    - trigger: state
+      entity_id:
+        - binary_sensor.jacuzzi_j_475_clearray_reminder
+        - binary_sensor.jacuzzi_j_475_proclarity_reminder
+        - binary_sensor.jacuzzi_j_475_proclarity_depth_reminder
+        - binary_sensor.jacuzzi_j_475_refresh_water_reminder
+        - binary_sensor.jacuzzi_j_475_error
+      from: "off"
+      to: "on"
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Hot tub
+        message: "{{ trigger.to_state.name | replace('Jacuzzi J-475 ', '') }} needs attention."

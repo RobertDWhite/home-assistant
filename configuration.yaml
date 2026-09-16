@@ -27,7 +27,6 @@ automation: !include_dir_merge_list automations/
 group: !include groups.yaml
 light: !include lights.yaml
 notify: !include notify.yaml
-panel_iframe: !include panel_iframe.yaml
 rest_command: !include_dir_merge_named rest/
 script: !include_dir_merge_named scripts/
 sensor: !include_dir_merge_list sensor/
@@ -35,18 +34,43 @@ switch: !include_dir_merge_list switch/
 template: !include_dir_merge_list template/
 zone: !include zone.yaml
 
+# Recorder: the world clocks change state every minute; their history is noise, so they are not
+# recorded at all (tiles still show the live time). Existing rows were purged 2026-09-16.
+recorder:
+  exclude:
+    entities:
+      - sensor.asia_jerusalem
+      - sensor.europe_london
+      - sensor.australia_sydney
+      - sensor.asia_tokyo
+      - sensor.america_new_york
+      - sensor.america_chicago
+      - sensor.america_denver
+      - sensor.america_phoenix
+      - sensor.america_los_angeles
+      - sensor.atlantic_reykjavik
+
+# Matrix: dedicated bot @homeassistant:white.fm on the house Synapse; joins the "Home Assistant" room.
+# Gives notify.matrix plus matrix_command events for chat-driven automations. Credentials in secrets.yaml.
+matrix:
+  homeserver: https://matrix.internal.white.fm
+  username: !secret matrix_ha_user
+  password: !secret matrix_ha_password
+  rooms:
+    - !secret matrix_ha_room
+
+# iTunes / Apple Music on the Mac mini via the itunes-api helper (https://github.com/maddox/itunes-api,
+# `npm install -g itunes-api && itunes-api`, listens on 8181). YAML-only integration; needs a restart.
+media_player:
+  - platform: itunes
+    host: !secret host_mac_itunes
+    port: 8181
+
 
 ###SYSTEM##################################################################################
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
-
-# Discover some devices automatically
-discovery:
-
-duckdns:
-  domain: !secret duckdns_domain
-  access_token: !secret duckdns_token
 
 frontend:
 # Add themes
@@ -66,6 +90,7 @@ gdacs:
 
 geo_location:
   - platform: adsb_tar1090
+    url: https://adsb.internal.w3rdw.radio/data/aircraft.json   # http 301s to https; takes effect on restart
 
   - platform: usgs_earthquakes_feed
     entity_namespace: 'usgs_earthquakes_service_feed'
@@ -89,10 +114,19 @@ http:
 logbook:
 
 logger:
-  default: info
-
-# Enables a map showing the location of tracked devices
-map:
+  default: warning
+  logs:
+    # 2026-09-15 noise control (see system_log counts in the review):
+    linkplay: error                      # "Server disconnected" ~28k/wk from the WiiM speakers' HTTPS polling
+    pywiim: critical                     # stale WiiM entry removed; residual UPnP timeouts
+    roombapy: critical                   # both Roombas need re-pairing (bad password); entries disabled
+    pychromecast.socket_client: critical # Sony TVs powered off = "Failed to connect ... retrying" every 5s
+    homeassistant.helpers.sun: error     # get_astral_location deprecation from circadian_lighting
+    aio_georss_client: error             # GDACS feed transient timeouts
+    aio_geojson_client: error            # USGS feed transient timeouts
+    custom_components.adsb_tar1090: warning
+    nio.responses: error                 # matrix-nio schema warnings on every sync ('next_batch' missing)
+    custom_components.kubernetes.kubernetes_client: error  # 429s from API priority & fairness on the read-only SA
 
 # Track the sun
 sun:
@@ -137,48 +171,8 @@ anniversaries:
   - name: Gerald - Memorial
     date: !secret memorial_gp_e_gs
 
-binary_sensor:
-#  - platform: iss
-#    show_on_map: true
-  - platform: aurora
-
-camera:
-  - platform: generic
-    still_image_url: !secret weathermap1
-    name: !secret weathermapname1
-  - platform: generic
-    still_image_url: !secret weathermap2
-    name: !secret weathermapname2
-  - platform: generic
-    still_image_url: !secret weathermap3
-    name: !secret weathermapname3
-  - platform: generic
-    still_image_url: !secret weathermap4
-    name: !secret weathermapname4
-  - platform: generic
-    still_image_url: !secret weathermap5
-    name: !secret weathermapname5
-  - platform: generic
-    still_image_url: !secret weathermap6
-    name: !secret weathermapname6
-  - platform: generic
-    still_image_url: !secret weathermap7
-    name: !secret weathermapname7
-  - platform: generic
-    still_image_url: !secret weathermap8
-    name: !secret weathermapname8
-  - platform: generic
-    still_image_url: !secret weathermap9
-    name: !secret weathermapname9
-  - platform: generic
-    still_image_url: !secret weathermap10
-    name: !secret weathermapname10
-  - platform: generic
-    still_image_url: !secret weathermap11
-    name: !secret weathermapname11
-  - platform: local_file
-    name: Facebox Processing
-    file_path: /config/www/facebox/tmp/image.jpg
+# camera: the generic radar/space-weather cameras and the local_file Facebox camera are UI
+# config entries now; the YAML platforms were ignored ("does not support platform setup").
 
 circadian_lighting:
   interval: 600
@@ -222,24 +216,29 @@ homekit:
      - sensor
      - media_player
      - device_automation
+     - geo_location   # ADS-B aircraft + GDACS events; thousands of entities, HomeKit caps at 150
+     - scene          # 204 Hue scenes: Hue is paired to HomeKit natively and exposes its own scenes
+     - event          # Hue button / Protect / backup events; HomeKit maps almost none of these
+     - automation     # 34 automations were being bridged as on/off switches
+     - select         # 11 select entities (device option pickers) were being bridged
+   # Protect, FAA, Xbox, WiiM, SmartTub, Lutron entities live in homekit_exclude.yaml (generated)
+   exclude_entities: !include homekit_exclude.yaml
    exclude_entity_globs:
      - binary_sensor.*_occupancy
+     # UniFi Protect cameras stay OUT of HomeKit (they go via Scrypted); Protect names every
+     # channel *_high/_medium/_low or *_resolution_channel, so these globs catch current and
+     # future Protect cameras while leaving the generic weather/radar/space cameras exposed.
+     - camera.*_high
+     - camera.*_high_[0-9]*
+     - camera.*_medium
+     - camera.*_medium_[0-9]*
+     - camera.*_low
+     - camera.*_low_[0-9]*
+     - camera.*_resolution_channel
+     - camera.*_resolution_channel_[0-9]*
+     - camera.*_package_camera
+     - camera.*_insecure
 
-hue:
-  bridges:
-    - host: !secret host_hue
-      allow_unreachable: false
-      allow_hue_groups: true
-
-
-image_processing:
-  - platform: facebox
-    ip_address: !secret host_facebox
-    port: !secret host_facebox_port
-    source:
-      - entity_id: camera.facebox_processing
-        name: facebox_face_detection
-        
 influxdb:
   host: !secret host_influx
   port: 443
@@ -254,21 +253,12 @@ influxdb:
 
 ios:
 
-plex:
-  host: !secret host_plex
-  port: 443
-  token: !secret plex_token
-  ssl: true
-  verify_ssl: false
-  media_player:
-    use_episode_art: true
-    show_all_controls: true
-
 sonos_cloud:
   client_id: !secret sonos_dev_client
   client_secret: !secret sonos_dev_secret
 # https://github.com/jjlawren/sonos_cloud/blob/main/README.md
 
-# Weather integration removed: Dark Sky was shut down in 2023.
-# Add a replacement via the UI (Settings > Integrations) e.g. Open-Meteo or Met.no (both free, no API key).
-# After adding, update sensor/environment.yaml outdoor_temp_sensor to the new integration's temperature sensor.
+# Weather: NWS (station KMWO) is configured as a UI integration -> weather.kmwo.
+# 2026-09-15 cleanup: removed YAML for discovery, map, panel_iframe (all removed from HA core),
+# duckdns/hue/plex (UI-only integrations; YAML was ignored with errors), aurora and facebox
+# (platforms no longer exist). The ADS-B map link moved to the Aviation dashboard view.

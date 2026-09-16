@@ -1,0 +1,214 @@
+# Safety and security alerts from the UniFi Protect cameras.
+# The G4/G5/G6 cameras already run smoke/CO-alarm, glass-break, package and person detection;
+# until now nothing in HA acted on any of it, and a doorbell ring never reached a phone.
+
+- id: safety_smoke_co_alarm_heard
+  alias: Safety - smoke or CO alarm heard by a camera
+  description: Critical phone alert and full-volume house announcement when any camera hears a smoke or CO alarm, any hour.
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: state
+      entity_id:
+        - binary_sensor.g4_doorbell_pro_smoke_alarm_detected
+        - binary_sensor.g4_doorbell_pro_co_alarm_detected
+        - binary_sensor.g4_bullet_smoke_alarm_detected
+        - binary_sensor.g4_bullet_co_alarm_detected
+        - binary_sensor.g5_bullet_smoke_alarm_detected
+        - binary_sensor.g5_bullet_co_alarm_detected
+        - binary_sensor.front_driveway_g6_bullet_smoke_alarm_detected
+        - binary_sensor.front_driveway_g6_bullet_co_alarm_detected
+        - binary_sensor.southwest_yard_g6_bullet_smoke_alarm_detected
+        - binary_sensor.southwest_yard_g6_bullet_co_alarm_detected
+        - binary_sensor.garage_g4_instant_smoke_alarm_detected
+        - binary_sensor.garage_g4_instant_co_alarm_detected
+      from: "off"
+      to: "on"
+  variables:
+    message: "Warning. {{ trigger.to_state.name }}. Please check the house now."
+  actions:
+    - parallel:
+        - action: notify.mobile_app_iphone_robert
+          continue_on_error: true
+          data:
+            title: "SMOKE / CO ALARM"
+            message: "{{ trigger.to_state.name }}"
+            data:
+              push:
+                sound:
+                  name: default
+                  critical: 1
+                  volume: 1.0
+              interruption-level: critical
+        - action: script.sonos_say
+          continue_on_error: true
+          data:
+            sonos_entity: media_player.family_room
+            volume: 0.8
+            message: "{{ message }}"
+        - action: script.sonos_say
+          continue_on_error: true
+          data:
+            sonos_entity: media_player.unnamed_room_2
+            volume: 0.8
+            message: "{{ message }}"
+        - action: script.sonos_say
+          continue_on_error: true
+          data:
+            sonos_entity: media_player.dining_room
+            volume: 0.8
+            message: "{{ message }}"
+        - action: script.sonos_say
+          continue_on_error: true
+          data:
+            sonos_entity: media_player.unnamed_room
+            volume: 0.8
+            message: "{{ message }}"
+        - action: script.sonos_say
+          continue_on_error: true
+          data:
+            sonos_entity: media_player.living_room_speaker
+            volume: 0.8
+            message: "{{ message }}"
+        - sequence:
+            - action: media_player.volume_set
+              continue_on_error: true
+              target:
+                entity_id:
+                  - media_player.kitchen
+                  - media_player.play_room
+              data:
+                volume_level: 0.8
+            - action: tts.google_translate_say
+              continue_on_error: true
+              data:
+                entity_id: media_player.kitchen
+                message: "{{ message }}"
+            - action: tts.google_translate_say
+              continue_on_error: true
+              data:
+                entity_id: media_player.play_room
+                message: "{{ message }}"
+    - delay:
+        minutes: 2
+
+- id: security_glass_break_heard
+  alias: Security - glass break heard
+  description: Phone alert when a G6 camera hears glass breaking.
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: state
+      entity_id:
+        - binary_sensor.front_driveway_g6_bullet_glass_break_detected
+        - binary_sensor.southwest_yard_g6_bullet_glass_break_detected
+      from: "off"
+      to: "on"
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Glass break
+        message: "{{ trigger.to_state.name }}"
+        data:
+          image: /api/camera_proxy/camera.front_driveway_g6_bullet_high_resolution_channel
+    - delay:
+        minutes: 1
+
+- id: doorbell_phone_notification
+  alias: Front door - ring notification with snapshot
+  description: Phone notification with a doorbell snapshot on every ring (the Sonos chime and face greeting are separate automations).
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: event.received
+      target:
+        entity_id: event.front_door_g4_doorbell_pro_doorbell
+      options:
+        event_type: ring
+  variables:
+    who: >-
+      {% set n = states('input_text.doorbell_recent_face') %}
+      {% set t = states('input_datetime.doorbell_recent_face_at') %}
+      {% set fresh = t not in ['unknown', 'unavailable', ''] and (now().timestamp() - as_timestamp(t, 0)) < 90 %}
+      {{ (n | replace('_', ' ') | title) if (fresh and n not in ['', 'unknown', 'unavailable']) else 'Someone' }}
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Doorbell
+        message: "{{ who }} is at the front door."
+        data:
+          image: /api/camera_proxy/camera.g4_doorbell_pro_high
+          url: /lovelace/cameras
+          push:
+            interruption-level: time-sensitive
+
+- id: package_delivered
+  alias: Front door - package delivered
+  description: Phone notification with the package-camera snapshot, plus a daytime Great Room announcement.
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: state
+      entity_id: event.outside_front_door_g4_doorbell_pro_package
+      not_to:
+        - unknown
+        - unavailable
+  actions:
+    - parallel:
+        - action: notify.mobile_app_iphone_robert
+          continue_on_error: true
+          data:
+            title: Package
+            message: A package was delivered at the front door.
+            data:
+              image: /api/camera_proxy/camera.g4_doorbell_pro_package_camera
+        - if:
+            - condition: time
+              after: "08:30:00"
+              before: "21:00:00"
+          then:
+            - action: script.sonos_say
+              continue_on_error: true
+              data:
+                sonos_entity: media_player.family_room
+                volume: 0.4
+                message: A package was just delivered at the front door.
+    - delay:
+        minutes: 10
+
+- id: security_person_outside_at_night
+  alias: Security - person in the yard overnight
+  description: Phone alert when a camera sees a person in the backyard, driveway, garage or side yard between 23:00 and 05:30.
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: state
+      entity_id:
+        - binary_sensor.g5_bullet_person_detected
+        - binary_sensor.southwest_yard_g6_bullet_person_detected
+        - binary_sensor.front_driveway_g6_bullet_person_detected
+        - binary_sensor.garage_g4_instant_person_detected
+      from: "off"
+      to: "on"
+  conditions:
+    - condition: time
+      after: "23:00:00"
+      before: "05:30:00"
+  variables:
+    camera: >-
+      {% set m = {
+        'binary_sensor.g5_bullet_person_detected': 'camera.g5_bullet_high',
+        'binary_sensor.southwest_yard_g6_bullet_person_detected': 'camera.southwest_yard_g6_bullet_high_resolution_channel',
+        'binary_sensor.front_driveway_g6_bullet_person_detected': 'camera.front_driveway_g6_bullet_high_resolution_channel',
+        'binary_sensor.garage_g4_instant_person_detected': 'camera.garage_g4_instant_high' } %}
+      {{ m.get(trigger.entity_id, 'camera.g4_doorbell_pro_high') }}
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Person outside
+        message: "{{ trigger.to_state.name | replace(' Person detected', '') }}"
+        data:
+          image: "/api/camera_proxy/{{ camera }}"
+          url: /lovelace/cameras
+    - delay:
+        minutes: 5

@@ -1,6 +1,3 @@
 ### TRACKING ####################################################
 
-# Sensor to track overhead flights in a given radius
-# https://www.home-assistant.io/integrations/opensky/
-  - platform: opensky
-    radius: 20
+# OpenSky is configured as a UI integration (sensor.opensky); the YAML platform is ignored.

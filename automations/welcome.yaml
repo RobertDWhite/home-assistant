@@ -1,62 +1,32 @@
-###Welcome Home
+### Welcome Home
+# Rebuilt 2026-09-15. The old triggers watched device_tracker.robert_whites_iphone_ha,
+# sensor.emily_iphone_zone_name1, device_tracker.brandon_farler_galaxy_s10 and
+# device_tracker.samuels_iphone (iCloud3 / legacy known_devices entities that no longer exist),
+# so none of them had ever fired.
+#
+# Presence now comes from person.whitehouse (display name "Robert"), which is linked to the
+# Home Assistant Companion app tracker device_tracker.iphone_robert. For this to update in the
+# background the app's iOS Location permission must be "Always" (it is currently
+# "Authorized when in use").
+#
+# To add Emily: install the Companion app on her phone, create person.emily with her
+# device_tracker, then copy the block below with !secret welcome_e.
 
-- alias: 'Welcome Home Robby'
-  trigger:
-  - entity_id: device_tracker.robert_whites_iphone_ha
-    from: 'away'
-    platform: state
-    to: 'Home_Ibeacon'
-  condition: []
-  action:
-  - service: script.sonos_say
-    data:
-      sonos_entity: media_player.living_room_speaker
-      volume: 0.5
-      message: !secret welcome_r
-
-
-- alias: 'Welcome Home Emily'
-  trigger:
-  - entity_id: sensor.emily_iphone_zone_name1
-    from: 'away'
-    platform: state
-    to: 'Home_Ibeacon'
-  condition: []
-  action:
-  - service: script.sonos_say
-    data:
-      sonos_entity: media_player.living_room_speaker
-      volume: 0.5
-      message: !secret welcome_e
-
-
-###Welcome Friends/Family
-
-- alias: 'Welcome Brandon'
-  trigger:
-  - entity_id: device_tracker.brandon_farler_galaxy_s10
-    from: 'away'
-    platform: state
-    to: 'home'
-  condition: []
-  action:
-  - service: script.sonos_say
-    data:
-      sonos_entity: media_player.living_room_speaker
-      volume: 0.5
-      message: !secret welcome_brandon
-
-
-- alias: 'Welcome Samuel'
-  trigger:
-  - entity_id: device_tracker.samuels_iphone
-    from: 'Away'
-    platform: state
-    to: 'Home'
-  condition: []
-  action:
-  - service: script.sonos_say
-    data:
-      sonos_entity: media_player.living_room_speaker
-      volume: 0.5
-      message: !secret welcome_samuel
+- id: welcome_home_robby
+  alias: Welcome Home Robby
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: person.whitehouse
+      from: not_home
+      to: home
+  conditions:
+    - condition: time
+      after: "07:00:00"
+      before: "22:30:00"
+  actions:
+    - action: script.sonos_say
+      data:
+        sonos_entity: media_player.family_room
+        volume: 0.5
+        message: !secret welcome_r
