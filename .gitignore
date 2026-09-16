@@ -36,3 +36,7 @@ automations.yaml
 # template: directory (template/) is included by configuration.yaml too
 !/template
 !template
+
+
+# dashboards/: generated copies live on the HA box (/config/dashboards), never in this public repo
+dashboards/

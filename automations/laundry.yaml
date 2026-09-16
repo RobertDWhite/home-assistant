@@ -1,0 +1,104 @@
+# Laundry (Samsung washer/dryer via SmartThings).
+# The washer runs ~120 cycles/week of state changes; nobody is told when it finishes.
+
+- id: laundry_washer_finished
+  alias: Laundry - washer finished
+  description: Announce and notify when the washer goes from running to stopped.
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: state
+      entity_id: sensor.washer_machine_state
+      from: run
+      to: stop
+  actions:
+    - parallel:
+        - action: notify.mobile_app_iphone_robert
+          continue_on_error: true
+          data:
+            title: Laundry
+            message: The washer is done.
+        - if:
+            - condition: time
+              after: "08:00:00"
+              before: "21:30:00"
+          then:
+            - parallel:
+                - action: script.sonos_say
+                  continue_on_error: true
+                  data:
+                    sonos_entity: media_player.family_room
+                    volume: 0.4
+                    message: The washer has finished.
+                - sequence:
+                    - action: media_player.volume_set
+                      continue_on_error: true
+                      target:
+                        entity_id: media_player.kitchen
+                      data:
+                        volume_level: 0.4
+                    - action: tts.google_translate_say
+                      continue_on_error: true
+                      data:
+                        entity_id: media_player.kitchen
+                        message: The washer has finished.
+
+- id: laundry_dryer_finished
+  alias: Laundry - dryer finished
+  description: Announce and notify when the dryer goes from running to stopped.
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: state
+      entity_id: sensor.dryer_machine_state
+      from: run
+      to: stop
+  actions:
+    - parallel:
+        - action: notify.mobile_app_iphone_robert
+          continue_on_error: true
+          data:
+            title: Laundry
+            message: The dryer is done.
+        - if:
+            - condition: time
+              after: "08:00:00"
+              before: "21:30:00"
+          then:
+            - parallel:
+                - action: script.sonos_say
+                  continue_on_error: true
+                  data:
+                    sonos_entity: media_player.family_room
+                    volume: 0.4
+                    message: The dryer has finished.
+                - sequence:
+                    - action: media_player.volume_set
+                      continue_on_error: true
+                      target:
+                        entity_id: media_player.kitchen
+                      data:
+                        volume_level: 0.4
+                    - action: tts.google_translate_say
+                      continue_on_error: true
+                      data:
+                        entity_id: media_player.kitchen
+                        message: The dryer has finished.
+
+- id: laundry_lights_left_on
+  alias: Laundry - lights left on overnight
+  description: The Lutron laundry-room switch gets left on; turn it off at 01:00 if it has been on for an hour.
+  mode: single
+  triggers:
+    - trigger: time
+      at: "01:00:00"
+  conditions:
+    - condition: state
+      entity_id: light.laundry_main_lights
+      state: "on"
+      for:
+        hours: 1
+  actions:
+    - action: light.turn_off
+      target:
+        entity_id: light.laundry_main_lights

@@ -1,15 +1,19 @@
 ### Testing TTS
+# Press the "Test house announcement" button helper (input_button) to hear the EAS test on the
+# Great Room Sonos. The old trigger watched input_boolean.dummy_switch, which no longer exists.
 
-- alias: 'Testing TTS'
-  trigger:
-  - entity_id: input_boolean.dummy_switch
-    from: 'off'
-    platform: state
-    to: 'on'
-  condition: []
-  action:
-  - service: script.sonos_say
-    data:
-      sonos_entity: media_player.living_room_speaker
-      volume: 0.6
-      message: Attention!. . . Attention!. . . This is a test of the Emergency Alert System!. . . One. . . Two. . . . . This has been a test of the Emergency Alert System.
+- id: testing_tts
+  alias: Testing TTS
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: input_button.test_house_announcement
+      not_to:
+        - unknown
+        - unavailable
+  actions:
+    - action: script.sonos_say
+      data:
+        sonos_entity: media_player.family_room
+        volume: 0.6
+        message: Attention!. . . Attention!. . . This is a test of the Emergency Alert System!. . . One. . . Two. . . . . This has been a test of the Emergency Alert System.

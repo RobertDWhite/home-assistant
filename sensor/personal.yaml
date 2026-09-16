@@ -1,5 +1,47 @@
-#Track Zillow's Zestimae pricing for properties
+# Home valuations.
+#
+# Zillow: the zestimate platform still loads, but Zillow retired the GetZestimate web service
+# (api returns HTTP 410 Gone), so these sensors can never populate. Kept for the record with both
+# ZPIDs in case Zillow data becomes reachable again.
   - platform: zestimate
     api_key: !secret zillow_api
     zpid:
-      - !secret zpid_current_home
+      - !secret zpid_current_home   # 3105 Shadow Hill Rd (Middletown)
+      - !secret zpid_babson         # 3313 Babson Ct (Franklin)
+
+# Redfin Estimate via Redfin's unofficial AVM endpoint (JSON behind a "{}&&" prefix). Polled twice a
+# day with a browser User-Agent; Redfin's CDN blocks bursts, so keep the interval long. When blocked
+# the response is HTML and the sensor goes unavailable instead of erroring.
+  - platform: rest
+    name: Home Value - Franklin
+    unique_id: redfin_estimate_franklin
+    resource: !secret redfin_avm_babson
+    method: GET
+    headers:
+      User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128 Safari/537.36
+      Accept: application/json
+    scan_interval: 43200
+    timeout: 20
+    availability: "{{ value is string and value.startswith('{}&&') }}"
+    value_template: "{{ ((value[4:] | from_json).payload.predictedValue | float(0)) | round(0) | int }}"
+    unit_of_measurement: USD
+    device_class: monetary
+    state_class: total
+    icon: mdi:home-analytics
+
+  - platform: rest
+    name: Home Value - Middletown
+    unique_id: redfin_estimate_middletown
+    resource: !secret redfin_avm_shadow_hill
+    method: GET
+    headers:
+      User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128 Safari/537.36
+      Accept: application/json
+    scan_interval: 43200
+    timeout: 20
+    availability: "{{ value is string and value.startswith('{}&&') }}"
+    value_template: "{{ ((value[4:] | from_json).payload.predictedValue | float(0)) | round(0) | int }}"
+    unit_of_measurement: USD
+    device_class: monetary
+    state_class: total
+    icon: mdi:home-analytics

@@ -1,17 +1,26 @@
-##Script used in conjunction with config/automations/weather_alerts.yaml and config/sensor/weather.yaml
+## Script used in conjunction with automations/weather_alerts.yaml and sensor/weather.yaml
 
 nws_popup_on_wx_alert:
   alias: NWS Weather Alert Pop Up
+  mode: queued
   sequence:
     # Dismiss any current alert so the UI is not filled with old alerts.
-    - service: persistent_notification.dismiss
+    - action: persistent_notification.dismiss
       data:
         notification_id: "nwswxalert"
-    # Only show a popup when there is an active event.
+    # Only show a popup when there is an active event with a payload.
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: sensor.nws_alert_event
+          state:
+            - "None"
+            - unavailable
+            - unknown
     - condition: template
-      value_template: "{{ states('sensor.nws_alert_event') != 'None' }}"
-    - service: persistent_notification.create
+      value_template: "{{ (state_attr('sensor.nws_alert_event', 'features') | default([], true)) | count > 0 }}"
+    - action: persistent_notification.create
       data:
         notification_id: "nwswxalert"
-        message: "{{ state_attr('sensor.nws_alert_event', 'features')[0].properties.description }}"
         title: "{{ states('sensor.nws_alert_event') }}"
+        message: "{{ state_attr('sensor.nws_alert_event', 'features')[0].properties.description }}"

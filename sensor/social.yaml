@@ -1,20 +1,3 @@
-
-#Sensor for Steam - track friend status
-  - platform: steam_online
-    api_key: !secret steam_api
-    accounts:
-      - !secret steam_id64_1
-      - !secret steam_id64_2
-      - !secret steam_id64_3
-      - !secret steam_id64_4
-      - !secret steam_id64_5
-      - !secret steam_id64_6
-      - !secret steam_id64_7
-      - !secret steam_id64_8
-
-
-#Sensor for XBOX Live - track friend status
-  - platform: xbox_live
-    api_key: !secret xbox_api
-    xuid:
-      - !secret xbox_id_1
+# Steam and Xbox friend tracking moved to UI integrations (Settings > Devices & Services):
+# steam_online and xbox both have config entries. The YAML platforms below were removed from
+# core and only produced "Integration 'xbox_live' not found" at startup.

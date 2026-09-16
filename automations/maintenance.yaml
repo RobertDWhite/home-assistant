@@ -1,0 +1,113 @@
+# House and server maintenance notices (phone only).
+
+- id: maintenance_ha_started
+  alias: Maintenance - Home Assistant restarted
+  description: Know when HA comes back (useful after the VMware/RKE2 outages).
+  mode: single
+  triggers:
+    - trigger: homeassistant
+      event: start
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      continue_on_error: true
+      data:
+        title: Home Assistant
+        message: Home Assistant has started.
+
+- id: maintenance_updates_available
+  alias: Maintenance - update available
+  description: Phone notice when a new HA Core, Synology DSM or Synology Plex version appears.
+  mode: parallel
+  max: 5
+  triggers:
+    - trigger: state
+      entity_id:
+        - update.home_assistant_core_update
+        - update.synology_dsm_update
+        - update.plex_media_server_synology
+      to: "on"
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Update available
+        message: "{{ trigger.to_state.name }}: {{ trigger.to_state.attributes.installed_version }} → {{ trigger.to_state.attributes.latest_version }}"
+
+- id: maintenance_synology_volume_full
+  alias: Maintenance - Synology volume 1 nearly full
+  description: Volume 1 is at 97.8% and flagged "attention"; nag daily at 09:00 while above 95%.
+  mode: single
+  triggers:
+    - trigger: numeric_state
+      entity_id: sensor.synology_volume_1_volume_used
+      above: 95
+    - trigger: time
+      at: "09:00:00"
+  conditions:
+    - condition: numeric_state
+      entity_id: sensor.synology_volume_1_volume_used
+      above: 95
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Synology
+        message: "Volume 1 is {{ states('sensor.synology_volume_1_volume_used') }}% full (status: {{ states('sensor.synology_volume_1_status') }})."
+
+- id: maintenance_synology_security
+  alias: Maintenance - Synology security advisor
+  description: Phone notice when DSM's security status turns unsafe.
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.synology_security_status
+      from: "off"
+      to: "on"
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Synology
+        message: DSM Security Advisor reports an issue.
+
+- id: maintenance_low_batteries_weekly
+  alias: Maintenance - low battery digest
+  description: Sunday 10:00 list of battery sensors under 20% (two Hue devices are at 1% today).
+  mode: single
+  triggers:
+    - trigger: time
+      at: "10:00:00"
+  conditions:
+    - condition: time
+      weekday:
+        - sun
+  variables:
+    low_list: >-
+      {% set ns = namespace(items=[]) %}
+      {% for s in states.sensor
+         if s.attributes.device_class is defined and s.attributes.device_class == 'battery'
+         and s.state not in ['unknown', 'unavailable'] and (s.state | float(100)) < 20 %}
+        {% set ns.items = ns.items + [s.name ~ ' ' ~ s.state ~ '%'] %}
+      {% endfor %}
+      {{ ns.items }}
+  actions:
+    - alias: Skip the notice when nothing is low
+      condition: template
+      value_template: "{{ low_list | count > 0 }}"
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Low batteries
+        message: "{{ low_list | join(', ') }}"
+
+- id: maintenance_nws_sensor_offline
+  alias: Maintenance - weather alert feed offline
+  description: The NWS alert sensors silently fail when api.weather.gov is unreachable; tell the phone if they stay unavailable for 6 hours.
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: sensor.nws_alert_count
+      to: unavailable
+      for:
+        hours: 6
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Weather alerts
+        message: The NWS alert sensor has been unavailable for 6 hours. Severe-weather announcements are not working.

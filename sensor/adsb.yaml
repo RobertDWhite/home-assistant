@@ -1,7 +1,7 @@
 
   - platform: rest
     name: ADS-B Aircraft
-    resource: http://adsb.internal.w3rdw.radio/data/aircraft.json
+    resource: https://adsb.internal.w3rdw.radio/data/aircraft.json  # http only 301s to https
     value_template: "{{ value_json.aircraft | length }}"
     unit_of_measurement: "aircraft"
     scan_interval: 30
