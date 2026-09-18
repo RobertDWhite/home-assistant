@@ -161,3 +161,19 @@
       data:
         title: Service down
         message: "{{ trigger.to_state.attributes.friendly_name | default(trigger.entity_id) }} has been down 5 min."
+
+- id: ai_keep_vision_model_warm
+  alias: AI - keep doorbell vision model warm
+  description: >-
+    Pings Ollama every 10 minutes (and at HA start) so the qwen2.5vl vision model stays loaded. Without this the
+    AI stack's other models evict it and the first doorbell description would take ~100s (cold load).
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: time_pattern
+      minutes: "/10"
+    - trigger: homeassistant
+      event: start
+  actions:
+    - action: rest_command.ollama_keep_vision_warm
+      continue_on_error: true
