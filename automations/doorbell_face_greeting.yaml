@@ -73,6 +73,36 @@
         entity_id: input_datetime.doorbell_recent_face_at
       data:
         timestamp: '{{ now().timestamp() }}'
+  - alias: Unknown face -> describe the visitor with LLM Vision (pre-warm cache for the ring)
+    if:
+    - condition: template
+      value_template: "{{ not (pname != '' and (pconf | float(0)) >= 60) }}"
+    then:
+    - action: llmvision.image_analyzer
+      continue_on_error: true
+      data:
+        provider: 01M2SCYNXEW4HBDQ21RYW6Y45H
+        message: "You are describing a visitor at a front door for a short spoken announcement. In ONE sentence of at most 14 words, say who this most likely is and what they are carrying. If a uniform, logo, or vehicle identifies a company (UPS, FedEx, Amazon, USPS, DHL), name it, for example: A UPS driver with a package. If unsure, say: A visitor. No preamble, no trailing period."
+        image_file: /config/www/doorbell/person.jpg
+        max_tokens: 40
+        target_width: 640
+        remember: true
+        include_filename: false
+      response_variable: vision
+    - if:
+      - condition: template
+        value_template: "{{ vision is defined and (vision.response_text | default('') | trim) != '' }}"
+      then:
+      - action: input_text.set_value
+        target:
+          entity_id: input_text.doorbell_recent_description
+        data:
+          value: "{{ (vision.response_text | trim | regex_replace('\\.$', ''))[:250] }}"
+      - action: input_datetime.set_datetime
+        target:
+          entity_id: input_datetime.doorbell_recent_description_at
+        data:
+          timestamp: "{{ now().timestamp() }}"
 - id: doorbell_greet_recognized_face
   alias: Front door - greet recognized face
   description: 'On doorbell ring: greet the recognized person at the door (Welcome clip) and announce their arrival house-wide. Uses the pre-ring cache when fresh (<30s), else a live snapshot + recognition. House announcement is limited to 08:30-21:00.'
@@ -83,7 +113,11 @@
     snapshot_path: /config/www/doorbell/latest.jpg
     cached_name: '{{ states(''input_text.doorbell_recent_face'') }}'
     cached_age: '{% set t = states(''input_datetime.doorbell_recent_face_at'') %} {{ (now().timestamp() - as_timestamp(t)) if t not in [''unknown'',''unavailable'',''''] else 9999 }}'
-    names: !secret doorbell_names   # key -> full name map lives in secrets.yaml (config repo is public)
+    names: !secret doorbell_names
+    cached_desc: "{{ states('input_text.doorbell_recent_description') }}"
+    cached_desc_age: >-
+      {% set t = states('input_datetime.doorbell_recent_description_at') %}
+      {{ (now().timestamp() - as_timestamp(t, 0)) if t not in ['unknown','unavailable',''] else 9999 }}   # key -> full name map lives in secrets.yaml (config repo is public)
   triggers:
   - trigger: event.received
     target:
@@ -166,7 +200,12 @@
         before: '21:00:00'
       then:
       - variables:
-          announce: '{{ (full_name ~ '' is at the front door'') if known else ''An unknown person is at the front door'' }}'
+          announce: >-
+            {% set d = cached_desc | trim %}
+            {% set fresh = d not in ['', 'unknown', 'unavailable'] and (cached_desc_age | float(9999)) < 120 %}
+            {% if known %}{{ full_name }} is at the front door
+            {% elif fresh %}{{ d }} is at the front door
+            {% else %}An unknown person is at the front door{% endif %}
       - parallel:
         - action: script.sonos_say
           continue_on_error: true

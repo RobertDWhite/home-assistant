@@ -130,7 +130,10 @@
       {% set n = states('input_text.doorbell_recent_face') %}
       {% set t = states('input_datetime.doorbell_recent_face_at') %}
       {% set fresh = t not in ['unknown', 'unavailable', ''] and (now().timestamp() - as_timestamp(t, 0)) < 90 %}
-      {{ (n | replace('_', ' ') | title) if (fresh and n not in ['', 'unknown', 'unavailable']) else 'Someone' }}
+      {% set d = states('input_text.doorbell_recent_description') | trim %}
+      {% set dt = states('input_datetime.doorbell_recent_description_at') %}
+      {% set dfresh = dt not in ['unknown', 'unavailable', ''] and (now().timestamp() - as_timestamp(dt, 0)) < 120 and d not in ['', 'unknown', 'unavailable'] %}
+      {{ (n | replace('_', ' ') | title) if (fresh and n not in ['', 'unknown', 'unavailable']) else (d if dfresh else 'Someone') }}
   actions:
     - action: notify.mobile_app_iphone_robert
       data:

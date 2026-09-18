@@ -1,0 +1,8 @@
+# Keep the doorbell vision model resident in Ollama (other AI-stack consumers evict it otherwise;
+# a cold load takes ~100s which is too slow for a doorbell). Called every 10 min by maintenance.yaml.
+ollama_keep_vision_warm:
+  url: !secret url_ollama_generate
+  method: POST
+  content_type: application/json
+  payload: '{"model": "qwen2.5vl:7b", "keep_alive": -1, "stream": false}'
+  timeout: 170
