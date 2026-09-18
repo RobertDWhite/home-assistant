@@ -112,27 +112,6 @@
         title: Weather alerts
         message: The NWS alert sensor has been unavailable for 6 hours. Severe-weather announcements are not working.
 
-- id: maintenance_wan_down
-  alias: Maintenance - internet (WAN) down
-  description: Notify when the UniFi WAN drops for 2 minutes, and again when it returns.
-  mode: single
-  triggers:
-    - trigger: state
-      entity_id: binary_sensor.unifi_dream_machine_wan_status
-      to: "off"
-      for:
-        minutes: 2
-      id: down
-    - trigger: state
-      entity_id: binary_sensor.unifi_dream_machine_wan_status
-      from: "off"
-      to: "on"
-      id: up
-  actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: Internet
-        message: "{{ 'WAN is DOWN - no internet at the house.' if trigger.id == 'down' else 'WAN is back up.' }}"
 
 - id: maintenance_cluster_node_down
   alias: Maintenance - cluster node not Ready
@@ -158,3 +137,27 @@
       data:
         title: Cluster
         message: "{{ trigger.to_state.attributes.friendly_name | default(trigger.entity_id) }} is NotReady."
+
+- id: maintenance_service_down
+  alias: Maintenance - critical service group down
+  description: >-
+    Notify if an Uptime Kuma group (Server, Media, Security, AI, Apps) reports down for 5 minutes.
+    Fires only on a real "down"; ignores the sensor going unavailable when Kuma itself is unreachable.
+  mode: parallel
+  max: 6
+  triggers:
+    - trigger: state
+      entity_id:
+        - sensor.server_status
+        - sensor.media_status
+        - sensor.security_status
+        - sensor.ai_status
+        - sensor.apps_status
+      to: "down"
+      for:
+        minutes: 5
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Service down
+        message: "{{ trigger.to_state.attributes.friendly_name | default(trigger.entity_id) }} has been down 5 min."

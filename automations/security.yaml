@@ -212,3 +212,39 @@
           url: /lovelace/cameras
     - delay:
         minutes: 5
+
+- id: security_front_door_night_autolock
+  alias: Security - auto-lock front door at night
+  description: >-
+    Lock the Schlage front door at 22:00 if it is unlocked, and re-lock it 5 minutes after any unlock
+    between 22:00 and 06:00. Inactive while the lock is unavailable (currently offline in Schlage's cloud).
+  mode: single
+  triggers:
+    - trigger: time
+      at: "22:00:00"
+      id: nightly
+    - trigger: state
+      entity_id: lock.front_door
+      to: unlocked
+      for:
+        minutes: 5
+      id: relock
+  conditions:
+    - condition: state
+      entity_id: lock.front_door
+      state: unlocked
+    - condition: or
+      conditions:
+        - condition: trigger
+          id: nightly
+        - condition: time
+          after: "22:00:00"
+          before: "06:00:00"
+  actions:
+    - action: lock.lock
+      target:
+        entity_id: lock.front_door
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Front door
+        message: Auto-locked the front door.

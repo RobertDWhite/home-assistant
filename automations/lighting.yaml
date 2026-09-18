@@ -105,3 +105,32 @@
                 entity_id:
                   - switch.kitchen_under_cabinet_1
                   - switch.kitchen_under_cabinet_2
+
+- id: master_bath_lutron_follows_hue
+  alias: Master Bath - main/vanity lights follow Hue
+  description: >-
+    Mirror of the kitchen rule for the master bath: when the Hue master-bath group turns on, turn on the
+    Lutron main and vanity lights; when the Hue group goes fully off, turn them off. Shower light excluded.
+    Flip the entity roles if you want Hue to follow Lutron instead.
+  mode: restart
+  triggers:
+    - trigger: state
+      entity_id: light.master_bathroom
+      to: "on"
+      id: hue_on
+    - trigger: state
+      entity_id: light.master_bathroom
+      to: "off"
+      id: hue_off
+  actions:
+    - choose:
+        - conditions: [{condition: trigger, id: hue_on}]
+          sequence:
+            - action: light.turn_on
+              target:
+                entity_id: [light.master_bath_main_lights, light.master_bath_vanity_lights]
+        - conditions: [{condition: trigger, id: hue_off}]
+          sequence:
+            - action: light.turn_off
+              target:
+                entity_id: [light.master_bath_main_lights, light.master_bath_vanity_lights]
