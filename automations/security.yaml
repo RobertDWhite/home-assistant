@@ -227,14 +227,14 @@
       at: "22:00:00"
       id: nightly
     - trigger: state
-      entity_id: lock.front_door
+      entity_id: lock.front_door_lock
       to: unlocked
       for:
         minutes: 5
       id: relock
   conditions:
     - condition: state
-      entity_id: lock.front_door
+      entity_id: lock.front_door_lock
       state: unlocked
     - condition: or
       conditions:
@@ -246,7 +246,7 @@
   actions:
     - action: lock.lock
       target:
-        entity_id: lock.front_door
+        entity_id: lock.front_door_lock
     - action: notify.mobile_app_iphone_robert
       data:
         title: Front door
