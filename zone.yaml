@@ -1,7 +1,8 @@
   - name: 'Home'
     latitude: !secret latitude_sec
     longitude: !secret longitude_sec
-    radius: 20
+    # 100 m: the phones sit 50-60 m from the centre point, so 20 m never counted as home
+    radius: 100
     icon: mdi:home
 
   - name: !secret location_home
