@@ -1,0 +1,284 @@
+{
+  "core": {
+    "version": "2026.9.3"
+  },
+  "hacs": [
+    {
+      "repo": "AlexandrErohin/home-assistant-flightradar24",
+      "category": "integration",
+      "version": "v2.2.0",
+      "domain": "flightradar24"
+    },
+    {
+      "repo": "aradlein/hass-agent-llm",
+      "category": "integration",
+      "version": "v0.9.5",
+      "domain": "home_agent"
+    },
+    {
+      "repo": "bruxy70/Garbage-Collection",
+      "category": "integration",
+      "version": "4.10.2",
+      "domain": "garbage_collection"
+    },
+    {
+      "repo": "claytonjn/hass-circadian_lighting",
+      "category": "integration",
+      "version": "2.1.6",
+      "domain": "circadian_lighting"
+    },
+    {
+      "repo": "custom-components/weatheralerts",
+      "category": "integration",
+      "version": "v2026.5.3",
+      "domain": "weatheralerts"
+    },
+    {
+      "repo": "elax46/custom-brand-icons",
+      "category": "lovelace",
+      "version": "2026.09.0"
+    },
+    {
+      "repo": "exxamalte/home-assistant-custom-components-nsw-rural-fire-service-fire-danger",
+      "category": "integration",
+      "version": "v0.21",
+      "domain": "nsw_rural_fire_service_fire_danger"
+    },
+    {
+      "repo": "fuatakgun/eufy_security",
+      "category": "integration",
+      "version": "v8.2.4",
+      "domain": "eufy_security"
+    },
+    {
+      "repo": "ganhammar/hass-mcp-server",
+      "category": "integration",
+      "version": "v1.17.1",
+      "domain": "mcp_server_http_transport"
+    },
+    {
+      "repo": "gcobb321/icloud3",
+      "category": "integration",
+      "version": "v3.7.5",
+      "domain": "icloud3"
+    },
+    {
+      "repo": "hacs/integration",
+      "category": "integration",
+      "version": "2.0.5",
+      "domain": "hacs"
+    },
+    {
+      "repo": "ITSpecialist111/ai_automation_suggester",
+      "category": "integration",
+      "version": "v1.6.0",
+      "domain": "ai_automation_suggester"
+    },
+    {
+      "repo": "jjlawren/sonos_cloud",
+      "category": "integration",
+      "version": "0.3.6",
+      "domain": "sonos_cloud"
+    },
+    {
+      "repo": "jpettitt/weather-radar-card",
+      "category": "lovelace",
+      "version": "v3.7.2"
+    },
+    {
+      "repo": "Kirbo/ha-lovelace-elapsed-time-card",
+      "category": "lovelace",
+      "version": "0.4.2"
+    },
+    {
+      "repo": "krahabb/meross_lan",
+      "category": "integration",
+      "version": "v5.8.0",
+      "domain": "meross_lan"
+    },
+    {
+      "repo": "LordBoos/discord_game",
+      "category": "integration",
+      "version": "6.2.1",
+      "domain": "discord_game"
+    },
+    {
+      "repo": "Makin-Things/platinum-weather-card",
+      "category": "lovelace",
+      "version": "1.0.5"
+    },
+    {
+      "repo": "mawinkler/astroweather",
+      "category": "integration",
+      "version": "v0.80.0",
+      "domain": "astroweather"
+    },
+    {
+      "repo": "mawinkler/astroweather-card",
+      "category": "lovelace",
+      "version": "v0.80.1"
+    },
+    {
+      "repo": "mjcumming/wiim",
+      "category": "integration",
+      "version": "v1.0.102",
+      "domain": "wiim"
+    },
+    {
+      "repo": "moerk-o/SolsticeHub",
+      "category": "integration",
+      "version": "v1.5.1",
+      "domain": "solstice_season"
+    },
+    {
+      "repo": "msekoranja/emsc-hacs-repository",
+      "category": "integration",
+      "version": "3248bde",
+      "domain": "emscrss"
+    },
+    {
+      "repo": "NemesisRE/sensor.plex_recently_added",
+      "category": "integration",
+      "version": "0.3.9",
+      "domain": "plex_recently_added"
+    },
+    {
+      "repo": "NemesisRE/upcoming-media-card",
+      "category": "lovelace",
+      "version": "0.4.4"
+    },
+    {
+      "repo": "okkine/HA-Luna",
+      "category": "integration",
+      "version": "2026.04.01",
+      "domain": "luna"
+    },
+    {
+      "repo": "okkine/HA-Sol",
+      "category": "integration",
+      "version": "2026.05.01",
+      "domain": "sol"
+    },
+    {
+      "repo": "pawkakol1/worlds-air-quality-index",
+      "category": "integration",
+      "version": "v1.1.0",
+      "domain": "worlds_air_quality_index"
+    },
+    {
+      "repo": "pinkywafer/Anniversaries",
+      "category": "integration",
+      "version": "6.0.1",
+      "domain": "anniversaries"
+    },
+    {
+      "repo": "remimikalsen/ollama_vision",
+      "category": "integration",
+      "version": "1.0.9",
+      "domain": "ollama_vision"
+    },
+    {
+      "repo": "smkrv/ha-text-ai",
+      "category": "integration",
+      "version": "v2.5.2",
+      "domain": "ha_text_ai"
+    },
+    {
+      "repo": "svalsemey/hassio-moon-astro",
+      "category": "integration",
+      "version": "v0.4.5",
+      "domain": "moon_astro"
+    },
+    {
+      "repo": "swallace17/Circadian-Hue-Sync",
+      "category": "integration",
+      "version": "82a99c6",
+      "domain": "circadian_hue_scene_sync"
+    },
+    {
+      "repo": "Tasshack/dreame-vacuum",
+      "category": "integration",
+      "version": "v1.0.11",
+      "domain": "dreame_vacuum"
+    },
+    {
+      "repo": "tibuntu/homeassistant-kubernetes",
+      "category": "integration",
+      "version": "v1.11.0",
+      "domain": "kubernetes"
+    },
+    {
+      "repo": "valentinfrlch/ha-llmvision",
+      "category": "integration",
+      "version": "v1.7.2",
+      "domain": "llmvision"
+    },
+    {
+      "repo": "valentinfrlch/llmvision-card",
+      "category": "lovelace",
+      "version": "v1.7.2"
+    }
+  ],
+  "addons": [
+    {
+      "slug": "1e14b3fb_adsb-multi-portal-feeder",
+      "name": "ADS-B Multi-Portal Feeder",
+      "version": "2.6.1.1",
+      "repository": "1e14b3fb"
+    },
+    {
+      "slug": "a0d7b954_ssh",
+      "name": "Advanced SSH & Web Terminal",
+      "version": "24.1.5",
+      "repository": "a0d7b954"
+    },
+    {
+      "slug": "a0d7b954_tailscale",
+      "name": "Tailscale",
+      "version": "0.30.0",
+      "repository": "a0d7b954"
+    },
+    {
+      "slug": "cb646a50_get",
+      "name": "Get HACS",
+      "version": "1.3.1",
+      "repository": "cb646a50"
+    },
+    {
+      "slug": "core_configurator",
+      "name": "File editor",
+      "version": "6.1.0",
+      "repository": "core"
+    },
+    {
+      "slug": "core_letsencrypt",
+      "name": "Let's Encrypt",
+      "version": "6.5.0",
+      "repository": "core"
+    },
+    {
+      "slug": "core_matter_server",
+      "name": "Matter Server",
+      "version": "9.2.0",
+      "repository": "core"
+    },
+    {
+      "slug": "core_samba",
+      "name": "Samba share",
+      "version": "12.10.0",
+      "repository": "core"
+    },
+    {
+      "slug": "core_ssh",
+      "name": "Terminal & SSH",
+      "version": "10.5.0",
+      "repository": "core"
+    },
+    {
+      "slug": "core_whisper",
+      "name": "Whisper",
+      "version": "3.5.3",
+      "repository": "core"
+    }
+  ]
+}
