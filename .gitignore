@@ -40,3 +40,7 @@ automations.yaml
 
 # dashboards/: generated copies live on the HA box (/config/dashboards), never in this public repo
 dashboards/
+
+# ha-lock: versioned inventory of core / HACS / add-on versions (see README)
+!ha-lock.json
+!ha-lock.sh
