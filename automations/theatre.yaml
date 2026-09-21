@@ -3,7 +3,7 @@
   alias: Theatre - movie mode
   description: >-
     When the Theatre Denon AVR powers on, disable the theatre circadian switches and set the Hue theatre
-    lights to a dim warm movie glow. When the AVR powers off, re-enable circadian and restore a normal level.
+    lights to a dim cinema red. When the AVR powers off, restore a normal level, then re-enable circadian 10 s later.
   mode: restart
   triggers:
     - trigger: state
@@ -29,10 +29,22 @@
               target:
                 entity_id: light.theatre
               data:
-                brightness_pct: 10
-                rgb_color: [255, 110, 20]   # dim warm amber theater glow (tweak to taste)
+                brightness_pct: 8
+                # Deep cinema red: aisle/step-light colour, keeps eyes dark-adapted and spills the
+                # least onto the screen (blue scatters and reads as "standby"). Tweak to taste.
+                rgb_color: [255, 30, 0]
         - conditions: [{condition: trigger, id: end}]
           sequence:
+            # Bring the room back first, then hand control back to circadian 10 s later so
+            # the two don't fight over the same bulbs in the same instant.
+            - action: light.turn_on
+              target:
+                entity_id: light.theatre
+              data:
+                color_temp_kelvin: 2900
+                brightness_pct: 55
+            - delay:
+                seconds: 10
             - action: switch.turn_on
               target:
                 entity_id:
@@ -40,9 +52,3 @@
                   - switch.circadian_lighting_circadian_theatre_accent
                   - switch.circadian_lighting_circadian_theatre_rear
                   - switch.circadian_lighting_circadian_theatre_hall
-            - action: light.turn_on
-              target:
-                entity_id: light.theatre
-              data:
-                color_temp_kelvin: 2900
-                brightness_pct: 55
