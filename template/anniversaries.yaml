@@ -11,7 +11,7 @@
         availability: "{{ has_value('sensor.anniversary_annie_s_birthday') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_annie_s_birthday') }} {{ state_attr('sensor.anniversary_annie_s_birthday', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_annie_s_birthday', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_annie_s_birthday', 'years_at_anniversary') %}{{ 'turns ' ~ n if n is not none else '' }}"
           source: sensor.anniversary_annie_s_birthday
       - name: "Elizabeth - Memorial date"
         unique_id: anniversary_elizabeth_memorial_date
@@ -20,7 +20,7 @@
         availability: "{{ has_value('sensor.anniversary_elizabeth_memorial') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_elizabeth_memorial') }} {{ state_attr('sensor.anniversary_elizabeth_memorial', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_elizabeth_memorial', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_elizabeth_memorial', 'years_at_anniversary') %}{{ n ~ ' years' if n is not none else '' }}"
           source: sensor.anniversary_elizabeth_memorial
       - name: "Elsie's Birthday date"
         unique_id: anniversary_elsie_s_birthday_date
@@ -29,7 +29,7 @@
         availability: "{{ has_value('sensor.anniversary_elsie_s_birthday') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_elsie_s_birthday') }} {{ state_attr('sensor.anniversary_elsie_s_birthday', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_elsie_s_birthday', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_elsie_s_birthday', 'years_at_anniversary') %}{{ 'turns ' ~ n if n is not none else '' }}"
           source: sensor.anniversary_elsie_s_birthday
       - name: "Emily's Birthday date"
         unique_id: anniversary_emily_s_birthday_date
@@ -38,7 +38,7 @@
         availability: "{{ has_value('sensor.anniversary_emily_s_birthday') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_emily_s_birthday') }} {{ state_attr('sensor.anniversary_emily_s_birthday', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_emily_s_birthday', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_emily_s_birthday', 'years_at_anniversary') %}{{ 'turns ' ~ n if n is not none else '' }}"
           source: sensor.anniversary_emily_s_birthday
       - name: "Gerald - Memorial date"
         unique_id: anniversary_gerald_memorial_date
@@ -47,7 +47,7 @@
         availability: "{{ has_value('sensor.anniversary_gerald_memorial') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_gerald_memorial') }} {{ state_attr('sensor.anniversary_gerald_memorial', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_gerald_memorial', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_gerald_memorial', 'years_at_anniversary') %}{{ n ~ ' years' if n is not none else '' }}"
           source: sensor.anniversary_gerald_memorial
       - name: "Grandma - Memorial date"
         unique_id: anniversary_grandma_memorial_date
@@ -56,7 +56,7 @@
         availability: "{{ has_value('sensor.anniversary_grandma_memorial') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_grandma_memorial') }} {{ state_attr('sensor.anniversary_grandma_memorial', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_grandma_memorial', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_grandma_memorial', 'years_at_anniversary') %}{{ n ~ ' years' if n is not none else '' }}"
           source: sensor.anniversary_grandma_memorial
       - name: "Grandpa - Memorial date"
         unique_id: anniversary_grandpa_memorial_date
@@ -65,7 +65,7 @@
         availability: "{{ has_value('sensor.anniversary_grandpa_memorial') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_grandpa_memorial') }} {{ state_attr('sensor.anniversary_grandpa_memorial', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_grandpa_memorial', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_grandpa_memorial', 'years_at_anniversary') %}{{ n ~ ' years' if n is not none else '' }}"
           source: sensor.anniversary_grandpa_memorial
       - name: "Mamaw - Memorial date"
         unique_id: anniversary_mamaw_memorial_date
@@ -74,7 +74,7 @@
         availability: "{{ has_value('sensor.anniversary_mamaw_memorial') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_mamaw_memorial') }} {{ state_attr('sensor.anniversary_mamaw_memorial', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_mamaw_memorial', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_mamaw_memorial', 'years_at_anniversary') %}{{ n ~ ' years' if n is not none else '' }}"
           source: sensor.anniversary_mamaw_memorial
       - name: "Our Wedding Anniversary date"
         unique_id: anniversary_our_wedding_anniversary_date
@@ -83,7 +83,7 @@
         availability: "{{ has_value('sensor.anniversary_our_wedding_anniversary') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_our_wedding_anniversary') }} {{ state_attr('sensor.anniversary_our_wedding_anniversary', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_our_wedding_anniversary', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_our_wedding_anniversary', 'years_at_anniversary') %}{{ n ~ ' years' if n is not none else '' }}"
           source: sensor.anniversary_our_wedding_anniversary
       - name: "Papaw - Memorial date"
         unique_id: anniversary_papaw_memorial_date
@@ -92,7 +92,7 @@
         availability: "{{ has_value('sensor.anniversary_papaw_memorial') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_papaw_memorial') }} {{ state_attr('sensor.anniversary_papaw_memorial', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_papaw_memorial', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_papaw_memorial', 'years_at_anniversary') %}{{ n ~ ' years' if n is not none else '' }}"
           source: sensor.anniversary_papaw_memorial
       - name: "Robby's Birthday date"
         unique_id: anniversary_robby_s_birthday_date
@@ -101,7 +101,7 @@
         availability: "{{ has_value('sensor.anniversary_robby_s_birthday') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_robby_s_birthday') }} {{ state_attr('sensor.anniversary_robby_s_birthday', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_robby_s_birthday', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_robby_s_birthday', 'years_at_anniversary') %}{{ 'turns ' ~ n if n is not none else '' }}"
           source: sensor.anniversary_robby_s_birthday
       - name: "Robby's Work Anniversary date"
         unique_id: anniversary_robby_s_work_anniversary_date
@@ -110,7 +110,7 @@
         availability: "{{ has_value('sensor.anniversary_robby_s_work_anniversary') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_robby_s_work_anniversary') }} {{ state_attr('sensor.anniversary_robby_s_work_anniversary', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_robby_s_work_anniversary', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_robby_s_work_anniversary', 'years_at_anniversary') %}{{ n ~ ' years' if n is not none else '' }}"
           source: sensor.anniversary_robby_s_work_anniversary
       - name: "Weston's Birthday date"
         unique_id: anniversary_weston_s_birthday_date
@@ -119,5 +119,5 @@
         availability: "{{ has_value('sensor.anniversary_weston_s_birthday') }}"
         attributes:
           countdown: "{{ states('sensor.anniversary_weston_s_birthday') }} {{ state_attr('sensor.anniversary_weston_s_birthday', 'unit_of_measurement') }}"
-          years: "{{ state_attr('sensor.anniversary_weston_s_birthday', 'years_at_anniversary') }}"
+          years: "{% set n = state_attr('sensor.anniversary_weston_s_birthday', 'years_at_anniversary') %}{{ 'turns ' ~ n if n is not none else '' }}"
           source: sensor.anniversary_weston_s_birthday
