@@ -1,5 +1,6 @@
 # Lighting schedules for the Lutron Caséta hard-wired switches (Hue rooms are handled by the
 # Hue bridge, motion sensors and the circadian_lighting switches).
+# 2026-09-21: the Lutron light/fan switches are exposed as light.*/fan.* via Switch-as-X.
 # Lutron entity_ids were renamed 2026-09-15 to match their names (they had drifted:
 # light.dining_room_chandelier was the laundry light, switch.outside_lamp_post was the rec room).
 
@@ -46,13 +47,13 @@
     - trigger: time
       at: "01:00:00"
   actions:
-    - action: switch.turn_off
+    - action: light.turn_off
       continue_on_error: true
       target:
         entity_id:
-          - switch.garage_main_lights
-          - switch.utility_room_main_lights
-          - switch.rec_room_main_lights
+          - light.garage_main_lights
+          - light.utility_room_main_lights
+          - light.rec_room_main_lights
 
 - id: master_bath_fan_timer
   alias: Master bath - fan off after 45 minutes
@@ -60,14 +61,14 @@
   mode: restart
   triggers:
     - trigger: state
-      entity_id: switch.master_bath_fan
+      entity_id: fan.master_bath_fan
       to: "on"
       for:
         minutes: 45
   actions:
-    - action: switch.turn_off
+    - action: fan.turn_off
       target:
-        entity_id: switch.master_bath_fan
+        entity_id: fan.master_bath_fan
 
 - id: kitchen_undercabinet_follows_hue
   alias: Kitchen - under-cabinet lights follow Hue
@@ -91,20 +92,20 @@
             - condition: trigger
               id: hue_on
           sequence:
-            - action: switch.turn_on
+            - action: light.turn_on
               target:
                 entity_id:
-                  - switch.kitchen_under_cabinet_1
-                  - switch.kitchen_under_cabinet_2
+                  - light.kitchen_under_cabinet_1
+                  - light.kitchen_under_cabinet_2
         - conditions:
             - condition: trigger
               id: hue_off
           sequence:
-            - action: switch.turn_off
+            - action: light.turn_off
               target:
                 entity_id:
-                  - switch.kitchen_under_cabinet_1
-                  - switch.kitchen_under_cabinet_2
+                  - light.kitchen_under_cabinet_1
+                  - light.kitchen_under_cabinet_2
 
 - id: master_bath_lutron_follows_hue
   alias: Master Bath - main/vanity lights follow Hue

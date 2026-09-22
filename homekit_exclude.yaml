@@ -913,10 +913,16 @@
 - button.outside_pico_stop
 - fan.great_room_ceiling_fan
 - light.laundry_main_lights
+- light.garage_main_lights
+- light.kitchen_under_cabinet_1
+- light.kitchen_under_cabinet_2
+- light.rec_room_main_lights
+- light.utility_room_main_lights
 - light.master_bath_main_lights
 - light.master_bath_shower_lights
 - light.master_bath_vanity_lights
 - light.outside_lights
+- fan.master_bath_fan
 - switch.garage_main_lights
 - switch.kitchen_under_cabinet_1
 - switch.kitchen_under_cabinet_2
