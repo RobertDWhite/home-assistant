@@ -1,21 +1,6 @@
-- platform: group
-  name: Dining Room Hutch_Group
-  entities:
-    - light.dining_room_hutch_left
-    - light.dining_room_hutch_right
-    
-- platform: group
-  name: Great Room
-  entities:
-    - light.great_room_lamp
-
-- platform: group
-  name: Master Bedroom_Group
-  entities:
-    - light.master_bedroom_emilys_lamp
-    - light.master_bedroom_robbys_lamp
-    
-- platform: group
-  name: Weston's Room
-  entities:
-    - light.westons_room_lamp
+# 2026-09-22: the four legacy `light: platform: group` entries here referenced lamp entities
+# that no longer exist (light.dining_room_hutch_left/right, light.great_room_lamp,
+# light.master_bedroom_emilys_lamp/robbys_lamp, light.westons_room_lamp), so the groups sat
+# permanently `unavailable` and nothing referenced them. Found by Watchman; removed.
+# Hue room groups (light.westons_room, light.annies_room, ...) cover these rooms already.
+[]
