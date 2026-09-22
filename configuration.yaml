@@ -148,6 +148,71 @@ zeroconf:
 
 ### USER ADDONS #####################################################################################
 
+###ADS-B / FR24 feeder###
+# template/adsb.yaml derives ~12 sensors from sensor.fr24_feeder, but that source sensor had
+# gone missing, so every FR24 template sensor read unknown/0/off (found by Watchman 2026-09-22).
+# fr24feed's own status endpoint supplies it again.
+rest:
+  - resource: https://fr24.internal.w3rdw.radio/monitor.json
+    scan_interval: 60
+    verify_ssl: false
+    sensor:
+      - name: FR24 Feeder
+        unique_id: fr24_feeder_status
+        value_template: "{{ 'connected' if value_json.feed_status == 'connected' else value_json.feed_status | default('unknown') }}"
+        json_attributes:
+          - feed_status
+          - feed_alias
+          - num_ac_tracked
+          - num_ac_uploaded
+          - rx_connected
+          - build_version
+          - feed_num_ac_tracked
+
+###Power & energy estimates###
+# Powercalc: library-based power/energy sensors. Auto-discovery matches Hue (and other
+# supported) bulbs to their measured power curves, so brightness/colour affect the reading.
+# Lutron switches carry no power data, so those are declared by hand below with the wattage
+# of the fixture they drive - adjust the numbers to match the actual bulbs.
+powercalc:
+  enable_autodiscovery: true
+  force_update_frequency: 00:05:00
+  power_sensor_naming: "{} power"
+  energy_sensor_naming: "{} energy"
+  create_energy_sensors: true
+  create_utility_meters: false
+  sensors:
+    # --- Lutron: ESTIMATES ---------------------------------------------------
+    # Lutron reports no power, and Powercalc's library has no profile for it, so each
+    # circuit below is a hand-entered wattage for the FIXTURE it drives. These are
+    # placeholders based on typical LED fixtures - change the numbers to match what is
+    # actually installed and the energy figures become accurate.
+    - entity_id: light.laundry_main_lights
+      fixed: {power: 40}
+    - entity_id: light.master_bath_main_lights
+      fixed: {power: 60}
+    - entity_id: light.master_bath_vanity_lights
+      fixed: {power: 40}
+    - entity_id: light.master_bath_shower_lights
+      fixed: {power: 20}
+    - entity_id: light.outside_lights
+      fixed: {power: 30}
+    - entity_id: light.garage_main_lights
+      fixed: {power: 80}
+    - entity_id: light.utility_room_main_lights
+      fixed: {power: 40}
+    - entity_id: light.rec_room_main_lights
+      fixed: {power: 60}
+    - entity_id: light.kitchen_under_cabinet_1
+      fixed: {power: 15}
+    - entity_id: light.kitchen_under_cabinet_2
+      fixed: {power: 15}
+    - entity_id: fan.master_bath_fan
+      fixed: {power: 40}
+    - entity_id: fan.great_room_ceiling_fan
+      fixed: {power: 30}
+
+
 ###Anniversaries/Countdowns/Tracking###
 
 anniversaries:
