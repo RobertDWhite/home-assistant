@@ -1,0 +1,123 @@
+# Clean date sensors for the Anniversaries integration (its `date` attribute is a full
+# timestamp, which the dashboard would render as 'November 5, 1994 at 12:00:00 AM').
+# One per anniversary: state = 'Month D, YYYY', attribute countdown = '45 Days'.
+# Regenerate when anniversaries are added (dashboards/gen_dashboard.py lists them).
+
+  - sensor:
+      - name: "Annie's Birthday date"
+        unique_id: anniversary_annie_s_birthday_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_annie_s_birthday', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_annie_s_birthday', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_annie_s_birthday' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_annie_s_birthday') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_annie_s_birthday') }} {{ state_attr('sensor.anniversary_annie_s_birthday', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_annie_s_birthday', 'years_at_anniversary') }}"
+          source: sensor.anniversary_annie_s_birthday
+      - name: "Elizabeth - Memorial date"
+        unique_id: anniversary_elizabeth_memorial_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_elizabeth_memorial', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_elizabeth_memorial', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_elizabeth_memorial' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_elizabeth_memorial') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_elizabeth_memorial') }} {{ state_attr('sensor.anniversary_elizabeth_memorial', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_elizabeth_memorial', 'years_at_anniversary') }}"
+          source: sensor.anniversary_elizabeth_memorial
+      - name: "Elsie's Birthday date"
+        unique_id: anniversary_elsie_s_birthday_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_elsie_s_birthday', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_elsie_s_birthday', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_elsie_s_birthday' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_elsie_s_birthday') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_elsie_s_birthday') }} {{ state_attr('sensor.anniversary_elsie_s_birthday', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_elsie_s_birthday', 'years_at_anniversary') }}"
+          source: sensor.anniversary_elsie_s_birthday
+      - name: "Emily's Birthday date"
+        unique_id: anniversary_emily_s_birthday_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_emily_s_birthday', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_emily_s_birthday', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_emily_s_birthday' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_emily_s_birthday') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_emily_s_birthday') }} {{ state_attr('sensor.anniversary_emily_s_birthday', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_emily_s_birthday', 'years_at_anniversary') }}"
+          source: sensor.anniversary_emily_s_birthday
+      - name: "Gerald - Memorial date"
+        unique_id: anniversary_gerald_memorial_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_gerald_memorial', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_gerald_memorial', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_gerald_memorial' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_gerald_memorial') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_gerald_memorial') }} {{ state_attr('sensor.anniversary_gerald_memorial', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_gerald_memorial', 'years_at_anniversary') }}"
+          source: sensor.anniversary_gerald_memorial
+      - name: "Grandma - Memorial date"
+        unique_id: anniversary_grandma_memorial_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_grandma_memorial', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_grandma_memorial', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_grandma_memorial' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_grandma_memorial') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_grandma_memorial') }} {{ state_attr('sensor.anniversary_grandma_memorial', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_grandma_memorial', 'years_at_anniversary') }}"
+          source: sensor.anniversary_grandma_memorial
+      - name: "Grandpa - Memorial date"
+        unique_id: anniversary_grandpa_memorial_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_grandpa_memorial', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_grandpa_memorial', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_grandpa_memorial' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_grandpa_memorial') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_grandpa_memorial') }} {{ state_attr('sensor.anniversary_grandpa_memorial', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_grandpa_memorial', 'years_at_anniversary') }}"
+          source: sensor.anniversary_grandpa_memorial
+      - name: "Mamaw - Memorial date"
+        unique_id: anniversary_mamaw_memorial_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_mamaw_memorial', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_mamaw_memorial', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_mamaw_memorial' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_mamaw_memorial') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_mamaw_memorial') }} {{ state_attr('sensor.anniversary_mamaw_memorial', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_mamaw_memorial', 'years_at_anniversary') }}"
+          source: sensor.anniversary_mamaw_memorial
+      - name: "Our Wedding Anniversary date"
+        unique_id: anniversary_our_wedding_anniversary_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_our_wedding_anniversary', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_our_wedding_anniversary', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_our_wedding_anniversary' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_our_wedding_anniversary') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_our_wedding_anniversary') }} {{ state_attr('sensor.anniversary_our_wedding_anniversary', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_our_wedding_anniversary', 'years_at_anniversary') }}"
+          source: sensor.anniversary_our_wedding_anniversary
+      - name: "Papaw - Memorial date"
+        unique_id: anniversary_papaw_memorial_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_papaw_memorial', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_papaw_memorial', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_papaw_memorial' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_papaw_memorial') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_papaw_memorial') }} {{ state_attr('sensor.anniversary_papaw_memorial', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_papaw_memorial', 'years_at_anniversary') }}"
+          source: sensor.anniversary_papaw_memorial
+      - name: "Robby's Birthday date"
+        unique_id: anniversary_robby_s_birthday_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_robby_s_birthday', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_robby_s_birthday', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_robby_s_birthday' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_robby_s_birthday') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_robby_s_birthday') }} {{ state_attr('sensor.anniversary_robby_s_birthday', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_robby_s_birthday', 'years_at_anniversary') }}"
+          source: sensor.anniversary_robby_s_birthday
+      - name: "Robby's Work Anniversary date"
+        unique_id: anniversary_robby_s_work_anniversary_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_robby_s_work_anniversary', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_robby_s_work_anniversary', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_robby_s_work_anniversary' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_robby_s_work_anniversary') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_robby_s_work_anniversary') }} {{ state_attr('sensor.anniversary_robby_s_work_anniversary', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_robby_s_work_anniversary', 'years_at_anniversary') }}"
+          source: sensor.anniversary_robby_s_work_anniversary
+      - name: "Weston's Birthday date"
+        unique_id: anniversary_weston_s_birthday_date
+        state: "{{ as_datetime(state_attr('sensor.anniversary_weston_s_birthday', 'date')).strftime('%B %-d, %Y') if state_attr('sensor.anniversary_weston_s_birthday', 'date') else 'unknown' }}"
+        icon: "{{ 'mdi:candle' if 'memorial' in 'sensor.anniversary_weston_s_birthday' else 'mdi:cake-variant' }}"
+        availability: "{{ has_value('sensor.anniversary_weston_s_birthday') }}"
+        attributes:
+          countdown: "{{ states('sensor.anniversary_weston_s_birthday') }} {{ state_attr('sensor.anniversary_weston_s_birthday', 'unit_of_measurement') }}"
+          years: "{{ state_attr('sensor.anniversary_weston_s_birthday', 'years_at_anniversary') }}"
+          source: sensor.anniversary_weston_s_birthday
