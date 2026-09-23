@@ -3,14 +3,18 @@
 # The dashboard cards used to be iframes, which the *viewing browser* fetched
 # directly from grafana-kiosk.internal.white.fm. That host is locked by
 # SecurityPolicy to the kiosk display, so the panels were a 403 on every other
-# device. Home Assistant itself is allowed through (it reaches the gateway from
+# device. Home Assistant is allowed through (it reaches the gateway from
 # 10.99.5.232), so it renders the boards server-side to PNGs under www/grafana
 # and the dashboard shows those via local_file cameras instead. No browser ever
 # talks to Grafana.
 #
-# Renders take ~6-8s each with the image renderer in clustered mode; the
-# downloader integration gives up at 10s, so continue_on_error keeps one slow
-# board from stopping the rest. A failed render just leaves the previous PNG.
+# Timing is the fiddly part. downloader gives up at a hard, non-configurable 10s
+# read timeout. With the image renderer in clustered mode a warm board renders in
+# ~6-7s, but the first render of a given board after a Grafana restart takes
+# 30s+, so that board would miss and keep serving a stale PNG. Each board is
+# therefore attempted twice: a cold first attempt still warms the renderer
+# server-side even though downloader abandons it, so the retry lands. 1000x700
+# keeps a comfortable margin over the timeout at the size these are displayed.
 - id: grafana_dashboard_snapshots
   alias: "System: refresh Grafana dashboard snapshots"
   description: "Renders the kiosk Grafana boards to PNGs that the System dashboard displays."
@@ -30,12 +34,21 @@
           - k8s-envoy-gateway-ingress
           - security-operations
         sequence:
-          - action: downloader.download_file
-            continue_on_error: true
-            data:
-              url: >-
-                https://grafana-kiosk.internal.white.fm/render/d/{{ repeat.item }}/x?orgId=1&width=1200&height=800&theme=dark&kiosk&from=now-1h&to=now
-              filename: "{{ repeat.item }}.png"
-              overwrite: true
-          - delay:
-              seconds: 2
+          # repeat.item always refers to the INNERMOST repeat, and the retry loop
+          # below is count-based with no item, so capture the board name first -
+          # otherwise the templates render empty and it writes a file called ".png"
+          - variables:
+              board: "{{ repeat.item }}"
+          - repeat:
+              count: 2
+              sequence:
+                - action: downloader.download_file
+                  continue_on_error: true
+                  data:
+                    url: >-
+                      https://grafana-kiosk.internal.white.fm/render/d/{{ board }}/x?orgId=1&width=1000&height=700&theme=dark&kiosk&from=now-1h&to=now
+                    filename: "{{ board }}.png"
+                    overwrite: true
+                # let the renderer's browser pool free a slot before the next call
+                - delay:
+                    seconds: 8
