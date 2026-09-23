@@ -1,0 +1,41 @@
+# Grafana dashboard snapshots for the System view.
+#
+# The dashboard cards used to be iframes, which the *viewing browser* fetched
+# directly from grafana-kiosk.internal.white.fm. That host is locked by
+# SecurityPolicy to the kiosk display, so the panels were a 403 on every other
+# device. Home Assistant itself is allowed through (it reaches the gateway from
+# 10.99.5.232), so it renders the boards server-side to PNGs under www/grafana
+# and the dashboard shows those via local_file cameras instead. No browser ever
+# talks to Grafana.
+#
+# Renders take ~6-8s each with the image renderer in clustered mode; the
+# downloader integration gives up at 10s, so continue_on_error keeps one slow
+# board from stopping the rest. A failed render just leaves the previous PNG.
+- id: grafana_dashboard_snapshots
+  alias: "System: refresh Grafana dashboard snapshots"
+  description: "Renders the kiosk Grafana boards to PNGs that the System dashboard displays."
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: time_pattern
+      minutes: "/10"
+    - trigger: homeassistant
+      event: start
+  conditions: []
+  actions:
+    - repeat:
+        for_each:
+          - cluster-health-overview
+          - app-health-overview
+          - k8s-envoy-gateway-ingress
+          - security-operations
+        sequence:
+          - action: downloader.download_file
+            continue_on_error: true
+            data:
+              url: >-
+                https://grafana-kiosk.internal.white.fm/render/d/{{ repeat.item }}/x?orgId=1&width=1200&height=800&theme=dark&kiosk&from=now-1h&to=now
+              filename: "{{ repeat.item }}.png"
+              overwrite: true
+          - delay:
+              seconds: 2
