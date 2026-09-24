@@ -175,7 +175,7 @@
               data:
                 sonos_entity: media_player.family_room
                 # was 0.4, too faint to hear
-                volume: 0.65
+                volume: 0.50
                 message: A package was just delivered at the front door.
     - delay:
         minutes: 10
