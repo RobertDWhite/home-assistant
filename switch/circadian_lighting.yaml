@@ -169,6 +169,9 @@
       - light.hue_color_downlight_11
       - light.hue_color_downlight_8_2
       - light.hue_color_downlight_9
+    # Tuya smart dimmer (brightness only, no colour temperature), added 2026-09-26
+    lights_brightness:
+      - light.play_room
    
 # Storage - Basement
   - platform: circadian_lighting

@@ -6,7 +6,7 @@
 
 - id: front_lights_sunset_on
   alias: Outside - front lights on at dusk
-  description: Turn on the Outside Front Lights 15 minutes before sunset while the "Front lights schedule" helper is on.
+  description: Turn on the Outside Front Lights and the Back Door Light 15 minutes before sunset while the "Front lights schedule" helper is on.
   mode: single
   triggers:
     - trigger: sun
@@ -18,12 +18,15 @@
       state: "on"
   actions:
     - action: light.turn_on
+      continue_on_error: true
       target:
-        entity_id: light.outside_lights
+        entity_id:
+          - light.outside_lights
+          - light.back_door_light
 
 - id: front_lights_late_off
   alias: Outside - front lights off late
-  description: Turn off the Outside Front Lights at 23:30 (and at sunrise as a backstop) while the schedule helper is on.
+  description: Turn off the Outside Front Lights and the Back Door Light at 23:30 (and at sunrise as a backstop) while the schedule helper is on.
   mode: single
   triggers:
     - trigger: time
@@ -36,8 +39,11 @@
       state: "on"
   actions:
     - action: light.turn_off
+      continue_on_error: true
       target:
-        entity_id: light.outside_lights
+        entity_id:
+          - light.outside_lights
+          - light.back_door_light
 
 - id: utility_lights_left_on_overnight
   alias: Lights - garage, utility and rec room off at 01:00
