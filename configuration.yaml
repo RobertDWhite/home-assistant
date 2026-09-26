@@ -207,6 +207,13 @@ powercalc:
       fixed: {power: 15}
     - entity_id: light.kitchen_under_cabinet_2
       fixed: {power: 15}
+    # --- Tuya smart dimmers: ESTIMATES (added 2026-09-26) ---------------------
+    # No power reporting and no library profile. Linear between min and max so the
+    # dimmer level counts; change max_power to the real fixture wattage.
+    - entity_id: light.back_door_light
+      linear: {min_power: 1, max_power: 12}
+    - entity_id: light.play_room
+      linear: {min_power: 1, max_power: 30}
     - entity_id: fan.master_bath_fan
       fixed: {power: 40}
     - entity_id: fan.great_room_ceiling_fan
