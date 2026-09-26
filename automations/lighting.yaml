@@ -6,7 +6,7 @@
 
 - id: front_lights_sunset_on
   alias: Outside - front lights on at dusk
-  description: Turn on the Outside Front Lights and the Back Door Light 15 minutes before sunset while the "Front lights schedule" helper is on.
+  description: Turn on the Outside Front Lights 15 minutes before sunset while the "Front lights schedule" helper is on.
   mode: single
   triggers:
     - trigger: sun
@@ -18,15 +18,12 @@
       state: "on"
   actions:
     - action: light.turn_on
-      continue_on_error: true
       target:
-        entity_id:
-          - light.outside_lights
-          - light.back_door_light
+        entity_id: light.outside_lights
 
 - id: front_lights_late_off
   alias: Outside - front lights off late
-  description: Turn off the Outside Front Lights and the Back Door Light at 23:30 (and at sunrise as a backstop) while the schedule helper is on.
+  description: Turn off the Outside Front Lights at 23:30 (and at sunrise as a backstop) while the schedule helper is on.
   mode: single
   triggers:
     - trigger: time
@@ -39,11 +36,8 @@
       state: "on"
   actions:
     - action: light.turn_off
-      continue_on_error: true
       target:
-        entity_id:
-          - light.outside_lights
-          - light.back_door_light
+        entity_id: light.outside_lights
 
 - id: utility_lights_left_on_overnight
   alias: Lights - garage, utility and rec room off at 01:00
@@ -179,3 +173,63 @@
     - action: switch.turn_off
       target:
         entity_id: switch.smart_switch_2206104953711657130348e1e9968c6a_outlet_1
+
+- id: back_door_light_motion
+  alias: Outside - back door light on motion after dark
+  description: >-
+    Turn the Back Door Light on when the upper Deck camera sees motion between sunset and sunrise,
+    and off again 5 minutes after it goes quiet. (The Under Deck camera was dropped as a trigger -
+    it fires constantly under the light and is not useful.) If the light was already on
+    (switched on by hand or by a scene) it is left alone - only a light this automation turned on
+    gets timed out, tracked by input_boolean.back_door_light_on_by_motion.
+  mode: restart
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.back_motion   # upper Deck - G3 Bullet
+      to: "on"
+  conditions:
+    - condition: state
+      entity_id: sun.sun
+      state: below_horizon
+  actions:
+    - if:
+        - condition: state
+          entity_id: light.back_door_light
+          state: "off"
+      then:
+        # no brightness: this Tuya dimmer accepts but ignores remote brightness writes (stays at its
+        # device minimum, bright_value 25), so it comes on at whatever level was last set at the wall
+        - action: light.turn_on
+          target:
+            entity_id: light.back_door_light
+        - action: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.back_door_light_on_by_motion
+    # already on by hand or a scene: don't time it out
+    - condition: state
+      entity_id: input_boolean.back_door_light_on_by_motion
+      state: "on"
+    # mode: restart means fresh motion re-enters here and restarts the wait. "not on" rather than
+    # "off" so the camera dropping to unavailable can't hold the light on forever.
+    - wait_template: "{{ not is_state('binary_sensor.back_motion', 'on') }}"
+    - delay:
+        minutes: 5
+    - action: light.turn_off
+      target:
+        entity_id: light.back_door_light
+    - action: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.back_door_light_on_by_motion
+
+- id: back_door_light_motion_flag_reset
+  alias: Outside - back door light motion flag reset
+  description: Whenever the Back Door Light goes off (by anything), forget that motion turned it on.
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: light.back_door_light
+      to: "off"
+  actions:
+    - action: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.back_door_light_on_by_motion
