@@ -1,0 +1,56 @@
+# Flighty (iOS) exports my flights and Flighty Friends' flights to the Google calendar "Flighty"
+# (calendar.flighty, Google Calendar integration). Event summary looks like "Name: ✈ PHX→ORD • AA 3171"
+# (no "Name:" prefix for my own flights; the arrow is wrapped in zero-width spaces) and the description
+# carries "Seat: 2D", "↗ 05:03 MST", "↘ 09:30 CST" and a flighty://flight/<id> link.
+# Parsed here into one list that the Travel dashboard and the Overview Aviation view render.
+- trigger:
+    - trigger: time_pattern
+      minutes: "/15"
+    - trigger: homeassistant
+      event: start
+    - trigger: event
+      event_type: event_template_reloaded
+  action:
+    - action: calendar.get_events
+      target:
+        entity_id: calendar.flighty
+      data:
+        start_date_time: "{{ now() - timedelta(hours=18) }}"
+        duration:
+          days: 365
+      response_variable: cal
+  sensor:
+    - name: Flighty upcoming flights
+      unique_id: flighty_upcoming_flights
+      icon: mdi:airplane-clock
+      state: >
+        {% set ns = namespace(n=0) %}
+        {% for e in cal.get('calendar.flighty', {}).get('events', []) %}
+          {% if as_datetime(e.end) > now() %}{% set ns.n = ns.n + 1 %}{% endif %}
+        {% endfor %}
+        {{ ns.n }}
+      attributes:
+        flights: >
+          {% set ns = namespace(out=[]) %}
+          {% for e in cal.get('calendar.flighty', {}).get('events', []) | sort(attribute='start') %}
+            {% if as_datetime(e.end) > now() %}
+              {% set s = e.summary | replace('​', '') %}
+              {% set parts = s.split('✈') %}
+              {% set who = (parts[0] | replace(':', '') | trim) if parts | count > 1 else '' %}
+              {% set rest = parts[-1].split('•') %}
+              {% set d = e.get('description') or '' %}
+              {% set ns.out = ns.out + [{
+                  'who': who or 'Me',
+                  'route': rest[0] | trim,
+                  'flight': (rest[1] | trim) if rest | count > 1 else '',
+                  'start': e.start,
+                  'end': e.end,
+                  'departs': (d | regex_findall_index('↗ ([^\n]+)')) if '↗' in d else '',
+                  'arrives': (d | regex_findall_index('↘ ([^\n]+)')) if '↘' in d else '',
+                  'seat': (d | regex_findall_index('Seat: ([^\n]+)')) if 'Seat:' in d else '',
+                  'airport': e.get('location') or '',
+                  'link': (d | regex_findall_index('(flighty://flight/[A-Za-z0-9-]+)')) if 'flighty://' in d else ''
+                }] %}
+            {% endif %}
+          {% endfor %}
+          {{ ns.out }}

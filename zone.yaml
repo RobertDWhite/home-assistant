@@ -215,6 +215,18 @@
     radius: 75
     icon: mdi:church
 
+  - name: !secret location_church4
+    latitude: !secret latitude_church4
+    longitude: !secret longitude_church4
+    radius: 75
+    icon: mdi:church
+
+  - name: !secret location_dance
+    latitude: !secret latitude_dance
+    longitude: !secret longitude_dance
+    radius: 50
+    icon: mdi:human-female-dance
+
 # W&W Clients
   - name: !secret location_ww_client_1
     latitude: !secret location_ww_client_1_latitude

@@ -297,6 +297,9 @@ homekit:
    exclude_entities: !include homekit_exclude.yaml
    exclude_entity_globs:
      - binary_sensor.*_occupancy
+     # Konnected blaQ garage openers are exposed ONLY via the dedicated "Garage Doors" bridge (UI entry)
+     - "*.small_garage_door*"
+     - "*.large_garage_door*"
      # UniFi Protect cameras stay OUT of HomeKit (they go via Scrypted); Protect names every
      # channel *_high/_medium/_low or *_resolution_channel, so these globs catch current and
      # future Protect cameras while leaving the generic weather/radar/space cameras exposed.

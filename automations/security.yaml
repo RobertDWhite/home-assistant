@@ -220,23 +220,34 @@
 - id: security_front_door_night_autolock
   alias: Security - auto-lock front door at night
   description: >-
-    Lock the Schlage front door at 22:00 if it is unlocked, and re-lock it 5 minutes after any unlock
-    between 22:00 and 06:00. Inactive while the lock is unavailable (currently offline in Schlage's cloud).
+    Lock the Schlage front door at 22:00 if it is unlocked, re-lock it 5 minutes after any unlock
+    between 22:00 and 06:00, and lock it 1 minute after the door closes overnight. Never throws the
+    bolt while the door contact sensor says the door is open.
   mode: single
   triggers:
     - trigger: time
       at: "22:00:00"
       id: nightly
     - trigger: state
-      entity_id: lock.front_door_lock
+      entity_id: lock.front_door
       to: unlocked
       for:
         minutes: 5
       id: relock
+    - trigger: state
+      entity_id: binary_sensor.front_door_contact
+      from: "on"
+      to: "off"
+      for:
+        minutes: 1
+      id: closed
   conditions:
     - condition: state
-      entity_id: lock.front_door_lock
+      entity_id: lock.front_door
       state: unlocked
+    - condition: state
+      entity_id: binary_sensor.front_door_contact
+      state: "off"
     - condition: or
       conditions:
         - condition: trigger
@@ -247,7 +258,7 @@
   actions:
     - action: lock.lock
       target:
-        entity_id: lock.front_door_lock
+        entity_id: lock.front_door
     - action: notify.mobile_app_iphone_robert
       data:
         title: Front door
