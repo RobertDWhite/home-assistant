@@ -930,3 +930,13 @@
 - switch.rec_room_main_lights
 - switch.unassigned_smart_away
 - switch.utility_room_main_lights
+
+# Native in Apple Home already (Hue contact sensors via the Hue bridge, Matter locks shared from Apple Home) (8)
+- binary_sensor.front_door_contact
+- binary_sensor.front_door_contact_tamper
+- binary_sensor.back_door_contact
+- binary_sensor.back_door_contact_tamper
+- binary_sensor.garage_entry_door_contact
+- binary_sensor.garage_entry_door_contact_tamper
+- lock.back_door
+- lock.storage_room_lock

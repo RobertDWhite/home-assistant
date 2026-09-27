@@ -1,0 +1,214 @@
+# Door contact sensors (Hue secure contact sensors, added 2026-09-23) and the Alarmo alarm.
+# binary_sensor.front_door_contact / back_door_contact / garage_entry_door_contact (the house-to-garage
+# door, not the overhead garage door) are also Alarmo
+# sensors (armed_away + armed_home, entry/exit delay), configured in the Alarmo panel.
+
+- id: doors_left_open
+  alias: Doors - left open
+  description: Phone reminder when the front, back or garage entry door stays open 10 minutes.
+  mode: parallel
+  triggers:
+    - trigger: state
+      entity_id:
+        - binary_sensor.front_door_contact
+        - binary_sensor.back_door_contact
+        - binary_sensor.garage_entry_door_contact
+      to: "on"
+      for:
+        minutes: 10
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: "{{ trigger.to_state.name }} open"
+        message: "The {{ trigger.to_state.name | lower }} has been open since {{ as_local(trigger.to_state.last_changed).strftime('%-I:%M %p') }}."
+        data:
+          tag: "{{ trigger.entity_id }}_open"
+          url: /lovelace/home
+
+- id: doors_opened_while_away
+  alias: Doors - opened while nobody is home
+  description: >-
+    Phone alert with a camera snapshot when a door opens while both people are away and the alarm is
+    disarmed (when armed, Alarmo handles it).
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: state
+      entity_id:
+        - binary_sensor.front_door_contact
+        - binary_sensor.back_door_contact
+        - binary_sensor.garage_entry_door_contact
+      from: "off"
+      to: "on"
+  conditions:
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: person.whitehouse
+          state: home
+    - condition: not
+      conditions:
+        - condition: state
+          entity_id: person.emily
+          state: home
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: disarmed
+  variables:
+    camera: >-
+      {% set m = {
+        'binary_sensor.front_door_contact': 'camera.g4_doorbell_pro_high',
+        'binary_sensor.back_door_contact': 'camera.back_high',
+        'binary_sensor.garage_entry_door_contact': 'camera.garage_g4_instant_high' } %}
+      {{ m.get(trigger.entity_id) }}
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: "{{ trigger.to_state.name }} opened"
+        message: "The {{ trigger.to_state.name | lower }} opened while nobody is home."
+        data:
+          image: "/api/camera_proxy/{{ camera }}"
+          url: /lovelace/cameras
+          push:
+            interruption-level: time-sensitive
+    - delay:
+        minutes: 2
+
+- id: doors_sensor_tamper
+  alias: Doors - contact sensor tampered
+  description: Phone alert when a door contact sensor's cover is removed.
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: state
+      entity_id:
+        - binary_sensor.front_door_contact_tamper
+        - binary_sensor.back_door_contact_tamper
+        - binary_sensor.garage_entry_door_contact_tamper
+      from: "off"
+      to: "on"
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Sensor tampered
+        message: "{{ trigger.to_state.name }}"
+    - delay:
+        minutes: 5
+
+- id: alarm_triggered
+  alias: Alarm - triggered
+  description: Critical phone alert and a house-wide announcement naming the sensor that set off Alarmo.
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: state
+      entity_id: alarm_control_panel.alarmo
+      to: triggered
+  variables:
+    what: >-
+      {% set s = state_attr('alarm_control_panel.alarmo', 'open_sensors') or {} %}
+      {{ (s.keys() | map('state_attr', 'friendly_name') | reject('none') | join(', ')) or 'a sensor' }}
+  actions:
+    - parallel:
+        - action: notify.mobile_app_iphone_robert
+          continue_on_error: true
+          data:
+            title: ALARM
+            message: "Alarm triggered by {{ what }}."
+            data:
+              url: /lovelace/cameras
+              push:
+                sound:
+                  name: default
+                  critical: 1
+                  volume: 1.0
+                interruption-level: critical
+        - action: script.sonos_say
+          continue_on_error: true
+          data:
+            sonos_entity: media_player.family_room
+            volume: 0.8
+            message: "Alarm. {{ what }} opened."
+        - action: script.sonos_say
+          continue_on_error: true
+          data:
+            sonos_entity: media_player.unnamed_room_2
+            volume: 0.8
+            message: "Alarm. {{ what }} opened."
+
+- id: alarm_failed_to_arm
+  alias: Alarm - failed to arm
+  description: Phone alert when Alarmo refuses to arm because a door is open.
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: event
+      event_type: alarmo_failed_to_arm
+  variables:
+    what: >-
+      {% set s = trigger.event.data.sensors if trigger.event.data.sensors is defined else [] %}
+      {{ (s | map('state_attr', 'friendly_name') | reject('none') | join(', ')) or 'an open sensor' }}
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Alarm not armed
+        message: "Could not arm: {{ what }} open."
+        data:
+          push:
+            interruption-level: time-sensitive
+
+- id: alarm_state_changed
+  alias: Alarm - armed or disarmed
+  description: Quiet phone notification whenever Alarmo is armed or disarmed.
+  mode: queued
+  triggers:
+    - trigger: state
+      entity_id: alarm_control_panel.alarmo
+      to:
+        - armed_away
+        - armed_home
+        - disarmed
+      not_from:
+        - unknown
+        - unavailable
+  actions:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: Alarm
+        message: "{{ trigger.to_state.state | replace('_', ' ') | capitalize }}"
+        data:
+          tag: alarm_state
+          push:
+            interruption-level: passive
+
+- id: doors_speaker_chime
+  alias: Doors - speaker chime when opened
+  description: >-
+    Security-panel style announcement ("Front Door, opened") on every speaker except the Office and
+    Upstairs Bathroom when the front, back or garage entry door opens. Same quiet hours as the NWS
+    announcement (speaks 08:30-21:00 only). Raised from 0.30 to 0.50 on 2026-09-24 - 0.30 was too faint to hear.
+  mode: queued
+  max: 3
+  triggers:
+    - trigger: state
+      entity_id:
+        - binary_sensor.front_door_contact
+        - binary_sensor.back_door_contact
+        - binary_sensor.garage_entry_door_contact
+      from: "off"
+      to: "on"
+  conditions:
+    - alias: Same hours as the NWS announcement (quiet 21:00-08:30)
+      condition: time
+      after: "08:30:00"
+      before: "21:00:00"
+  variables:
+    label: >-
+      {{ {'binary_sensor.front_door_contact': 'Front Door',
+          'binary_sensor.back_door_contact': 'Back Door',
+          'binary_sensor.garage_entry_door_contact': 'Garage Door'}[trigger.entity_id] }}
+  actions:
+    - action: script.house_announce
+      data:
+        message: "{{ label }}, opened"
+        volume: 0.50

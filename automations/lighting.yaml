@@ -177,15 +177,19 @@
 - id: back_door_light_motion
   alias: Outside - back door light on motion after dark
   description: >-
-    Turn the Back Door Light on when the upper Deck camera sees motion between sunset and sunrise,
-    and off again 5 minutes after it goes quiet. (The Under Deck camera was dropped as a trigger -
-    it fires constantly under the light and is not useful.) If the light was already on
+    Turn the Back Door Light on after dark when the Backyard G5 camera sees a PERSON or an ANIMAL, or the
+    back door opens, and off again 5 minutes after all of those clear. Plain pixel motion is not used:
+    the upper Deck G3 Bullet (no smart detection) kept firing on a spider web, and the Under Deck camera
+    fires constantly under the light. If the light was already on
     (switched on by hand or by a scene) it is left alone - only a light this automation turned on
     gets timed out, tracked by input_boolean.back_door_light_on_by_motion.
   mode: restart
   triggers:
     - trigger: state
-      entity_id: binary_sensor.back_motion   # upper Deck - G3 Bullet
+      entity_id:
+        - binary_sensor.g5_bullet_person_detected   # Backyard - G5 Bullet smart detections
+        - binary_sensor.g5_bullet_animal_detected
+        - binary_sensor.back_door_contact           # someone stepping out the back door
       to: "on"
   conditions:
     - condition: state
@@ -211,7 +215,10 @@
       state: "on"
     # mode: restart means fresh motion re-enters here and restarts the wait. "not on" rather than
     # "off" so the camera dropping to unavailable can't hold the light on forever.
-    - wait_template: "{{ not is_state('binary_sensor.back_motion', 'on') }}"
+    - wait_template: >-
+        {{ not is_state('binary_sensor.g5_bullet_person_detected', 'on')
+           and not is_state('binary_sensor.g5_bullet_animal_detected', 'on')
+           and not is_state('binary_sensor.back_door_contact', 'on') }}
     - delay:
         minutes: 5
     - action: light.turn_off
