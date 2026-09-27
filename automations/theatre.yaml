@@ -25,6 +25,9 @@
                   - switch.circadian_lighting_circadian_theatre_accent
                   - switch.circadian_lighting_circadian_theatre_rear
                   - switch.circadian_lighting_circadian_theatre_hall
+                  # Basement landing (bottom of the stairs) is in the Theatre Hue group but is driven
+                  # by the Basement Staircase circadian switch, which would repaint it bright white.
+                  - switch.circadian_lighting_circadian_basement_staircase
             - action: light.turn_on
               target:
                 entity_id: light.theatre
@@ -52,3 +55,4 @@
                   - switch.circadian_lighting_circadian_theatre_accent
                   - switch.circadian_lighting_circadian_theatre_rear
                   - switch.circadian_lighting_circadian_theatre_hall
+                  - switch.circadian_lighting_circadian_basement_staircase
