@@ -1,0 +1,48 @@
+# Kids' activities: push a leave-by reminder to Robert's and Emily's iPhones 30 min before it's
+# time to leave (start time minus the LIVE Waze drive time from home).
+- id: kids_leave_by_reminders
+  alias: Kids activities - leave-by reminders
+  description: '30 minutes before it''s time to leave (event start minus the LIVE Waze drive time from home), push the leave-by
+    time and current drive time to Robert''s and Emily''s iPhones. Annie''s dance: Wednesdays 4:45 PM at Miami Valley Dance
+    Academy. Weston''s soccer: Tuesdays 6:15 PM at Lebanon YMCA.'
+  triggers:
+  - trigger: template
+    id: annie_dance
+    value_template: '{% set start = today_at(''16:45'') %}{% set drive = states(''sensor.waze_home_to_dance_academy'') | float(15)
+      %}{{ now().isoweekday() == 3 and start - timedelta(minutes=drive + 30) <= now() < start - timedelta(minutes=drive) }}'
+    note: Wednesdays. True from (4:45 - drive - 30 min) until leave time, so it fires once; the fire time tracks live traffic.
+      Falls back to 15 min if Waze is unavailable.
+  - trigger: template
+    id: weston_soccer
+    value_template: '{% set start = today_at(''18:15'') %}{% set drive = states(''sensor.waze_home_to_lebanon_ymca'') | float(20)
+      %}{{ now().isoweekday() == 2 and start - timedelta(minutes=drive + 30) <= now() < start - timedelta(minutes=drive) }}'
+    note: Tuesdays. Same window logic for 6:15 PM at Lebanon YMCA; 20 min fallback.
+  actions:
+  - variables:
+      info: '{{ {''annie_dance'': {''who'': "Annie''s dance", ''at'': ''16:45'', ''label'': ''4:45 PM'', ''place'': ''Miami
+        Valley Dance Academy'', ''sensor'': ''sensor.waze_home_to_dance_academy'', ''fallback'': 15}, ''weston_soccer'': {''who'':
+        "Weston''s soccer", ''at'': ''18:15'', ''label'': ''6:15 PM'', ''place'': ''Lebanon YMCA'', ''sensor'': ''sensor.waze_home_to_lebanon_ymca'',
+        ''fallback'': 20}}[trigger.id] }}'
+      drive: '{{ states(info.sensor) | float(info.fallback) | round(0) | int }}'
+      leave_by: '{{ (today_at(info.at) - timedelta(minutes=drive)).strftime(''%-I:%M %p'') }}'
+      title: 🚗 Leave by {{ leave_by }} for {{ info.who }}
+      message: '{{ info.who }} starts at {{ info.label }} at {{ info.place }}. Drive is {{ drive }} min right now, so leave
+        by {{ leave_by }} (in ~30 min).'
+  - parallel:
+    - action: notify.mobile_app_iphone_robert
+      data:
+        title: '{{ title }}'
+        message: '{{ message }}'
+        data:
+          push:
+            interruption-level: time-sensitive
+          tag: '{{ trigger.id }}_leave'
+    - action: notify.mobile_app_iphone_emily
+      data:
+        title: '{{ title }}'
+        message: '{{ message }}'
+        data:
+          push:
+            interruption-level: time-sensitive
+          tag: '{{ trigger.id }}_leave'
+  mode: parallel
