@@ -73,11 +73,25 @@
         entity_id: input_datetime.doorbell_recent_face_at
       data:
         timestamp: '{{ now().timestamp() }}'
+    - alias: Keep this exact frame as the dashboard's "last recognized face" photo
+      action: camera.snapshot
+      continue_on_error: true
+      target:
+        entity_id: camera.doorbell_detection_frame   # local_file camera over person.jpg = byte-exact copy
+      data:
+        filename: /config/www/doorbell/last_known.jpg
   - alias: Unknown face -> describe the visitor with LLM Vision (pre-warm cache for the ring)
     if:
     - condition: template
       value_template: "{{ not (pname != '' and (pconf | float(0)) >= 60) }}"
     then:
+    - alias: Keep this exact frame as the dashboard's "last unknown visitor" photo (UPS, FedEx, ...)
+      action: camera.snapshot
+      continue_on_error: true
+      target:
+        entity_id: camera.doorbell_detection_frame
+      data:
+        filename: /config/www/doorbell/last_unknown.jpg
     - action: llmvision.image_analyzer
       continue_on_error: true
       data:
