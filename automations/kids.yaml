@@ -1,10 +1,10 @@
-# Kids' activities: push a leave-by reminder to Robert's and Emily's iPhones 30 min before it's
-# time to leave (start time minus the LIVE Waze drive time from home).
+# Leave-by reminders: push to Robert's and Emily's iPhones 30 min before it's time to leave
+# (start time minus the LIVE Waze drive time from home). Kids' activities + Sunday church.
 - id: kids_leave_by_reminders
-  alias: Kids activities - leave-by reminders
+  alias: Leave-by reminders (kids + church)
   description: '30 minutes before it''s time to leave (event start minus the LIVE Waze drive time from home), push the leave-by
     time and current drive time to Robert''s and Emily''s iPhones. Annie''s dance: Wednesdays 4:45 PM at Miami Valley Dance
-    Academy. Weston''s soccer: Tuesdays 6:15 PM at Lebanon YMCA.'
+    Academy. Weston''s soccer: Tuesdays 6:15 PM at Lebanon YMCA. Church: Sundays 10:45 AM at Providence.'
   triggers:
   - trigger: template
     id: annie_dance
@@ -17,12 +17,18 @@
     value_template: '{% set start = today_at(''18:15'') %}{% set drive = states(''sensor.waze_home_to_lebanon_ymca'') | float(20)
       %}{{ now().isoweekday() == 2 and start - timedelta(minutes=drive + 30) <= now() < start - timedelta(minutes=drive) }}'
     note: Tuesdays. Same window logic for 6:15 PM at Lebanon YMCA; 20 min fallback.
+  - trigger: template
+    id: church
+    value_template: '{% set start = today_at(''10:45'') %}{% set drive = states(''sensor.waze_home_to_providence'') | float(25)
+      %}{{ now().isoweekday() == 7 and start - timedelta(minutes=drive + 30) <= now() < start - timedelta(minutes=drive) }}'
+    note: Sundays. Same window logic for 10:45 AM at Providence; 25 min fallback.
   actions:
   - variables:
       info: '{{ {''annie_dance'': {''who'': "Annie''s dance", ''at'': ''16:45'', ''label'': ''4:45 PM'', ''place'': ''Miami
         Valley Dance Academy'', ''sensor'': ''sensor.waze_home_to_dance_academy'', ''fallback'': 15}, ''weston_soccer'': {''who'':
         "Weston''s soccer", ''at'': ''18:15'', ''label'': ''6:15 PM'', ''place'': ''Lebanon YMCA'', ''sensor'': ''sensor.waze_home_to_lebanon_ymca'',
-        ''fallback'': 20}}[trigger.id] }}'
+        ''fallback'': 20}, ''church'': {''who'': ''Church'', ''at'': ''10:45'', ''label'': ''10:45 AM'', ''place'': ''Providence'',
+        ''sensor'': ''sensor.waze_home_to_providence'', ''fallback'': 25}}[trigger.id] }}'
       drive: '{{ states(info.sensor) | float(info.fallback) | round(0) | int }}'
       leave_by: '{{ (today_at(info.at) - timedelta(minutes=drive)).strftime(''%-I:%M %p'') }}'
       title: 🚗 Leave by {{ leave_by }} for {{ info.who }}
