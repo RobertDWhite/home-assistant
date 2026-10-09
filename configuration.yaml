@@ -49,6 +49,14 @@ recorder:
       - sensor.america_phoenix
       - sensor.america_los_angeles
       - sensor.atlantic_reykjavik
+    # Uptime Kuma: ~1,840 per-monitor metric sensors (response times, uptime %, monitor metadata)
+    # churn the DB every 30s. Only the per-monitor *_status sensors stay recorded.
+    entity_globs:
+      - sensor.*_response_time*
+      - sensor.*_uptime_*_day*
+      - sensor.*_monitor_type
+      - sensor.*_monitored_*
+      - sensor.*_certificate_expiry
 
 # Matrix: dedicated bot @homeassistant:white.fm on the house Synapse; joins the "Home Assistant" room.
 # Gives notify.matrix plus matrix_command events for chat-driven automations. Credentials in secrets.yaml.
