@@ -158,3 +158,26 @@ house_announce:
               data:
                 entity_id: media_player.denon_avr_x4700h
                 message: "{{ message }}"
+
+# Pause the door-open chime for one door (or all) for 3 minutes, so someone can step out and come
+# back in without "Front Door, opened". Only honoured while Alarmo is disarmed; armed modes are untouched.
+door_chime_pause:
+  alias: Pause door chime for 3 minutes (disarmed only)
+  mode: parallel
+  fields:
+    door:
+      description: front, back, garage_entry, or all
+      example: front
+  sequence:
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: disarmed
+    - action: timer.start
+      target:
+        entity_id: >-
+          {% set m = {'front': ['timer.front_door_chime_pause'],
+                      'back': ['timer.back_door_chime_pause'],
+                      'garage_entry': ['timer.garage_entry_door_chime_pause']} %}
+          {{ m.get(door | default('all'), m.front + m.back + m.garage_entry) }}
+      data:
+        duration: "00:03:00"

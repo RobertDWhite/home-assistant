@@ -32,3 +32,19 @@
   - name: matrix
     platform: matrix
     default_room: !secret matrix_ha_room
+
+# Email via the in-cluster postfix relay (whitehouse-rke2 apps/misc/postfix, LoadBalancer postfix-lb
+# 10.99.5.127:25, netpol allows only this HA VM). The relay authenticates to Proton as
+# server@whitematter.tech and Proton rejects any other sender, so the sender MUST stay that address.
+# Relay cert is self-signed (cert-manager selfsigned issuer) -> STARTTLS without verification.
+# A local "250 queued" means nothing; confirm delivery in the postfix log (status=sent).
+  - name: email
+    platform: smtp
+    server: 10.99.5.127
+    port: 25
+    timeout: 15
+    encryption: starttls
+    verify_ssl: false
+    sender: server@whitematter.tech
+    sender_name: Home Assistant
+    recipient: !secret smtp_recipient

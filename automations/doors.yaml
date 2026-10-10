@@ -202,6 +202,13 @@
       condition: time
       after: "08:30:00"
       before: "21:00:00"
+    - alias: Not paused for this door (script.door_chime_pause, 3 min, disarmed only)
+      condition: template
+      value_template: >-
+        {% set t = {'binary_sensor.front_door_contact': 'timer.front_door_chime_pause',
+                    'binary_sensor.back_door_contact': 'timer.back_door_chime_pause',
+                    'binary_sensor.garage_entry_door_contact': 'timer.garage_entry_door_chime_pause'}[trigger.entity_id] %}
+        {{ not is_state(t, 'active') }}
   variables:
     label: >-
       {{ {'binary_sensor.front_door_contact': 'Front Door',
