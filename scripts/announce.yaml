@@ -1,12 +1,12 @@
 # Short house-wide announcement (door chimes and similar), fired on every speaker at the same time.
 #
-# Deliberately skips the Office Sonos (media_player.unnamed_room) and the Upstairs Bathroom
-# Sonos (media_player.living_room_speaker).
+# Deliberately skips the Office Sonos (media_player.unnamed_room), the Upstairs Bathroom
+# Sonos (media_player.living_room_speaker) and the Dining Room Sonos (media_player.dining_room).
 #   - Sonos: announce overlay via script.sonos_say, so music ducks and resumes.
 #   - HomePods / WiiMs: Google TTS, only when the speaker is NOT playing (their TTS stops the music).
 #   - Theatre Denon: only when it is already on, at its current volume.
 house_announce:
-  alias: House announcement (all speakers except Office and Upstairs Bathroom)
+  alias: House announcement (all speakers except Office, Upstairs Bathroom and Dining Room)
   mode: parallel
   fields:
     message:
@@ -24,13 +24,6 @@ house_announce:
           continue_on_error: true
           data:
             sonos_entity: media_player.family_room
-            volume: "{{ vol }}"
-            message: "{{ message }}"
-        # Dining Room Sonos
-        - action: script.sonos_say
-          continue_on_error: true
-          data:
-            sonos_entity: media_player.dining_room
             volume: "{{ vol }}"
             message: "{{ message }}"
         # Main Bedroom Sonos
