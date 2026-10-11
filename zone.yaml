@@ -191,6 +191,12 @@
     radius: 150
     icon: !secret location_work_mom_3_icon
 
+  - name: !secret location_hubspot112
+    latitude: !secret location_hubspot112_latitude
+    longitude: !secret location_hubspot112_longitude
+    radius: 600
+    icon: !secret location_hubspot112_icon
+
   - name: !secret location_work_sh
     latitude: !secret latitude_work_sh
     longitude: !secret longitude_work_sh
