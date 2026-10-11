@@ -49,6 +49,9 @@ recorder:
       - sensor.america_phoenix
       - sensor.america_los_angeles
       - sensor.atlantic_reykjavik
+      # Sony XBR-65A8G: flaps off/unavailable all day (~1,300 state rows a week, no real use)
+      - media_player.xbr_65a8g
+      - media_player.xbr_65a8g_2
     # Uptime Kuma: ~1,840 per-monitor metric sensors (response times, uptime %, monitor metadata)
     # churn the DB every 30s. Only the per-monitor *_status sensors stay recorded.
     entity_globs:
@@ -57,6 +60,9 @@ recorder:
       - sensor.*_monitor_type
       - sensor.*_monitored_*
       - sensor.*_certificate_expiry
+      # Kubernetes integration (387 cluster workload/node entities): deployment switches flip
+      # 50-160 times a week each. Grafana/Prometheus already keep the cluster history.
+      - "*.whitehouse_rke2_*"
 
 # Matrix: dedicated bot @homeassistant:white.fm on the house Synapse; joins the "Home Assistant" room.
 # Gives notify.matrix plus matrix_command events for chat-driven automations. Credentials in secrets.yaml.

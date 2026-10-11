@@ -187,6 +187,8 @@
     Security-panel style announcement ("Front Door, opened") on every speaker except the Office and
     Upstairs Bathroom when the front, back or garage entry door opens. Same quiet hours as the NWS
     announcement (speaks 08:30-21:00 only). Raised from 0.30 to 0.50 on 2026-09-24 - 0.30 was too faint to hear.
+    The garage entry door (180 opens/week) gets a 5-minute cooldown: each announcement starts
+    timer.garage_entry_door_chime_pause, and opens while it runs stay silent.
   mode: queued
   max: 3
   triggers:
@@ -194,7 +196,11 @@
       entity_id:
         - binary_sensor.front_door_contact
         - binary_sensor.back_door_contact
-        - binary_sensor.garage_entry_door_contact
+      from: "off"
+      to: "on"
+    - trigger: state
+      id: garage_entry
+      entity_id: binary_sensor.garage_entry_door_contact
       from: "off"
       to: "on"
   conditions:
@@ -202,7 +208,7 @@
       condition: time
       after: "08:30:00"
       before: "21:00:00"
-    - alias: Not paused for this door (script.door_chime_pause, 3 min, disarmed only)
+    - alias: Not paused (script.door_chime_pause) or in the garage entry cooldown for this door
       condition: template
       value_template: >-
         {% set t = {'binary_sensor.front_door_contact': 'timer.front_door_chime_pause',
@@ -215,6 +221,16 @@
           'binary_sensor.back_door_contact': 'Back Door',
           'binary_sensor.garage_entry_door_contact': 'Garage Door'}[trigger.entity_id] }}
   actions:
+    - if:
+        - condition: trigger
+          id: garage_entry
+      then:
+        - alias: Garage entry door - 5 minute announcement cooldown
+          action: timer.start
+          target:
+            entity_id: timer.garage_entry_door_chime_pause
+          data:
+            duration: "00:05:00"
     - action: script.house_announce
       data:
         message: "{{ label }}, opened"
