@@ -8,7 +8,7 @@
     has already been open 10+ minutes (a door opened just before 22:00, or later in the night, closes
     once it reaches 10 minutes, until 05:00), so a door that is actively in use is not closed on someone.
     Before closing: skips (and notifies) if the blaQ reports an obstruction, sounds the blaQ pre-close
-    warning, waits 10 s, and re-checks the door is still open. Notifies Robert's phone when it closes,
+    warning, waits 10 s, and re-checks the door is still open. Notifies Robert's and Emily's phones when it closes,
     or if the door has not closed 2 minutes later.
   mode: parallel
   max: 4
@@ -72,12 +72,24 @@
                 condition: template
                 value_template: "{{ is_state(obstruction, 'on') }}"
             then:
-              - action: notify.mobile_app_iphone_robert
-                data:
+              - variables:
                   title: "{{ name }} NOT closed"
                   message: "{{ name }} is {{ reason }}, but the sensor reports an obstruction, so it was left open."
-                  data:
-                    tag: "{{ door }}_auto_close"
+              - &notify_both
+                alias: Notify Robert and Emily
+                parallel:
+                  - action: notify.mobile_app_iphone_robert
+                    data:
+                      title: "{{ title }}"
+                      message: "{{ message }}"
+                      data:
+                        tag: "{{ door }}_auto_close"
+                  - action: notify.mobile_app_iphone_emily
+                    data:
+                      title: "{{ title }}"
+                      message: "{{ message }}"
+                      data:
+                        tag: "{{ door }}_auto_close"
             else:
               - alias: Beep and flash before moving (blaQ pre-close warning)
                 action: button.press
@@ -96,12 +108,10 @@
                   - wait_template: "{{ is_state(door, 'closed') }}"
                     timeout:
                       minutes: 2
-                  - action: notify.mobile_app_iphone_robert
-                    data:
+                  - variables:
                       title: "{{ name }} {{ 'closed' if wait.completed else 'did NOT close' }}"
                       message: >-
                         {{ name }} was {{ reason }}
                         {{- ', so Home Assistant closed it.' if wait.completed
                             else '. Home Assistant tried to close it, but it is still ' ~ states(door) ~ ' after 2 minutes.' }}
-                      data:
-                        tag: "{{ door }}_auto_close"
+                  - *notify_both
