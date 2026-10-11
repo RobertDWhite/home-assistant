@@ -296,7 +296,8 @@
     lights_ct:
       - light.hue_ambiance_downlight_4_4
       - light.hue_ambiance_downlight_5_2
-      - light.hue_lightstrip_plus_4
+      # light.hue_lightstrip_plus_4 removed 2026-10-11: the strip shows purple whenever another bath light is
+      # on (master_bath_strip_follows_lights) and circadian was repainting it white every 10 minutes.
 
 # Upstairs Bathroom
   - platform: circadian_lighting
