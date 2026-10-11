@@ -4,14 +4,23 @@
   description: >-
     When the Theatre Denon AVR powers on, disable the theatre circadian switches and set the Hue theatre
     and bar lights to a dim cinema red. When the AVR powers off, restore a normal level, then re-enable circadian 10 s later.
+    2026-10-11: the AVR drops to "unavailable" and back several times a week (03:33, 00:44 ...). The old
+    triggers (from: off / to: off) treated off->unavailable as "start" and unavailable->off as "end", and the
+    end branch turns the lights ON at 55%, so the basement lit up overnight and stayed on 20+ hours. Now:
+    start needs a real off->on that holds 20 s (ignores HDMI-CEC blips), and end only runs when movie mode
+    is actually active (theatre circadian switched off by the start branch).
   mode: restart
   triggers:
     - trigger: state
       entity_id: media_player.denon_avr_x4700h
       from: "off"
+      to: ["on", playing, paused, idle]
+      for:
+        seconds: 20
       id: start
     - trigger: state
       entity_id: media_player.denon_avr_x4700h
+      from: ["on", playing, paused, idle]
       to: "off"
       id: end
   actions:
@@ -39,7 +48,13 @@
                 # Deep cinema red: aisle/step-light colour, keeps eyes dark-adapted and spills the
                 # least onto the screen (blue scatters and reads as "standby"). Tweak to taste.
                 rgb_color: [255, 30, 0]
-        - conditions: [{condition: trigger, id: end}]
+        - conditions:
+            - condition: trigger
+              id: end
+            - alias: Movie mode is actually active (the start branch turned theatre circadian off)
+              condition: state
+              entity_id: switch.circadian_lighting_circadian_theatre
+              state: "off"
           sequence:
             # Bring the room back first, then hand control back to circadian 10 s later so
             # the two don't fight over the same bulbs in the same instant.
