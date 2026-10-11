@@ -1,0 +1,107 @@
+# Overhead garage doors (Konnected blaQ: cover.large_garage_door / cover.small_garage_door).
+# Not the house-to-garage entry door (binary_sensor.garage_entry_door_contact, see doors.yaml).
+
+- id: garage_doors_auto_close
+  alias: Garage doors - auto close (open 1.5 h, or at night after 10 min)
+  description: >-
+    Closes an overhead garage door that has been open 1 h 30 min, and at 22:00 closes any door that
+    has already been open 10+ minutes (a door opened just before 22:00, or later in the night, closes
+    once it reaches 10 minutes, until 05:00), so a door that is actively in use is not closed on someone.
+    Before closing: skips (and notifies) if the blaQ reports an obstruction, sounds the blaQ pre-close
+    warning, waits 10 s, and re-checks the door is still open. Notifies Robert's phone when it closes,
+    or if the door has not closed 2 minutes later.
+  mode: parallel
+  max: 4
+  triggers:
+    - trigger: state
+      id: open_too_long
+      entity_id:
+        - cover.large_garage_door
+        - cover.small_garage_door
+      to: open
+      for:
+        hours: 1
+        minutes: 30
+    - trigger: time
+      id: ten_pm
+      at: "22:00:00"
+    - trigger: state
+      id: night_open_10_min
+      entity_id:
+        - cover.large_garage_door
+        - cover.small_garage_door
+      to: open
+      for:
+        minutes: 10
+  conditions:
+    - alias: The 10-minute trigger only counts overnight (22:00-05:00)
+      condition: or
+      conditions:
+        - condition: not
+          conditions:
+            - condition: trigger
+              id: night_open_10_min
+        - condition: time
+          after: "22:00:00"
+          before: "05:00:00"
+  variables:
+    doors: >-
+      {% if trigger.id == 'ten_pm' %}
+        {{ expand('cover.large_garage_door', 'cover.small_garage_door')
+           | selectattr('state', 'eq', 'open')
+           | selectattr('last_changed', 'lt', now() - timedelta(minutes=10))
+           | map(attribute='entity_id') | list }}
+      {% else %}
+        {{ [trigger.entity_id] }}
+      {% endif %}
+    reason: >-
+      {{ {'open_too_long': 'open 1.5 hours',
+          'ten_pm': 'still open at 10 PM',
+          'night_open_10_min': 'open 10 minutes after 10 PM'}[trigger.id] }}
+  actions:
+    - repeat:
+        for_each: "{{ doors }}"
+        sequence:
+          - variables:
+              door: "{{ repeat.item }}"
+              name: "{{ state_attr(repeat.item, 'friendly_name') }}"
+              obstruction: "{{ repeat.item | replace('cover.', 'binary_sensor.') }}_obstruction"
+              warning: "{{ repeat.item | replace('cover.', 'button.') }}_pre_close_warning"
+          - if:
+              - alias: blaQ reports something in the door's path
+                condition: template
+                value_template: "{{ is_state(obstruction, 'on') }}"
+            then:
+              - action: notify.mobile_app_iphone_robert
+                data:
+                  title: "{{ name }} NOT closed"
+                  message: "{{ name }} is {{ reason }}, but the sensor reports an obstruction, so it was left open."
+                  data:
+                    tag: "{{ door }}_auto_close"
+            else:
+              - alias: Beep and flash before moving (blaQ pre-close warning)
+                action: button.press
+                target:
+                  entity_id: "{{ warning }}"
+              - delay:
+                  seconds: 10
+              - if:
+                  - alias: Still open after the warning (nobody closed it meanwhile)
+                    condition: template
+                    value_template: "{{ is_state(door, 'open') }}"
+                then:
+                  - action: cover.close_cover
+                    target:
+                      entity_id: "{{ door }}"
+                  - wait_template: "{{ is_state(door, 'closed') }}"
+                    timeout:
+                      minutes: 2
+                  - action: notify.mobile_app_iphone_robert
+                    data:
+                      title: "{{ name }} {{ 'closed' if wait.completed else 'did NOT close' }}"
+                      message: >-
+                        {{ name }} was {{ reason }}
+                        {{- ', so Home Assistant closed it.' if wait.completed
+                            else '. Home Assistant tried to close it, but it is still ' ~ states(door) ~ ' after 2 minutes.' }}
+                      data:
+                        tag: "{{ door }}_auto_close"
