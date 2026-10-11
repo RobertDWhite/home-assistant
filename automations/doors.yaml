@@ -215,6 +215,10 @@
                     'binary_sensor.back_door_contact': 'timer.back_door_chime_pause',
                     'binary_sensor.garage_entry_door_contact': 'timer.garage_entry_door_chime_pause'}[trigger.entity_id] %}
         {{ not is_state(t, 'active') }}
+    - alias: Door notifications not silenced (HomeKit "Door Notifications" switch)
+      condition: state
+      entity_id: input_boolean.door_notifications
+      state: "on"
   variables:
     label: >-
       {{ {'binary_sensor.front_door_contact': 'Front Door',
@@ -240,9 +244,11 @@
   alias: Doors - "please close" announcement after 15 seconds
   description: >-
     Spoken reminder ("Please close the back door") on the house speakers (script.house_announce)
-    when the front, back or garage entry door has been open 15 seconds. Same speaking hours as
-    the open chime (08:30-21:00). Not affected by the garage entry chime cooldown or
-    script.door_chime_pause. The phone reminder at 10 minutes (doors_left_open) is unchanged.
+    when the front, back or garage entry door has been open 15 seconds, repeated every 30 seconds
+    until it closes (capped at 20 minutes in case a sensor sticks open). Each repeat is skipped
+    outside 08:30-21:00 or while input_boolean.door_notifications is off (HomeKit "Door
+    Notifications" switch, auto re-enabled after 5 min). Not affected by the garage entry chime
+    cooldown or script.door_chime_pause. The phone reminder at 10 minutes (doors_left_open) is unchanged.
   mode: parallel
   max: 3
   triggers:
@@ -255,18 +261,107 @@
       to: "on"
       for:
         seconds: 15
-  conditions:
-    - alias: Same hours as the open chime (quiet 21:00-08:30)
-      condition: time
-      after: "08:30:00"
-      before: "21:00:00"
   variables:
+    door: "{{ trigger.entity_id }}"
     label: >-
       {{ {'binary_sensor.front_door_contact': 'front door',
           'binary_sensor.back_door_contact': 'back door',
           'binary_sensor.garage_entry_door_contact': 'garage door'}[trigger.entity_id] }}
   actions:
-    - action: script.house_announce
-      data:
-        message: "Please close the {{ label }}"
-        volume: 0.50
+    - repeat:
+        sequence:
+          - if:
+              - alias: Door still open (the triggering door varies, so this is a template)
+                condition: template
+                value_template: "{{ is_state(door, 'on') }}"
+              - alias: Speaking hours (quiet 21:00-08:30)
+                condition: time
+                after: "08:30:00"
+                before: "21:00:00"
+              - alias: Door notifications not silenced
+                condition: state
+                entity_id: input_boolean.door_notifications
+                state: "on"
+            then:
+              - action: script.house_announce
+                data:
+                  message: "Please close the {{ label }}"
+                  volume: 0.50
+          - delay:
+              seconds: 30
+        until:
+          - condition: or
+            conditions:
+              - alias: Door closed
+                condition: template
+                value_template: "{{ is_state(door, 'off') }}"
+              - alias: 20 minute cap (40 x 30 s)
+                condition: template
+                value_template: "{{ repeat.index >= 40 }}"
+
+- id: doors_notifications_silence_timer
+  alias: Doors - silence door notifications for 5 minutes
+  description: >-
+    input_boolean.door_notifications is exposed to HomeKit as the "Door Notifications" switch
+    ("Hey Siri, turn off the door notifications" for deliveries). Turning it off starts
+    timer.door_notifications_silence (5 min, restored across restarts); when the timer finishes
+    the switch turns back on. Turning it back on early cancels the timer.
+  mode: queued
+  triggers:
+    - trigger: state
+      id: silenced
+      entity_id: input_boolean.door_notifications
+      to: "off"
+    - trigger: state
+      id: unsilenced
+      entity_id: input_boolean.door_notifications
+      to: "on"
+    - trigger: event
+      id: timer_done
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.door_notifications_silence
+    - trigger: homeassistant
+      id: startup
+      event: start
+  actions:
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: silenced
+          sequence:
+            - action: timer.start
+              target:
+                entity_id: timer.door_notifications_silence
+              data:
+                duration: "00:05:00"
+        - conditions:
+            - condition: trigger
+              id: unsilenced
+          sequence:
+            - action: timer.cancel
+              target:
+                entity_id: timer.door_notifications_silence
+        - conditions:
+            - condition: trigger
+              id: timer_done
+          sequence:
+            - action: input_boolean.turn_on
+              target:
+                entity_id: input_boolean.door_notifications
+        - alias: After a restart, never leave notifications off without a running timer
+          conditions:
+            - condition: trigger
+              id: startup
+            - condition: state
+              entity_id: input_boolean.door_notifications
+              state: "off"
+            - condition: not
+              conditions:
+                - condition: state
+                  entity_id: timer.door_notifications_silence
+                  state: [active, paused]
+          sequence:
+            - action: input_boolean.turn_on
+              target:
+                entity_id: input_boolean.door_notifications

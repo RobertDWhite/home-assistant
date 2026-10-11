@@ -311,6 +311,9 @@ homekit:
    exclude_entities: !include homekit_exclude.yaml
    exclude_entity_globs:
      - binary_sensor.*_occupancy
+     # Kubernetes integration: 52 node-pressure sensors and deployment scale switches were filling
+     # the 150-accessory cap, and the switches would let HomeKit/Siri scale cluster workloads.
+     - "*.whitehouse_rke2_*"
      # Konnected blaQ garage openers are exposed ONLY via the dedicated "Garage Doors" bridge (UI entry)
      - "*.small_garage_door*"
      - "*.large_garage_door*"
