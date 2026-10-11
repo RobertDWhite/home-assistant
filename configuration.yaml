@@ -236,26 +236,10 @@ powercalc:
 
 ###Anniversaries/Countdowns/Tracking###
 
-anniversaries:
-  sensors:
-  - name: Our Wedding Anniversary
-    date: !secret anniversary_wedding
-  - name: Robby's Birthday
-    date: !secret birthday_rdw
-  - name: Emily's Birthday
-    date: !secret birthday_eew
-  - name: Weston's Birthday
-    date: !secret birthday_rww
-  - name: Annie's Birthday
-    date: !secret birthday_aew
-  - name: Robby's Work Anniversary
-    date: !secret anniversary_work_rob
-  - name: Grandpa - Memorial
-    date: !secret memorial_gp_rew
-  - name: Papaw - Memorial
-    date: !secret memorial_gp_jlh
-  - name: Gerald - Memorial
-    date: !secret memorial_gp_e_gs
+# anniversaries: all 13 are UI config entries now (Settings > Devices & services > Anniversaries).
+# The 9 that lived here were moved 2026-10-11: the YAML import entry deadlocked every boot (the
+# integration removes its own import entry during setup), stalling startup ~5 minutes.
+# Their dates are still in secrets.yaml (anniversary_wedding, birthday_*, memorial_gp_*).
 
 # camera: the generic radar/space-weather cameras and the local_file Facebox camera are UI
 # config entries now; the YAML platforms were ignored ("does not support platform setup").
