@@ -39,6 +39,23 @@
       target:
         entity_id: light.outside_lights
 
+- id: garage_lights_off_after_20_min
+  alias: Garage - Lutron main lights off after 20 minutes
+  description: >-
+    The garage main lights (Lutron Caseta switch) turn off 20 minutes after being turned on. Turning them
+    off and on again restarts the 20 minutes.
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: switch.garage_main_lights
+      to: "on"
+      for:
+        minutes: 20
+  actions:
+    - action: switch.turn_off
+      target:
+        entity_id: switch.garage_main_lights
+
 - id: master_bath_fan_timer
   alias: Master bath - fan off after 45 minutes
   description: The bath fan is a plain Lutron switch; give it a timer.
