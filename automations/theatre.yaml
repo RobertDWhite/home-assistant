@@ -43,6 +43,7 @@
                 entity_id:
                   - light.theatre
                   - light.bar   # basement bar joins the red scene
+                  - light.basement_accent   # accent spot + fireplace join the red scene too
               data:
                 brightness_pct: 8
                 # Deep cinema red: aisle/step-light colour, keeps eyes dark-adapted and spills the
@@ -66,13 +67,14 @@
               data:
                 color_temp_kelvin: 2900
                 brightness_pct: 55
+            - action: script.basement_accents_color
             - delay:
                 seconds: 10
             - action: switch.turn_on
               target:
                 entity_id:
                   - switch.circadian_lighting_circadian_theatre
-                  - switch.circadian_lighting_circadian_theatre_accent
+                  # theatre_accent circadian stays OFF (basement accents use purple/blue)
                   - switch.circadian_lighting_circadian_theatre_rear
                   - switch.circadian_lighting_circadian_theatre_hall
                   - switch.circadian_lighting_circadian_basement_staircase
@@ -130,3 +132,57 @@
           - light.bar
       data:
         transition: 5
+
+- id: basement_accents_follow_downstairs
+  alias: Basement - accent lights follow the theatre/bar lights (purple/blue)
+  description: >-
+    When the theatre or bar lights come on outside movie mode, the basement accents (accent spot + fireplace
+    downlight) turn on in purple/blue (script.basement_accents_color). When the theatre and bar are both off,
+    the accents turn off. Movie mode handles the accents itself (red, then purple/blue at the end).
+    Also keeps the Circadian Theatre Accent switch off after a restart.
+  mode: queued
+  max: 5
+  triggers:
+    - trigger: state
+      entity_id: [light.theatre, light.bar]
+      from: "off"
+      to: "on"
+      id: downstairs_on
+    - trigger: state
+      entity_id: [light.theatre, light.bar]
+      from: "on"
+      to: "off"
+      id: downstairs_off
+    - trigger: homeassistant
+      event: start
+      id: startup
+  actions:
+    - choose:
+        - conditions:
+            - condition: trigger
+              id: downstairs_on
+            - alias: Not in movie mode (movie mode switches theatre circadian off)
+              condition: state
+              entity_id: switch.circadian_lighting_circadian_theatre
+              state: "on"
+          sequence:
+            - action: script.basement_accents_color
+        - conditions:
+            - condition: trigger
+              id: downstairs_off
+            - condition: state
+              entity_id: [light.theatre, light.bar]
+              state: "off"
+          sequence:
+            - action: light.turn_off
+              target:
+                entity_id: light.basement_accent
+              data:
+                transition: 2
+        - conditions:
+            - condition: trigger
+              id: startup
+          sequence:
+            - action: switch.turn_off
+              target:
+                entity_id: switch.circadian_lighting_circadian_theatre_accent

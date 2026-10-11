@@ -1,0 +1,22 @@
+# Basement accent lights (Hue "Basement Accent" room: light.hue_color_spot_1 = accent spot,
+# light.hue_color_downlight_7 = Basement Fireplace). Circadian is kept OFF for these
+# (switch.circadian_lighting_circadian_theatre_accent); they show purple/blue instead.
+basement_accents_color:
+  alias: Basement accents - purple/blue
+  description: Accent spot purple, fireplace downlight blue (the non-movie look for the basement accents).
+  mode: restart
+  sequence:
+    - action: light.turn_on
+      target:
+        entity_id: light.hue_color_spot_1
+      data:
+        hs_color: [275, 100]
+        brightness_pct: 60
+        transition: 2
+    - action: light.turn_on
+      target:
+        entity_id: light.hue_color_downlight_7
+      data:
+        hs_color: [230, 100]
+        brightness_pct: 60
+        transition: 2
