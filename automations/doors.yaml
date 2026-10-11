@@ -235,3 +235,38 @@
       data:
         message: "{{ label }}, opened"
         volume: 0.50
+
+- id: doors_please_close_announcement
+  alias: Doors - "please close" announcement after 15 seconds
+  description: >-
+    Spoken reminder ("Please close the back door") on the house speakers (script.house_announce)
+    when the front, back or garage entry door has been open 15 seconds. Same speaking hours as
+    the open chime (08:30-21:00). Not affected by the garage entry chime cooldown or
+    script.door_chime_pause. The phone reminder at 10 minutes (doors_left_open) is unchanged.
+  mode: parallel
+  max: 3
+  triggers:
+    - trigger: state
+      entity_id:
+        - binary_sensor.front_door_contact
+        - binary_sensor.back_door_contact
+        - binary_sensor.garage_entry_door_contact
+      from: "off"
+      to: "on"
+      for:
+        seconds: 15
+  conditions:
+    - alias: Same hours as the open chime (quiet 21:00-08:30)
+      condition: time
+      after: "08:30:00"
+      before: "21:00:00"
+  variables:
+    label: >-
+      {{ {'binary_sensor.front_door_contact': 'front door',
+          'binary_sensor.back_door_contact': 'back door',
+          'binary_sensor.garage_entry_door_contact': 'garage door'}[trigger.entity_id] }}
+  actions:
+    - action: script.house_announce
+      data:
+        message: "Please close the {{ label }}"
+        volume: 0.50
