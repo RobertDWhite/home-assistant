@@ -77,3 +77,56 @@
                   - switch.circadian_lighting_circadian_theatre_hall
                   - switch.circadian_lighting_circadian_basement_staircase
                   - switch.circadian_lighting_circadian_bar
+
+- id: theatre_lights_off_no_motion
+  alias: Theatre - lights off after 30 min with no motion
+  description: >-
+    Turns the Hue theatre and bar lights off when the Theatre MotionAware area
+    (binary_sensor.theatre_theatre_motion, Hue lights used as motion sensors) has seen no motion for
+    30 minutes, unless the Denon AVR is on (a movie can be watched sitting still). Also catches
+    lights turned on in an empty room (on 30 min with no motion). Does nothing while the motion
+    area is unknown/unavailable (it only reports after calibration in the Hue app).
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.theatre_theatre_motion
+      to: "off"
+      for:
+        minutes: 30
+    - trigger: state
+      entity_id:
+        - light.theatre
+        - light.bar
+      to: "on"
+      for:
+        minutes: 30
+  conditions:
+    - alias: No motion for 30 minutes (and the motion area is actually reporting)
+      condition: state
+      entity_id: binary_sensor.theatre_theatre_motion
+      state: "off"
+      for:
+        minutes: 30
+    - alias: Not watching something (Denon AVR off)
+      condition: not
+      conditions:
+        - condition: state
+          entity_id: media_player.denon_avr_x4700h
+          state: ["on", playing, paused, idle]
+    - alias: Something is actually on
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: light.theatre
+          state: "on"
+        - condition: state
+          entity_id: light.bar
+          state: "on"
+  actions:
+    - action: light.turn_off
+      target:
+        entity_id:
+          - light.theatre
+          - light.bar
+      data:
+        transition: 5
