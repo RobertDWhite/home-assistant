@@ -1,0 +1,85 @@
+# Former Lutron Caseta Smart Bridge schedules (timeclock events), moved into Home Assistant on 2026-10-11
+# so all scheduling lives in one place. Same times, targets and levels as the bridge had; the bridge
+# schedules were deleted after these were deployed. "Morning Kitchen" (8:15 under-cabinet on) was
+# deleted on purpose and is NOT recreated. Original definitions: ~/Documents/ha-cleanup/ on Robert's Mac.
+
+- id: lutron_sunset
+  alias: Lutron - sunset (outside floods 10%, master bath vanity 8%)
+  description: Was the Lutron "Sunset" schedule.
+  mode: single
+  triggers:
+    - trigger: sun
+      event: sunset
+  actions:
+    - action: light.turn_on
+      target:
+        entity_id: light.outside_lights
+      data:
+        brightness_pct: 10
+        transition: 2
+    - action: light.turn_on
+      target:
+        entity_id: light.master_bath_vanity_lights
+      data:
+        brightness_pct: 8
+        transition: 2
+
+- id: lutron_sunrise
+  alias: Lutron - sunrise (outside floods off)
+  description: Was the Lutron "Sunrise" schedule.
+  mode: single
+  triggers:
+    - trigger: sun
+      event: sunrise
+  actions:
+    - action: light.turn_off
+      target:
+        entity_id: light.outside_lights
+      data:
+        transition: 2
+
+- id: lutron_fan_on
+  alias: Lutron - great room ceiling fan on low at 08:00
+  description: Was the Lutron "Fan On" schedule (speed Low = 25%).
+  mode: single
+  triggers:
+    - trigger: time
+      at: "08:00:00"
+  actions:
+    - action: fan.turn_on
+      target:
+        entity_id: fan.great_room_ceiling_fan
+      data:
+        percentage: 25
+
+- id: lutron_evening_off
+  alias: Lutron - evening off at 01:11
+  description: >-
+    Was the Lutron "Evening Off" schedule: turns off every Caseta load except the outside floods.
+    Overlaps the existing 01:00 garage/utility/rec room rule in lighting.yaml (harmless).
+  mode: single
+  triggers:
+    - trigger: time
+      at: "01:11:00"
+  actions:
+    - action: light.turn_off
+      target:
+        entity_id:
+          - light.laundry_main_lights
+          - light.master_bath_main_lights
+          - light.master_bath_vanity_lights
+          - light.master_bath_shower_lights
+      data:
+        transition: 2
+    - action: switch.turn_off
+      target:
+        entity_id:
+          - switch.utility_room_main_lights
+          - switch.garage_main_lights
+          - switch.rec_room_main_lights
+          - switch.master_bath_fan
+          - switch.kitchen_under_cabinet_1
+          - switch.kitchen_under_cabinet_2
+    - action: fan.turn_off
+      target:
+        entity_id: fan.great_room_ceiling_fan
