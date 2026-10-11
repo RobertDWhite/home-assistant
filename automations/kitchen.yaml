@@ -74,3 +74,41 @@
       data:
         title: Refrigerator
         message: The water filter is at 100% usage. Replace it, then press "Reset water filter" in Home Assistant.
+
+- id: kitchen_lights_off_no_motion
+  alias: Kitchen - lights off after 10 min with no motion
+  description: >-
+    Turns the Hue kitchen lights off when the Kitchen MotionAware area (binary_sensor.kitchen_kitchen_area,
+    Hue lights used as motion sensors) has seen no motion for 10 minutes. Off only: motion never turns
+    the kitchen on (the Hue app's on-with-motion routine for this area was deleted 2026-10-11).
+    The Lutron under-cabinet lights follow via kitchen_undercabinet_follows_hue in lighting.yaml.
+    Does nothing while the motion area is unknown/unavailable.
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.kitchen_kitchen_area
+      to: "off"
+      for:
+        minutes: 10
+    - alias: Lights turned on (app, Siri) while nobody is moving in the kitchen
+      trigger: state
+      entity_id: light.kitchen_2
+      to: "on"
+      for:
+        minutes: 10
+  conditions:
+    - alias: No motion for 10 minutes (and the motion area is actually reporting)
+      condition: state
+      entity_id: binary_sensor.kitchen_kitchen_area
+      state: "off"
+      for:
+        minutes: 10
+    - condition: state
+      entity_id: light.kitchen_2
+      state: "on"
+  actions:
+    - action: light.turn_off
+      target:
+        entity_id: light.kitchen_2
+      data:
+        transition: 5
