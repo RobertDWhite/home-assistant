@@ -9,254 +9,254 @@
     latitude: !secret latitude_sec
     longitude: !secret longitude_sec
     radius: 20
-    icon: mdi:home
+    icon: !secret location_home_icon
 
   - name: !secret location_ah
     latitude: !secret latitude_ah
     longitude: !secret longitude_ah
     radius: 40
-    icon: mdi:hospital-building
+    icon: !secret location_ah_icon
 
   - name: !secret location_fam_1
     latitude: !secret latitude_fam_1
     longitude: !secret longitude_fam_1
     radius: 20
-    icon: mdi:home
+    icon: !secret location_fam_1_icon
 
   - name: !secret location_fam_2
     latitude: !secret latitude_fam_2
     longitude: !secret longitude_fam_2
     radius: 20
-    icon: mdi:home
+    icon: !secret location_fam_2_icon
 
   - name: !secret location_friends_1
     latitude: !secret latitude_friends_1
     longitude: !secret longitude_friends_1
     radius: 20
-    icon: mdi:home-circle-outline
+    icon: !secret location_friends_1_icon
 
   - name: !secret location_friends_2
     latitude: !secret latitude_friends_2
     longitude: !secret longitude_friends_2
     radius: 20
-    icon: mdi:home-circle-outline
+    icon: !secret location_friends_2_icon
 
   - name: !secret location_grandparents_r_1
     latitude: !secret latitude_grandparents_r_1
     longitude: !secret longitude_grandparents_r_1
     radius: 25
-    icon: mdi:home-circle-outline
+    icon: !secret location_grandparents_r_1_icon
 
   - name: !secret location_grandparents_r_2
     latitude: !secret latitude_grandparents_r_2
     longitude: !secret longitude_grandparents_r_2
     radius: 25
-    icon: mdi:home-circle-outline
+    icon: !secret location_grandparents_r_2_icon
 
   - name: !secret location_grandparents_e_1
     latitude: !secret latitude_grandparents_e_1
     longitude: !secret longitude_grandparents_e_1
     radius: 25
-    icon: mdi:home-circle-outline
+    icon: !secret location_grandparents_e_1_icon
 
   - name: !secret location_gym
     latitude: !secret latitude_gym
     longitude: !secret longitude_gym
     radius: 30
-    icon: mdi:home-circle-outline
+    icon: !secret location_gym_icon
 
   - name: !secret location_lib
     latitude: !secret latitude_lib
     longitude: !secret longitude_lib
     radius: 275
-    icon: mdi:city-variant-outline
+    icon: !secret location_lib_icon
 
   - name: !secret location_mvh
     latitude: !secret latitude_mvh
     longitude: !secret longitude_mvh
     radius: 200
-    icon: mdi:hospital-building
+    icon: !secret location_mvh_icon
 
   - name: !secret location_brother_r_ks
     latitude: !secret latitude_brother_r_ks
     longitude: !secret longitude_brother_r_ks
     radius: 20
-    icon: mdi:home-circle-outline
+    icon: !secret location_brother_r_ks_icon
 
   - name: !secret location_brother_r_ks_old
     latitude: !secret latitude_brother_r_ks_old
     longitude: !secret longitude_brother_r_ks_old
     radius: 20
-    icon: mdi:home-circle-outline
+    icon: !secret location_brother_r_ks_old_icon
     
   - name: !secret location_brother_r_jr
     latitude: !secret latitude_brother_r_jr
     longitude: !secret longitude_brother_r_jr
     radius: 20
-    icon: mdi:home-circle-outline
+    icon: !secret location_brother_r_jr_icon
 
   - name: !secret location_parents_e
     latitude: !secret latitude_parents_e
     longitude: !secret longitude_parents_e
     radius: 20
-    icon: mdi:home-circle-outline
+    icon: !secret location_parents_e_icon
 
   - name: !secret location_parents_r
     latitude: !secret latitude_parents_r
     longitude: !secret longitude_parents_r
     radius: 50
-    icon: mdi:home-circle-outline
+    icon: !secret location_parents_r_icon
 
   - name: !secret location_parents_r
     latitude: !secret latitude_parents_r_other
     longitude: !secret longitude_parents_r_other
     radius: 50
-    icon: mdi:home-circle-outline
+    icon: !secret location_parents_r_icon_2
     
   - name: !secret location_sh_parents
     latitude: !secret latitude_sh_parents
     longitude: !secret longitude_sh_parents
     radius: 100
-    icon: mdi:home-circle-outline
+    icon: !secret location_sh_parents_icon
 
   - name: !secret location_sister_l
     latitude: !secret latitude_sister_l
     longitude: !secret longitude_sister_l
     radius: 20
-    icon: mdi:home-circle-outline
+    icon: !secret location_sister_l_icon
 
   - name: !secret location_sister_r
     latitude: !secret latitude_sister_r
     longitude: !secret longitude_sister_r
     radius: 20
-    icon: mdi:home-circle-outline
+    icon: !secret location_sister_r_icon
 
   - name: !secret location_sister_r2
     latitude: !secret latitude_sister_r2
     longitude: !secret longitude_sister_r2
     radius: 20
-    icon: mdi:home-circle-outline
+    icon: !secret location_sister_r2_icon
 
   - name: !secret location_parents_rental
     latitude: !secret latitude_parents_rental
     longitude: !secret longitude_parents_rental
     radius: 25
-    icon: mdi:home-circle-outline
+    icon: !secret location_parents_rental_icon
 
   - name: !secret location_work1
     latitude: !secret latitude_work1
     longitude: !secret longitude_work1
     radius: 50
-    icon: mdi:apple
+    icon: !secret location_work1_icon
 
   - name: !secret location_work2
     latitude: !secret latitude_work2
     longitude: !secret longitude_work2
     radius: 100
-    icon: mdi:bus-school
+    icon: !secret location_work2_icon
 
   - name: !secret location_work3
     latitude: !secret latitude_work3
     longitude: !secret longitude_work3
     radius: 100
-    icon: mdi:bus-school
+    icon: !secret location_work3_icon
 
   - name: !secret location_work4
     latitude: !secret latitude_work4
     longitude: !secret longitude_work4
     radius: 100
-    icon: mdi:rocket-launch-outline
+    icon: !secret location_work4_icon
 
   - name: !secret location_work_dad
     latitude: !secret latitude_work_dad
     longitude: !secret longitude_work_dad
     radius: 100
-    icon: mdi:antenna
+    icon: !secret location_work_dad_icon
 
   - name: !secret location_work_mom_1
     latitude: !secret latitude_work_mom_1
     longitude: !secret longitude_work_mom_1
     radius: 150
-    icon: mdi:school
+    icon: !secret location_work_mom_1_icon
 
   - name: !secret location_work_mom_2
     latitude: !secret latitude_work_mom_2
     longitude: !secret longitude_work_mom_2
     radius: 150
-    icon: mdi:school
+    icon: !secret location_work_mom_2_icon
 
   - name: !secret location_work_mom_3
     latitude: !secret latitude_work_mom_3
     longitude: !secret longitude_work_mom_3
     radius: 150
-    icon: mdi:school
+    icon: !secret location_work_mom_3_icon
 
   - name: !secret location_work_sh
     latitude: !secret latitude_work_sh
     longitude: !secret longitude_work_sh
     radius: 150
-    icon: mdi:police-badge
+    icon: !secret location_work_sh_icon
 
   - name: !secret location_misc_cl
     latitude: !secret latitude_misc_cl
     longitude: !secret longitude_misc_cl
     radius: 350
-    icon: mdi:campfire
+    icon: !secret location_misc_cl_icon
 
   - name: !secret location_church2
     latitude: !secret latitude_church2
     longitude: !secret longitude_church2
     radius: 100
-    icon: mdi:church
+    icon: !secret location_church2_icon
 
   - name: !secret location_church3
     latitude: !secret latitude_church3
     longitude: !secret longitude_church3
     radius: 75
-    icon: mdi:church
+    icon: !secret location_church3_icon
 
   - name: !secret location_church4
     latitude: !secret latitude_church4
     longitude: !secret longitude_church4
     radius: 75
-    icon: mdi:church
+    icon: !secret location_church4_icon
 
   - name: !secret location_dance
     latitude: !secret latitude_dance
     longitude: !secret longitude_dance
     radius: 50
-    icon: mdi:human-female-dance
+    icon: !secret location_dance_icon
 
 # W&W Clients
   - name: !secret location_ww_client_1
     latitude: !secret location_ww_client_1_latitude
     longitude: !secret location_ww_client_1_longitude
     radius: 100
-    icon: mdi:domain
+    icon: !secret location_ww_client_1_icon
 
   - name: !secret location_ww_client_2
     latitude: !secret location_ww_client_2_latitude
     longitude: !secret location_ww_client_2_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_ww_client_2_icon
     
   - name: !secret location_ww_client_4
     latitude: !secret location_ww_client_4_latitude
     longitude: !secret location_ww_client_4_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_ww_client_4_icon
 
   - name: !secret location_ww_apple_1
     latitude: !secret location_ww_apple_1_latitude
     longitude: !secret location_ww_apple_1_longitude
     radius: 75
-    icon: mdi:apple
+    icon: !secret location_ww_apple_1_icon
 
   - name: !secret location_ww_apple_2
     latitude: !secret location_ww_apple_2_latitude
     longitude: !secret location_ww_apple_2_longitude
     radius: 75
-    icon: mdi:apple
+    icon: !secret location_ww_apple_2_icon
 
 
 # Work
@@ -264,73 +264,73 @@
     latitude: !secret location_t1_latitude
     longitude: !secret location_t1_longitude
     radius: 75
-    icon: mdi:laptop
+    icon: !secret location_t1_icon
 
   - name: !secret location_t2
     latitude: !secret location_t2_latitude
     longitude: !secret location_t2_longitude
     radius: 75
-    icon: mdi:laptop
+    icon: !secret location_t2_icon
 
   - name: !secret location_t3
     latitude: !secret location_t3_latitude
     longitude: !secret location_t3_longitude
     radius: 75
-    icon: mdi:laptop
+    icon: !secret location_t3_icon
 
   - name: !secret location_t4
     latitude: !secret location_t4_latitude
     longitude: !secret location_t4_longitude
     radius: 75
-    icon: mdi:laptop
+    icon: !secret location_t4_icon
 
   - name: !secret location_t5
     latitude: !secret location_t5_latitude
     longitude: !secret location_t5_longitude
     radius: 75
-    icon: mdi:laptop
+    icon: !secret location_t5_icon
 
   - name: !secret location_t6
     latitude: !secret location_t6_latitude
     longitude: !secret location_t6_longitude
     radius: 75
-    icon: mdi:laptop
+    icon: !secret location_t6_icon
 
   - name: !secret location_t7
     latitude: !secret location_t7_latitude
     longitude: !secret location_t7_longitude
     radius: 75
-    icon: mdi:laptop
+    icon: !secret location_t7_icon
 
   - name: !secret location_t8
     latitude: !secret location_t8_latitude
     longitude: !secret location_t8_longitude
     radius: 75
-    icon: mdi:laptop
+    icon: !secret location_t8_icon
 
   - name: !secret location_t9
     latitude: !secret location_t9_latitude
     longitude: !secret location_t9_longitude
     radius: 75
-    icon: mdi:laptop
+    icon: !secret location_t9_icon
 
   - name: !secret location_t10
     latitude: !secret location_t10_latitude
     longitude: !secret location_t10_longitude
     radius: 75
-    icon: mdi:laptop
+    icon: !secret location_t10_icon
 
   - name: !secret location_c1
     latitude: !secret location_c1_latitude
     longitude: !secret location_c1_longitude
     radius: 75
-    icon: mdi:laptop
+    icon: !secret location_c1_icon
     
   - name: !secret location_c2
     latitude: !secret location_c2_latitude
     longitude: !secret location_c2_longitude
     radius: 75
-    icon: mdi:laptop
+    icon: !secret location_c2_icon
     
 ########################################################
 
@@ -338,73 +338,73 @@
     latitude: !secret location_hubspot4_latitude
     longitude: !secret location_hubspot4_longitude
     radius: 75
-    icon: mdi:church
+    icon: !secret location_hubspot4_icon
     
   - name: !secret location_hubspot5
     latitude: !secret location_hubspot5_latitude
     longitude: !secret location_hubspot5_longitude
     radius: 75
-    icon: mdi:church  
+    icon: !secret location_hubspot5_icon
 
   - name: !secret location_hubspot16
     latitude: !secret location_hubspot16_latitude
     longitude: !secret location_hubspot16_longitude
     radius: 75
-    icon: mdi:church    
+    icon: !secret location_hubspot16_icon
     
   - name: !secret location_hubspot17
     latitude: !secret location_hubspot17_latitude
     longitude: !secret location_hubspot17_longitude
     radius: 75
-    icon: mdi:church    
+    icon: !secret location_hubspot17_icon
     
   - name: !secret location_hubspot18
     latitude: !secret location_hubspot18_latitude
     longitude: !secret location_hubspot18_longitude
     radius: 75
-    icon: mdi:church    
+    icon: !secret location_hubspot18_icon
     
   - name: !secret location_hubspot25
     latitude: !secret location_hubspot25_latitude
     longitude: !secret location_hubspot25_longitude
     radius: 75
-    icon: mdi:church    
+    icon: !secret location_hubspot25_icon
 
   - name: !secret location_hubspot31
     latitude: !secret location_hubspot31_latitude
     longitude: !secret location_hubspot31_longitude
     radius: 75
-    icon: mdi:church
+    icon: !secret location_hubspot31_icon
     
   - name: !secret location_hubspot32
     latitude: !secret location_hubspot32_latitude
     longitude: !secret location_hubspot32_longitude
     radius: 75
-    icon: mdi:church    
+    icon: !secret location_hubspot32_icon
 
   - name: !secret location_hubspot49
     latitude: !secret location_hubspot49_latitude
     longitude: !secret location_hubspot49_longitude
     radius: 75
-    icon: mdi:church    
+    icon: !secret location_hubspot49_icon
 
   - name: !secret location_hubspot79
     latitude: !secret location_hubspot79_latitude
     longitude: !secret location_hubspot79_longitude
     radius: 75
-    icon: mdi:church    
+    icon: !secret location_hubspot79_icon
     
   - name: !secret location_hubspot80
     latitude: !secret location_hubspot80_latitude
     longitude: !secret location_hubspot80_longitude
     radius: 75
-    icon: mdi:church    
+    icon: !secret location_hubspot80_icon
     
   - name: !secret location_hubspot91
     latitude: !secret location_hubspot91_latitude
     longitude: !secret location_hubspot91_longitude
     radius: 75
-    icon: mdi:church    
+    icon: !secret location_hubspot91_icon
     
 ###############################################################
 
@@ -412,1140 +412,1140 @@
     latitude: !secret location_hubspot20_latitude
     longitude: !secret location_hubspot20_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot20_icon
     
   - name: !secret location_hubspot21
     latitude: !secret location_hubspot21_latitude
     longitude: !secret location_hubspot21_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot21_icon
     
   - name: !secret location_hubspot23
     latitude: !secret location_hubspot23_latitude
     longitude: !secret location_hubspot23_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot23_icon
     
   - name: !secret location_hubspot26
     latitude: !secret location_hubspot26_latitude
     longitude: !secret location_hubspot26_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot26_icon
     
   - name: !secret location_hubspot27
     latitude: !secret location_hubspot27_latitude
     longitude: !secret location_hubspot27_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot27_icon
     
   - name: !secret location_hubspot41
     latitude: !secret location_hubspot41_latitude
     longitude: !secret location_hubspot41_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot41_icon
     
   - name: !secret location_hubspot45
     latitude: !secret location_hubspot45_latitude
     longitude: !secret location_hubspot45_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot45_icon
     
   - name: !secret location_hubspot51
     latitude: !secret location_hubspot51_latitude
     longitude: !secret location_hubspot51_longitude
     radius: 75
-    icon: mdi:apple
+    icon: !secret location_hubspot51_icon
     
   - name: !secret location_hubspot44
     latitude: !secret location_hubspot44_latitude
     longitude: !secret location_hubspot44_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot44_icon
     
   - name: !secret location_hubspot34
     latitude: !secret location_hubspot34_latitude
     longitude: !secret location_hubspot34_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot34_icon
     
   - name: !secret location_hubspot52
     latitude: !secret location_hubspot52_latitude
     longitude: !secret location_hubspot52_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot52_icon
     
   - name: !secret location_hubspot54
     latitude: !secret location_hubspot54_latitude
     longitude: !secret location_hubspot54_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot54_icon
     
   - name: !secret location_hubspot56
     latitude: !secret location_hubspot56_latitude
     longitude: !secret location_hubspot56_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot56_icon
     
   - name: !secret location_hubspot60
     latitude: !secret location_hubspot60_latitude
     longitude: !secret location_hubspot60_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot60_icon
     
   - name: !secret location_hubspot62
     latitude: !secret location_hubspot62_latitude
     longitude: !secret location_hubspot62_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot62_icon
     
   - name: !secret location_hubspot63
     latitude: !secret location_hubspot63_latitude
     longitude: !secret location_hubspot63_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot63_icon
     
   - name: !secret location_hubspot68
     latitude: !secret location_hubspot68_latitude
     longitude: !secret location_hubspot68_longitude
     radius: 75
-    icon: mdi:bank
+    icon: !secret location_hubspot68_icon
     
   - name: !secret location_hubspot71
     latitude: !secret location_hubspot71_latitude
     longitude: !secret location_hubspot71_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot71_icon
     
   - name: !secret location_hubspot75
     latitude: !secret location_hubspot75_latitude
     longitude: !secret location_hubspot75_longitude
     radius: 75
-    icon: mdi:apple
+    icon: !secret location_hubspot75_icon
     
   - name: !secret location_hubspot78
     latitude: !secret location_hubspot78_latitude
     longitude: !secret location_hubspot78_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot78_icon
     
   - name: !secret location_hubspot81
     latitude: !secret location_hubspot81_latitude
     longitude: !secret location_hubspot81_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot81_icon
     
   - name: !secret location_hubspot86
     latitude: !secret location_hubspot86_latitude
     longitude: !secret location_hubspot86_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot86_icon
     
   - name: !secret location_hubspot89
     latitude: !secret location_hubspot89_latitude
     longitude: !secret location_hubspot89_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot89_icon
     
   - name: !secret location_hubspot96
     latitude: !secret location_hubspot96_latitude
     longitude: !secret location_hubspot96_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot96_icon
 
 # Additional Hubspot locations
   - name: !secret location_hubspot1
     latitude: !secret location_hubspot1_latitude
     longitude: !secret location_hubspot1_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot1_icon
 
   - name: !secret location_hubspot2
     latitude: !secret location_hubspot2_latitude
     longitude: !secret location_hubspot2_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot2_icon
 
   - name: !secret location_hubspot3
     latitude: !secret location_hubspot3_latitude
     longitude: !secret location_hubspot3_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot3_icon
 
   - name: !secret location_hubspot6
     latitude: !secret location_hubspot6_latitude
     longitude: !secret location_hubspot6_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot6_icon
 
   - name: !secret location_hubspot7
     latitude: !secret location_hubspot7_latitude
     longitude: !secret location_hubspot7_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot7_icon
 
   - name: !secret location_hubspot8
     latitude: !secret location_hubspot8_latitude
     longitude: !secret location_hubspot8_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot8_icon
 
   - name: !secret location_hubspot9
     latitude: !secret location_hubspot9_latitude
     longitude: !secret location_hubspot9_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot9_icon
 
   - name: !secret location_hubspot10
     latitude: !secret location_hubspot10_latitude
     longitude: !secret location_hubspot10_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot10_icon
 
   - name: !secret location_hubspot11
     latitude: !secret location_hubspot11_latitude
     longitude: !secret location_hubspot11_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot11_icon
 
   - name: !secret location_hubspot12
     latitude: !secret location_hubspot12_latitude
     longitude: !secret location_hubspot12_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot12_icon
 
   - name: !secret location_hubspot13
     latitude: !secret location_hubspot13_latitude
     longitude: !secret location_hubspot13_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot13_icon
 
   - name: !secret location_hubspot14
     latitude: !secret location_hubspot14_latitude
     longitude: !secret location_hubspot14_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot14_icon
 
   - name: !secret location_hubspot15
     latitude: !secret location_hubspot15_latitude
     longitude: !secret location_hubspot15_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot15_icon
 
   - name: !secret location_hubspot19
     latitude: !secret location_hubspot19_latitude
     longitude: !secret location_hubspot19_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot19_icon
 
   - name: !secret location_hubspot22
     latitude: !secret location_hubspot22_latitude
     longitude: !secret location_hubspot22_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot22_icon
 
   - name: !secret location_hubspot24
     latitude: !secret location_hubspot24_latitude
     longitude: !secret location_hubspot24_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot24_icon
 
   - name: !secret location_hubspot28
     latitude: !secret location_hubspot28_latitude
     longitude: !secret location_hubspot28_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot28_icon
 
   - name: !secret location_hubspot29
     latitude: !secret location_hubspot29_latitude
     longitude: !secret location_hubspot29_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot29_icon
 
   - name: !secret location_hubspot30
     latitude: !secret location_hubspot30_latitude
     longitude: !secret location_hubspot30_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot30_icon
 
   - name: !secret location_hubspot33
     latitude: !secret location_hubspot33_latitude
     longitude: !secret location_hubspot33_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot33_icon
 
   - name: !secret location_hubspot35
     latitude: !secret location_hubspot35_latitude
     longitude: !secret location_hubspot35_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot35_icon
 
   - name: !secret location_hubspot36
     latitude: !secret location_hubspot36_latitude
     longitude: !secret location_hubspot36_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot36_icon
 
   - name: !secret location_hubspot37
     latitude: !secret location_hubspot37_latitude
     longitude: !secret location_hubspot37_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot37_icon
 
   - name: !secret location_hubspot38
     latitude: !secret location_hubspot38_latitude
     longitude: !secret location_hubspot38_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot38_icon
 
   - name: !secret location_hubspot39
     latitude: !secret location_hubspot39_latitude
     longitude: !secret location_hubspot39_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot39_icon
 
   - name: !secret location_hubspot40
     latitude: !secret location_hubspot40_latitude
     longitude: !secret location_hubspot40_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot40_icon
 
   - name: !secret location_hubspot42
     latitude: !secret location_hubspot42_latitude
     longitude: !secret location_hubspot42_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot42_icon
 
   - name: !secret location_hubspot43
     latitude: !secret location_hubspot43_latitude
     longitude: !secret location_hubspot43_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot43_icon
 
   - name: !secret location_hubspot46
     latitude: !secret location_hubspot46_latitude
     longitude: !secret location_hubspot46_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot46_icon
 
   - name: !secret location_hubspot47
     latitude: !secret location_hubspot47_latitude
     longitude: !secret location_hubspot47_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot47_icon
 
   - name: !secret location_hubspot48
     latitude: !secret location_hubspot48_latitude
     longitude: !secret location_hubspot48_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot48_icon
 
   - name: !secret location_hubspot50
     latitude: !secret location_hubspot50_latitude
     longitude: !secret location_hubspot50_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot50_icon
 
   - name: !secret location_hubspot53
     latitude: !secret location_hubspot53_latitude
     longitude: !secret location_hubspot53_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot53_icon
 
   - name: !secret location_hubspot55
     latitude: !secret location_hubspot55_latitude
     longitude: !secret location_hubspot55_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot55_icon
 
   - name: !secret location_hubspot57
     latitude: !secret location_hubspot57_latitude
     longitude: !secret location_hubspot57_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot57_icon
 
   - name: !secret location_hubspot58
     latitude: !secret location_hubspot58_latitude
     longitude: !secret location_hubspot58_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot58_icon
 
   - name: !secret location_hubspot59
     latitude: !secret location_hubspot59_latitude
     longitude: !secret location_hubspot59_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot59_icon
 
   - name: !secret location_hubspot61
     latitude: !secret location_hubspot61_latitude
     longitude: !secret location_hubspot61_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot61_icon
 
   - name: !secret location_hubspot64
     latitude: !secret location_hubspot64_latitude
     longitude: !secret location_hubspot64_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot64_icon
 
   - name: !secret location_hubspot65
     latitude: !secret location_hubspot65_latitude
     longitude: !secret location_hubspot65_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot65_icon
 
   - name: !secret location_hubspot66
     latitude: !secret location_hubspot66_latitude
     longitude: !secret location_hubspot66_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot66_icon
 
   - name: !secret location_hubspot67
     latitude: !secret location_hubspot67_latitude
     longitude: !secret location_hubspot67_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot67_icon
 
   - name: !secret location_hubspot69
     latitude: !secret location_hubspot69_latitude
     longitude: !secret location_hubspot69_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot69_icon
 
   - name: !secret location_hubspot70
     latitude: !secret location_hubspot70_latitude
     longitude: !secret location_hubspot70_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot70_icon
 
   - name: !secret location_hubspot72
     latitude: !secret location_hubspot72_latitude
     longitude: !secret location_hubspot72_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot72_icon
 
   - name: !secret location_hubspot73
     latitude: !secret location_hubspot73_latitude
     longitude: !secret location_hubspot73_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot73_icon
 
   - name: !secret location_hubspot74
     latitude: !secret location_hubspot74_latitude
     longitude: !secret location_hubspot74_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot74_icon
 
   - name: !secret location_hubspot76
     latitude: !secret location_hubspot76_latitude
     longitude: !secret location_hubspot76_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot76_icon
 
   - name: !secret location_hubspot77
     latitude: !secret location_hubspot77_latitude
     longitude: !secret location_hubspot77_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot77_icon
 
   - name: !secret location_hubspot82
     latitude: !secret location_hubspot82_latitude
     longitude: !secret location_hubspot82_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot82_icon
 
   - name: !secret location_hubspot83
     latitude: !secret location_hubspot83_latitude
     longitude: !secret location_hubspot83_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot83_icon
 
   - name: !secret location_hubspot84
     latitude: !secret location_hubspot84_latitude
     longitude: !secret location_hubspot84_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot84_icon
 
   - name: !secret location_hubspot85
     latitude: !secret location_hubspot85_latitude
     longitude: !secret location_hubspot85_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot85_icon
 
   - name: !secret location_hubspot87
     latitude: !secret location_hubspot87_latitude
     longitude: !secret location_hubspot87_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot87_icon
 
   - name: !secret location_hubspot88
     latitude: !secret location_hubspot88_latitude
     longitude: !secret location_hubspot88_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot88_icon
 
   - name: !secret location_hubspot90
     latitude: !secret location_hubspot90_latitude
     longitude: !secret location_hubspot90_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot90_icon
 
   - name: !secret location_hubspot92
     latitude: !secret location_hubspot92_latitude
     longitude: !secret location_hubspot92_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot92_icon
 
   - name: !secret location_hubspot93
     latitude: !secret location_hubspot93_latitude
     longitude: !secret location_hubspot93_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot93_icon
 
   - name: !secret location_hubspot94
     latitude: !secret location_hubspot94_latitude
     longitude: !secret location_hubspot94_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot94_icon
 
   - name: !secret location_hubspot95
     latitude: !secret location_hubspot95_latitude
     longitude: !secret location_hubspot95_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot95_icon
 
   - name: !secret location_hubspot97
     latitude: !secret location_hubspot97_latitude
     longitude: !secret location_hubspot97_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot97_icon
 
   - name: !secret location_hubspot98
     latitude: !secret location_hubspot98_latitude
     longitude: !secret location_hubspot98_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot98_icon
 
   - name: !secret location_hubspot99
     latitude: !secret location_hubspot99_latitude
     longitude: !secret location_hubspot99_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot99_icon
 
   - name: !secret location_hubspot100
     latitude: !secret location_hubspot100_latitude
     longitude: !secret location_hubspot100_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot100_icon
 
   - name: !secret location_hubspot101
     latitude: !secret location_hubspot101_latitude
     longitude: !secret location_hubspot101_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot101_icon
 
   - name: !secret location_hubspot102
     latitude: !secret location_hubspot102_latitude
     longitude: !secret location_hubspot102_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot102_icon
 
   - name: !secret location_hubspot103
     latitude: !secret location_hubspot103_latitude
     longitude: !secret location_hubspot103_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot103_icon
 
   - name: !secret location_hubspot104
     latitude: !secret location_hubspot104_latitude
     longitude: !secret location_hubspot104_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot104_icon
 
   - name: !secret location_hubspot105
     latitude: !secret location_hubspot105_latitude
     longitude: !secret location_hubspot105_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot105_icon
 
   - name: !secret location_hubspot106
     latitude: !secret location_hubspot106_latitude
     longitude: !secret location_hubspot106_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot106_icon
 
   - name: !secret location_hubspot107
     latitude: !secret location_hubspot107_latitude
     longitude: !secret location_hubspot107_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot107_icon
 
   - name: !secret location_hubspot108
     latitude: !secret location_hubspot108_latitude
     longitude: !secret location_hubspot108_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot108_icon
 
   - name: !secret location_hubspot109
     latitude: !secret location_hubspot109_latitude
     longitude: !secret location_hubspot109_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot109_icon
 
   - name: !secret location_hubspot110
     latitude: !secret location_hubspot110_latitude
     longitude: !secret location_hubspot110_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot110_icon
 
   - name: !secret location_hubspot111
     latitude: !secret location_hubspot111_latitude
     longitude: !secret location_hubspot111_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot111_icon
 
   - name: !secret location_hubspot112
     latitude: !secret location_hubspot112_latitude
     longitude: !secret location_hubspot112_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot112_icon
 
   - name: !secret location_hubspot113
     latitude: !secret location_hubspot113_latitude
     longitude: !secret location_hubspot113_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot113_icon
 
   - name: !secret location_hubspot114
     latitude: !secret location_hubspot114_latitude
     longitude: !secret location_hubspot114_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot114_icon
 
   - name: !secret location_hubspot115
     latitude: !secret location_hubspot115_latitude
     longitude: !secret location_hubspot115_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot115_icon
 
   - name: !secret location_hubspot116
     latitude: !secret location_hubspot116_latitude
     longitude: !secret location_hubspot116_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot116_icon
 
   - name: !secret location_hubspot117
     latitude: !secret location_hubspot117_latitude
     longitude: !secret location_hubspot117_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot117_icon
 
   - name: !secret location_hubspot118
     latitude: !secret location_hubspot118_latitude
     longitude: !secret location_hubspot118_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot118_icon
 
   - name: !secret location_hubspot119
     latitude: !secret location_hubspot119_latitude
     longitude: !secret location_hubspot119_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot119_icon
 
   - name: !secret location_hubspot120
     latitude: !secret location_hubspot120_latitude
     longitude: !secret location_hubspot120_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot120_icon
 
   - name: !secret location_hubspot121
     latitude: !secret location_hubspot121_latitude
     longitude: !secret location_hubspot121_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot121_icon
 
   - name: !secret location_hubspot122
     latitude: !secret location_hubspot122_latitude
     longitude: !secret location_hubspot122_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot122_icon
 
   - name: !secret location_hubspot123
     latitude: !secret location_hubspot123_latitude
     longitude: !secret location_hubspot123_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot123_icon
 
   - name: !secret location_hubspot124
     latitude: !secret location_hubspot124_latitude
     longitude: !secret location_hubspot124_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot124_icon
 
   - name: !secret location_hubspot125
     latitude: !secret location_hubspot125_latitude
     longitude: !secret location_hubspot125_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot125_icon
 
   - name: !secret location_hubspot126
     latitude: !secret location_hubspot126_latitude
     longitude: !secret location_hubspot126_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot126_icon
 
   - name: !secret location_hubspot127
     latitude: !secret location_hubspot127_latitude
     longitude: !secret location_hubspot127_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot127_icon
 
   - name: !secret location_hubspot128
     latitude: !secret location_hubspot128_latitude
     longitude: !secret location_hubspot128_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot128_icon
 
   - name: !secret location_hubspot129
     latitude: !secret location_hubspot129_latitude
     longitude: !secret location_hubspot129_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot129_icon
 
   - name: !secret location_hubspot130
     latitude: !secret location_hubspot130_latitude
     longitude: !secret location_hubspot130_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot130_icon
 
   - name: !secret location_hubspot131
     latitude: !secret location_hubspot131_latitude
     longitude: !secret location_hubspot131_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot131_icon
 
   - name: !secret location_hubspot132
     latitude: !secret location_hubspot132_latitude
     longitude: !secret location_hubspot132_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot132_icon
 
   - name: !secret location_hubspot133
     latitude: !secret location_hubspot133_latitude
     longitude: !secret location_hubspot133_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot133_icon
 
   - name: !secret location_hubspot134
     latitude: !secret location_hubspot134_latitude
     longitude: !secret location_hubspot134_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot134_icon
 
   - name: !secret location_hubspot135
     latitude: !secret location_hubspot135_latitude
     longitude: !secret location_hubspot135_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot135_icon
 
   - name: !secret location_hubspot136
     latitude: !secret location_hubspot136_latitude
     longitude: !secret location_hubspot136_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot136_icon
 
   - name: !secret location_hubspot137
     latitude: !secret location_hubspot137_latitude
     longitude: !secret location_hubspot137_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot137_icon
 
   - name: !secret location_hubspot138
     latitude: !secret location_hubspot138_latitude
     longitude: !secret location_hubspot138_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot138_icon
 
   - name: !secret location_hubspot139
     latitude: !secret location_hubspot139_latitude
     longitude: !secret location_hubspot139_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot139_icon
 
   - name: !secret location_hubspot140
     latitude: !secret location_hubspot140_latitude
     longitude: !secret location_hubspot140_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot140_icon
 
   - name: !secret location_hubspot141
     latitude: !secret location_hubspot141_latitude
     longitude: !secret location_hubspot141_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot141_icon
 
   - name: !secret location_hubspot142
     latitude: !secret location_hubspot142_latitude
     longitude: !secret location_hubspot142_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot142_icon
 
   - name: !secret location_hubspot143
     latitude: !secret location_hubspot143_latitude
     longitude: !secret location_hubspot143_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot143_icon
 
   - name: !secret location_hubspot144
     latitude: !secret location_hubspot144_latitude
     longitude: !secret location_hubspot144_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot144_icon
 
   - name: !secret location_hubspot145
     latitude: !secret location_hubspot145_latitude
     longitude: !secret location_hubspot145_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot145_icon
 
   - name: !secret location_hubspot146
     latitude: !secret location_hubspot146_latitude
     longitude: !secret location_hubspot146_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot146_icon
 
   - name: !secret location_hubspot147
     latitude: !secret location_hubspot147_latitude
     longitude: !secret location_hubspot147_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot147_icon
 
   - name: !secret location_hubspot148
     latitude: !secret location_hubspot148_latitude
     longitude: !secret location_hubspot148_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot148_icon
 
   - name: !secret location_hubspot149
     latitude: !secret location_hubspot149_latitude
     longitude: !secret location_hubspot149_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot149_icon
 
   - name: !secret location_hubspot150
     latitude: !secret location_hubspot150_latitude
     longitude: !secret location_hubspot150_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot150_icon
 
   - name: !secret location_hubspot151
     latitude: !secret location_hubspot151_latitude
     longitude: !secret location_hubspot151_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot151_icon
 
   - name: !secret location_hubspot152
     latitude: !secret location_hubspot152_latitude
     longitude: !secret location_hubspot152_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot152_icon
 
   - name: !secret location_hubspot153
     latitude: !secret location_hubspot153_latitude
     longitude: !secret location_hubspot153_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot153_icon
 
   - name: !secret location_hubspot154
     latitude: !secret location_hubspot154_latitude
     longitude: !secret location_hubspot154_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot154_icon
 
   - name: !secret location_hubspot155
     latitude: !secret location_hubspot155_latitude
     longitude: !secret location_hubspot155_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot155_icon
 
   - name: !secret location_hubspot156
     latitude: !secret location_hubspot156_latitude
     longitude: !secret location_hubspot156_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot156_icon
 
   - name: !secret location_hubspot157
     latitude: !secret location_hubspot157_latitude
     longitude: !secret location_hubspot157_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot157_icon
 
   - name: !secret location_hubspot158
     latitude: !secret location_hubspot158_latitude
     longitude: !secret location_hubspot158_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot158_icon
 
   - name: !secret location_hubspot159
     latitude: !secret location_hubspot159_latitude
     longitude: !secret location_hubspot159_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot159_icon
 
   - name: !secret location_hubspot160
     latitude: !secret location_hubspot160_latitude
     longitude: !secret location_hubspot160_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot160_icon
 
   - name: !secret location_hubspot161
     latitude: !secret location_hubspot161_latitude
     longitude: !secret location_hubspot161_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot161_icon
 
   - name: !secret location_hubspot162
     latitude: !secret location_hubspot162_latitude
     longitude: !secret location_hubspot162_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot162_icon
 
   - name: !secret location_hubspot163
     latitude: !secret location_hubspot163_latitude
     longitude: !secret location_hubspot163_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot163_icon
 
   - name: !secret location_hubspot164
     latitude: !secret location_hubspot164_latitude
     longitude: !secret location_hubspot164_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot164_icon
 
   - name: !secret location_hubspot165
     latitude: !secret location_hubspot165_latitude
     longitude: !secret location_hubspot165_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot165_icon
 
   - name: !secret location_hubspot166
     latitude: !secret location_hubspot166_latitude
     longitude: !secret location_hubspot166_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot166_icon
 
   - name: !secret location_hubspot167
     latitude: !secret location_hubspot167_latitude
     longitude: !secret location_hubspot167_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot167_icon
 
   - name: !secret location_hubspot168
     latitude: !secret location_hubspot168_latitude
     longitude: !secret location_hubspot168_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot168_icon
 
   - name: !secret location_hubspot169
     latitude: !secret location_hubspot169_latitude
     longitude: !secret location_hubspot169_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot169_icon
 
   - name: !secret location_hubspot170
     latitude: !secret location_hubspot170_latitude
     longitude: !secret location_hubspot170_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot170_icon
 
   - name: !secret location_hubspot171
     latitude: !secret location_hubspot171_latitude
     longitude: !secret location_hubspot171_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot171_icon
 
   - name: !secret location_hubspot172
     latitude: !secret location_hubspot172_latitude
     longitude: !secret location_hubspot172_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot172_icon
 
   - name: !secret location_hubspot173
     latitude: !secret location_hubspot173_latitude
     longitude: !secret location_hubspot173_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot173_icon
 
   - name: !secret location_hubspot174
     latitude: !secret location_hubspot174_latitude
     longitude: !secret location_hubspot174_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot174_icon
 
   - name: !secret location_hubspot175
     latitude: !secret location_hubspot175_latitude
     longitude: !secret location_hubspot175_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot175_icon
 
   - name: !secret location_hubspot176
     latitude: !secret location_hubspot176_latitude
     longitude: !secret location_hubspot176_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot176_icon
 
   - name: !secret location_hubspot177
     latitude: !secret location_hubspot177_latitude
     longitude: !secret location_hubspot177_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot177_icon
 
   - name: !secret location_hubspot178
     latitude: !secret location_hubspot178_latitude
     longitude: !secret location_hubspot178_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot178_icon
 
   - name: !secret location_hubspot179
     latitude: !secret location_hubspot179_latitude
     longitude: !secret location_hubspot179_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot179_icon
 
   - name: !secret location_hubspot180
     latitude: !secret location_hubspot180_latitude
     longitude: !secret location_hubspot180_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot180_icon
 
   - name: !secret location_hubspot181
     latitude: !secret location_hubspot181_latitude
     longitude: !secret location_hubspot181_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot181_icon
 
   - name: !secret location_hubspot182
     latitude: !secret location_hubspot182_latitude
     longitude: !secret location_hubspot182_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot182_icon
 
   - name: !secret location_hubspot183
     latitude: !secret location_hubspot183_latitude
     longitude: !secret location_hubspot183_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot183_icon
 
   - name: !secret location_hubspot184
     latitude: !secret location_hubspot184_latitude
     longitude: !secret location_hubspot184_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot184_icon
 
   - name: !secret location_hubspot185
     latitude: !secret location_hubspot185_latitude
     longitude: !secret location_hubspot185_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot185_icon
 
   - name: !secret location_hubspot186
     latitude: !secret location_hubspot186_latitude
     longitude: !secret location_hubspot186_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot186_icon
 
   - name: !secret location_hubspot187
     latitude: !secret location_hubspot187_latitude
     longitude: !secret location_hubspot187_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot187_icon
 
   - name: !secret location_hubspot188
     latitude: !secret location_hubspot188_latitude
     longitude: !secret location_hubspot188_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot188_icon
 
   - name: !secret location_hubspot189
     latitude: !secret location_hubspot189_latitude
     longitude: !secret location_hubspot189_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot189_icon
 
   - name: !secret location_hubspot190
     latitude: !secret location_hubspot190_latitude
     longitude: !secret location_hubspot190_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot190_icon
 
   - name: !secret location_hubspot191
     latitude: !secret location_hubspot191_latitude
     longitude: !secret location_hubspot191_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot191_icon
 
   - name: !secret location_hubspot192
     latitude: !secret location_hubspot192_latitude
     longitude: !secret location_hubspot192_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot192_icon
 
   - name: !secret location_hubspot193
     latitude: !secret location_hubspot193_latitude
     longitude: !secret location_hubspot193_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot193_icon
 
   - name: !secret location_hubspot194
     latitude: !secret location_hubspot194_latitude
     longitude: !secret location_hubspot194_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot194_icon
 
   - name: !secret location_hubspot195
     latitude: !secret location_hubspot195_latitude
     longitude: !secret location_hubspot195_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot195_icon
 
   - name: !secret location_hubspot196
     latitude: !secret location_hubspot196_latitude
     longitude: !secret location_hubspot196_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot196_icon
 
   - name: !secret location_hubspot197
     latitude: !secret location_hubspot197_latitude
     longitude: !secret location_hubspot197_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot197_icon
 
   - name: !secret location_hubspot198
     latitude: !secret location_hubspot198_latitude
     longitude: !secret location_hubspot198_longitude
     radius: 75
-    icon: mdi:domain
+    icon: !secret location_hubspot198_icon
 
 # Airports
   - name: !secret location_airport_cvg
     latitude: !secret location_airport_cvg_latitude
     longitude: !secret location_airport_cvg_longitude
     radius: 1500
-    icon: mdi:airplane
+    icon: !secret location_airport_cvg_icon
 
   - name: !secret location_airport_day
     latitude: !secret location_airport_day_latitude
     longitude: !secret location_airport_day_longitude
     radius: 1500
-    icon: mdi:airplane
+    icon: !secret location_airport_day_icon
 
   - name: !secret location_airport_ewr
     latitude: !secret location_airport_ewr_latitude
     longitude: !secret location_airport_ewr_longitude
     radius: 1500
-    icon: mdi:airplane
+    icon: !secret location_airport_ewr_icon
 
   - name: !secret location_airport_lga
     latitude: !secret location_airport_lga_latitude
     longitude: !secret location_airport_lga_longitude
     radius: 1500
-    icon: mdi:airplane
+    icon: !secret location_airport_lga_icon
