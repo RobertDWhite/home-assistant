@@ -159,9 +159,9 @@
 - id: master_bath_strip_follows_lights
   alias: Master Bath - lightstrip on (purple) whenever another bath light is on
   description: >-
-    The Hue lightstrip (light.hue_lightstrip_plus_4) turns on in purple when any other master bath light comes
-    on (Lutron main / vanity / shower, Hue downlight 4, Hue shower downlight), and turns off once all of them
-    are off.
+    The Hue lightstrip (light.hue_lightstrip_plus_4) turns on when any other master bath light comes on (Lutron
+    main / vanity / shower, Hue downlight 4, Hue shower downlight), and turns off once all of them are off.
+    Purple while switch.circadian_lighting_circadian_master_bathroom_accent is off; circadian colour when it is on.
   mode: queued
   max: 10
   triggers:
@@ -189,13 +189,25 @@
               entity_id: light.hue_lightstrip_plus_4
               state: "off"
           sequence:
-            - action: light.turn_on
-              target:
-                entity_id: light.hue_lightstrip_plus_4
-              data:
-                hs_color: [275, 100]
-                brightness_pct: 60
-                transition: 1
+            - if:
+                - alias: Circadian Master Bathroom Accent is on - let circadian set the colour
+                  condition: state
+                  entity_id: switch.circadian_lighting_circadian_master_bathroom_accent
+                  state: "on"
+              then:
+                - action: light.turn_on
+                  target:
+                    entity_id: light.hue_lightstrip_plus_4
+                  data:
+                    transition: 1
+              else:
+                - action: light.turn_on
+                  target:
+                    entity_id: light.hue_lightstrip_plus_4
+                  data:
+                    hs_color: [275, 100]
+                    brightness_pct: 60
+                    transition: 1
         - conditions:
             - condition: trigger
               id: light_off

@@ -296,8 +296,16 @@
     lights_ct:
       - light.hue_ambiance_downlight_4_4
       - light.hue_ambiance_downlight_5_2
-      # light.hue_lightstrip_plus_4 removed 2026-10-11: the strip shows purple whenever another bath light is
-      # on (master_bath_strip_follows_lights) and circadian was repainting it white every 10 minutes.
+      # light.hue_lightstrip_plus_4 moved to Circadian Master Bathroom Accent (below) 2026-10-11.
+
+# Master Bathroom Accent
+# Lightstrip. While this switch is OFF the strip shows purple whenever another bath light is on
+# (master_bath_strip_follows_lights); while it is ON circadian sets the strip's colour temperature.
+  - platform: circadian_lighting
+    min_brightness: 1
+    name: Circadian Master Bathroom Accent
+    lights_ct:
+      - light.hue_lightstrip_plus_4
 
 # Upstairs Bathroom
   - platform: circadian_lighting
