@@ -56,7 +56,8 @@
   alias: Lutron - evening off at 01:11
   description: >-
     Was the Lutron "Evening Off" schedule: turns off every Caseta load except the outside floods.
-    Overlaps the existing 01:00 garage/utility/rec room rule in lighting.yaml (harmless).
+    The single nightly shutoff: it replaced the separate 01:00 garage/utility/rec room rule
+    (utility_lights_left_on_overnight), which these same loads already covered.
   mode: single
   triggers:
     - trigger: time
