@@ -315,6 +315,18 @@ homekit:
      - camera.*_resolution_channel_[0-9]*
      - camera.*_package_camera
      - camera.*_insecure
+     # Back under the 150-accessory cap: vacuum option switches/buttons, Hue scene-sync buttons and
+     # server/monitoring toggles are not useful in Apple Home (the vacuums themselves stay).
+     - switch.x50_ultra_*
+     - binary_sensor.x50_ultra_*
+     - button.x50_ultra_*
+     - button.full_sync
+     - button.remove_circadian_scenes
+     - button.rebuild_circadian_scenes
+     - binary_sensor.fr24_feeder_*
+     - switch.flightradar24_most_tracked
+     - switch.qbittorrent_alternative_speed
+     - binary_sensor.10_100_5_77
 
 influxdb:
   host: !secret host_influx
