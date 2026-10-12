@@ -1,0 +1,81 @@
+# Carnival (Kia Connect): lock it overnight if it was left unlocked.
+- id: carnival_auto_lock_night
+  alias: Carnival - auto lock at night
+  description: >-
+    At 22:00, locks the Carnival if it is unlocked; overnight (22:00-05:00) it also locks it once it has been
+    unlocked for 15 minutes. Skips while the engine is running or a door/trunk/hood is open (notifies instead).
+    Kia Connect is a cloud API polled every ~30 min, so the lock state can lag; the command forces an update.
+    Notifies Robert's and Emily's phones with the result.
+  mode: single
+  triggers:
+    - trigger: time
+      at: "22:00:00"
+      id: ten_pm
+    - trigger: state
+      entity_id: lock.my_carnival_hybrid_door_lock
+      to: unlocked
+      for:
+        minutes: 15
+      id: night_unlocked_15_min
+  conditions:
+    - condition: state
+      entity_id: lock.my_carnival_hybrid_door_lock
+      state: unlocked
+    - alias: The 15-minute trigger only counts overnight (22:00-05:00)
+      condition: or
+      conditions:
+        - condition: trigger
+          id: ten_pm
+        - condition: time
+          after: "22:00:00"
+          before: "05:00:00"
+    - alias: Not being driven
+      condition: state
+      entity_id: binary_sensor.my_carnival_hybrid_engine
+      state: "off"
+  actions:
+    - variables:
+        open_parts: >-
+          {{ expand('binary_sensor.my_carnival_hybrid_front_left_door', 'binary_sensor.my_carnival_hybrid_front_right_door',
+                    'binary_sensor.my_carnival_hybrid_back_left_door', 'binary_sensor.my_carnival_hybrid_back_right_door',
+                    'binary_sensor.my_carnival_hybrid_trunk', 'binary_sensor.my_carnival_hybrid_hood')
+             | selectattr('state', 'eq', 'on')
+             | map(attribute='name') | map('replace', 'My CARNIVAL HYBRID ', '') | list }}
+    - if:
+        - alias: All doors, trunk and hood closed
+          condition: template
+          value_template: "{{ open_parts | count == 0 }}"
+      then:
+        - action: lock.lock
+          target:
+            entity_id: lock.my_carnival_hybrid_door_lock
+        - wait_for_trigger:
+            - trigger: state
+              entity_id: lock.my_carnival_hybrid_door_lock
+              to: locked
+          timeout:
+            minutes: 3
+          continue_on_timeout: true
+    - variables:
+        title: >-
+          {{ 'Carnival NOT locked' if open_parts | count > 0
+             else 'Carnival locked' if is_state('lock.my_carnival_hybrid_door_lock', 'locked')
+             else 'Carnival lock not confirmed' }}
+        message: >-
+          {% if open_parts | count > 0 %}The Carnival is unlocked but was not locked because something is open: {{ open_parts | join(', ') | lower }}.
+          {%- elif is_state('lock.my_carnival_hybrid_door_lock', 'locked') %}The Carnival was left unlocked, so it was locked automatically.
+          {%- else %}The Carnival was left unlocked. A lock command was sent, but Kia Connect has not confirmed it after 3 minutes.{% endif %}
+    - alias: Notify Robert and Emily
+      parallel:
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: "{{ title }}"
+            message: "{{ message }}"
+            data:
+              tag: carnival_auto_lock
+        - action: notify.mobile_app_iphone_emily
+          data:
+            title: "{{ title }}"
+            message: "{{ message }}"
+            data:
+              tag: carnival_auto_lock

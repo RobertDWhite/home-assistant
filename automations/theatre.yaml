@@ -80,6 +80,66 @@
                   - switch.circadian_lighting_circadian_basement_staircase
                   - switch.circadian_lighting_circadian_bar
 
+- id: theatre_lights_off_no_motion
+  alias: Theatre - lights off after 30 min with no motion
+  description: >-
+    Turns the Hue theatre lights off when the Theatre MotionAware area (binary_sensor.theatre_theatre,
+    Hue lights used as motion sensors) has seen no motion for 30 minutes, unless the TV is in use
+    (Denon AVR on, or the Theatre Apple TV playing/paused): people sit still during a movie. Also
+    catches lights left on in an empty room, and a movie that ended with nobody moving afterwards.
+    Does nothing while the motion area is unknown/unavailable. The basement accents follow the
+    theatre lights off via basement_accents_follow_downstairs.
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.theatre_theatre
+      to: "off"
+      for:
+        minutes: 30
+    - trigger: state
+      entity_id: light.theatre
+      to: "on"
+      for:
+        minutes: 30
+    - trigger: state
+      entity_id: media_player.denon_avr_x4700h
+      to: "off"
+      for:
+        minutes: 30
+    - trigger: state
+      entity_id: media_player.theatre_theatre
+      to: ["off", idle, standby]
+      for:
+        minutes: 30
+  conditions:
+    - alias: No motion for 30 minutes (and the motion area is actually reporting)
+      condition: state
+      entity_id: binary_sensor.theatre_theatre
+      state: "off"
+      for:
+        minutes: 30
+    - alias: TV not in use (Denon AVR off/unavailable)
+      condition: not
+      conditions:
+        - condition: state
+          entity_id: media_player.denon_avr_x4700h
+          state: ["on", playing, paused, idle]
+    - alias: TV not in use (Apple TV not playing)
+      condition: not
+      conditions:
+        - condition: state
+          entity_id: media_player.theatre_theatre
+          state: [playing, paused]
+    - condition: state
+      entity_id: light.theatre
+      state: "on"
+  actions:
+    - action: light.turn_off
+      target:
+        entity_id: light.theatre
+      data:
+        transition: 5
+
 - id: basement_accents_follow_downstairs
   alias: Basement - accent lights follow the theatre/bar lights (purple/blue)
   description: >-
