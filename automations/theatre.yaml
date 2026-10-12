@@ -2,8 +2,8 @@
 - id: theatre_movie_mode
   alias: Theatre - movie mode
   description: >-
-    When the Theatre Denon AVR powers on, disable the theatre circadian switches and set the Hue theatre
-    and bar lights to a dim cinema red. When the AVR powers off, restore a normal level, then re-enable circadian 10 s later.
+    When the Theatre Denon AVR powers on, disable the theatre circadian switches and set the Hue theatre,
+    bar and Music / Play lights to a dim cinema red. When the AVR powers off, restore a normal level, then re-enable circadian 10 s later.
     2026-10-11: the AVR drops to "unavailable" and back several times a week (03:33, 00:44 ...). The old
     triggers (from: off / to: off) treated off->unavailable as "start" and unavailable->off as "end", and the
     end branch turns the lights ON at 55%, so the basement lit up overnight and stayed on 20+ hours. Now:
@@ -38,11 +38,13 @@
                   # by the Basement Staircase circadian switch, which would repaint it bright white.
                   - switch.circadian_lighting_circadian_basement_staircase
                   - switch.circadian_lighting_circadian_bar
+                  - switch.circadian_lighting_circadian_music_and_play
             - action: light.turn_on
               target:
                 entity_id:
                   - light.theatre
                   - light.bar   # basement bar joins the red scene
+                  - light.music_play   # so does the Music / Play room
                   - light.basement_accent   # accent spot + fireplace join the red scene too
               data:
                 brightness_pct: 8
@@ -64,6 +66,7 @@
                 entity_id:
                   - light.theatre
                   - light.bar   # basement bar joins the red scene
+                  - light.music_play
               data:
                 color_temp_kelvin: 2900
                 brightness_pct: 55
@@ -79,6 +82,7 @@
                   - switch.circadian_lighting_circadian_theatre_hall
                   - switch.circadian_lighting_circadian_basement_staircase
                   - switch.circadian_lighting_circadian_bar
+                  - switch.circadian_lighting_circadian_music_and_play
 
 - id: theatre_lights_off_no_motion
   alias: Theatre - lights off after 30 min with no motion
