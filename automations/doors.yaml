@@ -365,3 +365,38 @@
             - action: input_boolean.turn_on
               target:
                 entity_id: input_boolean.door_notifications
+
+- id: alarm_auto_arm_midnight
+  alias: Alarm - auto arm (home) at midnight
+  description: >-
+    Arms Alarmo in Home mode at 00:00 if it is still disarmed (an Away arm is left alone). If a door is
+    open Alarmo refuses and alarm_failed_to_arm sends the phone alert. Disarmed again at 08:00.
+  mode: single
+  triggers:
+    - trigger: time
+      at: "00:00:00"
+  conditions:
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: disarmed
+  actions:
+    - action: alarm_control_panel.alarm_arm_home
+      target:
+        entity_id: alarm_control_panel.alarmo
+
+- id: alarm_auto_disarm_morning
+  alias: Alarm - auto disarm at 08:00
+  description: >-
+    Disarms Alarmo at 08:00 when it is in Home mode (the overnight arm). Away mode is left armed.
+  mode: single
+  triggers:
+    - trigger: time
+      at: "08:00:00"
+  conditions:
+    - condition: state
+      entity_id: alarm_control_panel.alarmo
+      state: armed_home
+  actions:
+    - action: alarm_control_panel.alarm_disarm
+      target:
+        entity_id: alarm_control_panel.alarmo

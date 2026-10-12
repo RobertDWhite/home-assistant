@@ -1,0 +1,10 @@
+# Exposed to Apple Home through the HomeKit bridge (scripts show up as switches) so the
+# "Disable the Alarm System" HomeKit scene / Siri phrase can disarm Alarmo.
+alarm_disarm:
+  alias: Disarm the alarm system
+  icon: mdi:shield-off
+  mode: single
+  sequence:
+    - action: alarm_control_panel.alarm_disarm
+      target:
+        entity_id: alarm_control_panel.alarmo
