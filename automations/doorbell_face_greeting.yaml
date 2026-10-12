@@ -44,7 +44,7 @@
           image_url: https://homeassistant.internal.white.fm/local/doorbell/person.jpg?t={{ now().timestamp() | int }}
         response_variable: recognition
       - variables:
-          faces_found: '{{ (recognition.content.counts.person | default(0)) | int(0) }}'
+          faces_found: '{{ ((recognition.content.counts | default({})).person | default(0)) | int(0) }}'
       - if:
         - condition: template
           value_template: '{{ faces_found == 0 and repeat.index < 3 }}'
@@ -175,7 +175,7 @@
     - alias: No face in the ring frame? grab one more fresh frame and retry once
       if:
       - condition: template
-        value_template: '{{ ((recognition.content.counts.person | default(0)) | int(0)) == 0 }}'
+        value_template: '{{ (((recognition.content.counts | default({})).person | default(0)) | int(0)) == 0 }}'
       then:
       - delay:
           milliseconds: 1500
