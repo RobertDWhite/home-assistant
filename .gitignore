@@ -44,3 +44,8 @@ dashboards/
 # ha-lock: versioned inventory of core / HACS / add-on versions (see README)
 !ha-lock.json
 !ha-lock.sh
+
+# custom_templates/: shared Jinja macros (imported by template entities)
+!/custom_templates
+!custom_templates
+!custom_templates/*.jinja

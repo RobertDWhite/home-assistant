@@ -1,0 +1,33 @@
+# Readable NWS alert for badges/cards, built from the weatheralerts integration (macros in
+# custom_templates/nws_alerts.jinja). State: the alert name(s), most severe first, or "None".
+# Attributes carry severity, expiry, headline, description and instructions for the more-info
+# dialog. Unlike the REST sensors in sensor/weather.yaml it does not drop to "unknown" whenever
+# api.weather.gov hiccups. (Needs attributes, which the Template Helper UI cannot set.)
+
+- sensor:
+    - name: "Weather alert"
+      unique_id: nws_weather_alert_readable
+      availability: >-
+        {{ has_value('sensor.weatheralerts_butler_ohz070_ohc017')
+           or has_value('sensor.weatheralerts_warren_ohz071_ohc165') }}
+      state: >-
+        {% from 'nws_alerts.jinja' import label %}{{ label() | trim }}
+      icon: >-
+        {% from 'nws_alerts.jinja' import top %}
+        {{ {'Extreme': 'mdi:alert-octagon', 'Severe': 'mdi:alert', 'Moderate': 'mdi:weather-cloudy-alert',
+            'Minor': 'mdi:information-outline'}.get(top('severity') | trim, 'mdi:weather-partly-cloudy') }}
+      attributes:
+        count: >-
+          {% from 'nws_alerts.jinja' import alerts_json %}{{ alerts_json() | from_json | count }}
+        severity: >-
+          {% from 'nws_alerts.jinja' import top %}{{ top('severity') | trim }}
+        expires: >-
+          {% from 'nws_alerts.jinja' import top %}
+          {% set t = (top('ends') | trim) or (top('expires') | trim) %}
+          {{ as_datetime(t).strftime('%a %-I:%M %p') if t else '' }}
+        headline: >-
+          {% from 'nws_alerts.jinja' import top %}{{ (top('NWSheadline') | trim) or (top('title') | trim) }}
+        description: >-
+          {% from 'nws_alerts.jinja' import top %}{{ (top('description') | trim)[:1500] }}
+        instruction: >-
+          {% from 'nws_alerts.jinja' import top %}{{ (top('instruction') | trim)[:800] }}

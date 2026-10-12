@@ -1,0 +1,33 @@
+{#- NWS alerts from the weatheralerts integration (Butler + Warren zones), deduplicated by alert id.
+    Used by template/weather_alerts.yaml. -#}
+{%- set _sources = ['sensor.weatheralerts_butler_ohz070_ohc017', 'sensor.weatheralerts_warren_ohz071_ohc165'] -%}
+{%- set _rank = {'Extreme': 4, 'Severe': 3, 'Moderate': 2, 'Minor': 1} -%}
+
+{#- All active alerts, most severe first, as JSON (use: alerts_json() | from_json). -#}
+{%- macro alerts_json() -%}
+  {%- set ns = namespace(alerts=[], seen=[]) -%}
+  {%- for e in _sources -%}
+    {%- for a in state_attr(e, 'alerts') or [] -%}
+      {%- if a.id not in ns.seen -%}
+        {%- set ns.seen = ns.seen + [a.id] -%}
+        {%- set ns.alerts = ns.alerts + [dict(a, rank=_rank.get(a.severity, 0))] -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+  {{ ns.alerts | sort(attribute='rank', reverse=true) | to_json }}
+{%- endmacro -%}
+
+{#- One field of the most severe alert, or '' when there is none. -#}
+{%- macro top(field) -%}
+  {%- set a = alerts_json() | from_json -%}
+  {{ (a[0][field] or '') if a else '' }}
+{%- endmacro -%}
+
+{#- Short label for badges: "Special Weather Statement", "Tornado Warning + 1 more", or "None". -#}
+{%- macro label() -%}
+  {%- set events = (alerts_json() | from_json) | map(attribute='event') | unique | list -%}
+  {%- if not events -%}None
+  {%- elif events | count == 1 -%}{{ events[0] }}
+  {%- else -%}{{ events[0] }} + {{ events | count - 1 }} more
+  {%- endif -%}
+{%- endmacro -%}
