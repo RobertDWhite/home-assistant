@@ -54,7 +54,7 @@
   mode: parallel
 
 # Kids' rooms: Hue room lights off after 30 min with no motion on the room's UniFi camera.
-# Any camera motion restarts the 30 minutes. Hatch lights are separate entities and are not touched.
+# Any camera motion restarts the 30 minutes; an offline camera counts as no motion. Hatch lights are separate entities and are not touched.
 
 - id: annies_room_lights_off_no_motion
   alias: Annie’s Room - Hue lights off after 30 min with no camera motion
@@ -62,7 +62,7 @@
   triggers:
     - trigger: state
       entity_id: binary_sensor.g3_instant_motion_2
-      to: "off"
+      to: ["off", unavailable, unknown]
       for:
         minutes: 30
     - trigger: state
@@ -71,10 +71,10 @@
       for:
         minutes: 30
   conditions:
-    - alias: No camera motion for 30 minutes (and the camera is reporting)
+    - alias: No camera motion for 30 minutes (an offline camera counts as no motion)
       condition: state
       entity_id: binary_sensor.g3_instant_motion_2
-      state: "off"
+      state: ["off", unavailable, unknown]
       for:
         minutes: 30
     - condition: state
@@ -93,7 +93,7 @@
   triggers:
     - trigger: state
       entity_id: binary_sensor.westons_room_motion
-      to: "off"
+      to: ["off", unavailable, unknown]
       for:
         minutes: 30
     - trigger: state
@@ -102,10 +102,10 @@
       for:
         minutes: 30
   conditions:
-    - alias: No camera motion for 30 minutes (and the camera is reporting)
+    - alias: No camera motion for 30 minutes (an offline camera counts as no motion)
       condition: state
       entity_id: binary_sensor.westons_room_motion
-      state: "off"
+      state: ["off", unavailable, unknown]
       for:
         minutes: 30
     - condition: state
@@ -124,7 +124,7 @@
   triggers:
     - trigger: state
       entity_id: binary_sensor.sun_room_motion
-      to: "off"
+      to: ["off", unavailable, unknown]
       for:
         minutes: 30
     - trigger: state
@@ -133,10 +133,10 @@
       for:
         minutes: 30
   conditions:
-    - alias: No camera motion for 30 minutes (and the camera is reporting)
+    - alias: No camera motion for 30 minutes (an offline camera counts as no motion)
       condition: state
       entity_id: binary_sensor.sun_room_motion
-      state: "off"
+      state: ["off", unavailable, unknown]
       for:
         minutes: 30
     - condition: state
