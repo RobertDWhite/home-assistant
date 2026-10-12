@@ -327,6 +327,13 @@ homekit:
      - switch.flightradar24_most_tracked
      - switch.qbittorrent_alternative_speed
      - binary_sensor.10_100_5_77
+     - camera.imap_*_mail_*
+     - binary_sensor.*_wifi
+     - binary_sensor.refrigerator_filter_status
+     - binary_sensor.synology_security_status
+     - input_button.test_house_announcement
+     - switch.my_location_away
+     - button.my_carnival_hybrid_force_refresh
 
 influxdb:
   host: !secret host_influx
