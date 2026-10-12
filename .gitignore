@@ -49,3 +49,13 @@ dashboards/
 !/custom_templates
 !custom_templates
 !custom_templates/*.jinja
+
+# themes/: frontend themes (merged by frontend: themes: !include_dir_merge_named themes)
+!/themes
+!themes
+# www/themes: theme background images
+!/www
+!www
+www/*
+!www/themes
+!www/themes/*.jpg

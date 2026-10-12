@@ -87,8 +87,12 @@ media_player:
 conversation:
 
 frontend:
-# Add themes
-  themes: !include themes.yaml
+  # themes/: custom.yaml (local themes) + Frosted Glass Dark / Dark Lite v1.4.0
+  # (github.com/wessamlauf/homeassistant-frosted-glass-themes, MIT; background self-hosted in www/themes)
+  themes: !include_dir_merge_named themes
+  # card-mod as a frontend module so themes also style the sidebar and non-dashboard panels
+  extra_module_url:
+    - /hacsfiles/lovelace-card-mod/card-mod.js
 
 gdacs:
   categories:
