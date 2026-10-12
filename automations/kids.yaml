@@ -52,3 +52,99 @@
             interruption-level: time-sensitive
           tag: '{{ trigger.id }}_leave'
   mode: parallel
+
+# Kids' rooms: Hue room lights off after 30 min with no motion on the room's UniFi camera.
+# Any camera motion restarts the 30 minutes. Hatch lights are separate entities and are not touched.
+
+- id: annies_room_lights_off_no_motion
+  alias: Annie’s Room - Hue lights off after 30 min with no camera motion
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.g3_instant_motion_2
+      to: "off"
+      for:
+        minutes: 30
+    - trigger: state
+      entity_id: light.annies_room
+      to: "on"
+      for:
+        minutes: 30
+  conditions:
+    - alias: No camera motion for 30 minutes (and the camera is reporting)
+      condition: state
+      entity_id: binary_sensor.g3_instant_motion_2
+      state: "off"
+      for:
+        minutes: 30
+    - condition: state
+      entity_id: light.annies_room
+      state: "on"
+  actions:
+    - action: light.turn_off
+      target:
+        entity_id: light.annies_room
+      data:
+        transition: 5
+
+- id: westons_room_lights_off_no_motion
+  alias: Weston’s Room - Hue lights off after 30 min with no camera motion
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.westons_room_motion
+      to: "off"
+      for:
+        minutes: 30
+    - trigger: state
+      entity_id: light.westons_room
+      to: "on"
+      for:
+        minutes: 30
+  conditions:
+    - alias: No camera motion for 30 minutes (and the camera is reporting)
+      condition: state
+      entity_id: binary_sensor.westons_room_motion
+      state: "off"
+      for:
+        minutes: 30
+    - condition: state
+      entity_id: light.westons_room
+      state: "on"
+  actions:
+    - action: light.turn_off
+      target:
+        entity_id: light.westons_room
+      data:
+        transition: 5
+
+- id: elsies_room_lights_off_no_motion
+  alias: Elsie’s Room - Hue lights off after 30 min with no camera motion
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.sun_room_motion
+      to: "off"
+      for:
+        minutes: 30
+    - trigger: state
+      entity_id: light.elsies_room
+      to: "on"
+      for:
+        minutes: 30
+  conditions:
+    - alias: No camera motion for 30 minutes (and the camera is reporting)
+      condition: state
+      entity_id: binary_sensor.sun_room_motion
+      state: "off"
+      for:
+        minutes: 30
+    - condition: state
+      entity_id: light.elsies_room
+      state: "on"
+  actions:
+    - action: light.turn_off
+      target:
+        entity_id: light.elsies_room
+      data:
+        transition: 5
