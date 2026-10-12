@@ -22,12 +22,10 @@
         entity_id: light.outside_lights
 
 - id: front_lights_late_off
-  alias: Outside - front lights off late
-  description: Turn off the Outside Front Lights at 23:30 (and at sunrise as a backstop) while the schedule helper is on.
+  alias: Outside - front lights off at sunrise
+  description: Turn off the Outside Front Lights at sunrise while the schedule helper is on (they stay on all night).
   mode: single
   triggers:
-    - trigger: time
-      at: "23:30:00"
     - trigger: sun
       event: sunrise
   conditions:
@@ -57,18 +55,18 @@
         entity_id: switch.garage_main_lights
 
 - id: gym_lights_off_after_2_hours
-  alias: Gym - Lutron main lights off after 2 hours
+  alias: Gym - Lutron main lights off after 1 hour
   description: >-
     The gym (rec room) main lights are a Lutron Caseta switch with no motion sensor and were regularly
-    left on all day. They turn off 2 hours after being turned on; turning them off and on again restarts
-    the 2 hours. (The 01:11 Lutron schedule shutoff still applies as well.)
+    left on all day. They turn off 1 hour after being turned on; turning them off and on again restarts
+    the hour. (The 01:11 Lutron schedule shutoff still applies as well.)
   mode: single
   triggers:
     - trigger: state
       entity_id: switch.rec_room_main_lights
       to: "on"
       for:
-        hours: 2
+        hours: 1
   actions:
     - action: switch.turn_off
       target:
