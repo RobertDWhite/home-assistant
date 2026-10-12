@@ -1,17 +1,22 @@
-# Default Home Assistant theme: Frosted Glass Dark (themes/frosted_glass_dark.yaml) for both the light
-# and dark frontend modes. Re-applied at startup. (Replaced the old sun-based Navy Blue / slate switch.)
+#Home assistant theme is set based on location of the sun; where when sun is up, theme is light, and visa versa
 
 - alias: 'Set HA theme for day and night'
   trigger:
     - platform: homeassistant
       event: start
+    - platform: state
+      entity_id: sun.sun
+      to: above_horizon
+    - platform: state
+      entity_id: sun.sun
+      to: below_horizon
   action:
     - service: frontend.set_theme
       data:
-        name: Frosted Glass Dark
-        mode: light
-    - service: frontend.set_theme
-      data:
-        name: Frosted Glass Dark
-        mode: dark
+        name: >
+          {% if states('sun.sun') == "above_horizon" %}
+            Light - Navy Blue
+          {% else %}
+            slate
+          {% endif %}
 
