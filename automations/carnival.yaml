@@ -4,7 +4,8 @@
   description: >-
     At 22:00, locks the Carnival if it is unlocked; overnight (22:00-05:00) it also locks it once it has been
     unlocked for 15 minutes. Skips while the engine is running or a door/trunk/hood is open (notifies instead).
-    Kia Connect is a cloud API polled every ~30 min, so the lock state can lag; the command forces an update.
+    Kia Connect is a cloud API polled every ~30 min and does not update the lock state after a command, so it
+    forces a status refresh 30 s after locking (wakes the car once).
     Notifies Robert's and Emily's phones with the result.
   mode: single
   triggers:
@@ -49,6 +50,12 @@
         - action: lock.lock
           target:
             entity_id: lock.my_carnival_hybrid_door_lock
+        - alias: Kia Connect does not report the new lock state on its own; ask the car for a fresh status
+          delay:
+            seconds: 30
+        - action: button.press
+          target:
+            entity_id: button.my_carnival_hybrid_force_refresh
         - wait_for_trigger:
             - trigger: state
               entity_id: lock.my_carnival_hybrid_door_lock
