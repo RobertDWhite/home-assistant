@@ -5,13 +5,12 @@
 # light.dining_room_chandelier was the laundry light, switch.outside_lamp_post was the rec room).
 
 - id: front_lights_sunset_on
-  alias: Outside - front lights on at dusk
-  description: Turn on the Outside Front Lights 15 minutes before sunset while the "Front lights schedule" helper is on.
+  alias: Outside - front lights on at sunset
+  description: Turn on the Outside Front Lights at 10% at sunset while the "Front lights schedule" helper is on.
   mode: single
   triggers:
     - trigger: sun
       event: sunset
-      offset: "-00:15:00"
   conditions:
     - condition: state
       entity_id: input_boolean.front_lights_schedule
@@ -20,6 +19,8 @@
     - action: light.turn_on
       target:
         entity_id: light.outside_lights
+      data:
+        brightness_pct: 10
 
 - id: front_lights_late_off
   alias: Outside - front lights off at sunrise
