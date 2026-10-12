@@ -87,6 +87,7 @@
     Hue lights used as motion sensors) has seen no motion for 30 minutes, unless the TV is in use
     (Denon AVR on, or the Theatre Apple TV playing/paused): people sit still during a movie. Also
     catches lights left on in an empty room, and a movie that ended with nobody moving afterwards.
+    The downstairs bar and Music / Play lights go off with the theatre.
     Does nothing while the motion area is unknown/unavailable. The basement accents follow the
     theatre lights off via basement_accents_follow_downstairs.
   mode: single
@@ -134,9 +135,13 @@
       entity_id: light.theatre
       state: "on"
   actions:
-    - action: light.turn_off
+    - alias: Theatre, plus the bar and Music / Play lights if they were left on too
+      action: light.turn_off
       target:
-        entity_id: light.theatre
+        entity_id:
+          - light.theatre
+          - light.bar
+          - light.music_play
       data:
         transition: 5
 

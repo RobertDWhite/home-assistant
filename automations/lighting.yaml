@@ -56,6 +56,24 @@
       target:
         entity_id: switch.garage_main_lights
 
+- id: gym_lights_off_after_2_hours
+  alias: Gym - Lutron main lights off after 2 hours
+  description: >-
+    The gym (rec room) main lights are a Lutron Caseta switch with no motion sensor and were regularly
+    left on all day. They turn off 2 hours after being turned on; turning them off and on again restarts
+    the 2 hours. (The 01:11 Lutron schedule shutoff still applies as well.)
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: switch.rec_room_main_lights
+      to: "on"
+      for:
+        hours: 2
+  actions:
+    - action: switch.turn_off
+      target:
+        entity_id: switch.rec_room_main_lights
+
 - id: master_bath_fan_timer
   alias: Master bath - fan off after 45 minutes
   description: The bath fan is a plain Lutron switch; give it a timer.
