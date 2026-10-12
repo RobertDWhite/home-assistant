@@ -291,6 +291,7 @@ homekit:
      - event          # Hue button / Protect / backup events; HomeKit maps almost none of these
      - automation     # 34 automations were being bridged as on/off switches
      - select         # 11 select entities (device option pickers) were being bridged
+     - zone           # map zones were using up slots under the 150-accessory cap
    # Protect, FAA, Xbox, WiiM, SmartTub, Lutron entities live in homekit_exclude.yaml (generated)
    exclude_entities: !include homekit_exclude.yaml
    exclude_entity_globs:
