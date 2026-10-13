@@ -18,7 +18,7 @@
         availability: "{{ not is_state('sensor.fr24_feeder', 'unavailable') }}"
       - name: "FR24 Feeder Aircraft Tracked"
         unique_id: fr24_feeder_aircraft_tracked
-        state: "{{ state_attr('sensor.fr24_feeder', 'd11_map_size') | round(0, default=0) }}"
+        state: "{{ state_attr('sensor.fr24_feeder', 'feed_num_ac_tracked') | round(0, default=0) }}"
         unit_of_measurement: 'aircrafts'
         icon: mdi:airplane
         availability: "{{ not is_state('sensor.fr24_feeder', 'unavailable') }}"

@@ -18,7 +18,6 @@
     json_attributes:
       - rx_connected
       - feed_status
-      - d11_map_size
       - feed_num_ac_tracked
       - build_version
       - feed_alias

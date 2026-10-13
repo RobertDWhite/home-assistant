@@ -72,11 +72,10 @@
         minutes: 15
   conditions:
     - alias: No camera motion for 15 minutes (an offline camera counts as no motion)
-      condition: state
-      entity_id: binary_sensor.g3_instant_motion_2
-      state: ["off", unavailable, unknown]
-      for:
-        minutes: 15
+      condition: template
+      value_template: >-
+        {{ not is_state('binary_sensor.g3_instant_motion_2', 'on')
+           and (now() - states.binary_sensor.g3_instant_motion_2.last_changed).total_seconds() >= 900 }}
     - condition: state
       entity_id: light.annies_room
       state: "on"
@@ -103,11 +102,10 @@
         minutes: 15
   conditions:
     - alias: No camera motion for 15 minutes (an offline camera counts as no motion)
-      condition: state
-      entity_id: binary_sensor.westons_room_motion
-      state: ["off", unavailable, unknown]
-      for:
-        minutes: 15
+      condition: template
+      value_template: >-
+        {{ not is_state('binary_sensor.westons_room_motion', 'on')
+           and (now() - states.binary_sensor.westons_room_motion.last_changed).total_seconds() >= 900 }}
     - condition: state
       entity_id: light.westons_room
       state: "on"
@@ -134,11 +132,10 @@
         minutes: 15
   conditions:
     - alias: No camera motion for 15 minutes (an offline camera counts as no motion)
-      condition: state
-      entity_id: binary_sensor.sun_room_motion
-      state: ["off", unavailable, unknown]
-      for:
-        minutes: 15
+      condition: template
+      value_template: >-
+        {{ not is_state('binary_sensor.sun_room_motion', 'on')
+           and (now() - states.binary_sensor.sun_room_motion.last_changed).total_seconds() >= 900 }}
     - condition: state
       entity_id: light.elsies_room
       state: "on"
