@@ -91,18 +91,15 @@
 - id: master_bath_shower_light_with_fan
   alias: Master bath - shower light on (circadian) when the fan turns on
   description: >-
-    When the bath fan (Lutron switch) turns on and the Hue shower downlight is off, turn the shower light on at
-    the current Circadian Master Bathroom colour temperature and brightness.
+    When the bath fan (Lutron switch) turns on, turn the Hue shower downlight on at the current Circadian Master
+    Bathroom colour temperature and brightness. Sent every time (no "already on" check), so a stale Hue state
+    can't block it.
   mode: single
   triggers:
     - trigger: state
       entity_id: fan.master_bath_fan
       from: "off"
       to: "on"
-  conditions:
-    - condition: state
-      entity_id: light.hue_ambiance_downlight_5_2
-      state: "off"
   actions:
     - action: light.turn_on
       target:
