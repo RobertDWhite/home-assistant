@@ -53,30 +53,30 @@
           tag: '{{ trigger.id }}_leave'
   mode: parallel
 
-# Kids' rooms: Hue room lights off after 30 min with no motion on the room's UniFi camera.
-# Any camera motion restarts the 30 minutes; an offline camera counts as no motion. Hatch lights are separate entities and are not touched.
+# Kids' rooms: Hue room lights off after 15 min with no motion on the room's UniFi camera.
+# Any camera motion restarts the 15 minutes; an offline camera counts as no motion. Hatch lights are separate entities and are not touched.
 
 - id: annies_room_lights_off_no_motion
-  alias: Annie’s Room - Hue lights off after 30 min with no camera motion
+  alias: Annie’s Room - Hue lights off after 15 min with no camera motion
   mode: single
   triggers:
     - trigger: state
       entity_id: binary_sensor.g3_instant_motion_2
       to: ["off", unavailable, unknown]
       for:
-        minutes: 30
+        minutes: 15
     - trigger: state
       entity_id: light.annies_room
       to: "on"
       for:
-        minutes: 30
+        minutes: 15
   conditions:
-    - alias: No camera motion for 30 minutes (an offline camera counts as no motion)
+    - alias: No camera motion for 15 minutes (an offline camera counts as no motion)
       condition: state
       entity_id: binary_sensor.g3_instant_motion_2
       state: ["off", unavailable, unknown]
       for:
-        minutes: 30
+        minutes: 15
     - condition: state
       entity_id: light.annies_room
       state: "on"
@@ -88,26 +88,26 @@
         transition: 5
 
 - id: westons_room_lights_off_no_motion
-  alias: Weston’s Room - Hue lights off after 30 min with no camera motion
+  alias: Weston’s Room - Hue lights off after 15 min with no camera motion
   mode: single
   triggers:
     - trigger: state
       entity_id: binary_sensor.westons_room_motion
       to: ["off", unavailable, unknown]
       for:
-        minutes: 30
+        minutes: 15
     - trigger: state
       entity_id: light.westons_room
       to: "on"
       for:
-        minutes: 30
+        minutes: 15
   conditions:
-    - alias: No camera motion for 30 minutes (an offline camera counts as no motion)
+    - alias: No camera motion for 15 minutes (an offline camera counts as no motion)
       condition: state
       entity_id: binary_sensor.westons_room_motion
       state: ["off", unavailable, unknown]
       for:
-        minutes: 30
+        minutes: 15
     - condition: state
       entity_id: light.westons_room
       state: "on"
@@ -119,26 +119,26 @@
         transition: 5
 
 - id: elsies_room_lights_off_no_motion
-  alias: Elsie’s Room - Hue lights off after 30 min with no camera motion
+  alias: Elsie’s Room - Hue lights off after 15 min with no camera motion
   mode: single
   triggers:
     - trigger: state
       entity_id: binary_sensor.sun_room_motion
       to: ["off", unavailable, unknown]
       for:
-        minutes: 30
+        minutes: 15
     - trigger: state
       entity_id: light.elsies_room
       to: "on"
       for:
-        minutes: 30
+        minutes: 15
   conditions:
-    - alias: No camera motion for 30 minutes (an offline camera counts as no motion)
+    - alias: No camera motion for 15 minutes (an offline camera counts as no motion)
       condition: state
       entity_id: binary_sensor.sun_room_motion
       state: ["off", unavailable, unknown]
       for:
-        minutes: 30
+        minutes: 15
     - condition: state
       entity_id: light.elsies_room
       state: "on"
