@@ -296,6 +296,13 @@
     lights_ct:
       - light.hue_ambiance_downlight_4_4
       - light.hue_ambiance_downlight_5_2
+      # Vanity: six Hue filament bulbs (bulbs 7-12), added 2026-10-12
+      - light.hue_filament_bulb_7_2
+      - light.hue_filament_bulb_8_2
+      - light.hue_filament_bulb_9_2
+      - light.hue_filament_bulb_10_2
+      - light.hue_filament_bulb_11
+      - light.hue_filament_bulb_12
       # light.hue_lightstrip_plus_4 moved to Circadian Master Bathroom Accent (below) 2026-10-11.
 
 # Master Bathroom Accent
