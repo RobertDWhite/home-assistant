@@ -89,25 +89,41 @@
         entity_id: fan.master_bath_fan
 
 - id: master_bath_shower_light_with_fan
-  alias: Master bath - shower light on (circadian) when the fan turns on
+  alias: Master bath - shower light follows the fan
   description: >-
-    When the bath fan (Lutron switch) turns on, turn the Hue shower downlight on at the current Circadian Master
-    Bathroom colour temperature and brightness. Sent every time (no "already on" check), so a stale Hue state
-    can't block it.
-  mode: single
+    The Hue shower downlight follows the bath fan (Lutron switch): fan on -> shower light on at the current
+    Circadian Master Bathroom colour temperature and brightness; fan off -> shower light off. Commands are sent
+    every time (no "already on/off" check), so a stale Hue state can't block them.
+  mode: restart
   triggers:
     - trigger: state
       entity_id: fan.master_bath_fan
       from: "off"
       to: "on"
+      id: fan_on
+    - trigger: state
+      entity_id: fan.master_bath_fan
+      from: "on"
+      to: "off"
+      id: fan_off
   actions:
-    - action: light.turn_on
-      target:
-        entity_id: light.hue_ambiance_downlight_5_2
-      data:
-        color_temp_kelvin: "{{ state_attr('switch.circadian_lighting_circadian_master_bathroom', 'colortemp') | int(2700) }}"
-        brightness_pct: "{{ [state_attr('switch.circadian_lighting_circadian_master_bathroom', 'brightness') | float(50), 1] | max | round(0) | int }}"
-        transition: 1
+    - choose:
+        - conditions: [{condition: trigger, id: fan_on}]
+          sequence:
+            - action: light.turn_on
+              target:
+                entity_id: light.hue_ambiance_downlight_5_2
+              data:
+                color_temp_kelvin: "{{ state_attr('switch.circadian_lighting_circadian_master_bathroom', 'colortemp') | int(2700) }}"
+                brightness_pct: "{{ [state_attr('switch.circadian_lighting_circadian_master_bathroom', 'brightness') | float(50), 1] | max | round(0) | int }}"
+                transition: 1
+        - conditions: [{condition: trigger, id: fan_off}]
+          sequence:
+            - action: light.turn_off
+              target:
+                entity_id: light.hue_ambiance_downlight_5_2
+              data:
+                transition: 1
 
 - id: kitchen_undercabinet_follows_hue
   alias: Kitchen - under-cabinet lights follow Hue
@@ -150,7 +166,7 @@
   alias: Master Bath - lightstrip on (purple) whenever another bath light is on
   description: >-
     The Hue lightstrip (light.hue_lightstrip_plus_4) turns on when any other master bath light comes on (Hue
-    downlight 4, Hue shower downlight), and turns off once all of them are off. (The Lutron main / vanity /
+    downlight 4, Hue shower downlight, the six vanity filament bulbs), and turns off once all of them are off. (The Lutron main / vanity /
     shower dimmers were removed 2026-10-12; the vanity is now six Hue filament bulbs.)
     Purple while switch.circadian_lighting_circadian_master_bathroom_accent is off; circadian colour when it is on.
   mode: queued
@@ -160,6 +176,12 @@
       entity_id: &master_bath_lights
         - light.hue_ambiance_downlight_4_4
         - light.hue_ambiance_downlight_5_2
+        - light.hue_filament_bulb_7_2
+        - light.hue_filament_bulb_8_2
+        - light.hue_filament_bulb_9_2
+        - light.hue_filament_bulb_10_2
+        - light.hue_filament_bulb_11
+        - light.hue_filament_bulb_12
       from: "off"
       to: "on"
       id: light_on
