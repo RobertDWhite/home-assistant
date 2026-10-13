@@ -918,9 +918,6 @@
 - light.kitchen_under_cabinet_2
 - light.rec_room_main_lights
 - light.utility_room_main_lights
-- light.master_bath_main_lights
-- light.master_bath_shower_lights
-- light.master_bath_vanity_lights
 - light.outside_lights
 - fan.master_bath_fan
 - switch.garage_main_lights

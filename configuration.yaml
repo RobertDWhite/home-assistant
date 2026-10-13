@@ -203,12 +203,6 @@ powercalc:
     # actually installed and the energy figures become accurate.
     - entity_id: light.laundry_main_lights
       fixed: {power: 40}
-    - entity_id: light.master_bath_main_lights
-      fixed: {power: 60}
-    - entity_id: light.master_bath_vanity_lights
-      fixed: {power: 40}
-    - entity_id: light.master_bath_shower_lights
-      fixed: {power: 20}
     - entity_id: light.outside_lights
       fixed: {power: 30}
     - entity_id: light.garage_main_lights

@@ -4,7 +4,7 @@
 # deleted on purpose and is NOT recreated. Original definitions: ~/Documents/ha-cleanup/ on Robert's Mac.
 
 - id: lutron_sunset
-  alias: Lutron - sunset (outside floods 10%, master bath vanity 8%)
+  alias: Lutron - sunset (outside floods 10%)
   description: Was the Lutron "Sunset" schedule.
   mode: single
   triggers:
@@ -16,12 +16,6 @@
         entity_id: light.outside_lights
       data:
         brightness_pct: 10
-        transition: 2
-    - action: light.turn_on
-      target:
-        entity_id: light.master_bath_vanity_lights
-      data:
-        brightness_pct: 8
         transition: 2
 
 - id: lutron_sunrise
@@ -67,9 +61,6 @@
       target:
         entity_id:
           - light.laundry_main_lights
-          - light.master_bath_main_lights
-          - light.master_bath_vanity_lights
-          - light.master_bath_shower_lights
       data:
         transition: 2
     - action: switch.turn_off

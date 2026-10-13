@@ -125,68 +125,18 @@
                   - light.kitchen_under_cabinet_1
                   - light.kitchen_under_cabinet_2
 
-- id: master_bath_lutron_follows_hue
-  alias: Master Bath - main/vanity lights follow Hue
-  description: >-
-    Mirror of the kitchen rule for the master bath: when a Hue master-bath downlight turns on, turn on the
-    Lutron main and vanity lights; when both Hue downlights are off, turn them off. Shower light excluded.
-    2026-10-11: watches the two Hue downlights instead of the light.master_bathroom room group, because the
-    room group also contains the lightstrip, which master_bath_strip_follows_lights now turns on whenever any
-    bath light is on (it would otherwise switch the main/vanity lights on when only the shower light was used).
-  mode: restart
-  triggers:
-    - trigger: state
-      entity_id:
-        - light.hue_ambiance_downlight_4_4
-        - light.hue_ambiance_downlight_5_2
-      from: "off"
-      to: "on"
-      id: hue_on
-    - trigger: state
-      entity_id:
-        - light.hue_ambiance_downlight_4_4
-        - light.hue_ambiance_downlight_5_2
-      from: "on"
-      to: "off"
-      id: hue_off
-  actions:
-    - choose:
-        - conditions: [{condition: trigger, id: hue_on}]
-          sequence:
-            - action: light.turn_on
-              target:
-                entity_id: [light.master_bath_main_lights, light.master_bath_vanity_lights]
-        - conditions:
-            - condition: trigger
-              id: hue_off
-            - alias: Both Hue downlights are off
-              condition: not
-              conditions:
-                - condition: state
-                  entity_id:
-                    - light.hue_ambiance_downlight_4_4
-                    - light.hue_ambiance_downlight_5_2
-                  state: "on"
-                  match: any
-          sequence:
-            - action: light.turn_off
-              target:
-                entity_id: [light.master_bath_main_lights, light.master_bath_vanity_lights]
-
 - id: master_bath_strip_follows_lights
   alias: Master Bath - lightstrip on (purple) whenever another bath light is on
   description: >-
-    The Hue lightstrip (light.hue_lightstrip_plus_4) turns on when any other master bath light comes on (Lutron
-    main / vanity / shower, Hue downlight 4, Hue shower downlight), and turns off once all of them are off.
+    The Hue lightstrip (light.hue_lightstrip_plus_4) turns on when any other master bath light comes on (Hue
+    downlight 4, Hue shower downlight), and turns off once all of them are off. (The Lutron main / vanity /
+    shower dimmers were removed 2026-10-12; the vanity is now six Hue filament bulbs.)
     Purple while switch.circadian_lighting_circadian_master_bathroom_accent is off; circadian colour when it is on.
   mode: queued
   max: 10
   triggers:
     - trigger: state
       entity_id: &master_bath_lights
-        - light.master_bath_main_lights
-        - light.master_bath_vanity_lights
-        - light.master_bath_shower_lights
         - light.hue_ambiance_downlight_4_4
         - light.hue_ambiance_downlight_5_2
       from: "off"
