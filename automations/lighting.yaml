@@ -235,6 +235,48 @@
               data:
                 transition: 1
 
+- id: master_bath_lights_off_no_motion
+  alias: Master bath - all lights off after 20 min with no motion
+  description: >-
+    Turns off every master bath light (Hue room group: vanity bulbs, downlight 4, shower downlight, lightstrip)
+    when the Hue MotionAware area for the master bathroom has seen no motion for 20 minutes. Skipped while the
+    bath fan is on (someone showering, out of the area's view); the fan's own 30-minute Lutron timer and the
+    fan -> shower light rule take over. Does nothing while the motion area is unknown/unavailable.
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.master_bathroom_master_bathroom_motionaware_area_mb
+      to: "off"
+      for:
+        minutes: 20
+    - trigger: state
+      entity_id: light.master_bathroom
+      to: "on"
+      for:
+        minutes: 20
+    - trigger: state
+      entity_id: fan.master_bath_fan
+      to: "off"
+  conditions:
+    - alias: No motion for 20 minutes (and the motion area is reporting)
+      condition: state
+      entity_id: binary_sensor.master_bathroom_master_bathroom_motionaware_area_mb
+      state: "off"
+      for:
+        minutes: 20
+    - condition: state
+      entity_id: fan.master_bath_fan
+      state: "off"
+    - condition: state
+      entity_id: light.master_bathroom
+      state: "on"
+  actions:
+    - action: light.turn_off
+      target:
+        entity_id: light.master_bathroom
+      data:
+        transition: 5
+
 - id: yard_lights_sunset_on
   alias: Outside - Meross yard lights on at sunset
   description: >-
