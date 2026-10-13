@@ -314,6 +314,10 @@ homekit:
      - switch.x50_ultra_*
      - binary_sensor.x50_ultra_*
      - button.x50_ultra_*
+     - switch.bobsweep_*
+     - binary_sensor.bobsweep_*
+     - number.bobsweep_*
+     - button.bobsweep_*
      - button.full_sync
      - button.remove_circadian_scenes
      - button.rebuild_circadian_scenes
