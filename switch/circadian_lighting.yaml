@@ -292,7 +292,7 @@
 # Master Bathroom
   - platform: circadian_lighting
     min_brightness: 1
-    max_brightness: 90
+    max_brightness: 40
     name: Circadian Master Bathroom
     lights_ct:
       - light.hue_ambiance_downlight_4_4
@@ -311,7 +311,7 @@
 # (master_bath_strip_follows_lights); while it is ON circadian sets the strip's colour temperature.
   - platform: circadian_lighting
     min_brightness: 1
-    max_brightness: 90
+    max_brightness: 40
     name: Circadian Master Bathroom Accent
     lights_ct:
       - light.hue_lightstrip_plus_4
@@ -319,7 +319,7 @@
 # Upstairs Bathroom
   - platform: circadian_lighting
     min_brightness: 30
-    max_brightness: 90
+    max_brightness: 40
     name: Circadian Upstairs Bathroom
     lights_ct:
       - light.hue_filament_bulb_3_2
