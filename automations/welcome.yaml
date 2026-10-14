@@ -5,9 +5,8 @@
 # so none of them had ever fired.
 #
 # Presence now comes from person.whitehouse (display name "Robert"), which is linked to the
-# Home Assistant Companion app tracker device_tracker.iphone_robert. For this to update in the
-# background the app's iOS Location permission must be "Always" (it is currently
-# "Authorized when in use").
+# iCloud3 tracker device_tracker.robert_iphone (Family Sharing location, merged with the
+# Companion app on that phone).
 #
 # To add Emily: install the Companion app on her phone, create person.emily with her
 # device_tracker, then copy the block below with !secret welcome_e.
