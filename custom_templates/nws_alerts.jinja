@@ -1,5 +1,5 @@
 {#- NWS alerts from the weatheralerts integration (Butler + Warren zones), deduplicated by alert id.
-    Used by template/weather_alerts.yaml. -#}
+    Used by template/weather_alerts.yaml; alarm_features() by the weather alert automations. -#}
 {%- set _sources = ['sensor.weatheralerts_butler_ohz070_ohc017', 'sensor.weatheralerts_warren_ohz071_ohc165'] -%}
 {%- set _rank = {'Extreme': 4, 'Severe': 3, 'Moderate': 2, 'Minor': 1} -%}
 
@@ -30,4 +30,13 @@
   {%- elif events | count == 1 -%}{{ events[0] }}
   {%- else -%}{{ events[0] }} + {{ events | count - 1 }} more
   {%- endif -%}
+{%- endmacro -%}
+
+{#- Alert types allowed to raise alarms (speakers, phone, popup, Matrix). Anything else, such as a
+    Special Weather Statement, only shows on the dashboard. -#}
+{%- set _alarm_events = ['Tornado Watch', 'Tornado Warning', 'Severe Thunderstorm Warning', 'Blizzard Warning'] -%}
+
+{#- The alarm-worthy entries of an NWS GeoJSON features list, as JSON. -#}
+{%- macro alarm_features(features) -%}
+  {{ (features or []) | selectattr('properties.event', 'in', _alarm_events) | list | to_json }}
 {%- endmacro -%}

@@ -3,7 +3,10 @@
 # Hardened 2026-09-15: sensor.nws_alert_count flips to "unavailable" whenever api.weather.gov
 # is unreachable (about half of its state changes), which used to fire the popup script ~1,000
 # times a week and crash the announcement with "None has no element 0". Both automations now
-# ignore unavailable/unknown transitions and only announce when the alert COUNT INCREASES.
+# ignore unavailable/unknown transitions; the announcement fires only for alert ids it has not seen.
+#
+# Only Tornado Watch/Warning, Severe Thunderstorm Warning and Blizzard Warning raise alarms (list in
+# custom_templates/nws_alerts.jinja). Other alerts, e.g. Special Weather Statements, stay on the dashboard.
 
 - id: nws_weather_alert_popup_control
   alias: NWS Weather Alert Pop Up Control
@@ -25,40 +28,37 @@
   mode: queued
   triggers:
     - trigger: state
-      entity_id: sensor.nws_alert_count
+      entity_id: sensor.nws_alert_event
       not_from:
         - unavailable
         - unknown
       not_to:
         - unavailable
         - unknown
+  variables:
+    new_alarms: >-
+      {% from 'nws_alerts.jinja' import alarm_features %}
+      {% set old_ids = (trigger.from_state.attributes.features | default([], true)) | map(attribute='id') | list %}
+      {{ alarm_features(trigger.to_state.attributes.features) | from_json | rejectattr('id', 'in', old_ids) | list }}
+    event: "{{ new_alarms[0].properties.event if new_alarms else '' }}"
+    expires: >-
+      {% set e = new_alarms[0].properties.expires if new_alarms else none %}
+      {{ (as_timestamp(e) | timestamp_custom('%-I:%M %p on %-m-%-d-%Y')) if e else 'later today' }}
+    alert_message: >-
+      Attention!. . . Attention!. . . The National Weather Service has issued a
+      {{ event }} for Butler County. It expires at {{ expires }}.
   conditions:
-    - condition: numeric_state
-      entity_id: sensor.nws_alert_count
-      above: 0
-    - alias: Only when a NEW alert was added (count went up), not when one expired
+    - alias: A new alarm-worthy alert was issued
       condition: template
-      value_template: "{{ (trigger.to_state.state | int(0)) > (trigger.from_state.state | int(0)) }}"
-    - alias: The event sensor must actually carry an alert
-      condition: template
-      value_template: "{{ (state_attr('sensor.nws_alert_event', 'features') | default([], true)) | count > 0 }}"
+      value_template: "{{ new_alarms | count > 0 }}"
     ## Quiet hours 9pm–8:30am: only Tornado Warnings are allowed to announce
     - condition: or
       conditions:
         - condition: time
           after: "08:30:00"
           before: "21:00:00"
-        - condition: state
-          entity_id: sensor.nws_alert_event
-          state: Tornado Warning
-  variables:
-    expires: >-
-      {% set f = state_attr('sensor.nws_alert_event', 'features') | default([], true) %}
-      {% set e = (f[0].properties.expires if f else none) %}
-      {{ (as_timestamp(e) | timestamp_custom('%-I:%M %p on %-m-%-d-%Y')) if e else 'later today' }}
-    alert_message: >-
-      Attention!. . . Attention!. . . The National Weather Service has issued a
-      {{ states('sensor.nws_alert_event') }} for Butler County. It expires at {{ expires }}.
+        - condition: template
+          value_template: "{{ event == 'Tornado Warning' }}"
   actions:
     # Sonos speakers - announce overlay via sonos_say script
     - action: script.sonos_say
@@ -150,5 +150,5 @@
     - action: notify.mobile_app_iphone_robert
       continue_on_error: true
       data:
-        title: "NWS: {{ states('sensor.nws_alert_event') }}"
+        title: "NWS: {{ event }}"
         message: "Expires {{ expires }}."

@@ -8,19 +8,15 @@ nws_popup_on_wx_alert:
     - action: persistent_notification.dismiss
       data:
         notification_id: "nwswxalert"
-    # Only show a popup when there is an active event with a payload.
-    - condition: not
-      conditions:
-        - condition: state
-          entity_id: sensor.nws_alert_event
-          state:
-            - "None"
-            - unavailable
-            - unknown
+    # Only show a popup for an alarm-worthy alert (see custom_templates/nws_alerts.jinja).
+    - variables:
+        alarms: >-
+          {% from 'nws_alerts.jinja' import alarm_features %}
+          {{ alarm_features(state_attr('sensor.nws_alert_event', 'features')) }}
     - condition: template
-      value_template: "{{ (state_attr('sensor.nws_alert_event', 'features') | default([], true)) | count > 0 }}"
+      value_template: "{{ alarms | count > 0 }}"
     - action: persistent_notification.create
       data:
         notification_id: "nwswxalert"
-        title: "{{ states('sensor.nws_alert_event') }}"
-        message: "{{ state_attr('sensor.nws_alert_event', 'features')[0].properties.description }}"
+        title: "{{ alarms[0].properties.event }}"
+        message: "{{ alarms[0].properties.description }}"
