@@ -1,0 +1,111 @@
+# Local-AI extras on the Ollama server (qwen3.8:27b): a morning house briefing written by HA Text AI,
+# an Ollama Vision description of whatever pulls into the driveway, and a weekly Battery Notes digest.
+# Nothing here controls devices; results land on the Overview dashboard (and Matrix for the digest).
+
+- id: house_morning_briefing
+  alias: House - morning briefing (local AI)
+  description: >-
+    06:30 daily. Gathers today's calendar, forecast, trash day, upcoming anniversaries, low batteries
+    and the sky, and has HA Text AI (sensor.house_briefing) write a short briefing. Shown on the Home view.
+  mode: single
+  triggers:
+    - trigger: time
+      at: "06:30:00"
+  actions:
+    - action: calendar.get_events
+      continue_on_error: true
+      target:
+        entity_id: calendar.skylight_whitehouse_family
+      data:
+        duration:
+          hours: 18
+      response_variable: cal
+    - action: weather.get_forecasts
+      continue_on_error: true
+      target:
+        entity_id: weather.kmwo
+      data:
+        type: twice_daily
+      response_variable: wx
+    - variables:
+        facts: >-
+          {% set ev = (cal or {}).get('calendar.skylight_whitehouse_family', {}).get('events', []) %}
+          {% set fc = (wx or {}).get('weather.kmwo', {}).get('forecast', [])[:2] %}
+          Today is {{ now().strftime('%A, %B %-d') }}.
+          Outside it is {{ states('sensor.thermostat_1_outdoor_temperature') }} degrees.
+          {% if fc %}Forecast: {% for f in fc %}{{ f.condition }} with a temperature of {{ f.temperature }}{% if f.precipitation_probability is defined %}, {{ f.precipitation_probability }}% chance of rain{% endif %}; {% endfor %}{% endif %}
+          {% if ev %}Calendar today: {% for e in ev %}{{ e.summary }} at {{ as_datetime(e.start).strftime('%-I:%M %p') if 'T' in e.start else 'all day' }}; {% endfor %}{% else %}Nothing on the family calendar today.{% endif %}
+          {% set td = states('sensor.trash_pickup') | int(-1) %}{% if td == 0 %}Trash pickup is today.{% elif td == 1 %}Trash goes out tonight.{% endif %}
+          {% set soon = states.sensor | selectattr('entity_id', 'match', 'sensor.anniversary_') | rejectattr('entity_id', 'search', '_date$') | selectattr('state', 'is_number') | list %}
+          {% for a in soon if a.state | int <= 7 %}{{ a.name }} is in {{ a.state }} days. {% endfor %}
+          {% set low = states.sensor | selectattr('entity_id', 'search', '_battery_plus$') | selectattr('attributes.battery_low', 'eq', true) | list %}
+          {% if low %}Low batteries: {% for b in low %}{{ b.attributes.device_name }} ({{ b.attributes.battery_type_and_quantity }}){{ ', ' if not loop.last }}{% endfor %}.{% endif %}
+          The moon is {{ states('sensor.luna_lunar_phase') | lower }}, {{ states('sensor.luna_lunar_percent_illuminated') | round(0) }}% lit.
+          {% if 'OL' not in states('sensor.ups_status_data').split() %}Note: the UPS reports {{ states('sensor.ups_status_data') }}.{% endif %}
+    - action: ha_text_ai.ask_question
+      continue_on_error: true
+      data:
+        instance: sensor.house_briefing
+        disable_thinking: true
+        max_tokens: 300
+        system_prompt: >-
+          You write a warm, practical morning briefing for a family's home dashboard. Use only the facts
+          given. 3 to 5 short sentences, plain text, no lists, no emoji, no invented details.
+        question: "{{ facts }}"
+
+- id: driveway_vehicle_ai_description
+  alias: Driveway - describe arriving vehicle (Ollama Vision)
+  description: >-
+    When the front driveway camera detects a vehicle, snapshot it and have Ollama Vision describe it
+    (sensor.driveway_ai_description). At most once every 5 minutes.
+  mode: single
+  max_exceeded: silent
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.front_driveway_g6_bullet_vehicle_detected
+      from: "off"
+      to: "on"
+  actions:
+    - action: camera.snapshot
+      target:
+        entity_id: camera.front_driveway_g6_bullet_high_resolution_channel
+      data:
+        filename: /config/www/ollama_vision/driveway.jpg
+    - action: ollama_vision.analyze_image
+      continue_on_error: true
+      data:
+        image_name: Driveway
+        image_url: "https://homeassistant.internal.white.fm/local/ollama_vision/driveway.jpg?t={{ now().timestamp() | int }}"
+        prompt: >-
+          Describe the vehicles and people in this driveway camera image in one short sentence
+          (type, color, what they are doing). If there are none, say the driveway is clear.
+    # Throttle: mode single drops new triggers while this runs
+    - delay: "00:05:00"
+
+- id: battery_notes_weekly_digest
+  alias: Batteries - weekly low-battery digest
+  description: Sunday 10:00, list devices Battery Notes marks low with the battery each needs (Matrix only).
+  mode: single
+  triggers:
+    - trigger: time
+      at: "10:00:00"
+  conditions:
+    - condition: time
+      weekday:
+        - sun
+    - condition: template
+      value_template: >-
+        {{ states.sensor | selectattr('entity_id', 'search', '_battery_plus$')
+           | selectattr('attributes.battery_low', 'eq', true) | list | count > 0 }}
+  actions:
+    - action: script.turn_on
+      target:
+        entity_id: script.matrix_homeassistant_alert
+      data:
+        variables:
+          title: Batteries to replace
+          message: >-
+            {% for b in states.sensor | selectattr('entity_id', 'search', '_battery_plus$')
+               | selectattr('attributes.battery_low', 'eq', true) | sort(attribute='state') -%}
+            {{ b.attributes.device_name }}: {{ b.state | round(0) }}%, needs {{ b.attributes.battery_type_and_quantity }}
+            {% endfor %}

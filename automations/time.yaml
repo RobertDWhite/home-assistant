@@ -5,15 +5,18 @@
 
 - id: garbage_collection_reminder
   alias: Garbage Collection Reminder
-  description: Tuesday 9pm reminder on the Great Room and Office Sonos plus a phone notification.
+  description: >-
+    9pm the night before pickup (sensor.trash_pickup from Waste Collection Schedule, weekly on
+    Wednesday) on the Great Room and Office Sonos plus a phone notification. Holiday shifts go in
+    the schedule's excludes/dates, not here.
   mode: single
   triggers:
     - trigger: time
       at: "21:00:00"
   conditions:
-    - condition: time
-      weekday:
-        - tue
+    - condition: state
+      entity_id: sensor.trash_pickup
+      state: "1"
   variables:
     message: "Good evening. Did you remember to take the trash out to the road? Don't forget to take the trash out to the road before you go to bed this evening. Have a great night."
   actions:
