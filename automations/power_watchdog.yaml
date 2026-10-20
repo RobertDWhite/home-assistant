@@ -1,0 +1,198 @@
+# Rack UPS (NUT) power alerts and a watchdog for key devices. Notifications only: nothing here
+# switches loads based on power state. Alerts go to Matrix (encrypted Hookshot script) and the phone.
+
+- id: power_ups_on_battery
+  alias: Power - UPS on battery
+  description: Mains power lost at the rack UPS.
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: sensor.ups_status_data
+      not_from: [unknown, unavailable]
+      not_to: [unknown, unavailable]
+  conditions:
+    - condition: template
+      value_template: >-
+        {{ 'OB' in trigger.to_state.state.split() and 'OB' not in trigger.from_state.state.split() }}
+  actions:
+    - variables:
+        message: >-
+          The UPS is running on battery. Charge {{ states('sensor.ups_battery_charge') }}%,
+          load {{ states('sensor.ups_load') }}%,
+          about {{ (states('sensor.ups_battery_runtime') | int(0) / 60) | round(0) | int }} min of runtime.
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Power outage
+              message: "{{ message }}"
+        - action: notify.mobile_app_iphone_robert
+          continue_on_error: true
+          data:
+            title: Power outage
+            message: "{{ message }}"
+            data:
+              push:
+                interruption-level: time-sensitive
+
+- id: power_ups_restored
+  alias: Power - UPS back on mains
+  description: Mains power restored after the UPS ran on battery.
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: sensor.ups_status_data
+      not_from: [unknown, unavailable]
+      not_to: [unknown, unavailable]
+  conditions:
+    - condition: template
+      value_template: >-
+        {{ 'OB' in trigger.from_state.state.split() and 'OB' not in trigger.to_state.state.split() }}
+  actions:
+    - variables:
+        message: >-
+          Mains power is back after {{ ((as_timestamp(now()) - as_timestamp(trigger.from_state.last_changed)) / 60) | round(0) | int }} min
+          on battery. Charge {{ states('sensor.ups_battery_charge') }}%.
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Power restored
+              message: "{{ message }}"
+        - action: notify.mobile_app_iphone_robert
+          continue_on_error: true
+          data:
+            title: Power restored
+            message: "{{ message }}"
+
+- id: power_ups_low_runtime
+  alias: Power - UPS battery nearly exhausted
+  description: On battery with under 5 minutes left, or the UPS raised its low-battery flag.
+  mode: single
+  triggers:
+    - trigger: numeric_state
+      entity_id: sensor.ups_battery_runtime
+      below: 300
+    - trigger: state
+      entity_id: sensor.ups_status_data
+  conditions:
+    - condition: template
+      value_template: >-
+        {% set flags = states('sensor.ups_status_data').split() %}
+        {{ 'OB' in flags and ('LB' in flags or states('sensor.ups_battery_runtime') | int(9999) < 300) }}
+  actions:
+    - variables:
+        message: >-
+          UPS battery nearly exhausted: {{ states('sensor.ups_battery_charge') }}% charge,
+          about {{ (states('sensor.ups_battery_runtime') | int(0) / 60) | round(1) }} min left
+          (status {{ states('sensor.ups_status_data') }}). The cluster will begin shutting down.
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: UPS battery low
+              message: "{{ message }}"
+        - action: notify.mobile_app_iphone_robert
+          continue_on_error: true
+          data:
+            title: UPS battery low
+            message: "{{ message }}"
+            data:
+              push:
+                interruption-level: time-sensitive
+    # One alert per outage: wait until the UPS is off battery before re-arming
+    - wait_template: "{{ 'OB' not in states('sensor.ups_status_data').split() }}"
+
+- id: watchdog_key_device_unavailable
+  alias: Watchdog - key device unavailable
+  description: Alert when a key device has been unavailable for an hour, and again when it recovers.
+  mode: parallel
+  max: 20
+  triggers:
+    - trigger: state
+      id: down
+      entity_id: &watched
+        - sensor.ups_status_data
+        - climate.master_bath
+        - climate.thermostat_1_nativezone
+        - climate.jacuzzi_j_475_thermostat
+        - lock.front_door
+        - lock.back_door
+        - lock.storage_room_lock
+        - lock.small_garage_door_lock
+        - lock.large_garage_door_lock
+        - cover.small_garage_door
+        - cover.large_garage_door
+        - alarm_control_panel.alarmo
+      to: unavailable
+      for: "01:00:00"
+    - trigger: state
+      id: up
+      entity_id: *watched
+      from: unavailable
+      not_to: unknown
+  conditions:
+    # Recovery notices only for outages long enough to have raised an alert
+    - condition: template
+      value_template: >-
+        {{ trigger.id == 'down'
+           or as_timestamp(now()) - as_timestamp(trigger.from_state.last_changed) >= 3600 }}
+  actions:
+    - variables:
+        name: "{{ trigger.to_state.name }}"
+        title: "{{ 'Device offline' if trigger.id == 'down' else 'Device back online' }}"
+        message: >-
+          {% if trigger.id == 'down' %}
+          {{ name }} ({{ trigger.entity_id }}) has been unavailable for over an hour.
+          {% else %}
+          {{ name }} is back after {{ ((as_timestamp(now()) - as_timestamp(trigger.from_state.last_changed)) / 3600) | round(1) }} h unavailable.
+          {% endif %}
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: "{{ title }}"
+              message: "{{ message }}"
+        - action: notify.mobile_app_iphone_robert
+          continue_on_error: true
+          data:
+            title: "{{ title }}"
+            message: "{{ message }}"
+
+- id: watchdog_bath_floor_reconnect
+  alias: Watchdog - bath floor thermostat Wi-Fi reconnect
+  description: >-
+    The Watts thermostat can stay on Wi-Fi but lose its cloud link after a blip. Forcing a Wi-Fi
+    reconnect through UniFi brings it back. Tries at 30 min and again at 3 h of being unavailable.
+  mode: single
+  triggers:
+    - trigger: state
+      entity_id: climate.master_bath
+      to: unavailable
+      for: "00:30:00"
+    - trigger: state
+      entity_id: climate.master_bath
+      to: unavailable
+      for: "03:00:00"
+  actions:
+    - action: unifi.reconnect_client
+      continue_on_error: true
+      data:
+        device_id: 5278e90e97c36f6db6da5b035d5fca78  # UniFi client device for the thermostat
+    - action: logbook.log
+      data:
+        name: Bath floor watchdog
+        message: Forced a Wi-Fi reconnect of the bath floor thermostat after it went unavailable.
+        entity_id: climate.master_bath

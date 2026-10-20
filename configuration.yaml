@@ -52,6 +52,8 @@ recorder:
       # Sony XBR-65A8G: flaps off/unavailable all day (~1,300 state rows a week, no real use)
       - media_player.xbr_65a8g
       - media_player.xbr_65a8g_2
+      # Skylight aggregate chores list: attributes exceed the recorder's 16 KB limit
+      - sensor.skylight_all_chores
     # Uptime Kuma: ~1,840 per-monitor metric sensors (response times, uptime %, monitor metadata)
     # churn the DB every 30s. Only the per-monitor *_status sensors stay recorded.
     entity_globs:
