@@ -134,18 +134,24 @@
       data:
         entity_id: media_player.gym_2
         message: "{{ alert_message }}"
-    # Denon AVR - Theatre
-    - delay: "00:00:10"
-    - action: media_player.volume_set
-      continue_on_error: true
-      data:
-        entity_id: media_player.denon_avr_x4700h
-        volume_level: 0.50
-    - action: tts.google_translate_say
-      continue_on_error: true
-      data:
-        entity_id: media_player.denon_avr_x4700h
-        message: "{{ alert_message }}"
+    # Denon AVR - Theatre, only when already on (it rejects play_media while off, which
+    # would stop the run before the phone notification)
+    - if:
+        - condition: state
+          entity_id: media_player.denon_avr_x4700h
+          state: "on"
+      then:
+        - delay: "00:00:10"
+        - action: media_player.volume_set
+          continue_on_error: true
+          data:
+            entity_id: media_player.denon_avr_x4700h
+            volume_level: 0.50
+        - action: tts.google_translate_say
+          continue_on_error: true
+          data:
+            entity_id: media_player.denon_avr_x4700h
+            message: "{{ alert_message }}"
     # Phone
     - action: notify.mobile_app_iphone_robert
       continue_on_error: true
