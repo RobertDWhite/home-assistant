@@ -5,8 +5,8 @@
 - id: house_morning_briefing
   alias: House - morning briefing (local AI)
   description: >-
-    06:30 daily. Gathers today's calendar, forecast, trash day, upcoming anniversaries, low batteries
-    and the sky, and has HA Text AI (sensor.house_briefing) write a short briefing. Shown on the Home view.
+    06:30 daily. Gathers today's calendar (plus tomorrow morning), flights in the next 48 h, forecast,
+    trash day, upcoming anniversaries, low batteries and the sky, and has HA Text AI (sensor.house_briefing) write a short briefing. Shown on the Home view.
   mode: single
   triggers:
     - trigger: time
@@ -18,8 +18,16 @@
         entity_id: calendar.skylight_whitehouse_family
       data:
         duration:
-          hours: 18
+          hours: 30
       response_variable: cal
+    - action: calendar.get_events
+      continue_on_error: true
+      target:
+        entity_id: calendar.flighty
+      data:
+        duration:
+          hours: 48
+      response_variable: flights
     - action: weather.get_forecasts
       continue_on_error: true
       target:
@@ -29,13 +37,19 @@
       response_variable: wx
     - variables:
         facts: >-
-          {% set ev = (cal or {}).get('calendar.skylight_whitehouse_family', {}).get('events', []) %}
+          {% set all_ev = (cal or {}).get('calendar.skylight_whitehouse_family', {}).get('events', []) %}
+          {% set tomorrow = (now() + timedelta(days=1)).date() %}
+          {% set ev = all_ev | selectattr('start', 'lt', tomorrow.isoformat()) | list %}
+          {% set ev_tmrw = all_ev | selectattr('start', 'ge', tomorrow.isoformat()) | list %}
+          {% set fl = (flights or {}).get('calendar.flighty', {}).get('events', []) %}
           {% set fc = (wx or {}).get('weather.kmwo', {}).get('forecast', [])
              | selectattr('datetime', '>=', (now() - timedelta(hours=11)).isoformat()) | list %}
           Today is {{ now().strftime('%A, %B %-d') }}.
           Outside it is {{ states('sensor.thermostat_1_outdoor_temperature') | round(0) }} degrees.
           {% for f in fc[:2] %}{{ 'Today' if f.is_daytime else 'Tonight' }}: {{ f.condition | replace('partlycloudy', 'partly cloudy') | replace('-', ' ') }}, {{ 'high' if f.is_daytime else 'low' }} {{ f.temperature }}, {{ f.precipitation_probability | default(0) }}% chance of rain. {% endfor %}
           {% if ev %}Calendar today: {% for e in ev %}{% set s = as_datetime(e.start) %}{% set all_day = s.strftime('%H:%M') == '00:00' and (as_datetime(e.end) - s).total_seconds() >= 86400 %}{{ e.summary }}{{ ' (all day)' if all_day else ' at ' ~ s.strftime('%-I:%M %p') }}; {% endfor %}{% else %}Nothing on the family calendar today.{% endif %}
+          {% for e in ev_tmrw if as_datetime(e.start).hour < 12 and as_datetime(e.start).strftime('%H:%M') != '00:00' %}{{ 'Tomorrow morning: ' if loop.first }}{{ e.summary }} at {{ as_datetime(e.start).strftime('%-I:%M %p') }}; {% endfor %}
+          {% for f in fl %}{% set d = as_datetime(f.start) %}Flight {{ 'today' if d.date() == now().date() else 'tomorrow' if d.date() == tomorrow else d.strftime('%A') }} at {{ d.strftime('%-I:%M %p') }}: {{ f.summary | replace('✈', '') | replace('​', '') | trim }}.{% if d.date() == tomorrow and d.hour < 9 %} That is an early departure, so plan an early night tonight and pack ahead.{% endif %} {% endfor %}
           {% set td = states('sensor.trash_pickup') | int(-1) %}{% if td == 0 %}Trash pickup is today.{% elif td == 1 %}Trash goes out tonight.{% endif %}
           {% set soon = states.sensor | selectattr('entity_id', 'match', 'sensor.anniversary_') | rejectattr('entity_id', 'search', '_date$') | selectattr('state', 'is_number') | list %}
           {% for a in soon if a.state | int <= 7 %}{{ a.name }} is in {{ a.state }} days. {% endfor %}
@@ -51,7 +65,8 @@
         max_tokens: 1500
         system_prompt: >-
           You write a warm, practical morning briefing for a family's home dashboard. Use only the facts
-          given. 3 to 5 short sentences, plain text, no lists, no emoji, no invented details.
+          given. 3 to 6 short sentences, plain text, no lists, no emoji, no invented details. Always mention
+          flights and anything early tomorrow morning, including any advice given about an early night.
         question: "{{ facts }}"
 
 - id: driveway_vehicle_ai_description
