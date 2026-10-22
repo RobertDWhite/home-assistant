@@ -18,7 +18,7 @@ bath_screen_show:
 
 bath_screen_hide:
   alias: Bath screen - hide
-  description: Go back to the Roku home screen and turn the TV off, but only if the stream is what's playing.
+  description: Go back to the Roku home screen and turn the TV off, but only if the screen channel is what's showing.
   icon: mdi:television-off
   mode: single
   max_exceeded: silent

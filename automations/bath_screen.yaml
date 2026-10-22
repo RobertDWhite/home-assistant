@@ -1,35 +1,53 @@
-# Master bath screen: show the morning/evening dashboard stream on the Roku when someone is in
-# the master bath during the morning or evening window, and take it down after 15 quiet minutes.
-# Layout switches itself at 2 PM (sensor.bath_screen_mode). See scripts/bath_screen.yaml.
+# Master bath screen (see scripts/bath_screen.yaml). Morning: on at 8:30, or earlier if a master
+# bath light comes on after 6:30; off at 9:30. Evening: on at 10:30 PM, or earlier if a light comes
+# on after 10:00 PM; off at midnight. Never interrupts something else playing on the Roku.
+# Layout switches itself at 2 PM (sensor.bath_screen_mode); the stream rotates layout / mirrored
+# layout / kids' cameras every minute (whitehouse-rke2 apps/home/ha-screen).
 
 - id: bath_screen_auto
-  alias: Bath screen - show in the morning and evening
+  alias: Bath screen - morning and evening schedule
   mode: queued
   max: 3
   triggers:
-    - trigger: motion.detected
+    - trigger: time
+      at:
+        - "08:30:00"
+        - "22:30:00"
+      id: start
+    - trigger: light.turned_on
       target:
-        entity_id: binary_sensor.master_bathroom_master_bathroom_motionaware_area_mb
-      id: show
-    - trigger: motion.cleared
-      target:
-        entity_id: binary_sensor.master_bathroom_master_bathroom_motionaware_area_mb
+        entity_id:
+          - light.master_bathroom
+          - light.master_bath_main_lights
+          - light.master_bath_vanity_lights
+          - light.master_bath_shower_lights
       options:
-        for: "00:15:00"
-      id: hide
+        behavior: first
+      id: light
+    - trigger: time
+      at:
+        - "09:30:00"
+        - "00:00:00"
+      id: stop
   actions:
     - choose:
         - conditions:
-            - condition: trigger
-              id: show
             - condition: or
               conditions:
-                - condition: time
-                  after: "05:00:00"
-                  before: "10:00:00"
-                - condition: time
-                  after: "18:30:00"
-                  before: "23:30:00"
+                - condition: trigger
+                  id: start
+                - condition: and
+                  conditions:
+                    - condition: trigger
+                      id: light
+                    - condition: or
+                      conditions:
+                        - condition: time
+                          after: "06:30:00"
+                          before: "09:30:00"
+                        - condition: time
+                          after: "22:00:00"
+                          before: "23:59:59"
             # Don't interrupt something already playing (including the stream itself).
             - condition: not
               conditions:
@@ -43,6 +61,6 @@
             - action: script.bath_screen_show
         - conditions:
             - condition: trigger
-              id: hide
+              id: stop
           sequence:
             - action: script.bath_screen_hide
