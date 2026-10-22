@@ -1,5 +1,5 @@
 # Local-AI extras on the Ollama server (qwen3.8:27b): a morning house briefing written by HA Text AI,
-# an Ollama Vision description of whatever pulls into the driveway, and a weekly Battery Notes digest.
+# an evening wind-down note, an Ollama Vision description of whatever pulls into the driveway, and a weekly Battery Notes digest.
 # Nothing here controls devices; results land on the Overview dashboard (and Matrix for the digest).
 
 - id: house_morning_briefing
@@ -68,6 +68,88 @@
           given. 3 to 6 short sentences, plain text, no lists, no emoji, no invented details. Always mention
           flights and anything early tomorrow morning, including any advice given about an early night.
         question: "{{ facts }}"
+      response_variable: answer
+    # Keep a copy that survives restarts for the bath screen (template/bath_screen.yaml)
+    - if: "{{ answer is defined and (answer.response_text | default('') | trim) != '' }}"
+      then:
+        - event: house_briefing_written
+          event_data:
+            period: morning
+            text: "{{ answer.response_text | trim }}"
+
+- id: house_evening_briefing
+  alias: House - evening briefing (local AI)
+  description: >-
+    19:30 daily. Tomorrow's calendar, flights in the next 36 h, tonight's low and tomorrow's
+    forecast, trash night, and anything left unlocked or open, written by HA Text AI and stored in
+    sensor.evening_briefing for the master bath screen.
+  mode: single
+  triggers:
+    - trigger: time
+      at: "19:30:00"
+  actions:
+    - action: calendar.get_events
+      continue_on_error: true
+      target:
+        entity_id: calendar.skylight_whitehouse_family
+      data:
+        start_date_time: "{{ today_at() + timedelta(days=1) }}"
+        end_date_time: "{{ today_at() + timedelta(days=2) }}"
+      response_variable: cal
+    - action: calendar.get_events
+      continue_on_error: true
+      target:
+        entity_id: calendar.flighty
+      data:
+        duration:
+          hours: 36
+      response_variable: flights
+    - action: weather.get_forecasts
+      continue_on_error: true
+      target:
+        entity_id: weather.kmwo
+      data:
+        type: twice_daily
+      response_variable: wx
+    - variables:
+        facts: >-
+          {% set tomorrow = (now() + timedelta(days=1)).date() %}
+          {% set ev = (cal or {}).get('calendar.skylight_whitehouse_family', {}).get('events', []) %}
+          {% set fl = (flights or {}).get('calendar.flighty', {}).get('events', []) %}
+          {% set fc = (wx or {}).get('weather.kmwo', {}).get('forecast', [])
+             | selectattr('datetime', '>=', (now() - timedelta(hours=11)).isoformat()) | list %}
+          It is {{ now().strftime('%A') }} evening. Tomorrow is {{ tomorrow.strftime('%A, %B %-d') }}.
+          Outside it is {{ states('sensor.thermostat_1_outdoor_temperature') | round(0) }} degrees.
+          {% for f in fc[:3] %}{{ 'Tomorrow' if f.is_daytime else 'Tonight' if loop.first else 'Tomorrow night' }}: {{ f.condition | replace('partlycloudy', 'partly cloudy') | replace('-', ' ') }}, {{ 'high' if f.is_daytime else 'low' }} {{ f.temperature }}, {{ f.precipitation_probability | default(0) }}% chance of rain. {% endfor %}
+          {% if ev %}Calendar tomorrow: {% for e in ev %}{% set s = as_datetime(e.start) if 'T' in e.start else none %}{{ e.summary }}{{ ' (all day)' if s is none or s.strftime('%H:%M') == '00:00' else ' at ' ~ s.strftime('%-I:%M %p') }}; {% endfor %}{% else %}Nothing on the family calendar tomorrow.{% endif %}
+          {% set first = ev | selectattr('start', 'search', 'T') | rejectattr('start', 'search', 'T00:00') | list | first %}
+          {% if first and as_datetime(first.start).hour < 9 %}The first thing tomorrow is early: {{ first.summary }} at {{ as_datetime(first.start).strftime('%-I:%M %p') }}.{% endif %}
+          {% for f in fl %}{% set d = as_datetime(f.start) %}Flight {{ 'tonight' if d.date() == now().date() else 'tomorrow' if d.date() == tomorrow else d.strftime('%A') }} at {{ d.strftime('%-I:%M %p') }}: {{ f.summary | replace('✈', '') | replace('​', '') | trim }}.{% if d.date() == tomorrow and d.hour < 9 %} That is an early departure, so get to bed early and pack tonight.{% endif %} {% endfor %}
+          {% if states('sensor.trash_pickup') | int(-1) == 1 %}Trash pickup is tomorrow, so the bins go out tonight.{% endif %}
+          {% set unlocked = ['lock.front_door', 'lock.back_door', 'lock.small_garage_door_lock', 'lock.large_garage_door_lock', 'lock.storage_room_lock'] | select('is_state', 'unlocked') | map('state_attr', 'friendly_name') | map('replace', ' Lock', '') | list %}
+          {% set open_ = ['cover.small_garage_door', 'cover.large_garage_door'] | select('is_state', 'open') | map('state_attr', 'friendly_name') | list %}
+          {% if unlocked %}Still unlocked: {{ unlocked | join(', ') }}.{% endif %} {% if open_ %}Still open: {{ open_ | join(', ') }}.{% endif %}
+          {% if not unlocked and not open_ %}All doors are locked and the garage doors are closed.{% endif %}
+          The moon is {{ states('sensor.luna_lunar_phase') | lower }}.
+    - action: ha_text_ai.ask_question
+      continue_on_error: true
+      data:
+        instance: sensor.house_briefing
+        max_tokens: 1500
+        disable_thinking: true
+        system_prompt: >-
+          You write a calm, practical evening wind-down note for a family's bathroom screen. Use only
+          the facts given. 3 to 5 short sentences, plain text, no lists, no emoji, no invented details.
+          Lead with anything that needs doing tonight (bins, locks, an early start or flight), then
+          tomorrow's plan and weather.
+        question: "{{ facts }}"
+      response_variable: answer
+    - if: "{{ answer is defined and (answer.response_text | default('') | trim) != '' }}"
+      then:
+        - event: house_briefing_written
+          event_data:
+            period: evening
+            text: "{{ answer.response_text | trim }}"
 
 - id: driveway_vehicle_ai_description
   alias: Driveway - describe arriving vehicle (Ollama Vision)

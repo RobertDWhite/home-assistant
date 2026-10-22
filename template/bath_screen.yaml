@@ -1,0 +1,86 @@
+# Data for the master bath screen (dashboard bath-screen, streamed to the bathroom Roku).
+# The AI briefings are written by automations/house_ai_extras.yaml and kept here so the text
+# survives restarts; the agenda is refreshed every 15 minutes from the family calendar, flights
+# and trash calendars.
+
+- triggers:
+    - trigger: event
+      event_type: house_briefing_written
+      event_data:
+        period: morning
+  sensor:
+    - name: Morning briefing
+      unique_id: bath_screen_morning_briefing
+      icon: mdi:weather-sunset-up
+      device_class: timestamp
+      state: "{{ now().isoformat() }}"
+      attributes:
+        text: "{{ trigger.event.data.text }}"
+
+- triggers:
+    - trigger: event
+      event_type: house_briefing_written
+      event_data:
+        period: evening
+  sensor:
+    - name: Evening briefing
+      unique_id: bath_screen_evening_briefing
+      icon: mdi:weather-night
+      device_class: timestamp
+      state: "{{ now().isoformat() }}"
+      attributes:
+        text: "{{ trigger.event.data.text }}"
+
+- triggers:
+    - trigger: time_pattern
+      minutes: "/15"
+    - trigger: homeassistant
+      event: start
+    - trigger: event
+      event_type: event_template_reloaded
+  actions:
+    - action: calendar.get_events
+      continue_on_error: true
+      target:
+        entity_id:
+          - calendar.skylight_whitehouse_family
+          - calendar.flighty
+          - calendar.trash
+      data:
+        start_date_time: "{{ today_at() }}"
+        end_date_time: "{{ today_at() + timedelta(days=2) }}"
+      response_variable: cal
+  sensor:
+    - name: Bath screen agenda
+      unique_id: bath_screen_agenda
+      icon: mdi:calendar-today
+      device_class: timestamp
+      state: "{{ now().isoformat() }}"
+      attributes:
+        # Lists of {"day": "today"|"tomorrow", "time": "7:30 AM"|"All day", "summary", "kind"}, sorted.
+        events: >-
+          {% set ns = namespace(out=[]) %}
+          {% set tomorrow = (now() + timedelta(days=1)).date() %}
+          {% for cal_id, kind in [('calendar.skylight_whitehouse_family', 'family'), ('calendar.flighty', 'flight'), ('calendar.trash', 'trash')] %}
+            {% for e in (cal or {}).get(cal_id, {}).get('events', []) %}
+              {% set s = as_local(as_datetime(e.start)) if 'T' in e.start else as_local(as_datetime(e.start ~ 'T00:00:00')) %}
+              {% set en = as_local(as_datetime(e.end)) if 'T' in e.end else as_local(as_datetime(e.end ~ 'T00:00:00')) %}
+              {% set all_day = 'T' not in e.start or (s.strftime('%H:%M') == '00:00' and (en - s).total_seconds() >= 86400) %}
+              {% for d in [now().date(), tomorrow] if (all_day and s.date() <= d < en.date()) or (not all_day and s.date() == d) %}
+                {% set ns.out = ns.out + [{
+                  'day': 'today' if d == now().date() else 'tomorrow',
+                  'sort': d.isoformat() ~ ('00:00' if all_day else s.strftime('%H:%M')),
+                  'time': 'All day' if all_day else s.strftime('%-I:%M %p'),
+                  'summary': e.summary | replace('✈', '') | replace('​', '') | trim,
+                  'kind': kind}] %}
+              {% endfor %}
+            {% endfor %}
+          {% endfor %}
+          {{ ns.out | sort(attribute='sort') | list }}
+
+- sensor:
+    - name: Bath screen mode
+      unique_id: bath_screen_mode
+      icon: mdi:television-guide
+      # Morning layout until 2 PM, evening layout after.
+      state: "{{ 'morning' if now().hour < 14 else 'evening' }}"
