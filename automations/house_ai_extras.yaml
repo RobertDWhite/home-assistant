@@ -57,25 +57,31 @@
           {% if low %}Low batteries: {% for b in low %}{{ b.attributes.device_name }} ({{ b.attributes.battery_type_and_quantity }}){{ ', ' if not loop.last }}{% endfor %}.{% endif %}
           The moon is {{ states('sensor.luna_lunar_phase') | lower }}, {{ states('sensor.luna_lunar_percent_illuminated') | round(0) }}% lit.
           {% if 'OL' not in states('sensor.ups_status_data').split() %}Note: the UPS reports {{ states('sensor.ups_status_data') }}.{% endif %}
-    - action: ha_text_ai.ask_question
-      continue_on_error: true
-      data:
-        instance: sensor.house_briefing
-        # qwen3.8 ignores the integration's /no_think switch, so leave room to reason before answering
-        max_tokens: 1500
-        system_prompt: >-
-          You write a warm, practical morning briefing for a family's home dashboard. Use only the facts
-          given. 3 to 6 short sentences, plain text, no lists, no emoji, no invented details. Always mention
-          flights and anything early tomorrow morning, including any advice given about an early night.
-        question: "{{ facts }}"
-      response_variable: answer
-    # Keep a copy that survives restarts for the bath screen (template/bath_screen.yaml)
-    - if: "{{ answer is defined and (answer.response_text | default('') | trim) != '' }}"
-      then:
-        - event: house_briefing_written
-          event_data:
-            period: morning
-            text: "{{ answer.response_text | trim }}"
+    # The Ollama router can answer 504 while a model loads: try up to 3 times, a minute apart.
+    - repeat:
+        count: 3
+        sequence:
+          - action: ha_text_ai.ask_question
+            continue_on_error: true
+            data:
+              instance: sensor.house_briefing
+              # qwen3.8 ignores the integration's /no_think switch, so leave room to reason before answering
+              max_tokens: 1500
+              system_prompt: >-
+                You write a warm, practical morning briefing for a family's home dashboard. Use only the facts
+                given. 3 to 6 short sentences, plain text, no lists, no emoji, no invented details. Always mention
+                flights and anything early tomorrow morning, including any advice given about an early night.
+              question: "{{ facts }}"
+            response_variable: answer
+          - if: "{{ (answer.response_text | default('') | trim) != '' }}"
+            then:
+              # Keep a copy that survives restarts for the bath screen (template/bath_screen.yaml)
+              - event: house_briefing_written
+                event_data:
+                  period: morning
+                  text: "{{ answer.response_text | trim }}"
+              - stop: Briefing written
+          - delay: "00:01:00"
 
 - id: house_evening_briefing
   alias: House - evening briefing (local AI)
@@ -131,25 +137,32 @@
           {% if unlocked %}Still unlocked: {{ unlocked | join(', ') }}.{% endif %} {% if open_ %}Still open: {{ open_ | join(', ') }}.{% endif %}
           {% if not unlocked and not open_ %}All doors are locked and the garage doors are closed.{% endif %}
           The moon is {{ states('sensor.luna_lunar_phase') | lower }}.
-    - action: ha_text_ai.ask_question
-      continue_on_error: true
-      data:
-        instance: sensor.house_briefing
-        max_tokens: 1500
-        disable_thinking: true
-        system_prompt: >-
-          You write a calm, practical evening wind-down note for a family's bathroom screen. Use only
-          the facts given. 3 to 5 short sentences, plain text, no lists, no emoji, no invented details.
-          Lead with anything that needs doing tonight (bins, locks, an early start or flight), then
-          tomorrow's plan and weather.
-        question: "{{ facts }}"
-      response_variable: answer
-    - if: "{{ answer is defined and (answer.response_text | default('') | trim) != '' }}"
-      then:
-        - event: house_briefing_written
-          event_data:
-            period: evening
-            text: "{{ answer.response_text | trim }}"
+    # The Ollama router can answer 504 while a model loads: try up to 3 times, a minute apart.
+    - repeat:
+        count: 3
+        sequence:
+          - action: ha_text_ai.ask_question
+            continue_on_error: true
+            data:
+              instance: sensor.house_briefing
+              max_tokens: 1500
+              disable_thinking: true
+              system_prompt: >-
+                You write a calm, practical evening wind-down note for a family's bathroom screen. Use only
+                the facts given. 3 to 5 short sentences, plain text, no lists, no emoji, no invented details.
+                Lead with anything that needs doing tonight (bins, locks, an early start or flight), then
+                tomorrow's plan and weather.
+              question: "{{ facts }}"
+            response_variable: answer
+          - if: "{{ (answer.response_text | default('') | trim) != '' }}"
+            then:
+              # Keep a copy that survives restarts for the bath screen (template/bath_screen.yaml)
+              - event: house_briefing_written
+                event_data:
+                  period: evening
+                  text: "{{ answer.response_text | trim }}"
+              - stop: Briefing written
+          - delay: "00:01:00"
 
 - id: driveway_vehicle_ai_description
   alias: Driveway - describe arriving vehicle (Ollama Vision)
