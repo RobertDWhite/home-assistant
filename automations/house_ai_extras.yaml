@@ -57,7 +57,7 @@
           {% if low %}Low batteries: {% for b in low %}{{ b.attributes.device_name }} ({{ b.attributes.battery_type_and_quantity }}){{ ', ' if not loop.last }}{% endfor %}.{% endif %}
           The moon is {{ states('sensor.luna_lunar_phase') | lower }}, {{ states('sensor.luna_lunar_percent_illuminated') | round(0) }}% lit.
           {% if 'OL' not in states('sensor.ups_status_data').split() %}Note: the UPS reports {{ states('sensor.ups_status_data') }}.{% endif %}
-    # The Ollama router can answer 504 while a model loads: try up to 3 times, a minute apart.
+    # The Ollama router can answer 504 while a model loads: try up to 3 times, 3 minutes apart.
     - repeat:
         count: 3
         sequence:
@@ -81,7 +81,7 @@
                   period: morning
                   text: "{{ answer.response_text | trim }}"
               - stop: Briefing written
-          - delay: "00:01:00"
+          - delay: "00:03:00"
 
 - id: house_evening_briefing
   alias: House - evening briefing (local AI)
@@ -137,7 +137,7 @@
           {% if unlocked %}Still unlocked: {{ unlocked | join(', ') }}.{% endif %} {% if open_ %}Still open: {{ open_ | join(', ') }}.{% endif %}
           {% if not unlocked and not open_ %}All doors are locked and the garage doors are closed.{% endif %}
           The moon is {{ states('sensor.luna_lunar_phase') | lower }}.
-    # The Ollama router can answer 504 while a model loads: try up to 3 times, a minute apart.
+    # The Ollama router can answer 504 while a model loads: try up to 3 times, 3 minutes apart.
     - repeat:
         count: 3
         sequence:
@@ -162,7 +162,7 @@
                   period: evening
                   text: "{{ answer.response_text | trim }}"
               - stop: Briefing written
-          - delay: "00:01:00"
+          - delay: "00:03:00"
 
 - id: driveway_vehicle_ai_description
   alias: Driveway - describe arriving vehicle (Ollama Vision)

@@ -1,0 +1,42 @@
+# Master bath screen: the Roku plays a live video stream of the "Screen" dashboard (ha-screen),
+# rendered in the cluster (whitehouse-rke2 apps/home/ha-screen). Roku's "Control by mobile apps"
+# must be set to Permissive for Home Assistant to launch it.
+bath_screen_show:
+  alias: Bath screen - show
+  description: Play the dashboard stream on the master bath Roku.
+  icon: mdi:television-play
+  mode: single
+  max_exceeded: silent
+  sequence:
+    - action: media_player.play_media
+      target:
+        entity_id: media_player.master_bath_roku
+      data:
+        media_content_type: url
+        media_content_id: https://screen.internal.white.fm/stream.m3u8
+        extra:
+          format: hls
+          name: House
+
+bath_screen_hide:
+  alias: Bath screen - hide
+  description: Go back to the Roku home screen and turn the TV off, but only if the stream is what's playing.
+  icon: mdi:television-off
+  mode: single
+  max_exceeded: silent
+  sequence:
+    # Play on Roku is app 15985; leave anything else someone is watching alone.
+    - condition: state
+      entity_id: media_player.master_bath_roku
+      attribute: app_id
+      state: "15985"
+    - action: remote.send_command
+      continue_on_error: true
+      target:
+        entity_id: remote.master_bath_roku
+      data:
+        command: home
+    - action: media_player.turn_off
+      continue_on_error: true
+      target:
+        entity_id: media_player.master_bath_roku
