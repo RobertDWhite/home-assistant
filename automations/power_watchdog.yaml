@@ -1,4 +1,4 @@
-# Rack UPS (NUT) power alerts and a watchdog for key devices. Notifications only: nothing here
+# Rack UPS (NUT) power alerts, a watchdog for key devices and a circadian lighting check. Notifications only: nothing here
 # switches loads based on power state. Alerts go to Matrix (encrypted Hookshot script) and the phone.
 
 - id: power_ups_on_battery
@@ -196,3 +196,60 @@
         name: Bath floor watchdog
         message: Forced a Wi-Fi reconnect of the bath floor thermostat after it went unavailable.
         entity_id: climate.master_bath
+
+- id: watchdog_circadian_lighting
+  alias: Watchdog - circadian lighting stopped
+  description: >-
+    Alert when circadian room switches are missing/unavailable (e.g. the YAML is rejected after an
+    integration update) or circadian values stop updating (interval is 10 min). One alert per problem.
+  mode: single
+  max_exceeded: silent
+  variables:
+    expected_switches: 33  # room groups in switch/circadian_lighting.yaml
+  triggers:
+    - trigger: template
+      id: switches
+      value_template: >-
+        {{ states.switch | selectattr('entity_id', 'match', 'switch.circadian_lighting_circadian_')
+           | rejectattr('state', 'in', ['unavailable', 'unknown']) | list | count < 33 }}
+      for: "00:05:00"
+    - trigger: time_pattern
+      id: stale
+      minutes: "/5"
+  conditions:
+    - condition: template
+      value_template: >-
+        {% if trigger.id == 'switches' %}true{% else %}
+        {{ (now() - states.sensor.circadian_values.last_updated).total_seconds() > 1200
+           if states.sensor.circadian_values else true }}{% endif %}
+  actions:
+    - variables:
+        loaded: >-
+          {{ states.switch | selectattr('entity_id', 'match', 'switch.circadian_lighting_circadian_')
+             | rejectattr('state', 'in', ['unavailable', 'unknown']) | list | count }}
+        message: >-
+          {% if trigger.id == 'switches' %}Only {{ loaded }} of {{ expected_switches }} circadian room
+          switches are loaded. Check the Home Assistant log for circadian_lighting config errors.
+          {% else %}Circadian values have not updated since
+          {{ as_local(states.sensor.circadian_values.last_updated).strftime('%-I:%M %p') if states.sensor.circadian_values else 'startup' }};
+          lights are not following the daily curve.{% endif %}
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Circadian lighting stopped
+              message: "{{ message }}"
+        - action: notify.mobile_app_iphone_robert
+          continue_on_error: true
+          data:
+            title: Circadian lighting stopped
+            message: "{{ message }}"
+    # Re-arm only once circadian is healthy again
+    - wait_template: >-
+        {{ states.switch | selectattr('entity_id', 'match', 'switch.circadian_lighting_circadian_')
+           | rejectattr('state', 'in', ['unavailable', 'unknown']) | list | count >= 33
+           and states.sensor.circadian_values is not none
+           and (now() - states.sensor.circadian_values.last_updated).total_seconds() < 1200 }}
