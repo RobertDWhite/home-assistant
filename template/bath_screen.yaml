@@ -84,3 +84,41 @@
       icon: mdi:television-guide
       # Morning layout until 2 PM, evening layout after.
       state: "{{ 'morning' if now().hour < 14 else 'evening' }}"
+
+# 7-day strip for the bath screen. Open-Meteo stamps each day as midnight UTC, which the frontend's
+# weather card shows as the previous evening (Thursday labelled "Wed"), so the day names are taken
+# from the UTC date here and the strip is drawn by a markdown card.
+- triggers:
+    - trigger: time_pattern
+      minutes: "/30"
+    - trigger: homeassistant
+      event: start
+    - trigger: event
+      event_type: event_template_reloaded
+  actions:
+    - action: weather.get_forecasts
+      continue_on_error: true
+      target:
+        entity_id: weather.open_meteo
+      data:
+        type: daily
+      response_variable: wx
+  sensor:
+    - name: Bath screen forecast
+      unique_id: bath_screen_forecast
+      icon: mdi:calendar-week
+      state: "{{ (wx or {}).get('weather.open_meteo', {}).get('forecast', []) | count }}"
+      attributes:
+        # [{"day": "Thu", "condition": "sunny", "high": 70, "low": 41, "precip": 0.0}, ...]
+        days: >-
+          {% set ns = namespace(out=[]) %}
+          {% for f in (wx or {}).get('weather.open_meteo', {}).get('forecast', [])[:7] %}
+            {% set d = strptime(f.datetime[:10], '%Y-%m-%d') %}
+            {% set ns.out = ns.out + [{
+              'day': 'Today' if d.date() == now().date() else d.strftime('%a'),
+              'condition': f.condition,
+              'high': f.temperature | round(0) | int,
+              'low': f.templow | round(0) | int,
+              'precip': f.precipitation | default(0)}] %}
+          {% endfor %}
+          {{ ns.out }}
