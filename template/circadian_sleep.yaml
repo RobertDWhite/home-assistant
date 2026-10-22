@@ -1,0 +1,19 @@
+# Recalculates at 01:00, sunrise, and after startup using HA's local timezone.
+# Checking the local date of next_rising avoids re-entering sleep after sunset.
+- binary_sensor:
+    - name: Circadian Sleep Mode
+      unique_id: circadian_sleep_mode
+      icon: mdi:weather-night
+      availability: >-
+        {{ has_value('sun.sun') and state_attr('sun.sun', 'next_rising') is not none }}
+      state: >-
+        {% set sunrise = state_attr('sun.sun', 'next_rising') %}
+        {{ sunrise is not none
+           and now() >= today_at('01:00')
+           and is_state('sun.sun', 'below_horizon')
+           and as_local(as_datetime(sunrise)).date() == now().date() }}
+      attributes:
+        starts_at: "01:00"
+        ends_at: sunrise
+        sleep_brightness_pct: 10
+        sleep_rgb_color: "{{ [255, 0, 0] }}"

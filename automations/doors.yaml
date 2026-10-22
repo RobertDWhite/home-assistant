@@ -17,13 +17,22 @@
       for:
         minutes: 10
   actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: "{{ trigger.to_state.name }} open"
-        message: "The {{ trigger.to_state.name | lower }} has been open since {{ as_local(trigger.to_state.last_changed).strftime('%-I:%M %p') }}."
-        data:
-          tag: "{{ trigger.entity_id }}_open"
-          url: /lovelace/home
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: '{{ trigger.to_state.name }} open'
+              message: The {{ trigger.to_state.name | lower }} has been open since {{ as_local(trigger.to_state.last_changed).strftime('%-I:%M %p') }}.
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: "{{ trigger.to_state.name }} open"
+            message: "The {{ trigger.to_state.name | lower }} has been open since {{ as_local(trigger.to_state.last_changed).strftime('%-I:%M %p') }}."
+            data:
+              tag: "{{ trigger.entity_id }}_open"
+              url: /lovelace/home
 
 - id: doors_opened_while_away
   alias: Doors - opened while nobody is home
@@ -62,15 +71,24 @@
         'binary_sensor.garage_entry_door_contact': 'camera.garage_g4_instant_high' } %}
       {{ m.get(trigger.entity_id) }}
   actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: "{{ trigger.to_state.name }} opened"
-        message: "The {{ trigger.to_state.name | lower }} opened while nobody is home."
-        data:
-          image: "/api/camera_proxy/{{ camera }}"
-          url: /lovelace/cameras
-          push:
-            interruption-level: time-sensitive
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: '{{ trigger.to_state.name }} opened'
+              message: The {{ trigger.to_state.name | lower }} opened while nobody is home.
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: "{{ trigger.to_state.name }} opened"
+            message: "The {{ trigger.to_state.name | lower }} opened while nobody is home."
+            data:
+              image: "/api/camera_proxy/{{ camera }}"
+              url: /lovelace/cameras
+              push:
+                interruption-level: time-sensitive
     - delay:
         minutes: 2
 
@@ -88,10 +106,19 @@
       from: "off"
       to: "on"
   actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: Sensor tampered
-        message: "{{ trigger.to_state.name }}"
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Sensor tampered
+              message: '{{ trigger.to_state.name }}'
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: Sensor tampered
+            message: "{{ trigger.to_state.name }}"
     - delay:
         minutes: 5
 
@@ -110,19 +137,28 @@
       {{ (s.keys() | map('state_attr', 'friendly_name') | reject('none') | join(', ')) or 'a sensor' }}
   actions:
     - parallel:
-        - action: notify.mobile_app_iphone_robert
-          continue_on_error: true
-          data:
-            title: ALARM
-            message: "Alarm triggered by {{ what }}."
-            data:
-              url: /lovelace/cameras
-              push:
-                sound:
-                  name: default
-                  critical: 1
-                  volume: 1.0
-                interruption-level: critical
+        - parallel:
+            - action: script.turn_on
+              continue_on_error: true
+              target:
+                entity_id: script.matrix_homeassistant_alert
+              data:
+                variables:
+                  title: ALARM
+                  message: Alarm triggered by {{ what }}.
+            - action: notify.mobile_app_iphone_robert
+              continue_on_error: true
+              data:
+                title: ALARM
+                message: "Alarm triggered by {{ what }}."
+                data:
+                  url: /lovelace/cameras
+                  push:
+                    sound:
+                      name: default
+                      critical: 1
+                      volume: 1.0
+                    interruption-level: critical
         - action: script.sonos_say
           continue_on_error: true
           data:
@@ -149,13 +185,22 @@
       {% set s = trigger.event.data.sensors if trigger.event.data.sensors is defined else [] %}
       {{ (s | map('state_attr', 'friendly_name') | reject('none') | join(', ')) or 'an open sensor' }}
   actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: Alarm not armed
-        message: "Could not arm: {{ what }} open."
-        data:
-          push:
-            interruption-level: time-sensitive
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Alarm not armed
+              message: 'Could not arm: {{ what }} open.'
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: Alarm not armed
+            message: "Could not arm: {{ what }} open."
+            data:
+              push:
+                interruption-level: time-sensitive
 
 - id: alarm_state_changed
   alias: Alarm - armed or disarmed
@@ -242,62 +287,86 @@
 
 - id: doors_please_close_announcement
   alias: Doors - "please close" announcement after 15 seconds
-  description: >-
-    Spoken reminder ("Please close the back door") on the house speakers (script.house_announce)
-    when the front, back or garage entry door has been open 15 seconds, repeated every 30 seconds
-    until it closes (capped at 20 minutes in case a sensor sticks open). Each repeat is skipped
-    outside 08:30-21:00 or while input_boolean.door_notifications is off (HomeKit "Door
-    Notifications" switch, auto re-enabled after 5 min). Not affected by the garage entry chime
-    cooldown or script.door_chime_pause. The phone reminder at 10 minutes (doors_left_open) is unchanged.
+  description: 'Front, back and garage-entry reminders after 15 seconds, repeated at the existing 30-second interval.
+    Front door only: after three spoken reminders, beep every 2 seconds between subsequent reminders (4-second speech
+    clearance, no beep at the next reminder). Stops on door close; honors 08:30-21:00 and Door Notifications mute.
+    Other doors keep speech only. Maximum 40 reminder cycles.'
   mode: parallel
   max: 3
   triggers:
-    - trigger: state
-      entity_id:
-        - binary_sensor.front_door_contact
-        - binary_sensor.back_door_contact
-        - binary_sensor.garage_entry_door_contact
-      from: "off"
-      to: "on"
-      for:
-        seconds: 15
+  - trigger: state
+    entity_id:
+    - binary_sensor.front_door_contact
+    - binary_sensor.back_door_contact
+    - binary_sensor.garage_entry_door_contact
+    from: 'off'
+    to: 'on'
+    for:
+      seconds: 15
   variables:
-    door: "{{ trigger.entity_id }}"
-    label: >-
-      {{ {'binary_sensor.front_door_contact': 'front door',
-          'binary_sensor.back_door_contact': 'back door',
-          'binary_sensor.garage_entry_door_contact': 'garage door'}[trigger.entity_id] }}
+    door: '{{ trigger.entity_id }}'
+    label: "{{ {'binary_sensor.front_door_contact': 'front door',\n    'binary_sensor.back_door_contact': 'back\
+      \ door',\n    'binary_sensor.garage_entry_door_contact': 'garage door'}[trigger.entity_id] }}"
+    reminders_spoken: 0
   actions:
-    - repeat:
-        sequence:
-          - if:
-              - alias: Door still open (the triggering door varies, so this is a template)
-                condition: template
-                value_template: "{{ is_state(door, 'on') }}"
-              - alias: Speaking hours (quiet 21:00-08:30)
-                condition: time
-                after: "08:30:00"
-                before: "21:00:00"
-              - alias: Door notifications not silenced
-                condition: state
-                entity_id: input_boolean.door_notifications
-                state: "on"
-            then:
-              - action: script.house_announce
-                data:
-                  message: "Please close the {{ label }}"
-                  volume: 0.50
-          - delay:
-              seconds: 30
-        until:
-          - condition: or
-            conditions:
-              - alias: Door closed
-                condition: template
-                value_template: "{{ is_state(door, 'off') }}"
-              - alias: 20 minute cap (40 x 30 s)
-                condition: template
-                value_template: "{{ repeat.index >= 40 }}"
+  - repeat:
+      sequence:
+      - if:
+        - alias: Door still open (the triggering door varies, so this is a template)
+          condition: template
+          value_template: '{{ is_state(door, ''on'') }}'
+        - alias: Speaking hours (quiet 21:00-08:30)
+          condition: time
+          after: 08:30:00
+          before: '21:00:00'
+        - alias: Door notifications not silenced
+          condition: state
+          entity_id: input_boolean.door_notifications
+          state: 'on'
+        then:
+        - action: script.house_announce
+          data:
+            message: Please close the {{ label }}
+            volume: 0.65
+        - variables:
+            reminders_spoken: '{{ reminders_spoken | int + 1 }}'
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: '{{ door == ''binary_sensor.front_door_contact'' and reminders_spoken | int >= 3 }}'
+          sequence:
+          - variables:
+              gap_started: '{{ as_timestamp(now()) }}'
+          - repeat:
+              count: 15
+              sequence:
+              - wait_template: '{{ not is_state(door, ''on'') }}'
+                timeout:
+                  seconds: '{{ [0.001, (gap_started | float) + repeat.index * 2 - as_timestamp(now())] | max }}'
+                continue_on_timeout: true
+              - if:
+                - condition: template
+                  value_template: '{{ repeat.index >= 2 and repeat.index < 15 and is_state(door, ''on'') and as_timestamp(now())
+                    < (gap_started | float) + 29 }}'
+                then:
+                - action: script.turn_on
+                  continue_on_error: true
+                  target:
+                    entity_id: script.front_door_reminder_beep
+        default:
+        - wait_template: '{{ not is_state(door, ''on'') }}'
+          timeout:
+            seconds: 30
+          continue_on_timeout: true
+      until:
+      - condition: or
+        conditions:
+        - alias: Door closed
+          condition: template
+          value_template: '{{ not is_state(door, ''on'') }}'
+        - alias: 20 minute cap (40 x 30 s)
+          condition: template
+          value_template: '{{ repeat.index >= 40 }}'
 
 - id: doors_notifications_silence_timer
   alias: Doors - silence door notifications for 5 minutes

@@ -11,6 +11,9 @@
       before: "07:30:00"
   action:
     - delay: "00:00:01"
+    # Circadian applies the sleep color/brightness; do not overwrite it with 2000 K.
+    - condition: template
+      value_template: "{{ not is_state('binary_sensor.circadian_sleep_mode', 'on') }}"
     - service: light.turn_on
       target:
         entity_id: light.master_bathroom
@@ -33,6 +36,9 @@
       before: "07:30:00"
   action:
     - delay: "00:00:01"
+    # Circadian applies the sleep color/brightness; do not overwrite it with 2000 K.
+    - condition: template
+      value_template: "{{ not is_state('binary_sensor.circadian_sleep_mode', 'on') }}"
     - service: light.turn_on
       target:
         entity_id:

@@ -28,18 +28,27 @@
     message: "Warning. {{ trigger.to_state.name }}. Please check the house now."
   actions:
     - parallel:
-        - action: notify.mobile_app_iphone_robert
-          continue_on_error: true
-          data:
-            title: "SMOKE / CO ALARM"
-            message: "{{ trigger.to_state.name }}"
-            data:
-              push:
-                sound:
-                  name: default
-                  critical: 1
-                  volume: 1.0
-              interruption-level: critical
+        - parallel:
+            - action: script.turn_on
+              continue_on_error: true
+              target:
+                entity_id: script.matrix_homeassistant_alert
+              data:
+                variables:
+                  title: SMOKE / CO ALARM
+                  message: '{{ trigger.to_state.name }}'
+            - action: notify.mobile_app_iphone_robert
+              continue_on_error: true
+              data:
+                title: "SMOKE / CO ALARM"
+                message: "{{ trigger.to_state.name }}"
+                data:
+                  push:
+                    sound:
+                      name: default
+                      critical: 1
+                      volume: 1.0
+                  interruption-level: critical
         - action: script.sonos_say
           continue_on_error: true
           data:
@@ -105,12 +114,21 @@
       from: "off"
       to: "on"
   actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: Glass break
-        message: "{{ trigger.to_state.name }}"
-        data:
-          image: /api/camera_proxy/camera.front_driveway_g6_bullet_high_resolution_channel
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Glass break
+              message: '{{ trigger.to_state.name }}'
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: Glass break
+            message: "{{ trigger.to_state.name }}"
+            data:
+              image: /api/camera_proxy/camera.front_driveway_g6_bullet_high_resolution_channel
     - delay:
         minutes: 1
 
@@ -207,13 +225,22 @@
         'binary_sensor.garage_g4_instant_person_detected': 'camera.garage_g4_instant_high' } %}
       {{ m.get(trigger.entity_id, 'camera.g4_doorbell_pro_high') }}
   actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: Person outside
-        message: "{{ trigger.to_state.name | replace(' Person detected', '') }}"
-        data:
-          image: "/api/camera_proxy/{{ camera }}"
-          url: /lovelace/cameras
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Person outside
+              message: '{{ trigger.to_state.name | replace('' Person detected'', '''') }}'
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: Person outside
+            message: "{{ trigger.to_state.name | replace(' Person detected', '') }}"
+            data:
+              image: "/api/camera_proxy/{{ camera }}"
+              url: /lovelace/cameras
     - delay:
         minutes: 5
 

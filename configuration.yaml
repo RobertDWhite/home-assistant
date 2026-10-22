@@ -66,14 +66,8 @@ recorder:
       # 50-160 times a week each. Grafana/Prometheus already keep the cluster history.
       - "*.whitehouse_rke2_*"
 
-# Matrix: dedicated bot @homeassistant:white.fm on the house Synapse; joins the "Home Assistant" room.
-# Gives notify.matrix plus matrix_command events for chat-driven automations. Credentials in secrets.yaml.
-matrix:
-  homeserver: https://matrix.internal.white.fm
-  username: !secret matrix_ha_user
-  password: !secret matrix_ha_password
-  rooms:
-    - !secret matrix_ha_room
+# Matrix alerts use the encrypted Hookshot webhook (rest/matrix_homeassistant.yaml).
+# Native Matrix sending is disabled so HA cannot accidentally post plaintext.
 
 # iTunes / Apple Music on the Mac mini via the itunes-api helper (https://github.com/maddox/itunes-api,
 # `npm install -g itunes-api && itunes-api`, listens on 8181). YAML-only integration; needs a restart.

@@ -78,12 +78,21 @@
               - &notify_both
                 alias: Notify Robert and Emily
                 parallel:
-                  - action: notify.mobile_app_iphone_robert
-                    data:
-                      title: "{{ title }}"
-                      message: "{{ message }}"
-                      data:
-                        tag: "{{ door }}_auto_close"
+                  - parallel:
+                      - action: script.turn_on
+                        continue_on_error: true
+                        target:
+                          entity_id: script.matrix_homeassistant_alert
+                        data:
+                          variables:
+                            title: '{{ title }}'
+                            message: '{{ message }}'
+                      - action: notify.mobile_app_iphone_robert
+                        data:
+                          title: "{{ title }}"
+                          message: "{{ message }}"
+                          data:
+                            tag: "{{ door }}_auto_close"
                   - action: notify.mobile_app_iphone_emily
                     data:
                       title: "{{ title }}"

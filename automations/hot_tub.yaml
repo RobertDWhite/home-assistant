@@ -67,7 +67,16 @@
       from: "off"
       to: "on"
   actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: Hot tub
-        message: "{{ trigger.to_state.name | replace('Jacuzzi J-475 ', '') }} needs attention."
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Hot tub
+              message: '{{ trigger.to_state.name | replace(''Jacuzzi J-475 '', '''') }} needs attention.'
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: Hot tub
+            message: "{{ trigger.to_state.name | replace('Jacuzzi J-475 ', '') }} needs attention."

@@ -31,11 +31,20 @@
     message: "The {{ door | lower }} has been open for {{ minutes }} minutes."
   actions:
     - parallel:
-        - action: notify.mobile_app_iphone_robert
-          continue_on_error: true
-          data:
-            title: Refrigerator
-            message: "{{ message }}"
+        - parallel:
+            - action: script.turn_on
+              continue_on_error: true
+              target:
+                entity_id: script.matrix_homeassistant_alert
+              data:
+                variables:
+                  title: Refrigerator
+                  message: '{{ message }}'
+            - action: notify.mobile_app_iphone_robert
+              continue_on_error: true
+              data:
+                title: Refrigerator
+                message: "{{ message }}"
         - sequence:
             - action: media_player.volume_set
               continue_on_error: true
@@ -70,10 +79,19 @@
       entity_id: sensor.refrigerator_water_filter_usage
       above: 99
   actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: Refrigerator
-        message: The water filter is at 100% usage. Replace it, then press "Reset water filter" in Home Assistant.
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Refrigerator
+              message: The water filter is at 100% usage. Replace it, then press "Reset water filter" in Home Assistant.
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: Refrigerator
+            message: The water filter is at 100% usage. Replace it, then press "Reset water filter" in Home Assistant.
 
 - id: kitchen_lights_off_no_motion
   alias: Kitchen - lights off after 10 min with no motion

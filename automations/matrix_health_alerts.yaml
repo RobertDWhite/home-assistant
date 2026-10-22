@@ -1,0 +1,81 @@
+# Matrix-only health/weather alerts. Existing phone and speaker rules are separate.
+- id: matrix_backup_failed
+  alias: Matrix - automatic backup failed
+  mode: queued
+  max: 5
+  triggers:
+    - trigger: state
+      entity_id: event.backup_automatic_backup
+      not_from: [unknown, unavailable]
+      not_to: [unknown, unavailable]
+  conditions:
+    - condition: template
+      value_template: "{{ trigger.to_state.attributes.event_type | default('') == 'failed' }}"
+  actions:
+    - action: script.turn_on
+      target:
+        entity_id: script.matrix_homeassistant_alert
+      data:
+        variables:
+          title: Home Assistant backup failed
+          message: >-
+            Automatic backup failed. Reason: {{ trigger.to_state.attributes.failed_reason | default('Not reported', true) }}.
+            Check Settings > System > Backups.
+
+- id: matrix_backup_stale
+  alias: Matrix - no successful backup in 48 hours
+  mode: single
+  triggers:
+    - trigger: time
+      at: "09:00:00"
+  conditions:
+    - condition: template
+      value_template: >-
+        {{ as_timestamp(now()) - as_timestamp(states('sensor.backup_last_successful_automatic_backup'), 0) > 48 * 3600 }}
+  actions:
+    - action: script.turn_on
+      target:
+        entity_id: script.matrix_homeassistant_alert
+      data:
+        variables:
+          title: Home Assistant backup overdue
+          message: >-
+            No successful automatic backup has been reported in the last 48 hours.
+            Last success: {{ states('sensor.backup_last_successful_automatic_backup') }}.
+            Check Settings > System > Backups.
+
+- id: matrix_nws_weather_alert
+  alias: Matrix - new NWS weather alert
+  description: New tornado, severe thunderstorm and blizzard alerts (list in custom_templates/nws_alerts.jinja) at any hour; speaker quiet hours do not suppress Matrix posts.
+  mode: queued
+  max: 10
+  triggers:
+    - trigger: state
+      entity_id: sensor.nws_alert_event
+      not_from: [unknown, unavailable]
+      not_to: [unknown, unavailable]
+  variables:
+    new_alerts: >-
+      {% set previous = trigger.from_state.attributes.features | default([], true) %}
+      {% set current = trigger.to_state.attributes.features | default([], true) %}
+      {% set old_ids = previous | map(attribute='id') | list %}
+      {% from 'nws_alerts.jinja' import alarm_features %}
+      {{ alarm_features(current) | from_json | rejectattr('id', 'in', old_ids) | list }}
+  conditions:
+    - condition: template
+      value_template: "{{ new_alerts | count > 0 }}"
+  actions:
+    - repeat:
+        for_each: "{{ new_alerts }}"
+        sequence:
+          - action: script.turn_on
+            target:
+              entity_id: script.matrix_homeassistant_alert
+            data:
+              variables:
+                title: "NWS: {{ repeat.item.properties.event }}"
+                message: >-
+                  {{ repeat.item.properties.headline | default(repeat.item.properties.event, true) }}
+                  Area: {{ repeat.item.properties.areaDesc | default('Local area', true) }}.
+                  Expires: {{ repeat.item.properties.expires | default('Not reported', true) }}.
+                  {{ repeat.item.properties.instruction | default('', true) }}

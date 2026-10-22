@@ -28,10 +28,14 @@
     content_type:  'application/json'
     resource: !secret matrix_hook_smarthome
 
-# Core matrix integration (bot @homeassistant:white.fm) -> notify.matrix
+# Encrypted Home Assistant room via Hookshot; the webhook URL stays in secrets.yaml.
   - name: matrix
-    platform: matrix
-    default_room: !secret matrix_ha_room
+    platform: rest
+    method: POST_JSON
+    verify_ssl: true
+    resource: !secret matrix_hook_homeassistant_e2ee
+    message_param_name: message
+    title_param_name: title
 
 # Email via the in-cluster postfix relay (whitehouse-rke2 apps/misc/postfix, LoadBalancer postfix-lb
 # 10.99.5.127:25, netpol allows only this HA VM). The relay authenticates to Proton as

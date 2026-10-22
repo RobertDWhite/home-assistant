@@ -1,0 +1,188 @@
+# Short, gated audio only; no TTS request on each beep.
+front_door_reminder_beep:
+  alias: Front door - short reminder beep
+  description: A single short beep. Called every two seconds after the third front-door reminder; blocked when closed,
+    muted or outside speaking hours. Same speakers and playback protections as house_announce.
+  mode: single
+  max_exceeded: silent
+  sequence:
+  - condition: state
+    entity_id: binary_sensor.front_door_contact
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.door_notifications
+    state: 'on'
+  - condition: time
+    after: 08:30:00
+    before: '21:00:00'
+  - parallel:
+    - action: media_player.play_media
+      continue_on_error: true
+      target:
+        entity_id: media_player.family_room
+      data:
+        media_content_id: http://10.100.1.30:8123/local/media/front-door-reminder-beep.mp3
+        media_content_type: music
+        announce: true
+        extra:
+          volume: 50
+    - action: media_player.play_media
+      continue_on_error: true
+      target:
+        entity_id: media_player.unnamed_room_2
+      data:
+        media_content_id: http://10.100.1.30:8123/local/media/front-door-reminder-beep.mp3
+        media_content_type: music
+        announce: true
+        extra:
+          volume: 50
+    - if:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: media_player.kitchen
+          state:
+          - playing
+          - unavailable
+          - unknown
+      then:
+      - action: media_player.volume_set
+        continue_on_error: true
+        target:
+          entity_id: media_player.kitchen
+        data:
+          volume_level: 0.5
+      - action: media_player.play_media
+        continue_on_error: true
+        target:
+          entity_id: media_player.kitchen
+        data:
+          media_content_id: http://10.100.1.30:8123/local/media/front-door-reminder-beep.mp3
+          media_content_type: music
+    - if:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: media_player.play_room
+          state:
+          - playing
+          - unavailable
+          - unknown
+      then:
+      - action: media_player.volume_set
+        continue_on_error: true
+        target:
+          entity_id: media_player.play_room
+        data:
+          volume_level: 0.5
+      - action: media_player.play_media
+        continue_on_error: true
+        target:
+          entity_id: media_player.play_room
+        data:
+          media_content_id: http://10.100.1.30:8123/local/media/front-door-reminder-beep.mp3
+          media_content_type: music
+    - if:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: media_player.bedroom
+          state:
+          - playing
+          - unavailable
+          - unknown
+      then:
+      - action: media_player.volume_set
+        continue_on_error: true
+        target:
+          entity_id: media_player.bedroom
+        data:
+          volume_level: 0.5
+      - action: media_player.play_media
+        continue_on_error: true
+        target:
+          entity_id: media_player.bedroom
+        data:
+          media_content_id: http://10.100.1.30:8123/local/media/front-door-reminder-beep.mp3
+          media_content_type: music
+    - if:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: media_player.backyard_2
+          state:
+          - playing
+          - unavailable
+          - unknown
+      then:
+      - action: media_player.volume_set
+        continue_on_error: true
+        target:
+          entity_id: media_player.backyard_2
+        data:
+          volume_level: 0.5
+      - action: media_player.play_media
+        continue_on_error: true
+        target:
+          entity_id: media_player.backyard_2
+        data:
+          media_content_id: http://10.100.1.30:8123/local/media/front-door-reminder-beep.mp3
+          media_content_type: music
+    - if:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: media_player.gym_2
+          state:
+          - playing
+          - unavailable
+          - unknown
+      then:
+      - action: media_player.volume_set
+        continue_on_error: true
+        target:
+          entity_id: media_player.gym_2
+        data:
+          volume_level: 0.5
+      - action: media_player.play_media
+        continue_on_error: true
+        target:
+          entity_id: media_player.gym_2
+        data:
+          media_content_id: http://10.100.1.30:8123/local/media/front-door-reminder-beep.mp3
+          media_content_type: music
+    - if:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: media_player.garage_2
+          state:
+          - playing
+          - unavailable
+          - unknown
+      then:
+      - action: media_player.volume_set
+        continue_on_error: true
+        target:
+          entity_id: media_player.garage_2
+        data:
+          volume_level: 0.5
+      - action: media_player.play_media
+        continue_on_error: true
+        target:
+          entity_id: media_player.garage_2
+        data:
+          media_content_id: http://10.100.1.30:8123/local/media/front-door-reminder-beep.mp3
+          media_content_type: music
+    - if:
+      - condition: state
+        entity_id: media_player.denon_avr_x4700h
+        state: 'on'
+      then:
+      - action: media_player.play_media
+        continue_on_error: true
+        target:
+          entity_id: media_player.denon_avr_x4700h
+        data:
+          media_content_id: http://10.100.1.30:8123/local/media/front-door-reminder-beep.mp3
+          media_content_type: music

@@ -1,7 +1,13 @@
+# Sleep: 01:00 until local sunrise; RGB red for color bulbs, warmest white otherwise.
 ### Circadian Lighting #############################################
 
 # Bar Basement
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 50
     name: Circadian Bar
     lights_ct:
@@ -12,6 +18,11 @@
 
 # Basement Staircase
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 20
     name: Circadian Basement Staircase
     lights_ct:
@@ -20,6 +31,11 @@
 
 # Dining Room Main
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 30
     name: Circadian Dining Room Main
     lights_ct:
@@ -33,6 +49,11 @@
 
 # Entry
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 50
     name: Circadian Entry
     lights_ct:
@@ -45,6 +66,11 @@
     
 # Great Room
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 20
     name: Circadian Great Room
     lights_ct:
@@ -57,6 +83,11 @@
   
 # Great Room Accent
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 50
     name: Circadian Great Room Accent
     lights_ct:
@@ -71,6 +102,11 @@
 
 # Guest Bathroom
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 40
     name: Circadian Guest Bathroom
     lights_ct:
@@ -79,6 +115,11 @@
 
 # Kitchen
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Kitchen
     lights_ct:
@@ -95,6 +136,11 @@
 
 # Loft
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Loft
     lights_ct:
@@ -104,6 +150,11 @@
     
 # Master Bedroom
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 40
     name: Circadian Master Bedroom
     lights_ct:
@@ -112,6 +163,11 @@
 
 # Master Bedroom Accent
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 50
     name: Circadian Master Bedroom Accent
     lights_ct:
@@ -121,6 +177,11 @@
 
 # Master Closet
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 10
     name: Circadian Master Closet
     lights_ct:
@@ -131,6 +192,11 @@
 
 # Main Hall
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 2
     name: Circadian Main Hall
     lights_ct:
@@ -140,6 +206,11 @@
 
 # Main Office
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 50
     name: Circadian Main Office
     lights_ct:
@@ -154,6 +225,11 @@
 
 # Main Office Accent
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 15
     name: Circadian Main Office Accent
     lights_ct:
@@ -162,6 +238,11 @@
       
 # Music / Play
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 40
     name: Circadian Music and Play
     lights_ct:
@@ -172,6 +253,11 @@
    
 # Storage - Basement
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 40
     name: Circadian Storage
     lights_ct:
@@ -181,6 +267,11 @@
       
 # Theatre
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Theatre
     lights_ct:
@@ -191,6 +282,11 @@
       
 # Theatre Accent
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Theatre Accent
     lights_ct:
@@ -199,6 +295,11 @@
       
 # Theatre Rear
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Theatre Rear
     lights_ct:
@@ -207,6 +308,11 @@
 
 # Theatre Hallway
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Theatre Hall
     lights_ct:
@@ -214,6 +320,11 @@
 
 # Upstairs Hallway
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Upstairs Hallway
     lights_ct:
@@ -224,6 +335,11 @@
 
 # Upstairs Office
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Upstairs Office
     lights_ct:
@@ -236,6 +352,11 @@
 
 # Annie's Room
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Annie
     lights_ct:
@@ -245,6 +366,11 @@
 
 # Annie's Room Accent
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Annie Accent
     lights_ct:
@@ -253,6 +379,11 @@
 
 # Elsie's Room
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Elsie
     lights_ct:
@@ -262,6 +393,11 @@
 
 # Elsie's Room Accent
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Elsie Accent
     lights_ct:
@@ -272,6 +408,11 @@
 
 # Weston's Room
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Weston
     lights_ct:
@@ -281,6 +422,11 @@
 
 # Weston's Room Accent
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 35
     name: Circadian Weston Accent
     lights_ct:
@@ -291,6 +437,11 @@
 
 # Master Bathroom
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 40
     name: Circadian Master Bathroom
     lights_ct:
@@ -309,6 +460,11 @@
 # Lightstrip. While this switch is OFF the strip shows purple whenever another bath light is on
 # (master_bath_strip_follows_lights); while it is ON circadian sets the strip's colour temperature.
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 40
     name: Circadian Master Bathroom Accent
     lights_ct:
@@ -316,6 +472,11 @@
 
 # Upstairs Bathroom
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 40
     name: Circadian Upstairs Bathroom
     lights_ct:
@@ -327,6 +488,11 @@
 
 # Basement Bathroom
   - platform: circadian_lighting
+    sleep_entity: binary_sensor.circadian_sleep_mode
+    sleep_state: "on"
+    sleep_colortemp: 1000
+    sleep_rgb_color: [255, 0, 0]
+    sleep_brightness: 10
     min_brightness: 30
     name: Circadian Basement Bathroom
     lights_ct:

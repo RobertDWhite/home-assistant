@@ -8,11 +8,20 @@
     - trigger: homeassistant
       event: start
   actions:
-    - action: notify.mobile_app_iphone_robert
-      continue_on_error: true
-      data:
-        title: Home Assistant
-        message: Home Assistant has started.
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Home Assistant
+              message: Home Assistant has started.
+        - action: notify.mobile_app_iphone_robert
+          continue_on_error: true
+          data:
+            title: Home Assistant
+            message: Home Assistant has started.
 
 - id: maintenance_updates_available
   alias: Maintenance - update available
@@ -47,10 +56,19 @@
       entity_id: sensor.synology_volume_1_volume_used
       above: 95
   actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: Synology
-        message: "Volume 1 is {{ states('sensor.synology_volume_1_volume_used') }}% full (status: {{ states('sensor.synology_volume_1_status') }})."
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Synology
+              message: 'Volume 1 is {{ states(''sensor.synology_volume_1_volume_used'') }}% full (status: {{ states(''sensor.synology_volume_1_status'') }}).'
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: Synology
+            message: "Volume 1 is {{ states('sensor.synology_volume_1_volume_used') }}% full (status: {{ states('sensor.synology_volume_1_status') }})."
 
 - id: maintenance_synology_security
   alias: Maintenance - Synology security advisor
@@ -62,10 +80,19 @@
       from: "off"
       to: "on"
   actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: Synology
-        message: DSM Security Advisor reports an issue.
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Synology
+              message: DSM Security Advisor reports an issue.
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: Synology
+            message: DSM Security Advisor reports an issue.
 
 - id: maintenance_low_batteries_weekly
   alias: Maintenance - low battery digest
@@ -91,10 +118,19 @@
     - alias: Skip the notice when nothing is low
       condition: template
       value_template: "{{ low_list | count > 0 }}"
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: Low batteries
-        message: "{{ low_list | join(', ') }}"
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Low batteries
+              message: '{{ low_list | join('', '') }}'
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: Low batteries
+            message: "{{ low_list | join(', ') }}"
 
 - id: maintenance_nws_sensor_offline
   alias: Maintenance - weather alert feed offline
@@ -107,10 +143,19 @@
       for:
         hours: 6
   actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: Weather alerts
-        message: The NWS alert sensor has been unavailable for 6 hours. Severe-weather announcements are not working.
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Weather alerts
+              message: The NWS alert sensor has been unavailable for 6 hours. Severe-weather announcements are not working.
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: Weather alerts
+            message: The NWS alert sensor has been unavailable for 6 hours. Severe-weather announcements are not working.
 
 
 - id: maintenance_cluster_node_down
@@ -133,10 +178,19 @@
       for:
         minutes: 3
   actions:
-    - action: notify.mobile_app_iphone_robert
-      data:
-        title: Cluster
-        message: "{{ trigger.to_state.attributes.friendly_name | default(trigger.entity_id) }} is NotReady."
+    - parallel:
+        - action: script.turn_on
+          continue_on_error: true
+          target:
+            entity_id: script.matrix_homeassistant_alert
+          data:
+            variables:
+              title: Cluster
+              message: '{{ trigger.to_state.attributes.friendly_name | default(trigger.entity_id) }} is NotReady.'
+        - action: notify.mobile_app_iphone_robert
+          data:
+            title: Cluster
+            message: "{{ trigger.to_state.attributes.friendly_name | default(trigger.entity_id) }} is NotReady."
 
 - id: ai_keep_vision_model_warm
   alias: AI - keep doorbell vision model warm

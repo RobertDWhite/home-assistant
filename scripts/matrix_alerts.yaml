@@ -1,0 +1,53 @@
+matrix_homeassistant_alert:
+  alias: Matrix - encrypted Home Assistant alert
+  description: >-
+    Sends through the Home Assistant room's encrypted Hookshot connection. Three attempts,
+    then a local persistent notification. There is no plaintext Matrix fallback.
+    Call via script.turn_on so delivery cannot delay house safety actions.
+  mode: parallel
+  max: 20
+  fields:
+    title:
+      description: Alert heading
+      selector:
+        text:
+    message:
+      description: Alert details
+      required: true
+      selector:
+        text:
+          multiline: true
+  sequence:
+    - repeat:
+        count: 3
+        sequence:
+          - variables:
+              matrix_response:
+                status: 0
+          - action: rest_command.matrix_homeassistant_alert
+            continue_on_error: true
+            data:
+              title: "{{ title | default('Home Assistant', true) }}"
+              message: "{{ message }}"
+            response_variable: matrix_response
+          - if: >-
+              {{ matrix_response is mapping
+                 and 200 <= (matrix_response.status | default(0) | int) < 300
+                 and matrix_response.content is defined
+                 and matrix_response.content is mapping
+                 and matrix_response.content.ok | default(false) }}
+            then:
+              - stop: Hookshot confirmed encrypted delivery
+          - if: "{{ repeat.index < 3 }}"
+            then:
+              - delay:
+                  seconds: 10
+    - action: persistent_notification.create
+      data:
+        notification_id: matrix_homeassistant_delivery_failed
+        title: Matrix alert delivery failed
+        message: >-
+          An alert could not be delivered to the encrypted Home Assistant Matrix room after
+          three attempts. Check Hookshot and its webhook connection. No plaintext fallback was used.
+    - stop: Matrix alert could not be delivered
+      error: true

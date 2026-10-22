@@ -1,0 +1,10 @@
+# HTTPS to the local Hookshot bridge; Matrix content is encrypted by Hookshot.
+# Room: the encrypted Home Assistant room (Megolm); webhook URL in secrets.yaml.
+matrix_homeassistant_alert:
+  url: !secret matrix_hook_homeassistant_e2ee
+  method: POST
+  verify_ssl: true
+  timeout: 30
+  content_type: application/json
+  payload: >-
+    {{ {'title': title | default('Home Assistant', true), 'message': message} | to_json }}
