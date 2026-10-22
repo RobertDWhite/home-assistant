@@ -244,8 +244,11 @@ circadian_lighting:
   interval: 600
   max_colortemp: 6500
   min_colortemp: 2000
+  # Start the daily curve 90 min before real sunrise (also moves its peak earlier) so mornings are
+  # not still warm at 8-9am in fall/winter. Sleep mode still ends at the real sunrise.
+  sunrise_offset: "-01:30:00"
   
-circadian_lighting_bridge:
+# Legacy circadian_lighting_bridge retired: circadian_hue_scene_sync owns Hue scenes.
 
 device_tracker:
   - platform: icloud3
