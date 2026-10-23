@@ -34,7 +34,10 @@ bath_screen_hide:
         entity_id: remote.master_bath_roku
       data:
         command: home
-    - action: media_player.turn_off
+    # A Streaming Stick can't power itself down (it would sit on the Roku City screensaver with
+    # the TV lit); PowerOff asks it to put the TV in standby over HDMI-CEC.
+    - delay: "00:00:02"
+    - action: rest_command.bath_roku_keypress
       continue_on_error: true
-      target:
-        entity_id: media_player.master_bath_roku
+      data:
+        key: PowerOff

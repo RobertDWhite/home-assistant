@@ -1,0 +1,6 @@
+# Raw Roku ECP keypress for the master bath Roku (keys the Roku integration doesn't map, e.g.
+# PowerOff). The Roku's "Control by mobile apps" must be Permissive.
+bath_roku_keypress:
+  url: "http://10.100.22.10:8060/keypress/{{ key }}"
+  method: POST
+  timeout: 10

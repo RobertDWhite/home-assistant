@@ -132,7 +132,8 @@
           {% if first and as_datetime(first.start).hour < 9 %}The first thing tomorrow is early: {{ first.summary }} at {{ as_datetime(first.start).strftime('%-I:%M %p') }}.{% endif %}
           {% for f in fl %}{% set d = as_datetime(f.start) %}Flight {{ 'tonight' if d.date() == now().date() else 'tomorrow' if d.date() == tomorrow else d.strftime('%A') }} at {{ d.strftime('%-I:%M %p') }}: {{ f.summary | replace('✈', '') | replace('​', '') | trim }}.{% if d.date() == tomorrow and d.hour < 9 %} That is an early departure, so get to bed early and pack tonight.{% endif %} {% endfor %}
           {% if states('sensor.trash_pickup') | int(-1) == 1 %}Trash pickup is tomorrow, so the bins go out tonight.{% endif %}
-          {% set unlocked = ['lock.front_door', 'lock.back_door', 'lock.small_garage_door_lock', 'lock.large_garage_door_lock', 'lock.storage_room_lock'] | select('is_state', 'unlocked') | map('state_attr', 'friendly_name') | map('replace', ' Lock', '') | list %}
+          {# The garage openers' lock entities are their remote-lockout switch, not door locks. #}
+          {% set unlocked = ['lock.front_door', 'lock.back_door', 'lock.storage_room_lock'] | select('is_state', 'unlocked') | map('state_attr', 'friendly_name') | map('replace', ' Lock', '') | list %}
           {% set open_ = ['cover.small_garage_door', 'cover.large_garage_door'] | select('is_state', 'open') | map('state_attr', 'friendly_name') | list %}
           {% if unlocked %}Still unlocked: {{ unlocked | join(', ') }}.{% endif %} {% if open_ %}Still open: {{ open_ | join(', ') }}.{% endif %}
           {% if not unlocked and not open_ %}All doors are locked and the garage doors are closed.{% endif %}
