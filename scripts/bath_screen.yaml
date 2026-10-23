@@ -9,16 +9,13 @@ bath_screen_show:
   mode: single
   max_exceeded: silent
   sequence:
-    - action: media_player.play_media
-      target:
-        entity_id: media_player.master_bath_roku
+    - action: rest_command.bath_roku_screen
       data:
-        media_content_type: app
-        media_content_id: dev
+        content: live
 
 bath_screen_hide:
   alias: Bath screen - hide
-  description: Go back to the Roku home screen and turn the TV off, but only if the screen channel is what's showing.
+  description: Black out the master bath screen, but only if the screen channel is what's showing.
   icon: mdi:television-off
   mode: single
   max_exceeded: silent
@@ -28,16 +25,9 @@ bath_screen_hide:
       entity_id: media_player.master_bath_roku
       attribute: app_id
       state: dev
-    - action: remote.send_command
-      continue_on_error: true
-      target:
-        entity_id: remote.master_bath_roku
+    # The TV has no network and no HDMI-CEC, so it can't be switched off from here, and a Roku left
+    # on its home screen starts the Roku City screensaver. The channel plays a looping black clip
+    # instead, which also keeps the screensaver away.
+    - action: rest_command.bath_roku_screen
       data:
-        command: home
-    # A Streaming Stick can't power itself down (it would sit on the Roku City screensaver with
-    # the TV lit); PowerOff asks it to put the TV in standby over HDMI-CEC.
-    - delay: "00:00:02"
-    - action: rest_command.bath_roku_keypress
-      continue_on_error: true
-      data:
-        key: PowerOff
+        content: blank

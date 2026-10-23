@@ -1,6 +1,6 @@
 # Master bath screen (see scripts/bath_screen.yaml). Morning: on at 8:30, or earlier if a master
 # bath light comes on after 6:30; off at 9:30. Evening: on at 10:30 PM, or earlier if a light comes
-# on after 10:00 PM; off at midnight. Never interrupts something else playing on the Roku.
+# on after 10:00 PM; off (black screen) at midnight. Never interrupts something else playing on the Roku.
 # Layout switches itself at 2 PM (sensor.bath_screen_mode); the stream rotates layout / mirrored
 # layout / kids' cameras every minute (whitehouse-rke2 apps/home/ha-screen).
 
@@ -48,15 +48,22 @@
                         - condition: time
                           after: "22:00:00"
                           before: "23:59:59"
-            # Don't interrupt something already playing (including the stream itself).
-            - condition: not
+            # Don't interrupt something else playing. The screen channel ("dev") is always fair
+            # game: between sessions it sits on a black clip.
+            - condition: or
               conditions:
                 - condition: state
                   entity_id: media_player.master_bath_roku
-                  state:
-                    - playing
-                    - paused
-                    - buffering
+                  attribute: app_id
+                  state: dev
+                - condition: not
+                  conditions:
+                    - condition: state
+                      entity_id: media_player.master_bath_roku
+                      state:
+                        - playing
+                        - paused
+                        - buffering
           sequence:
             - action: script.bath_screen_show
         - conditions:
