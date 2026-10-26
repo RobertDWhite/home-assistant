@@ -1,33 +1,51 @@
-# Master bath screen: the Roku plays a live video stream of the "Screen" dashboard (ha-screen),
-# rendered in the cluster (whitehouse-rke2 apps/home/ha-screen). Roku dropped the "Play on Roku"
-# channel HA used for URLs, so a small sideloaded channel ("dev", apps/home/ha-screen/roku-channel)
-# plays the stream. Needs developer mode and "Control by mobile apps" set to Permissive.
+# Shared controller cancels pending startup on shutdown. IR power commands are discrete.
+bath_screen_power:
+  alias: Bath screen - power controller
+  mode: restart
+  fields:
+    power:
+      required: true
+      selector:
+        boolean: null
+  sequence:
+  - choose:
+    - conditions: '{{ power | bool }}'
+      sequence:
+      - action: media_player.turn_on
+        target:
+          entity_id: media_player.samsung_tv
+      - delay: 00:00:05
+      - action: rest_command.bath_roku_screen
+        data:
+          content: live
+    default:
+    - repeat:
+        count: 2
+        sequence:
+        - action: media_player.turn_off
+          target:
+            entity_id: media_player.samsung_tv
+        - delay: 00:00:01
+    - if:
+      - condition: state
+        entity_id: media_player.master_bath_roku
+        attribute: app_id
+        state: dev
+      then:
+      - action: rest_command.bath_roku_screen
+        data:
+          content: blank
 bath_screen_show:
   alias: Bath screen - show
-  description: Play the dashboard stream on the master bath Roku.
-  icon: mdi:television-play
-  mode: single
-  max_exceeded: silent
+  mode: restart
   sequence:
-    - action: rest_command.bath_roku_screen
-      data:
-        content: live
-
+  - action: switch.turn_on
+    target:
+      entity_id: switch.master_bath_tv
 bath_screen_hide:
   alias: Bath screen - hide
-  description: Black out the master bath screen, but only if the screen channel is what's showing.
-  icon: mdi:television-off
-  mode: single
-  max_exceeded: silent
+  mode: restart
   sequence:
-    # Only when the screen channel ("dev") is up; leave anything else someone is watching alone.
-    - condition: state
-      entity_id: media_player.master_bath_roku
-      attribute: app_id
-      state: dev
-    # The TV has no network and no HDMI-CEC, so it can't be switched off from here, and a Roku left
-    # on its home screen starts the Roku City screensaver. The channel plays a looping black clip
-    # instead, which also keeps the screensaver away.
-    - action: rest_command.bath_roku_screen
-      data:
-        content: blank
+  - action: switch.turn_off
+    target:
+      entity_id: switch.master_bath_tv

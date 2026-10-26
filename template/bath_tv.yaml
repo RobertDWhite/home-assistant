@@ -1,0 +1,13 @@
+# Optimistic: IR has no feedback. Samsung native entity always reports on.
+- switch:
+  - name: Master Bath TV
+    unique_id: master_bath_tv_power
+    icon: mdi:television
+    turn_on:
+    - action: script.bath_screen_power
+      data:
+        power: true
+    turn_off:
+    - action: script.bath_screen_power
+      data:
+        power: false

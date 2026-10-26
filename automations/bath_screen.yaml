@@ -1,73 +1,43 @@
-# Master bath screen (see scripts/bath_screen.yaml). Morning: on at 8:30, or earlier if a master
-# bath light comes on after 6:30; off at 9:30. Evening: on at 10:30 PM, or earlier if a light comes
-# on after 10:00 PM; off (black screen) at midnight. Never interrupts something else playing on the Roku.
-# Layout switches itself at 2 PM (sensor.bath_screen_mode); the stream rotates layout / mirrored
-# layout / kids' cameras every minute (whitehouse-rke2 apps/home/ha-screen).
-
+# First bathroom light on starts the TV at any hour; last light off stops it.
+# Retain scheduled starts at 08:30/22:30 and stops at 09:30/midnight.
 - id: bath_screen_auto
-  alias: Bath screen - morning and evening schedule
-  mode: queued
-  max: 3
+  alias: Bath screen - lights and schedule
+  mode: restart
   triggers:
-    - trigger: time
-      at:
-        - "08:30:00"
-        - "22:30:00"
-      id: start
-    - trigger: light.turned_on
-      target:
-        entity_id:
-          - light.master_bathroom
-          - light.master_bath_main_lights
-          - light.master_bath_vanity_lights
-          - light.master_bath_shower_lights
-      options:
-        behavior: first
-      id: light
-    - trigger: time
-      at:
-        - "09:30:00"
-        - "00:00:00"
-      id: stop
+  - trigger: time
+    at:
+    - 08:30:00
+    - '22:30:00'
+    id: start
+  - trigger: light.turned_on
+    target: &id001
+      entity_id:
+      - light.master_bathroom
+      - light.master_bath_main_lights
+      - light.master_bath_vanity_lights
+      - light.master_bath_shower_lights
+    options:
+      behavior: first
+    id: start
+  - trigger: time
+    at:
+    - 09:30:00
+    - 00:00:00
+    id: stop
+  - trigger: light.turned_off
+    target: *id001
+    options:
+      behavior: all
+    id: stop
   actions:
-    - choose:
-        - conditions:
-            - condition: or
-              conditions:
-                - condition: trigger
-                  id: start
-                - condition: and
-                  conditions:
-                    - condition: trigger
-                      id: light
-                    - condition: or
-                      conditions:
-                        - condition: time
-                          after: "06:30:00"
-                          before: "09:30:00"
-                        - condition: time
-                          after: "22:00:00"
-                          before: "23:59:59"
-            # Don't interrupt something else playing. The screen channel ("dev") is always fair
-            # game: between sessions it sits on a black clip.
-            - condition: or
-              conditions:
-                - condition: state
-                  entity_id: media_player.master_bath_roku
-                  attribute: app_id
-                  state: dev
-                - condition: not
-                  conditions:
-                    - condition: state
-                      entity_id: media_player.master_bath_roku
-                      state:
-                        - playing
-                        - paused
-                        - buffering
-          sequence:
-            - action: script.bath_screen_show
-        - conditions:
-            - condition: trigger
-              id: stop
-          sequence:
-            - action: script.bath_screen_hide
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: start
+      sequence:
+      - action: script.bath_screen_show
+    - conditions:
+      - condition: trigger
+        id: stop
+      sequence:
+      - action: script.bath_screen_hide
