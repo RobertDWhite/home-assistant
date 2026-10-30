@@ -130,7 +130,8 @@
   description: >-
     When the kitchen Hue lights turn on (Hue wall switch, dimmer, or app) the Lutron under-cabinet lights
     turn on; when the Hue kitchen group goes fully off they turn off. Mirrors light.kitchen_2, the Hue
-    "Kitchen" room group (on if any kitchen Hue light is on).
+    "Kitchen" room group (on if any kitchen Hue light is on). Turn-on is blocked during
+    circadian sleep mode (red nights); entering sleep mode also turns these lights off.
   mode: restart
   triggers:
     - trigger: state
@@ -141,11 +142,18 @@
       entity_id: light.kitchen_2
       to: "off"
       id: hue_off
+    - trigger: state
+      entity_id: binary_sensor.circadian_sleep_mode
+      to: "on"
+      id: sleep_started
   actions:
     - choose:
         - conditions:
             - condition: trigger
               id: hue_on
+            - condition: state
+              entity_id: binary_sensor.circadian_sleep_mode
+              state: "off"
           sequence:
             - action: light.turn_on
               target:
@@ -154,7 +162,9 @@
                   - light.kitchen_under_cabinet_2
         - conditions:
             - condition: trigger
-              id: hue_off
+              id:
+                - hue_off
+                - sleep_started
           sequence:
             - action: light.turn_off
               target:
