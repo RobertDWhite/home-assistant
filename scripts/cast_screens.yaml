@@ -31,7 +31,11 @@ great_room_screen_hide:
   - condition: state
     entity_id: media_player.xbr_65a8g
     attribute: media_content_id
-    state: http://10.99.5.60/stream.m3u8
+    state: &id001
+    - http://10.99.5.60/stream.m3u8
+    - http://10.99.5.60/summary/stream.m3u8
+    - http://10.99.5.60/cameras/stream.m3u8
+    - http://10.99.5.60/weather/stream.m3u8
   - action: media_player.media_stop
     target:
       entity_id: media_player.xbr_65a8g
@@ -68,7 +72,7 @@ theatre_screen_hide:
   - condition: state
     entity_id: media_player.sony_xbr_85x950h_3
     attribute: media_content_id
-    state: http://10.99.5.60/stream.m3u8
+    state: *id001
   - action: media_player.media_stop
     target:
       entity_id: media_player.sony_xbr_85x950h_3

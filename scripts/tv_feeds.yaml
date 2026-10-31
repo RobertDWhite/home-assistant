@@ -1,0 +1,174 @@
+great_room_feed_play:
+  alias: Great Room feed controller
+  mode: restart
+  fields:
+    url:
+      required: true
+      selector:
+        text: {}
+    title:
+      required: true
+      selector:
+        text: {}
+  sequence:
+  - action: media_player.play_media
+    target:
+      entity_id: media_player.xbr_65a8g
+    data:
+      media_content_id: '{{ url }}'
+      media_content_type: application/vnd.apple.mpegurl
+      extra:
+        title: '{{ title }}'
+        stream_type: LIVE
+great_room_summary_feed:
+  alias: Great Room Summary Feed
+  mode: restart
+  icon: mdi:television-play
+  sequence:
+  - action: script.great_room_feed_play
+    data:
+      url: http://10.99.5.60/stream.m3u8
+      title: Summary Feed
+great_room_cameras_feed:
+  alias: Great Room Camera Feed
+  mode: restart
+  icon: mdi:television-play
+  sequence:
+  - action: script.great_room_feed_play
+    data:
+      url: http://10.99.5.60/cameras/stream.m3u8
+      title: Camera Feed
+great_room_weather_feed:
+  alias: Great Room Weather Feed
+  mode: restart
+  icon: mdi:television-play
+  sequence:
+  - action: script.great_room_feed_play
+    data:
+      url: http://10.99.5.60/weather/stream.m3u8
+      title: Weather Feed
+great_room_summary_only_feed:
+  alias: Great Room Summary Only Feed
+  mode: restart
+  icon: mdi:television-play
+  sequence:
+  - action: script.great_room_feed_play
+    data:
+      url: http://10.99.5.60/summary/stream.m3u8
+      title: Summary Only Feed
+theatre_feed_play:
+  alias: Theatre feed controller
+  mode: restart
+  fields:
+    url:
+      required: true
+      selector:
+        text: {}
+    title:
+      required: true
+      selector:
+        text: {}
+  sequence:
+  - action: media_player.play_media
+    target:
+      entity_id: media_player.sony_xbr_85x950h_3
+    data:
+      media_content_id: '{{ url }}'
+      media_content_type: application/vnd.apple.mpegurl
+      extra:
+        title: '{{ title }}'
+        stream_type: LIVE
+theatre_summary_feed:
+  alias: Theatre Summary Feed
+  mode: restart
+  icon: mdi:television-play
+  sequence:
+  - action: script.theatre_feed_play
+    data:
+      url: http://10.99.5.60/stream.m3u8
+      title: Summary Feed
+theatre_cameras_feed:
+  alias: Theatre Camera Feed
+  mode: restart
+  icon: mdi:television-play
+  sequence:
+  - action: script.theatre_feed_play
+    data:
+      url: http://10.99.5.60/cameras/stream.m3u8
+      title: Camera Feed
+theatre_weather_feed:
+  alias: Theatre Weather Feed
+  mode: restart
+  icon: mdi:television-play
+  sequence:
+  - action: script.theatre_feed_play
+    data:
+      url: http://10.99.5.60/weather/stream.m3u8
+      title: Weather Feed
+theatre_summary_only_feed:
+  alias: Theatre Summary Only Feed
+  mode: restart
+  icon: mdi:television-play
+  sequence:
+  - action: script.theatre_feed_play
+    data:
+      url: http://10.99.5.60/summary/stream.m3u8
+      title: Summary Only Feed
+master_bathroom_feed_play:
+  alias: Master Bathroom feed controller
+  mode: restart
+  fields:
+    url:
+      required: true
+      selector:
+        text: {}
+    title:
+      required: true
+      selector:
+        text: {}
+  sequence:
+  - action: switch.turn_on
+    target:
+      entity_id: switch.master_bath_tv
+  - condition: state
+    entity_id: switch.master_bath_tv
+    state: 'on'
+  - action: rest_command.bath_roku_screen
+    data:
+      content: '{{ url | urlencode }}'
+master_bathroom_summary_feed:
+  alias: Master Bathroom Summary Feed
+  mode: restart
+  icon: mdi:television-play
+  sequence:
+  - action: script.master_bathroom_feed_play
+    data:
+      url: http://10.99.5.60/stream.m3u8
+      title: Summary Feed
+master_bathroom_cameras_feed:
+  alias: Master Bathroom Camera Feed
+  mode: restart
+  icon: mdi:television-play
+  sequence:
+  - action: script.master_bathroom_feed_play
+    data:
+      url: http://10.99.5.60/cameras/stream.m3u8
+      title: Camera Feed
+master_bathroom_weather_feed:
+  alias: Master Bathroom Weather Feed
+  mode: restart
+  icon: mdi:television-play
+  sequence:
+  - action: script.master_bathroom_feed_play
+    data:
+      url: http://10.99.5.60/weather/stream.m3u8
+      title: Weather Feed
+master_bathroom_summary_only_feed:
+  alias: Master Bathroom Summary Only Feed
+  mode: restart
+  icon: mdi:television-play
+  sequence:
+  - action: script.master_bathroom_feed_play
+    data:
+      url: http://10.99.5.60/summary/stream.m3u8
+      title: Summary Only Feed

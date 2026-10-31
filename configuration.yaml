@@ -288,6 +288,9 @@ homekit:
    # Protect, FAA, Xbox, WiiM, SmartTub, Lutron entities live in homekit_exclude.yaml (generated)
    exclude_entities: !include homekit_exclude.yaml
    exclude_entity_globs:
+     # Feed controls will use a dedicated HomeKit bridge after pairing.
+     - script.*_feed
+     - script.*_feed_play
      - binary_sensor.*_occupancy
      # Kubernetes integration: 52 node-pressure sensors and deployment scale switches were filling
      # the 150-accessory cap, and the switches would let HomeKit/Siri scale cluster workloads.
