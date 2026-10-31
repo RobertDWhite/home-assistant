@@ -271,69 +271,86 @@ device_tracker:
       - 'W8ITE*'
       
 homekit:
-  safe_mode: false
-  filter:
-   exclude_domains:
-     - light
-     - device_tracker
-     - sensor
-     - media_player
-     - device_automation
-     - geo_location   # ADS-B aircraft + GDACS events; thousands of entities, HomeKit caps at 150
-     - scene          # 204 Hue scenes: Hue is paired to HomeKit natively and exposes its own scenes
-     - event          # Hue button / Protect / backup events; HomeKit maps almost none of these
-     - automation     # 34 automations were being bridged as on/off switches
-     - select         # 11 select entities (device option pickers) were being bridged
-     - zone           # map zones were using up slots under the 150-accessory cap
-   # Protect, FAA, Xbox, WiiM, SmartTub, Lutron entities live in homekit_exclude.yaml (generated)
-   exclude_entities: !include homekit_exclude.yaml
-   exclude_entity_globs:
-     # Feed controls will use a dedicated HomeKit bridge after pairing.
-     - script.*_feed
-     - script.*_feed_play
-     - binary_sensor.*_occupancy
-     # Kubernetes integration: 52 node-pressure sensors and deployment scale switches were filling
-     # the 150-accessory cap, and the switches would let HomeKit/Siri scale cluster workloads.
-     - "*.whitehouse_rke2_*"
-     # Konnected blaQ garage openers are exposed ONLY via the dedicated "Garage Doors" bridge (UI entry)
-     - "*.small_garage_door*"
-     - "*.large_garage_door*"
-     # UniFi Protect cameras stay OUT of HomeKit (they go via Scrypted); Protect names every
-     # channel *_high/_medium/_low or *_resolution_channel, so these globs catch current and
-     # future Protect cameras while leaving the generic weather/radar/space cameras exposed.
-     - camera.*_high
-     - camera.*_high_[0-9]*
-     - camera.*_medium
-     - camera.*_medium_[0-9]*
-     - camera.*_low
-     - camera.*_low_[0-9]*
-     - camera.*_resolution_channel
-     - camera.*_resolution_channel_[0-9]*
-     - camera.*_package_camera
-     - camera.*_insecure
-     # Back under the 150-accessory cap: vacuum option switches/buttons, Hue scene-sync buttons and
-     # server/monitoring toggles are not useful in Apple Home (the vacuums themselves stay).
-     - switch.x50_ultra_*
-     - binary_sensor.x50_ultra_*
-     - button.x50_ultra_*
-     - switch.bobsweep_*
-     - binary_sensor.bobsweep_*
-     - number.bobsweep_*
-     - button.bobsweep_*
-     - button.full_sync
-     - button.remove_circadian_scenes
-     - button.rebuild_circadian_scenes
-     - binary_sensor.fr24_feeder_*
-     - switch.flightradar24_most_tracked
-     - switch.qbittorrent_alternative_speed
-     - binary_sensor.10_100_5_77
-     - camera.imap_*_mail_*
-     - binary_sensor.*_wifi
-     - binary_sensor.refrigerator_filter_status
-     - binary_sensor.synology_security_status
-     - input_button.test_house_announcement
-     - switch.my_location_away
-     - button.my_carnival_hybrid_force_refresh
+  - safe_mode: false
+    filter:
+     exclude_domains:
+       - light
+       - device_tracker
+       - sensor
+       - media_player
+       - device_automation
+       - geo_location   # ADS-B aircraft + GDACS events; thousands of entities, HomeKit caps at 150
+       - scene          # 204 Hue scenes: Hue is paired to HomeKit natively and exposes its own scenes
+       - event          # Hue button / Protect / backup events; HomeKit maps almost none of these
+       - automation     # 34 automations were being bridged as on/off switches
+       - select         # 11 select entities (device option pickers) were being bridged
+       - zone           # map zones were using up slots under the 150-accessory cap
+     # Protect, FAA, Xbox, WiiM, SmartTub, Lutron entities live in homekit_exclude.yaml (generated)
+     exclude_entities: !include homekit_exclude.yaml
+     exclude_entity_globs:
+       # Feed controls will use a dedicated HomeKit bridge after pairing.
+       - script.*_feed
+       - script.*_feed_play
+       - binary_sensor.*_occupancy
+       # Kubernetes integration: 52 node-pressure sensors and deployment scale switches were filling
+       # the 150-accessory cap, and the switches would let HomeKit/Siri scale cluster workloads.
+       - "*.whitehouse_rke2_*"
+       # Konnected blaQ garage openers are exposed ONLY via the dedicated "Garage Doors" bridge (UI entry)
+       - "*.small_garage_door*"
+       - "*.large_garage_door*"
+       # UniFi Protect cameras stay OUT of HomeKit (they go via Scrypted); Protect names every
+       # channel *_high/_medium/_low or *_resolution_channel, so these globs catch current and
+       # future Protect cameras while leaving the generic weather/radar/space cameras exposed.
+       - camera.*_high
+       - camera.*_high_[0-9]*
+       - camera.*_medium
+       - camera.*_medium_[0-9]*
+       - camera.*_low
+       - camera.*_low_[0-9]*
+       - camera.*_resolution_channel
+       - camera.*_resolution_channel_[0-9]*
+       - camera.*_package_camera
+       - camera.*_insecure
+       # Back under the 150-accessory cap: vacuum option switches/buttons, Hue scene-sync buttons and
+       # server/monitoring toggles are not useful in Apple Home (the vacuums themselves stay).
+       - switch.x50_ultra_*
+       - binary_sensor.x50_ultra_*
+       - button.x50_ultra_*
+       - switch.bobsweep_*
+       - binary_sensor.bobsweep_*
+       - number.bobsweep_*
+       - button.bobsweep_*
+       - button.full_sync
+       - button.remove_circadian_scenes
+       - button.rebuild_circadian_scenes
+       - binary_sensor.fr24_feeder_*
+       - switch.flightradar24_most_tracked
+       - switch.qbittorrent_alternative_speed
+       - binary_sensor.10_100_5_77
+       - camera.imap_*_mail_*
+       - binary_sensor.*_wifi
+       - binary_sensor.refrigerator_filter_status
+       - binary_sensor.synology_security_status
+       - input_button.test_house_announcement
+       - switch.my_location_away
+       - button.my_carnival_hybrid_force_refresh
+  - name: TV Feeds
+    port: 21065
+    mode: bridge
+    filter:
+      include_entities:
+        - script.great_room_summary_feed
+        - script.great_room_cameras_feed
+        - script.great_room_weather_feed
+        - script.great_room_summary_only_feed
+        - script.theatre_summary_feed
+        - script.theatre_cameras_feed
+        - script.theatre_weather_feed
+        - script.theatre_summary_only_feed
+        - script.master_bathroom_summary_feed
+        - script.master_bathroom_cameras_feed
+        - script.master_bathroom_weather_feed
+        - script.master_bathroom_summary_only_feed
 
 influxdb:
   host: !secret host_influx
