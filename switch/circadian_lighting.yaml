@@ -74,6 +74,7 @@
     min_brightness: 20
     name: Circadian Great Room
     lights_ct:
+      - light.hue_ambiance_lamp_3_2
       - light.hue_color_candle_9
       - light.hue_color_candle_4
       - light.hue_color_candle_8
@@ -343,7 +344,6 @@
     min_brightness: 35
     name: Circadian Upstairs Office
     lights_ct:
-      - light.hue_ambiance_lamp_3_2
       - light.hue_ambiance_downlight_2_2
       - light.hue_ambiance_downlight_3_2
 #    hue_keyword: 'Circadian'
