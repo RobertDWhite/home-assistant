@@ -25,7 +25,7 @@
                           ".": "ha-card { background: none; box-shadow: none; border: none; font-size: 24px; padding: 0 4px; }"
                         }
                       },
-                      "content": "# {{ now().strftime('%-I:%M') }}\n### {{ now().strftime('%A, %B %-d') }}\nOutside {{ states('sensor.thermostat_1_outdoor_temperature') | round(0) }}° · Bathroom {{ states('sensor.master_bath_temperature') | round(0) }}° · Floor {{ states('sensor.master_bath_floor_temperature') | round(0) }}°"
+                      "content": "# {{ now().strftime('%-I:%M') }}\n### {{ now().strftime('%A, %B %-d') }}\nOutside {{ states('sensor.thermostat_1_outdoor_temperature') | round(0) }}\u00b0 \u00b7 Bathroom {{ states('sensor.master_bath_temperature') | round(0) }}\u00b0 \u00b7 Floor {{ states('sensor.master_bath_floor_temperature') | round(0) }}\u00b0"
                     },
                     {
                       "type": "markdown",
@@ -35,7 +35,7 @@
                           ".": "ha-card { font-size: 25px; line-height: 1.6; }"
                         }
                       },
-                      "content": "{% set d = states('sensor.trash_pickup') | int(-1) %}{% if d == 0 %}<ha-icon icon=\"mdi:trash-can\"></ha-icon> Trash pickup is today<br>{% elif d == 1 %}<ha-icon icon=\"mdi:trash-can\"></ha-icon> Trash goes out tonight<br>{% endif %}{% if states('sensor.bath_screen_mode') == 'evening' %}{% set unlocked = ['lock.front_door', 'lock.back_door', 'lock.storage_room_lock'] | select('is_state', 'unlocked') | map('state_attr', 'friendly_name') | map('replace', ' Lock', '') | list %}{% set open_ = ['cover.small_garage_door', 'cover.large_garage_door'] | select('is_state', 'open') | map('state_attr', 'friendly_name') | list %}{% for u in unlocked %}<ha-icon icon=\"mdi:lock-open-variant\"></ha-icon> {{ u }} is unlocked<br>{% endfor %}{% for o in open_ %}<ha-icon icon=\"mdi:garage-open\"></ha-icon> {{ o }} is open<br>{% endfor %}{% if not unlocked and not open_ %}<ha-icon icon=\"mdi:lock-check\"></ha-icon> Doors locked, garage doors closed<br>{% endif %}<ha-icon icon=\"mdi:shield-home\"></ha-icon> Alarm {{ states('alarm_control_panel.alarmo') | replace('_', ' ') }}{% else %}<ha-icon icon=\"mdi:weather-sunset-up\"></ha-icon> Sunrise {{ as_timestamp(state_attr('sun.sun', 'next_rising')) | timestamp_custom('%-I:%M %p') }} · sunset {{ as_timestamp(state_attr('sun.sun', 'next_setting')) | timestamp_custom('%-I:%M %p') }}{% endif %}"
+                      "content": "{% set d = states('sensor.trash_pickup') | int(-1) %}{% if d == 0 %}<ha-icon icon=\"mdi:trash-can\"></ha-icon> Trash pickup is today<br>{% elif d == 1 %}<ha-icon icon=\"mdi:trash-can\"></ha-icon> Trash goes out tonight<br>{% endif %}{% if states('sensor.bath_screen_mode') == 'evening' %}{% set unlocked = ['lock.front_door', 'lock.back_door', 'lock.storage_room_lock'] | select('is_state', 'unlocked') | map('state_attr', 'friendly_name') | map('replace', ' Lock', '') | list %}{% set open_ = ['cover.small_garage_door', 'cover.large_garage_door'] | select('is_state', 'open') | map('state_attr', 'friendly_name') | list %}{% for u in unlocked %}<ha-icon icon=\"mdi:lock-open-variant\"></ha-icon> {{ u }} is unlocked<br>{% endfor %}{% for o in open_ %}<ha-icon icon=\"mdi:garage-open\"></ha-icon> {{ o }} is open<br>{% endfor %}{% if not unlocked and not open_ %}<ha-icon icon=\"mdi:lock-check\"></ha-icon> Doors locked, garage doors closed<br>{% endif %}<ha-icon icon=\"mdi:shield-home\"></ha-icon> Alarm {{ states('alarm_control_panel.alarmo') | replace('_', ' ') }}{% else %}<ha-icon icon=\"mdi:weather-sunset-up\"></ha-icon> Sunrise {{ as_timestamp(state_attr('sun.sun', 'next_rising')) | timestamp_custom('%-I:%M %p') }} \u00b7 sunset {{ as_timestamp(state_attr('sun.sun', 'next_setting')) | timestamp_custom('%-I:%M %p') }}{% endif %}"
                     }
                   ]
                 },
@@ -50,7 +50,7 @@
                           ".": "ha-card { font-size: 27px; line-height: 1.45; }"
                         }
                       },
-                      "content": "{% set evening = states('sensor.bath_screen_mode') == 'evening' %}{% set s = 'sensor.evening_briefing' if evening else 'sensor.morning_briefing' %}{% set t = state_attr(s, 'text') %}{% set fresh = has_value(s) and (now() - as_datetime(states(s))).total_seconds() < 14 * 3600 %}\n## {{ 'Good evening' if evening else 'Good morning' }}\n{% if t and fresh %}{{ t }}{% else %}{{ 'Tonight’s note is written at 7:30 PM.' if evening else 'The morning briefing is written at 6:30 AM.' }}{% endif %}"
+                      "content": "{% set evening = states('sensor.bath_screen_mode') == 'evening' %}{% set s = 'sensor.evening_briefing' if evening else 'sensor.morning_briefing' %}{% set t = state_attr(s, 'text') %}{% set fresh = has_value(s) and (now() - as_datetime(states(s))).total_seconds() < 14 * 3600 %}\n## {{ 'Good evening' if evening else 'Good morning' }}\n{% if t and fresh %}{{ t }}{% else %}{{ 'Tonight\u2019s note is written at 7:30 PM.' if evening else 'The morning briefing is written at 6:30 AM.' }}{% endif %}"
                     },
                     {
                       "type": "markdown",
@@ -60,7 +60,7 @@
                           ".": "ha-card { font-size: 25px; line-height: 1.55; }"
                         }
                       },
-                      "content": "{% set evening = states('sensor.bath_screen_mode') == 'evening' %}{% set ev = state_attr('sensor.bath_screen_agenda', 'events') or [] %}{% set icons = {'flight': 'mdi:airplane', 'trash': 'mdi:trash-can-outline', 'family': 'mdi:calendar-blank'} %}{% for day in (['tomorrow'] if evening else ['today', 'tomorrow']) %}\n## {{ day | capitalize }}\n{% for e in ev if e.day == day and (evening or day == 'today' or e.kind == 'flight' or e.time.endswith('AM')) %}<ha-icon icon=\"{{ icons[e.kind] }}\"></ha-icon> **{{ e.time }}** · {{ e.summary }}<br>{% else %}Nothing on the calendar.{% endfor %}\n{% endfor %}"
+                      "content": "{% set evening = states('sensor.bath_screen_mode') == 'evening' %}{% set ev = state_attr('sensor.bath_screen_agenda', 'events') or [] %}{% set icons = {'flight': 'mdi:airplane', 'trash': 'mdi:trash-can-outline', 'family': 'mdi:calendar-blank'} %}{% for day in (['tomorrow'] if evening else ['today', 'tomorrow']) %}\n## {{ day | capitalize }}\n{% for e in ev if e.day == day and (evening or day == 'today' or e.kind == 'flight' or e.time.endswith('AM')) %}<ha-icon icon=\"{{ icons[e.kind] }}\"></ha-icon> **{{ e.time }}** \u00b7 {{ e.summary }}<br>{% else %}Nothing on the calendar.{% endfor %}\n{% endfor %}"
                     }
                   ]
                 }
@@ -68,7 +68,7 @@
             },
             {
               "type": "markdown",
-              "content": "{% set days = state_attr('sensor.bath_screen_forecast', 'days') or [] %}{% set icon = {'sunny': 'weather-sunny', 'clear-night': 'weather-night', 'partlycloudy': 'weather-partly-cloudy', 'cloudy': 'weather-cloudy', 'rainy': 'weather-rainy', 'pouring': 'weather-pouring', 'snowy': 'weather-snowy', 'snowy-rainy': 'weather-snowy-rainy', 'lightning': 'weather-lightning', 'lightning-rainy': 'weather-lightning-rainy', 'fog': 'weather-fog', 'hail': 'weather-hail', 'windy': 'weather-windy', 'windy-variant': 'weather-windy-variant'} %}{% if days %}<table><tr>{% for d in days %}<td>{{ d.day }}</td>{% endfor %}</tr><tr>{% for d in days %}<td><ha-icon icon=\"mdi:{{ icon.get(d.condition, 'weather-cloudy') }}\"></ha-icon></td>{% endfor %}</tr><tr>{% for d in days %}<td>{{ d.high }}°</td>{% endfor %}</tr><tr>{% for d in days %}<td>{{ d.low }}°</td>{% endfor %}</tr>{% if days | selectattr('precip', 'ge', 0.01) | list %}<tr>{% for d in days %}<td>{{ (d.precip | round(2) ~ ' in') if d.precip >= 0.01 else '' }}</td>{% endfor %}</tr>{% endif %}</table>{% else %}Forecast unavailable{% endif %}",
+              "content": "{% set days = state_attr('sensor.bath_screen_forecast', 'days') or [] %}{% set icon = {'sunny': 'weather-sunny', 'clear-night': 'weather-night', 'partlycloudy': 'weather-partly-cloudy', 'cloudy': 'weather-cloudy', 'rainy': 'weather-rainy', 'pouring': 'weather-pouring', 'snowy': 'weather-snowy', 'snowy-rainy': 'weather-snowy-rainy', 'lightning': 'weather-lightning', 'lightning-rainy': 'weather-lightning-rainy', 'fog': 'weather-fog', 'hail': 'weather-hail', 'windy': 'weather-windy', 'windy-variant': 'weather-windy-variant'} %}{% if days %}<table><tr>{% for d in days %}<td>{{ d.day }}</td>{% endfor %}</tr><tr>{% for d in days %}<td><ha-icon icon=\"mdi:{{ icon.get(d.condition, 'weather-cloudy') }}\"></ha-icon></td>{% endfor %}</tr><tr>{% for d in days %}<td>{{ d.high }}\u00b0</td>{% endfor %}</tr><tr>{% for d in days %}<td>{{ d.low }}\u00b0</td>{% endfor %}</tr>{% if days | selectattr('precip', 'ge', 0.01) | list %}<tr>{% for d in days %}<td>{{ (d.precip | round(2) ~ ' in') if d.precip >= 0.01 else '' }}</td>{% endfor %}</tr>{% endif %}</table>{% else %}Forecast unavailable{% endif %}",
               "card_mod": {
                 "style": {
                   "ha-markdown$": "table { width: 100% !important; table-layout: fixed; border-collapse: collapse !important; border: none !important; margin: 0 !important; text-align: center; } tr, td, th, tbody { border: none !important; background: none !important; } td { padding: 0 !important; line-height: 1.25; } tr:nth-child(1) td { font-size: 20px; color: #b0b0b0; } tr:nth-child(2) td { padding: 4px 0 0 !important; } ha-icon { --mdc-icon-size: 40px; color: #b8c4cc; } ha-icon[icon='mdi:weather-sunny'] { color: #fdd835; } ha-icon[icon='mdi:weather-partly-cloudy'] { color: #e6d27a; } ha-icon[icon*='rain'], ha-icon[icon*='pouring'] { color: #4fa3e0; } ha-icon[icon*='lightning'] { color: #f5a623; } tr:nth-child(3) td { font-size: 28px; } tr:nth-child(4) td { font-size: 20px; color: #9a9a9a; } tr:nth-child(5) td { font-size: 17px; color: #4fa3e0; }",
@@ -90,7 +90,7 @@
           "cards": [
             {
               "type": "markdown",
-              "content": "{% set days = state_attr('sensor.bath_screen_forecast', 'days') or [] %}{% set icon = {'sunny': 'weather-sunny', 'clear-night': 'weather-night', 'partlycloudy': 'weather-partly-cloudy', 'cloudy': 'weather-cloudy', 'rainy': 'weather-rainy', 'pouring': 'weather-pouring', 'snowy': 'weather-snowy', 'snowy-rainy': 'weather-snowy-rainy', 'lightning': 'weather-lightning', 'lightning-rainy': 'weather-lightning-rainy', 'fog': 'weather-fog', 'hail': 'weather-hail', 'windy': 'weather-windy', 'windy-variant': 'weather-windy-variant'} %}{% if days %}<table><tr>{% for d in days %}<td>{{ d.day }}</td>{% endfor %}</tr><tr>{% for d in days %}<td><ha-icon icon=\"mdi:{{ icon.get(d.condition, 'weather-cloudy') }}\"></ha-icon></td>{% endfor %}</tr><tr>{% for d in days %}<td>{{ d.high }}°</td>{% endfor %}</tr><tr>{% for d in days %}<td>{{ d.low }}°</td>{% endfor %}</tr>{% if days | selectattr('precip', 'ge', 0.01) | list %}<tr>{% for d in days %}<td>{{ (d.precip | round(2) ~ ' in') if d.precip >= 0.01 else '' }}</td>{% endfor %}</tr>{% endif %}</table>{% else %}Forecast unavailable{% endif %}",
+              "content": "{% set days = state_attr('sensor.bath_screen_forecast', 'days') or [] %}{% set icon = {'sunny': 'weather-sunny', 'clear-night': 'weather-night', 'partlycloudy': 'weather-partly-cloudy', 'cloudy': 'weather-cloudy', 'rainy': 'weather-rainy', 'pouring': 'weather-pouring', 'snowy': 'weather-snowy', 'snowy-rainy': 'weather-snowy-rainy', 'lightning': 'weather-lightning', 'lightning-rainy': 'weather-lightning-rainy', 'fog': 'weather-fog', 'hail': 'weather-hail', 'windy': 'weather-windy', 'windy-variant': 'weather-windy-variant'} %}{% if days %}<table><tr>{% for d in days %}<td>{{ d.day }}</td>{% endfor %}</tr><tr>{% for d in days %}<td><ha-icon icon=\"mdi:{{ icon.get(d.condition, 'weather-cloudy') }}\"></ha-icon></td>{% endfor %}</tr><tr>{% for d in days %}<td>{{ d.high }}\u00b0</td>{% endfor %}</tr><tr>{% for d in days %}<td>{{ d.low }}\u00b0</td>{% endfor %}</tr>{% if days | selectattr('precip', 'ge', 0.01) | list %}<tr>{% for d in days %}<td>{{ (d.precip | round(2) ~ ' in') if d.precip >= 0.01 else '' }}</td>{% endfor %}</tr>{% endif %}</table>{% else %}Forecast unavailable{% endif %}",
               "card_mod": {
                 "style": {
                   "ha-markdown$": "table { width: 100% !important; table-layout: fixed; border-collapse: collapse !important; border: none !important; margin: 0 !important; text-align: center; } tr, td, th, tbody { border: none !important; background: none !important; } td { padding: 0 !important; line-height: 1.25; } tr:nth-child(1) td { font-size: 20px; color: #b0b0b0; } tr:nth-child(2) td { padding: 4px 0 0 !important; } ha-icon { --mdc-icon-size: 40px; color: #b8c4cc; } ha-icon[icon='mdi:weather-sunny'] { color: #fdd835; } ha-icon[icon='mdi:weather-partly-cloudy'] { color: #e6d27a; } ha-icon[icon*='rain'], ha-icon[icon*='pouring'] { color: #4fa3e0; } ha-icon[icon*='lightning'] { color: #f5a623; } tr:nth-child(3) td { font-size: 28px; } tr:nth-child(4) td { font-size: 20px; color: #9a9a9a; } tr:nth-child(5) td { font-size: 17px; color: #4fa3e0; }",
@@ -115,7 +115,7 @@
                           ".": "ha-card { font-size: 25px; line-height: 1.55; }"
                         }
                       },
-                      "content": "{% set evening = states('sensor.bath_screen_mode') == 'evening' %}{% set ev = state_attr('sensor.bath_screen_agenda', 'events') or [] %}{% set icons = {'flight': 'mdi:airplane', 'trash': 'mdi:trash-can-outline', 'family': 'mdi:calendar-blank'} %}{% for day in (['tomorrow'] if evening else ['today', 'tomorrow']) %}\n## {{ day | capitalize }}\n{% for e in ev if e.day == day and (evening or day == 'today' or e.kind == 'flight' or e.time.endswith('AM')) %}<ha-icon icon=\"{{ icons[e.kind] }}\"></ha-icon> **{{ e.time }}** · {{ e.summary }}<br>{% else %}Nothing on the calendar.{% endfor %}\n{% endfor %}"
+                      "content": "{% set evening = states('sensor.bath_screen_mode') == 'evening' %}{% set ev = state_attr('sensor.bath_screen_agenda', 'events') or [] %}{% set icons = {'flight': 'mdi:airplane', 'trash': 'mdi:trash-can-outline', 'family': 'mdi:calendar-blank'} %}{% for day in (['tomorrow'] if evening else ['today', 'tomorrow']) %}\n## {{ day | capitalize }}\n{% for e in ev if e.day == day and (evening or day == 'today' or e.kind == 'flight' or e.time.endswith('AM')) %}<ha-icon icon=\"{{ icons[e.kind] }}\"></ha-icon> **{{ e.time }}** \u00b7 {{ e.summary }}<br>{% else %}Nothing on the calendar.{% endfor %}\n{% endfor %}"
                     },
                     {
                       "type": "markdown",
@@ -125,7 +125,7 @@
                           ".": "ha-card { font-size: 27px; line-height: 1.45; }"
                         }
                       },
-                      "content": "{% set evening = states('sensor.bath_screen_mode') == 'evening' %}{% set s = 'sensor.evening_briefing' if evening else 'sensor.morning_briefing' %}{% set t = state_attr(s, 'text') %}{% set fresh = has_value(s) and (now() - as_datetime(states(s))).total_seconds() < 14 * 3600 %}\n## {{ 'Good evening' if evening else 'Good morning' }}\n{% if t and fresh %}{{ t }}{% else %}{{ 'Tonight’s note is written at 7:30 PM.' if evening else 'The morning briefing is written at 6:30 AM.' }}{% endif %}"
+                      "content": "{% set evening = states('sensor.bath_screen_mode') == 'evening' %}{% set s = 'sensor.evening_briefing' if evening else 'sensor.morning_briefing' %}{% set t = state_attr(s, 'text') %}{% set fresh = has_value(s) and (now() - as_datetime(states(s))).total_seconds() < 14 * 3600 %}\n## {{ 'Good evening' if evening else 'Good morning' }}\n{% if t and fresh %}{{ t }}{% else %}{{ 'Tonight\u2019s note is written at 7:30 PM.' if evening else 'The morning briefing is written at 6:30 AM.' }}{% endif %}"
                     }
                   ]
                 },
@@ -140,7 +140,7 @@
                           ".": "ha-card { font-size: 25px; line-height: 1.6; }"
                         }
                       },
-                      "content": "{% set d = states('sensor.trash_pickup') | int(-1) %}{% if d == 0 %}<ha-icon icon=\"mdi:trash-can\"></ha-icon> Trash pickup is today<br>{% elif d == 1 %}<ha-icon icon=\"mdi:trash-can\"></ha-icon> Trash goes out tonight<br>{% endif %}{% if states('sensor.bath_screen_mode') == 'evening' %}{% set unlocked = ['lock.front_door', 'lock.back_door', 'lock.storage_room_lock'] | select('is_state', 'unlocked') | map('state_attr', 'friendly_name') | map('replace', ' Lock', '') | list %}{% set open_ = ['cover.small_garage_door', 'cover.large_garage_door'] | select('is_state', 'open') | map('state_attr', 'friendly_name') | list %}{% for u in unlocked %}<ha-icon icon=\"mdi:lock-open-variant\"></ha-icon> {{ u }} is unlocked<br>{% endfor %}{% for o in open_ %}<ha-icon icon=\"mdi:garage-open\"></ha-icon> {{ o }} is open<br>{% endfor %}{% if not unlocked and not open_ %}<ha-icon icon=\"mdi:lock-check\"></ha-icon> Doors locked, garage doors closed<br>{% endif %}<ha-icon icon=\"mdi:shield-home\"></ha-icon> Alarm {{ states('alarm_control_panel.alarmo') | replace('_', ' ') }}{% else %}<ha-icon icon=\"mdi:weather-sunset-up\"></ha-icon> Sunrise {{ as_timestamp(state_attr('sun.sun', 'next_rising')) | timestamp_custom('%-I:%M %p') }} · sunset {{ as_timestamp(state_attr('sun.sun', 'next_setting')) | timestamp_custom('%-I:%M %p') }}{% endif %}"
+                      "content": "{% set d = states('sensor.trash_pickup') | int(-1) %}{% if d == 0 %}<ha-icon icon=\"mdi:trash-can\"></ha-icon> Trash pickup is today<br>{% elif d == 1 %}<ha-icon icon=\"mdi:trash-can\"></ha-icon> Trash goes out tonight<br>{% endif %}{% if states('sensor.bath_screen_mode') == 'evening' %}{% set unlocked = ['lock.front_door', 'lock.back_door', 'lock.storage_room_lock'] | select('is_state', 'unlocked') | map('state_attr', 'friendly_name') | map('replace', ' Lock', '') | list %}{% set open_ = ['cover.small_garage_door', 'cover.large_garage_door'] | select('is_state', 'open') | map('state_attr', 'friendly_name') | list %}{% for u in unlocked %}<ha-icon icon=\"mdi:lock-open-variant\"></ha-icon> {{ u }} is unlocked<br>{% endfor %}{% for o in open_ %}<ha-icon icon=\"mdi:garage-open\"></ha-icon> {{ o }} is open<br>{% endfor %}{% if not unlocked and not open_ %}<ha-icon icon=\"mdi:lock-check\"></ha-icon> Doors locked, garage doors closed<br>{% endif %}<ha-icon icon=\"mdi:shield-home\"></ha-icon> Alarm {{ states('alarm_control_panel.alarmo') | replace('_', ' ') }}{% else %}<ha-icon icon=\"mdi:weather-sunset-up\"></ha-icon> Sunrise {{ as_timestamp(state_attr('sun.sun', 'next_rising')) | timestamp_custom('%-I:%M %p') }} \u00b7 sunset {{ as_timestamp(state_attr('sun.sun', 'next_setting')) | timestamp_custom('%-I:%M %p') }}{% endif %}"
                     },
                     {
                       "type": "markdown",
@@ -150,7 +150,7 @@
                           ".": "ha-card { background: none; box-shadow: none; border: none; font-size: 24px; padding: 0 4px; }"
                         }
                       },
-                      "content": "# {{ now().strftime('%-I:%M') }}\n### {{ now().strftime('%A, %B %-d') }}\nOutside {{ states('sensor.thermostat_1_outdoor_temperature') | round(0) }}° · Bathroom {{ states('sensor.master_bath_temperature') | round(0) }}° · Floor {{ states('sensor.master_bath_floor_temperature') | round(0) }}°"
+                      "content": "# {{ now().strftime('%-I:%M') }}\n### {{ now().strftime('%A, %B %-d') }}\nOutside {{ states('sensor.thermostat_1_outdoor_temperature') | round(0) }}\u00b0 \u00b7 Bathroom {{ states('sensor.master_bath_temperature') | round(0) }}\u00b0 \u00b7 Floor {{ states('sensor.master_bath_floor_temperature') | round(0) }}\u00b0"
                     }
                   ]
                 }
@@ -382,7 +382,7 @@
           "cards": [
             {
               "type": "markdown",
-              "content": "# Weather · {{ now().strftime('%-I:%M %p') }}\n{% set alerts = state_attr('sensor.nws_alert_event','features') or [] %}{% for alert in alerts %}**{{ alert.properties.event }}** · {{ alert.properties.headline }}\n\n{% else %}No active NWS alerts{% endfor %}",
+              "content": "# Weather \u00b7 {{ now().strftime('%-I:%M %p') }}\n{% set alerts = state_attr('sensor.nws_alert_event','features') or [] %}{% for alert in alerts %}**{{ alert.properties.event }}** \u00b7 {{ alert.properties.headline }}\n\n{% else %}No active NWS alerts{% endfor %}",
               "card_mod": {
                 "style": "ha-card { font-size: 24px; }"
               }
@@ -402,6 +402,126 @@
               "show_forecast": true
             }
           ]
+        }
+      ]
+    },
+    {
+      "title": "Weather current",
+      "path": "wx-current",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "iframe",
+          "url": "https://screen.internal.white.fm/weather-tv.html?page=current",
+          "aspect_ratio": "56.25%",
+          "card_mod": {
+            "style": "ha-card { border-radius: 0; }"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Weather hourly",
+      "path": "wx-hourly",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "iframe",
+          "url": "https://screen.internal.white.fm/weather-tv.html?page=hourly",
+          "aspect_ratio": "56.25%",
+          "card_mod": {
+            "style": "ha-card { border-radius: 0; }"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Weather daily",
+      "path": "wx-daily",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "iframe",
+          "url": "https://screen.internal.white.fm/weather-tv.html?page=daily",
+          "aspect_ratio": "56.25%",
+          "card_mod": {
+            "style": "ha-card { border-radius: 0; }"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Weather alerts",
+      "path": "wx-alerts",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "iframe",
+          "url": "https://screen.internal.white.fm/weather-tv.html?page=alerts",
+          "aspect_ratio": "56.25%",
+          "card_mod": {
+            "style": "ha-card { border-radius: 0; }"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Weather outlook1",
+      "path": "wx-outlook1",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "iframe",
+          "url": "https://screen.internal.white.fm/weather-tv.html?page=outlook1",
+          "aspect_ratio": "56.25%",
+          "card_mod": {
+            "style": "ha-card { border-radius: 0; }"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Weather outlook2",
+      "path": "wx-outlook2",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "iframe",
+          "url": "https://screen.internal.white.fm/weather-tv.html?page=outlook2",
+          "aspect_ratio": "56.25%",
+          "card_mod": {
+            "style": "ha-card { border-radius: 0; }"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Weather outlook3",
+      "path": "wx-outlook3",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "iframe",
+          "url": "https://screen.internal.white.fm/weather-tv.html?page=outlook3",
+          "aspect_ratio": "56.25%",
+          "card_mod": {
+            "style": "ha-card { border-radius: 0; }"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Weather hwo",
+      "path": "wx-hwo",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "iframe",
+          "url": "https://screen.internal.white.fm/weather-tv.html?page=hwo",
+          "aspect_ratio": "56.25%",
+          "card_mod": {
+            "style": "ha-card { border-radius: 0; }"
+          }
         }
       ]
     }
