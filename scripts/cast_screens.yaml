@@ -1,0 +1,74 @@
+great_room_screen_show:
+  alias: Great Room screen - start
+  description: Play the shared info and kids camera rotation on Chromecast. Manual
+    start intentionally selects the screen.
+  mode: single
+  sequence:
+  - if:
+    - condition: state
+      entity_id: media_player.xbr_65a8g
+      state:
+      - unknown
+      - unavailable
+    then:
+    - stop: Great Room Chromecast is unavailable. Turn on the TV and check its network
+        connection.
+      error: true
+  - action: media_player.play_media
+    target:
+      entity_id: media_player.xbr_65a8g
+    data:
+      media_content_id: http://10.99.5.60/stream.m3u8
+      media_content_type: application/vnd.apple.mpegurl
+      extra:
+        title: House Screen
+        stream_type: LIVE
+great_room_screen_hide:
+  alias: Great Room screen - stop
+  description: Stop only the House Screen stream; leave other media alone.
+  mode: single
+  sequence:
+  - condition: state
+    entity_id: media_player.xbr_65a8g
+    attribute: media_content_id
+    state: http://10.99.5.60/stream.m3u8
+  - action: media_player.media_stop
+    target:
+      entity_id: media_player.xbr_65a8g
+theatre_screen_show:
+  alias: Theatre screen - start
+  description: Play the shared info and kids camera rotation on Chromecast. Manual
+    start intentionally selects the screen.
+  mode: single
+  sequence:
+  - if:
+    - condition: state
+      entity_id: media_player.sony_xbr_85x950h_3
+      state:
+      - unknown
+      - unavailable
+    then:
+    - stop: Theatre Chromecast is unavailable. Turn on the TV and check its network
+        connection.
+      error: true
+  - action: media_player.play_media
+    target:
+      entity_id: media_player.sony_xbr_85x950h_3
+    data:
+      media_content_id: http://10.99.5.60/stream.m3u8
+      media_content_type: application/vnd.apple.mpegurl
+      extra:
+        title: House Screen
+        stream_type: LIVE
+theatre_screen_hide:
+  alias: Theatre screen - stop
+  description: Stop only the House Screen stream; leave other media alone.
+  mode: single
+  sequence:
+  - condition: state
+    entity_id: media_player.sony_xbr_85x950h_3
+    attribute: media_content_id
+    state: http://10.99.5.60/stream.m3u8
+  - action: media_player.media_stop
+    target:
+      entity_id: media_player.sony_xbr_85x950h_3

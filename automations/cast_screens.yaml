@@ -1,0 +1,71 @@
+- id: great_room_screen_lights
+  alias: Great Room screen - follow room lights
+  description: Start on room lights only with idle Chromecast and TV. Stop only our
+    stream, preserving other playback.
+  mode: restart
+  triggers:
+  - trigger: state
+    entity_id: light.great_room_3
+    from: 'off'
+    to: 'on'
+    id: start
+  - trigger: state
+    entity_id: light.great_room_3
+    to: 'off'
+    id: stop
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: start
+      - condition: state
+        entity_id: media_player.xbr_65a8g
+        state:
+        - 'off'
+        - idle
+      - '{{ is_state(''media_player.xbr_65a8g_2'', ''off'') or (is_state(''media_player.xbr_65a8g_2'',
+        ''on'') and state_attr(''media_player.xbr_65a8g_2'', ''app_id'') in [''com.google.android.backdrop'',
+        ''com.google.android.apps.tv.dreamx'']) }}'
+      sequence:
+      - action: script.great_room_screen_show
+    - conditions:
+      - condition: trigger
+        id: stop
+      sequence:
+      - action: script.great_room_screen_hide
+- id: theatre_screen_lights
+  alias: Theatre screen - follow room lights
+  description: Start on room lights only with idle Chromecast and TV. Stop only our
+    stream, preserving other playback.
+  mode: restart
+  triggers:
+  - trigger: state
+    entity_id: light.theatre
+    from: 'off'
+    to: 'on'
+    id: start
+  - trigger: state
+    entity_id: light.theatre
+    to: 'off'
+    id: stop
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: start
+      - condition: state
+        entity_id: media_player.sony_xbr_85x950h_3
+        state:
+        - 'off'
+        - idle
+      - '{{ is_state(''media_player.sony_xbr_85x950h_4'', ''off'') or (is_state(''media_player.sony_xbr_85x950h_4'',
+        ''on'') and state_attr(''media_player.sony_xbr_85x950h_4'', ''app_id'') in
+        [''com.google.android.backdrop'', ''com.google.android.apps.tv.dreamx''])
+        }}'
+      sequence:
+      - action: script.theatre_screen_show
+    - conditions:
+      - condition: trigger
+        id: stop
+      sequence:
+      - action: script.theatre_screen_hide
