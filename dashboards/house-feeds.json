@@ -1,0 +1,409 @@
+{
+  "views": [
+    {
+      "title": "Main",
+      "path": "main",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "vertical-stack",
+          "cards": [
+            {
+              "type": "horizontal-stack",
+              "card_mod": {
+                "style": "#root { gap: 20px; padding: 20px 24px; box-sizing: border-box; } #root > * { flex: 1 1 0; min-width: 0; }"
+              },
+              "cards": [
+                {
+                  "type": "vertical-stack",
+                  "cards": [
+                    {
+                      "type": "markdown",
+                      "card_mod": {
+                        "style": {
+                          "ha-markdown$": "h1 { font-size: 96px; font-weight: 300; margin: 0; line-height: 1.05; } h3 { font-size: 34px; font-weight: 400; margin: 4px 0 10px; } p { margin: 0; }",
+                          ".": "ha-card { background: none; box-shadow: none; border: none; font-size: 24px; padding: 0 4px; }"
+                        }
+                      },
+                      "content": "# {{ now().strftime('%-I:%M') }}\n### {{ now().strftime('%A, %B %-d') }}\nOutside {{ states('sensor.thermostat_1_outdoor_temperature') | round(0) }}° · Bathroom {{ states('sensor.master_bath_temperature') | round(0) }}° · Floor {{ states('sensor.master_bath_floor_temperature') | round(0) }}°"
+                    },
+                    {
+                      "type": "markdown",
+                      "card_mod": {
+                        "style": {
+                          "ha-markdown$": "p { margin: 0; } ha-icon { --mdc-icon-size: 30px; margin-right: 6px; }",
+                          ".": "ha-card { font-size: 25px; line-height: 1.6; }"
+                        }
+                      },
+                      "content": "{% set d = states('sensor.trash_pickup') | int(-1) %}{% if d == 0 %}<ha-icon icon=\"mdi:trash-can\"></ha-icon> Trash pickup is today<br>{% elif d == 1 %}<ha-icon icon=\"mdi:trash-can\"></ha-icon> Trash goes out tonight<br>{% endif %}{% if states('sensor.bath_screen_mode') == 'evening' %}{% set unlocked = ['lock.front_door', 'lock.back_door', 'lock.storage_room_lock'] | select('is_state', 'unlocked') | map('state_attr', 'friendly_name') | map('replace', ' Lock', '') | list %}{% set open_ = ['cover.small_garage_door', 'cover.large_garage_door'] | select('is_state', 'open') | map('state_attr', 'friendly_name') | list %}{% for u in unlocked %}<ha-icon icon=\"mdi:lock-open-variant\"></ha-icon> {{ u }} is unlocked<br>{% endfor %}{% for o in open_ %}<ha-icon icon=\"mdi:garage-open\"></ha-icon> {{ o }} is open<br>{% endfor %}{% if not unlocked and not open_ %}<ha-icon icon=\"mdi:lock-check\"></ha-icon> Doors locked, garage doors closed<br>{% endif %}<ha-icon icon=\"mdi:shield-home\"></ha-icon> Alarm {{ states('alarm_control_panel.alarmo') | replace('_', ' ') }}{% else %}<ha-icon icon=\"mdi:weather-sunset-up\"></ha-icon> Sunrise {{ as_timestamp(state_attr('sun.sun', 'next_rising')) | timestamp_custom('%-I:%M %p') }} · sunset {{ as_timestamp(state_attr('sun.sun', 'next_setting')) | timestamp_custom('%-I:%M %p') }}{% endif %}"
+                    }
+                  ]
+                },
+                {
+                  "type": "vertical-stack",
+                  "cards": [
+                    {
+                      "type": "markdown",
+                      "card_mod": {
+                        "style": {
+                          "ha-markdown$": "h2 { font-size: 38px !important; font-weight: 400 !important; margin: 0 0 10px !important; } p { margin: 0; }",
+                          ".": "ha-card { font-size: 27px; line-height: 1.45; }"
+                        }
+                      },
+                      "content": "{% set evening = states('sensor.bath_screen_mode') == 'evening' %}{% set s = 'sensor.evening_briefing' if evening else 'sensor.morning_briefing' %}{% set t = state_attr(s, 'text') %}{% set fresh = has_value(s) and (now() - as_datetime(states(s))).total_seconds() < 14 * 3600 %}\n## {{ 'Good evening' if evening else 'Good morning' }}\n{% if t and fresh %}{{ t }}{% else %}{{ 'Tonight’s note is written at 7:30 PM.' if evening else 'The morning briefing is written at 6:30 AM.' }}{% endif %}"
+                    },
+                    {
+                      "type": "markdown",
+                      "card_mod": {
+                        "style": {
+                          "ha-markdown$": "h2 { font-size: 32px !important; font-weight: 400 !important; margin: 0 0 6px !important; } p { margin: 0 0 14px; } ha-icon { --mdc-icon-size: 28px; margin-right: 6px; }",
+                          ".": "ha-card { font-size: 25px; line-height: 1.55; }"
+                        }
+                      },
+                      "content": "{% set evening = states('sensor.bath_screen_mode') == 'evening' %}{% set ev = state_attr('sensor.bath_screen_agenda', 'events') or [] %}{% set icons = {'flight': 'mdi:airplane', 'trash': 'mdi:trash-can-outline', 'family': 'mdi:calendar-blank'} %}{% for day in (['tomorrow'] if evening else ['today', 'tomorrow']) %}\n## {{ day | capitalize }}\n{% for e in ev if e.day == day and (evening or day == 'today' or e.kind == 'flight' or e.time.endswith('AM')) %}<ha-icon icon=\"{{ icons[e.kind] }}\"></ha-icon> **{{ e.time }}** · {{ e.summary }}<br>{% else %}Nothing on the calendar.{% endfor %}\n{% endfor %}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "markdown",
+              "content": "{% set days = state_attr('sensor.bath_screen_forecast', 'days') or [] %}{% set icon = {'sunny': 'weather-sunny', 'clear-night': 'weather-night', 'partlycloudy': 'weather-partly-cloudy', 'cloudy': 'weather-cloudy', 'rainy': 'weather-rainy', 'pouring': 'weather-pouring', 'snowy': 'weather-snowy', 'snowy-rainy': 'weather-snowy-rainy', 'lightning': 'weather-lightning', 'lightning-rainy': 'weather-lightning-rainy', 'fog': 'weather-fog', 'hail': 'weather-hail', 'windy': 'weather-windy', 'windy-variant': 'weather-windy-variant'} %}{% if days %}<table><tr>{% for d in days %}<td>{{ d.day }}</td>{% endfor %}</tr><tr>{% for d in days %}<td><ha-icon icon=\"mdi:{{ icon.get(d.condition, 'weather-cloudy') }}\"></ha-icon></td>{% endfor %}</tr><tr>{% for d in days %}<td>{{ d.high }}°</td>{% endfor %}</tr><tr>{% for d in days %}<td>{{ d.low }}°</td>{% endfor %}</tr>{% if days | selectattr('precip', 'ge', 0.01) | list %}<tr>{% for d in days %}<td>{{ (d.precip | round(2) ~ ' in') if d.precip >= 0.01 else '' }}</td>{% endfor %}</tr>{% endif %}</table>{% else %}Forecast unavailable{% endif %}",
+              "card_mod": {
+                "style": {
+                  "ha-markdown$": "table { width: 100% !important; table-layout: fixed; border-collapse: collapse !important; border: none !important; margin: 0 !important; text-align: center; } tr, td, th, tbody { border: none !important; background: none !important; } td { padding: 0 !important; line-height: 1.25; } tr:nth-child(1) td { font-size: 20px; color: #b0b0b0; } tr:nth-child(2) td { padding: 4px 0 0 !important; } ha-icon { --mdc-icon-size: 40px; color: #b8c4cc; } ha-icon[icon='mdi:weather-sunny'] { color: #fdd835; } ha-icon[icon='mdi:weather-partly-cloudy'] { color: #e6d27a; } ha-icon[icon*='rain'], ha-icon[icon*='pouring'] { color: #4fa3e0; } ha-icon[icon*='lightning'] { color: #f5a623; } tr:nth-child(3) td { font-size: 28px; } tr:nth-child(4) td { font-size: 20px; color: #9a9a9a; } tr:nth-child(5) td { font-size: 17px; color: #4fa3e0; }",
+                  ".": "ha-card { margin: 0 24px 14px; padding: 8px 4px 6px; } ha-markdown { padding: 0 8px !important; }"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Flip",
+      "path": "flip",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "vertical-stack",
+          "cards": [
+            {
+              "type": "markdown",
+              "content": "{% set days = state_attr('sensor.bath_screen_forecast', 'days') or [] %}{% set icon = {'sunny': 'weather-sunny', 'clear-night': 'weather-night', 'partlycloudy': 'weather-partly-cloudy', 'cloudy': 'weather-cloudy', 'rainy': 'weather-rainy', 'pouring': 'weather-pouring', 'snowy': 'weather-snowy', 'snowy-rainy': 'weather-snowy-rainy', 'lightning': 'weather-lightning', 'lightning-rainy': 'weather-lightning-rainy', 'fog': 'weather-fog', 'hail': 'weather-hail', 'windy': 'weather-windy', 'windy-variant': 'weather-windy-variant'} %}{% if days %}<table><tr>{% for d in days %}<td>{{ d.day }}</td>{% endfor %}</tr><tr>{% for d in days %}<td><ha-icon icon=\"mdi:{{ icon.get(d.condition, 'weather-cloudy') }}\"></ha-icon></td>{% endfor %}</tr><tr>{% for d in days %}<td>{{ d.high }}°</td>{% endfor %}</tr><tr>{% for d in days %}<td>{{ d.low }}°</td>{% endfor %}</tr>{% if days | selectattr('precip', 'ge', 0.01) | list %}<tr>{% for d in days %}<td>{{ (d.precip | round(2) ~ ' in') if d.precip >= 0.01 else '' }}</td>{% endfor %}</tr>{% endif %}</table>{% else %}Forecast unavailable{% endif %}",
+              "card_mod": {
+                "style": {
+                  "ha-markdown$": "table { width: 100% !important; table-layout: fixed; border-collapse: collapse !important; border: none !important; margin: 0 !important; text-align: center; } tr, td, th, tbody { border: none !important; background: none !important; } td { padding: 0 !important; line-height: 1.25; } tr:nth-child(1) td { font-size: 20px; color: #b0b0b0; } tr:nth-child(2) td { padding: 4px 0 0 !important; } ha-icon { --mdc-icon-size: 40px; color: #b8c4cc; } ha-icon[icon='mdi:weather-sunny'] { color: #fdd835; } ha-icon[icon='mdi:weather-partly-cloudy'] { color: #e6d27a; } ha-icon[icon*='rain'], ha-icon[icon*='pouring'] { color: #4fa3e0; } ha-icon[icon*='lightning'] { color: #f5a623; } tr:nth-child(3) td { font-size: 28px; } tr:nth-child(4) td { font-size: 20px; color: #9a9a9a; } tr:nth-child(5) td { font-size: 17px; color: #4fa3e0; }",
+                  ".": "ha-card { margin: 14px 24px 0; padding: 8px 4px 6px; } ha-markdown { padding: 0 8px !important; }"
+                }
+              }
+            },
+            {
+              "type": "horizontal-stack",
+              "card_mod": {
+                "style": "#root { gap: 20px; padding: 20px 24px; box-sizing: border-box; } #root > * { flex: 1 1 0; min-width: 0; }"
+              },
+              "cards": [
+                {
+                  "type": "vertical-stack",
+                  "cards": [
+                    {
+                      "type": "markdown",
+                      "card_mod": {
+                        "style": {
+                          "ha-markdown$": "h2 { font-size: 32px !important; font-weight: 400 !important; margin: 0 0 6px !important; } p { margin: 0 0 14px; } ha-icon { --mdc-icon-size: 28px; margin-right: 6px; }",
+                          ".": "ha-card { font-size: 25px; line-height: 1.55; }"
+                        }
+                      },
+                      "content": "{% set evening = states('sensor.bath_screen_mode') == 'evening' %}{% set ev = state_attr('sensor.bath_screen_agenda', 'events') or [] %}{% set icons = {'flight': 'mdi:airplane', 'trash': 'mdi:trash-can-outline', 'family': 'mdi:calendar-blank'} %}{% for day in (['tomorrow'] if evening else ['today', 'tomorrow']) %}\n## {{ day | capitalize }}\n{% for e in ev if e.day == day and (evening or day == 'today' or e.kind == 'flight' or e.time.endswith('AM')) %}<ha-icon icon=\"{{ icons[e.kind] }}\"></ha-icon> **{{ e.time }}** · {{ e.summary }}<br>{% else %}Nothing on the calendar.{% endfor %}\n{% endfor %}"
+                    },
+                    {
+                      "type": "markdown",
+                      "card_mod": {
+                        "style": {
+                          "ha-markdown$": "h2 { font-size: 38px !important; font-weight: 400 !important; margin: 0 0 10px !important; } p { margin: 0; }",
+                          ".": "ha-card { font-size: 27px; line-height: 1.45; }"
+                        }
+                      },
+                      "content": "{% set evening = states('sensor.bath_screen_mode') == 'evening' %}{% set s = 'sensor.evening_briefing' if evening else 'sensor.morning_briefing' %}{% set t = state_attr(s, 'text') %}{% set fresh = has_value(s) and (now() - as_datetime(states(s))).total_seconds() < 14 * 3600 %}\n## {{ 'Good evening' if evening else 'Good morning' }}\n{% if t and fresh %}{{ t }}{% else %}{{ 'Tonight’s note is written at 7:30 PM.' if evening else 'The morning briefing is written at 6:30 AM.' }}{% endif %}"
+                    }
+                  ]
+                },
+                {
+                  "type": "vertical-stack",
+                  "cards": [
+                    {
+                      "type": "markdown",
+                      "card_mod": {
+                        "style": {
+                          "ha-markdown$": "p { margin: 0; } ha-icon { --mdc-icon-size: 30px; margin-right: 6px; }",
+                          ".": "ha-card { font-size: 25px; line-height: 1.6; }"
+                        }
+                      },
+                      "content": "{% set d = states('sensor.trash_pickup') | int(-1) %}{% if d == 0 %}<ha-icon icon=\"mdi:trash-can\"></ha-icon> Trash pickup is today<br>{% elif d == 1 %}<ha-icon icon=\"mdi:trash-can\"></ha-icon> Trash goes out tonight<br>{% endif %}{% if states('sensor.bath_screen_mode') == 'evening' %}{% set unlocked = ['lock.front_door', 'lock.back_door', 'lock.storage_room_lock'] | select('is_state', 'unlocked') | map('state_attr', 'friendly_name') | map('replace', ' Lock', '') | list %}{% set open_ = ['cover.small_garage_door', 'cover.large_garage_door'] | select('is_state', 'open') | map('state_attr', 'friendly_name') | list %}{% for u in unlocked %}<ha-icon icon=\"mdi:lock-open-variant\"></ha-icon> {{ u }} is unlocked<br>{% endfor %}{% for o in open_ %}<ha-icon icon=\"mdi:garage-open\"></ha-icon> {{ o }} is open<br>{% endfor %}{% if not unlocked and not open_ %}<ha-icon icon=\"mdi:lock-check\"></ha-icon> Doors locked, garage doors closed<br>{% endif %}<ha-icon icon=\"mdi:shield-home\"></ha-icon> Alarm {{ states('alarm_control_panel.alarmo') | replace('_', ' ') }}{% else %}<ha-icon icon=\"mdi:weather-sunset-up\"></ha-icon> Sunrise {{ as_timestamp(state_attr('sun.sun', 'next_rising')) | timestamp_custom('%-I:%M %p') }} · sunset {{ as_timestamp(state_attr('sun.sun', 'next_setting')) | timestamp_custom('%-I:%M %p') }}{% endif %}"
+                    },
+                    {
+                      "type": "markdown",
+                      "card_mod": {
+                        "style": {
+                          "ha-markdown$": "h1 { font-size: 96px; font-weight: 300; margin: 0; line-height: 1.05; } h3 { font-size: 34px; font-weight: 400; margin: 4px 0 10px; } p { margin: 0; }",
+                          ".": "ha-card { background: none; box-shadow: none; border: none; font-size: 24px; padding: 0 4px; }"
+                        }
+                      },
+                      "content": "# {{ now().strftime('%-I:%M') }}\n### {{ now().strftime('%A, %B %-d') }}\nOutside {{ states('sensor.thermostat_1_outdoor_temperature') | round(0) }}° · Bathroom {{ states('sensor.master_bath_temperature') | round(0) }}° · Floor {{ states('sensor.master_bath_floor_temperature') | round(0) }}°"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Camera Feed",
+      "path": "cameras",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "grid",
+          "columns": 4,
+          "square": false,
+          "card_mod": {
+            "style": "#root { gap: 4px !important; padding: 4px; }"
+          },
+          "cards": [
+            {
+              "type": "picture-entity",
+              "entity": "camera.front_driveway_g6_bullet_high_resolution_channel",
+              "name": "Driveway",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.g4_doorbell_pro_high",
+              "name": "Front Door",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.g4_doorbell_pro_package_camera",
+              "name": "Packages",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.g4_bullet_high",
+              "name": "Front Yard",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.east_door_high",
+              "name": "East Yard",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.southwest_yard_g6_bullet_high_resolution_channel",
+              "name": "Southwest Yard",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.g5_bullet_high",
+              "name": "Backyard",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.back_high",
+              "name": "Deck",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.back_door_high",
+              "name": "Under Deck",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.garage_g4_instant_high",
+              "name": "Garage",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.g4_ptz_high_resolution_channel",
+              "name": "PTZ",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.g3_instant_high",
+              "name": "G3 Instant",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.westons_room_high",
+              "name": "Weston",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.g3_instant_high_2",
+              "name": "Annie",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            },
+            {
+              "type": "picture-entity",
+              "entity": "camera.sun_room_high",
+              "name": "Elsie",
+              "camera_view": "live",
+              "show_state": false,
+              "show_name": true,
+              "aspect_ratio": "16:8.4",
+              "card_mod": {
+                "style": "ha-card { border-radius: 0; overflow: hidden; } .footer { font-size: 14px; padding: 3px 8px !important; }"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Weather Radar",
+      "path": "radar",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "iframe",
+          "url": "https://weather.internal.white.fm/?embed=radar",
+          "aspect_ratio": "56.25%",
+          "card_mod": {
+            "style": "ha-card { border-radius: 0; }"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Weather Forecast",
+      "path": "forecast",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "vertical-stack",
+          "cards": [
+            {
+              "type": "markdown",
+              "content": "# Weather · {{ now().strftime('%-I:%M %p') }}\n{% set alerts = state_attr('sensor.nws_alert_event','features') or [] %}{% for alert in alerts %}**{{ alert.properties.event }}** · {{ alert.properties.headline }}\n\n{% else %}No active NWS alerts{% endfor %}",
+              "card_mod": {
+                "style": "ha-card { font-size: 24px; }"
+              }
+            },
+            {
+              "type": "weather-forecast",
+              "entity": "weather.kmwo",
+              "forecast_type": "twice_daily",
+              "show_current": true,
+              "show_forecast": true
+            },
+            {
+              "type": "weather-forecast",
+              "entity": "weather.kmwo",
+              "forecast_type": "hourly",
+              "show_current": false,
+              "show_forecast": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
