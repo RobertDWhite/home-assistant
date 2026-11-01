@@ -1,0 +1,43 @@
+- alias: Severe Weather - Butler and Warren TV alerts
+  description: Checks official county and forecast zones every minute. Automatic TV
+    casting is gated by the user toggle. Watches remain excluded pending confirmation.
+  mode: single
+  triggers:
+  - trigger: time_pattern
+    minutes: /1
+  conditions:
+  - condition: state
+    entity_id: input_boolean.severe_weather_tv_automatic
+    state: 'on'
+  actions:
+  - action: rest_command.severe_weather_county_alerts
+    response_variable: response
+  - condition: template
+    value_template: '{{ response.status == 200 and response.content is mapping and
+      response.content.features is defined }}'
+  - variables:
+      eligible: '{% set ns = namespace(items=[]) %}{% for a in response.content.features
+        %}{% set p=a.properties %}{% if p.status == ''Actual'' and p.messageType !=
+        ''Cancel'' and p.event in [''Severe Thunderstorm Warning'',''Tornado Warning'',''Blizzard
+        Warning'',''Winter Storm Warning''] and as_timestamp(p.expires,0) > as_timestamp(now())
+        and (not p.ends or as_timestamp(p.ends,0) > as_timestamp(now())) %}{% set
+        ns.items=ns.items+[a] %}{% endif %}{% endfor %}{{ ns.items }}'
+      fingerprints: '{% set ns=namespace(ids=[]) %}{% for a in eligible %}{% set ns.ids=ns.ids+[(a.id
+        | sha256)[:12]] %}{% endfor %}{{ ns.ids | unique | sort | list }}'
+      signature: '{{ fingerprints | join('','') }}'
+      has_new: '{% set old=states(''input_text.severe_weather_tv_last_alert_set'').split('','')
+        %}{{ fingerprints | reject(''in'',old) | list | count > 0 }}'
+  - condition: template
+    value_template: '{{ signature != states(''input_text.severe_weather_tv_last_alert_set'')
+      }}'
+  - if:
+    - condition: template
+      value_template: '{{ has_new }}'
+    then:
+    - action: script.severe_weather_unused_tvs
+  - action: input_text.set_value
+    target:
+      entity_id: input_text.severe_weather_tv_last_alert_set
+    data:
+      value: '{{ signature[:255] }}'
+  id: severe_weather_county_tv_alerts

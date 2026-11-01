@@ -1,0 +1,7 @@
+severe_weather_county_alerts:
+  url: https://api.weather.gov/alerts/active?zone=OHC017,OHC165,OHZ070,OHZ071&status=actual
+  method: GET
+  timeout: 25
+  headers:
+    User-Agent: HomeAssistant Severe Weather TV
+    Accept: application/geo+json

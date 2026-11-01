@@ -539,6 +539,21 @@
           }
         }
       ]
+    },
+    {
+      "title": "Severe Weather",
+      "path": "severe",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "iframe",
+          "url": "https://screen.internal.white.fm/severe-tv.html",
+          "aspect_ratio": "56.25%",
+          "card_mod": {
+            "style": "ha-card { border-radius: 0; }"
+          }
+        }
+      ]
     }
   ]
 }

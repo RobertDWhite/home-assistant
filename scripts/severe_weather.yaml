@@ -1,0 +1,75 @@
+severe_weather_unused_tvs:
+  alias: Severe Weather - show on unused TVs
+  description: 'Conservative eligibility: cast idle/off AND native TV off; bathroom
+    idle or known house channel while TV off. Unknown/unavailable and other playback
+    are skipped.'
+  mode: single
+  sequence:
+  - parallel:
+    - sequence:
+      - condition: state
+        entity_id: media_player.xbr_65a8g
+        state:
+        - 'off'
+        - idle
+      - condition: state
+        entity_id: media_player.xbr_65a8g_2
+        state: 'off'
+      - action: media_player.play_media
+        continue_on_error: true
+        target:
+          entity_id: media_player.xbr_65a8g
+        data:
+          media_content_id: http://10.99.5.60/severe/stream.m3u8
+          media_content_type: application/vnd.apple.mpegurl
+          extra:
+            title: Severe Weather
+            stream_type: LIVE
+    - sequence:
+      - condition: state
+        entity_id: media_player.sony_xbr_85x950h_3
+        state:
+        - 'off'
+        - idle
+      - condition: state
+        entity_id: media_player.sony_xbr_85x950h_4
+        state: 'off'
+      - action: media_player.play_media
+        continue_on_error: true
+        target:
+          entity_id: media_player.sony_xbr_85x950h_3
+        data:
+          media_content_id: http://10.99.5.60/severe/stream.m3u8
+          media_content_type: application/vnd.apple.mpegurl
+          extra:
+            title: Severe Weather
+            stream_type: LIVE
+    - sequence:
+      - condition: state
+        entity_id: media_player.tv
+        state:
+        - 'off'
+        - idle
+      - condition: state
+        entity_id: media_player.tv_2
+        state: 'off'
+      - action: media_player.play_media
+        continue_on_error: true
+        target:
+          entity_id: media_player.tv
+        data:
+          media_content_id: http://10.99.5.60/severe/stream.m3u8
+          media_content_type: application/vnd.apple.mpegurl
+          extra:
+            title: Severe Weather
+            stream_type: LIVE
+    - sequence:
+      - condition: template
+        value_template: '{{ states(''media_player.master_bath_roku'') in [''idle'',''off'']
+          or (is_state(''switch.master_bath_tv'',''off'') and is_state_attr(''media_player.master_bath_roku'',''app_id'',''dev''))
+          }}'
+      - action: script.master_bathroom_feed_play
+        continue_on_error: true
+        data:
+          url: http://10.99.5.60/severe/stream.m3u8
+          title: Severe Weather
