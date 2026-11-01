@@ -535,7 +535,7 @@
           "url": "https://weather.internal.white.fm/",
           "aspect_ratio": "56.25%",
           "card_mod": {
-            "style": "ha-card { border-radius: 0; }"
+            "style": "ha-card { border-radius: 0; overflow: hidden; } iframe { width: 133.333% !important; height: 133.333% !important; transform: scale(0.75); transform-origin: top left; }"
           }
         }
       ]
