@@ -12,11 +12,14 @@
   actions:
   - action: rest_command.severe_weather_county_alerts
     response_variable: response
-  - condition: template
-    value_template: '{{ response.status == 200 and response.content is mapping and
-      response.content.features is defined }}'
   - variables:
-      eligible: '{% set ns = namespace(items=[]) %}{% for a in response.content.features
+      alert_payload: '{{ response.content if response.content is mapping else response.content
+        | from_json({}) }}'
+  - condition: template
+    value_template: '{{ response.status == 200 and alert_payload is mapping and alert_payload.features
+      is defined }}'
+  - variables:
+      eligible: '{% set ns = namespace(items=[]) %}{% for a in alert_payload.features
         %}{% set p=a.properties %}{% if p.status == ''Actual'' and p.messageType !=
         ''Cancel'' and p.event in [''Severe Thunderstorm Warning'',''Tornado Warning'',''Blizzard
         Warning'',''Winter Storm Warning''] and as_timestamp(p.expires,0) > as_timestamp(now())
