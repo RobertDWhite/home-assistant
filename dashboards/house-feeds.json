@@ -524,6 +524,21 @@
           }
         }
       ]
+    },
+    {
+      "title": "Weather Dashboard",
+      "path": "weather-full",
+      "type": "panel",
+      "cards": [
+        {
+          "type": "iframe",
+          "url": "https://weather.internal.white.fm/",
+          "aspect_ratio": "56.25%",
+          "card_mod": {
+            "style": "ha-card { border-radius: 0; }"
+          }
+        }
+      ]
     }
   ]
 }
