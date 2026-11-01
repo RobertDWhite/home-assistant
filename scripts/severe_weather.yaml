@@ -1,8 +1,8 @@
 severe_weather_unused_tvs:
   alias: Severe Weather - show on unused TVs
-  description: 'Conservative eligibility: cast idle/off AND native TV off; bathroom
-    idle or known house channel while TV off. Unknown/unavailable and other playback
-    are skipped.'
+  description: Only launch on TVs reported off, with cast idle/off. Bathroom additionally
+    requires Roku idle/off or the house channel. Unknown, unavailable, and other playback
+    are skipped.
   mode: single
   sequence:
   - parallel:
@@ -65,8 +65,8 @@ severe_weather_unused_tvs:
             stream_type: LIVE
     - sequence:
       - condition: template
-        value_template: '{{ states(''media_player.master_bath_roku'') in [''idle'',''off'']
-          or (is_state(''switch.master_bath_tv'',''off'') and is_state_attr(''media_player.master_bath_roku'',''app_id'',''dev''))
+        value_template: '{{ is_state(''switch.master_bath_tv'',''off'') and (states(''media_player.master_bath_roku'')
+          in [''idle'',''off''] or is_state_attr(''media_player.master_bath_roku'',''app_id'',''dev''))
           }}'
       - action: script.master_bathroom_feed_play
         continue_on_error: true
