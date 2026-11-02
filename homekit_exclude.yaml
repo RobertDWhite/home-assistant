@@ -937,3 +937,6 @@
 - binary_sensor.garage_entry_door_contact_tamper
 - lock.back_door
 - lock.storage_room_lock
+
+# Welcome mute is exposed through the paired secondary HomeKit bridge (port 21064).
+- input_boolean.mute_welcome_announcements

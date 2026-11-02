@@ -194,6 +194,10 @@
   - variables:
       known: '{{ (name_key | trim) not in ['''',''unknown'',''unavailable''] }}'
       full_name: '{{ names.get(name_key | trim, (name_key | trim | replace(''_'','' '') | title)) }}'
+  - alias: Honor the welcome mute switch before any voice playback
+    condition: state
+    entity_id: input_boolean.mute_welcome_announcements
+    state: "off"
   - alias: Greet at the door + announce house-wide (in tandem)
     parallel:
     - alias: Doorbell speaker greeting for a known face (any time)

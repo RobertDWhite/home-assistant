@@ -20,6 +20,9 @@
       from: not_home
       to: home
   conditions:
+    - condition: state
+      entity_id: input_boolean.mute_welcome_announcements
+      state: "off"
     - condition: time
       after: "07:00:00"
       before: "22:30:00"
